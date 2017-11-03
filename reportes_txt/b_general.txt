@@ -1,0 +1,5 @@
+1.1.Activo Corriente;300;2.1Pasivo corriente;0
+1.1.Activo Corriente;300;2.1Pasivo corriente;0
+1.1.Activo Corriente;300;2.1Pasivo corriente;0
+1.1.Activo Corriente;300;2.1Pasivo corriente;0
+1.1.Activo Corriente;300;2.1Pasivo corriente;0

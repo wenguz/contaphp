@@ -1,0 +1,3 @@
+Becas;300;0
+Donativo; ; 
+Matricula; ; 
