@@ -7,7 +7,7 @@ var $widths;
 var $aligns;
 function SetWidths($w)
 {
-    //Set the array of column widths
+    //Set the array of column widthss
     $this->widths=$w;
 }
 
@@ -34,7 +34,7 @@ function Row($data)
         $x=$this->GetX();
         $y=$this->GetY();
         //Draw the border
-        
+
         $this->Rect($x,$y,$w,$h);
 
         $this->MultiCell($w,5,$data[$i],0,$a,'true');
@@ -107,7 +107,7 @@ function Header()
 
     // Arial bold 15
     $this->SetFont('Times','',11);
-    
+
     // Colores de  texto
     //$this->SetTextColor(220,50,50);
     // Título
@@ -203,14 +203,14 @@ function FancyTable($header, $data)
         $this->Cell($w[3],6,number_format($row[3]),'LR',0,'R',$fill);
         $this->Cell($w[4],6,number_format($row[4]),'LR',0,'R',$fill);
         $this->Ln();
-       
+
         $fill = !$fill;
     }
     $fill = !$fill;
      $this->SetFillColor(220,100,100);
      $this->SetY(-29);
      $this->Cell(0,6,'TOTAL                                                                             '.number_format(array_sum($row)),'',0,'',$fill);
-    // Línea de cierre   
+    // Línea de cierre
     $this->Cell(array_sum($w),0,'','T');
 }
 }
