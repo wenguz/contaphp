@@ -111,17 +111,10 @@ function Header()
     // Colores de  texto
     //$this->SetTextColor(220,50,50);
     // Título
-    $this->cell(0,14,$title,0,1,'L', 0);
-    $this->cell(0,14,$nombre,0,1,'L', 0);
-    $this->cell(0,14,$direccion,0,1,'L', 0);
-    $this->cell(0,14,$fono,0,1,'L', 0);
-
-
-/*
-    $this->Cell(0,5,$title,0,1,'L');
-    $this->Cell(0,5,$nombre,0,1,'L');
-    $this->Cell(0,5,$direccion,0,1,'L');
-    $this->Cell(0,5,$fono,0,1,'L');*/
+    $this->cell(0,5,$title,0,1,'L', 0);
+    $this->cell(0,5,$nombre,0,1,'L', 0);
+    $this->cell(0,5,$direccion,0,1,'L', 0);
+    $this->cell(0,5,$fono,0,1,'L', 0);
     // Salto de línea
     $this->Ln(10);
 }
@@ -132,7 +125,7 @@ function Footer()
     // Arial itálica 8
     $this->SetFont('Arial','I',8);
     // Número de página
-    $this->Cell(100,10,'Página '.$this->PageNo(),0,0,'R');
+    $this->Cell(0,0,'Página '.$this->PageNo(),0,0,'R');
 }
 
 function ChapterTitle($label)
@@ -142,10 +135,10 @@ function ChapterTitle($label)
     // Color de fondo
     $this->SetFillColor(200,220,255);
     // Calculamos ancho y posición del título.
-    $w = $this->GetStringWidth($label)+6;
+    $w = $this->GetStringWidth($label);
     $this->SetX((210-$w)/2);
     // Título
-    $this->Cell($w,6,"Libro Diario  $label",0,1,'C');
+    $this->Cell($w,5,"Libro Diario  $label",0,1,'C');
     // Salto de línea
     $this->Ln(4);
 }
