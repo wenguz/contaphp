@@ -41,12 +41,6 @@
       {
 
       ?>
-          <div class="form-group">
-                                                <label class="col-sm-3 col-sm-3 control-label">Fecha_Inicio: </label>
-                                                <div class="col-sm-8">
-                                                 <input type="date" class="form-control" name="fecha_inicio">
-                                                </div>
-                                              </div>
           <table width="100%">
             <tr>
               <td width="98%"></td>

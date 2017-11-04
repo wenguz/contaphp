@@ -19,7 +19,7 @@ require('conexion.php');
     <link href="assets/css/bootstrap.css" rel="stylesheet">
     <!--external css-->
     <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
-
+        
     <!-- Custom styles for this template -->
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="assets/css/style-responsive.css" rel="stylesheet">
@@ -39,7 +39,7 @@ require('conexion.php');
 
 	  <div id="login-page">
 	  	<div class="container">
-
+	  	
 		      <form class="form-horizontal style-form" action="" method="post">
 		        <div>
                     <br><br>
@@ -94,15 +94,15 @@ require('conexion.php');
                                             <tr>
                                               <td></td>
                                               <td width="50%">
-
+                                          
                                               <div class="form-group">
                                                   <label class="col-sm-2 col-sm-2 control-label">Codigo:&emsp; </label>
                                                   <div class="col-sm-10">
                                                       <input type="text" class="form-control" name="codigo_usuario" disabled="true" value=
-                                                      <?php
-
+                                                      <?php 
+                                                      
                                                       $rs=mysql_query("SELECT MAX(id_usuario) AS id FROM usuario");
-                                                      if ($row = mysql_fetch_row($rs))
+                                                      if ($row = mysql_fetch_row($rs)) 
                                                         {
                                                           $id = trim($row[0]);
                                                         }
@@ -128,16 +128,16 @@ require('conexion.php');
                                                       <input type="text" class="form-control" name="apmaterno_usuario">
                                                   </div>
                                               </div>
-
-                                              </td>
+                                              
+                                              </td> 
                                               <td>
                                               </td>
-                                              <td width="40%">
+                                              <td width="40%"> 
                                                 &emsp;
                                                 <div class="form-group">
                                                   <label class="col-sm-2 col-sm-2 control-label">CI:&emsp; </label>
                                                   <div class="col-sm-10">
-                                                      <input type="text" class="form-control" name="ci_usuario">
+                                                      <input type="text" class="form-control" name="ci_usuario" onkeypress="return valida(event)">
                                                   </div>
                                               </div>
                                                 <div class="form-group">
@@ -218,19 +218,19 @@ require('conexion.php');
 
                 <?php
                         //include('conexion.php');
-                        if(isset($_POST['registrar_datos']))
-                        {
+                        if(isset($_POST['registrar_datos'])) 
+                        { 
                             if($_POST['nombre_entidad'] == '' or $_POST['nombre_usuario'] == '' or $_POST['año'] == '')
-                            {
-                                echo 'Por favor llene todos los campos.';
-                            }
-                            else
-                            {
+                            { 
+                                echo 'Por favor llene todos los campos.'; 
+                            } 
+                            else 
+                            { 
 
-
+                                    
 
                                     $rs=mysql_query("SELECT MAX(id_entidad) AS iden FROM entidad");
-                                    if ($row = mysql_fetch_row($rs))
+                                    if ($row = mysql_fetch_row($rs)) 
                                       {
                                         $iden = trim($row[0]);
                                       }
@@ -242,11 +242,11 @@ require('conexion.php');
                                     $fono2=$_POST['fono2'];
                                     $ciudad_entidad=$_POST['ciudad_entidad'];
 
-                                    $mensaje = "ENTRO DATOS-----". $id_entidad." ------ ".$nombre_entidad."---------".$direccion_entidad."---------".$fono1."---------".$fono2."---------".$ciudad_entidad."---------";
-                                    print "<script>alert('$mensaje');</script>";
+                                    //$mensaje = "ENTRO DATOS-----". $id_entidad." ------ ".$nombre_entidad."---------".$direccion_entidad."---------".$fono1."---------".$fono2."---------".$ciudad_entidad."---------";
+                                    //print "<script>alert('$mensaje');</script>";
 
                                     $sqenti = "INSERT INTO entidad(id_entidad, nombre_entidad, direccion_entidad, fono1_entidad, fono2_entidad, ciudad_entidad) VALUES ('$id_entidad','$nombre_entidad' , '$direccion_entidad', '$fono1', '$fono2', '$ciudad_entidad');";
-                                    mysql_query($sqenti);
+                                    mysql_query($sqenti); 
 
                                     $mensaje = "ENTRO ENTIDAD".$sqenti."-------";
                                     print "<script>alert('$mensaje');</script>";
@@ -259,71 +259,12 @@ require('conexion.php');
                                     mysql_query($emp3);
 
 
-                                    $mensaje = "ENTRO EMPLEADO";
-                                    print "<script>alert('$mensaje');</script>";
-
-
-                                  $sql = 'SELECT * FROM usuario';
-                                  $rec = mysql_query($sql);
-                                  $verificar_usuario = 0;
-
-                                  while($result = mysql_fetch_object($rec))
-                                  {
-                                      if($result->user == $_POST['ci_usuario'])
-                                      {
-                                          $verificar_usuario = 1;
-                                      }
-                                  }
-
-                                  if($verificar_usuario == 0)
-                                  {
-
-                                    $nombre_usuario = $_POST['nombre_usuario'];
-                                    $ap_paterno_usuario = $_POST['appaterno_usuario'];
-                                    $ap_materno_usuario = $_POST['apmaterno_usuario'];
-                                    $ci_usuario = $_POST['ci_usuario'];
-                                    $user = $_POST['nuevo_usuario'];
-                                    $password = $_POST['nueva_contraseña'];
-                                    $cargo = $_POST['cargo'];
-
-
-                                    $rs=mysql_query("SELECT MAX(id_usuario) AS id FROM usuario");
-                                    if ($row = mysql_fetch_row($rs))
-                                      {
-                                        $id = trim($row[0]);
-                                      }
-                                    $id_usuario=$id+1;
-
-
-                                    $sql = "INSERT INTO usuario(id_usuario, nombre_usuario, ap_paterno_usuario, ap_materno_usuario, ci_usuario, user, password) VALUES ('$id_usuario','$nombre_usuario' , '$ap_paterno_usuario', '$ap_materno_usuario', '$ci_usuario', '$user', '$password')";
-                                    mysql_query($sql);
-
-                                    $mensaje = "ENTRO USUARIO";
-                                    print "<script>alert('$mensaje');</script>";
-
-                                    $rs=mysql_query("SELECT MAX(id_empleado_usuario) AS id FROM empleado_usuario");
-                                    if ($row = mysql_fetch_row($rs))
-                                      {
-                                        $id_empleado_usuario = trim($row[0]);
-                                      }
-                                    $id_empleado_usuario=$id_empleado_usuario+1;
-                                    $r=mysql_query("SELECT id_empleado FROM empleado where cargo='$cargo'");
-                                    if ($row = mysql_fetch_row($r))
-                                      {
-                                        $id_empleado = trim($row[0]);
-                                      }
-
-
-
-                                    $sq="INSERT INTO empleado_usuario (id_empleado_usuario, id_empleado, id_usuario, estado) VALUES ('$id_empleado_usuario', '$id_empleado','$id_usuario','ACTIVO')";
-                                    mysql_query($sq);
-
-                                    $mensaje = "ENTRO EMPLADO USUARIO";
-                                    print "<script>alert('$mensaje');</script>";
+                                   // $mensaje = "ENTRO EMPLEADO";
+                                    //print "<script>alert('$mensaje');</script>";
 
 
                                     $rspp=mysql_query("SELECT MAX(id_periodo) AS idpa FROM periodo");
-                                    if ($rowpp = mysql_fetch_row($rspp))
+                                    if ($rowpp = mysql_fetch_row($rspp)) 
                                       {
                                         $idpa = trim($rowpp[0]);
                                       }
@@ -332,25 +273,80 @@ require('conexion.php');
                                     $fecha_inicio_periodo=$_POST['fecha_inicio'];
                                     $fecha_cierre_periodo=$_POST['fecha_final'];
 
-                                    $sqenti = "INSERT INTO periodo(id_periodo, año_periodo, fecha_inicio_periodo, fecha_cierre_periodo, entidad_id_entidad) VALUES ('$id_periodo','$año_periodo' , '$fecha_inicio_periodo', '$fecha_cierre_periodo', '$id_entidad')";
-                                    mysql_query($sqenti);
+                                    $sper = "INSERT INTO periodo (id_periodo, anio_periodo, fecha_inicio_periodo, fecha_cierre_periodo, entidad_id_entidad) VALUES ('$id_periodo','$año_periodo','$fecha_inicio_periodo','$fecha_cierre_periodo','$id_entidad')";
+                                    mysql_query($sper)or die(mysql_error()); 
 
 
-                                    $mensaje = "ENTRO PERIODO AÑO";
-                                    print "<script>alert('$mensaje');</script>";
+                                    //$mensaje = "ENTRO PERIODO AÑO  ".$id_empleado."----------".$año_periodo."----------".$fecha_inicio_periodo."---------".$fecha_cierre_periodo."-------".$id_entidad."--------";
+                                    //print "<script>alert('$mensaje');</script>";
 
+
+                                  $sql = 'SELECT * FROM usuario'; 
+                                  $rec = mysql_query($sql); 
+                                  $verificar_usuario = 0; 
+                            
+                                  while($result = mysql_fetch_object($rec)) 
+                                  { 
+                                      if($result->user == $_POST['ci_usuario']) 
+                                      { 
+                                          $verificar_usuario = 1; 
+                                      } 
+                                  } 
+                            
+                                  if($verificar_usuario == 0) 
+                                  { 
+                                    
+                                    $nombre_usuario = $_POST['nombre_usuario'];
+                                    $ap_paterno_usuario = $_POST['appaterno_usuario'];
+                                    $ap_materno_usuario = $_POST['apmaterno_usuario'];
+                                    $ci_usuario = $_POST['ci_usuario'];
+                                    $user = $_POST['nuevo_usuario'];
+                                    $password = $_POST['nueva_contraseña'];
+                                    $cargo = $_POST['cargo']; 
+
+
+                                    $rs=mysql_query("SELECT MAX(id_usuario) AS id FROM usuario");
+                                    if ($row = mysql_fetch_row($rs)) 
+                                      {
+                                        $id = trim($row[0]);
+                                      }
+                                    $id_usuario=$id+1;
+
+
+                                    
+                                    $sql = "INSERT INTO usuario(id_usuario, nombre_usuario, ap_paterno_usuario, ap_materno_usuario, ci_usuario) VALUES ('$id_usuario','$nombre_usuario' , '$ap_paterno_usuario', '$ap_materno_usuario', '$ci_usuario');";
+                                    mysql_query($sql); 
+
+                                    $rs=mysql_query("SELECT MAX(id_empleado_usuario) AS id FROM empleado_usuario");
+                                    if ($row = mysql_fetch_row($rs)) 
+                                      {
+                                        $id_empleado_usuario = trim($row[0]);
+                                      }
+                                    $id_empleado_usuario=$id_empleado_usuario+1;
+                                    $r=mysql_query("SELECT id_empleado FROM empleado where cargo='$cargo'");
+                                    if ($row = mysql_fetch_row($r)) 
+                                      {
+                                        $id_empleado = trim($row[0]);
+                                      }
+
+
+
+                                    $sq="INSERT INTO empleado_usuario (id_empleado_usuario, id_empleado, id_usuario, estado, user, password) VALUES ('$id_empleado_usuario', '$id_empleado','$id_usuario','ACTIVO' , '$user', '$password')"; 
+                                    mysql_query($sq); 
+
+                      
                                     $mensaje = "Usted se ha registrado correctamente.";
-                                    print "<script>alert('$mensaje'); window.location='index.php';</script>";
-                                  }
+                                    print "<script>alert('$mensaje'); window.location='lista_usuario.php';</script>";
+                                  } 
 
 
-                                  else
-                                  {
+                                  else 
+                                  { 
                                       $mensaje = "Este usuario se ha registrado anteriormente.";
                                       print "<script>alert('$mensaje'); window.location='index.php';</script>";
-                                  }
-                            }
-                        }
+                                  } 
+                            } 
+                        } 
                       ?>
 
 
@@ -359,8 +355,8 @@ require('conexion.php');
 
 
 
-		      </form>
-
+		      </form>	  	
+	  	
 	  	</div>
 	  </div>
 <br><br>
@@ -372,7 +368,7 @@ require('conexion.php');
         if (tecla==8){
             return true;
         }
-
+            
         // Patron de entrada, en este caso solo acepta numeros
         patron =/[0-9]/;
         tecla_final = String.fromCharCode(tecla);

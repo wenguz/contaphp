@@ -146,7 +146,7 @@ $_SESSION["usuario"];
                           <td>b</td>
                           <td>b</td>
                           <td>
-                            <button class="btn btn-primary btn-xs"><i class="fa fa-pencil">  Editar</i>
+                            <button class="btn btn-primary btn-xs"><i class="fa fa-pencil"> Editar</i>
                             </button>
                             <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o ">  Eliminar</i></button>
                           </td>

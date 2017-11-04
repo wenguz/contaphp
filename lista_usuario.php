@@ -131,7 +131,7 @@ $_SESSION["usuario"];
                                   <td> Ap. Paterno</th>
                                   <td> Ap. Materno</th>
                                   <td> CI</th>
-                                  <td> Cargo</th>
+                                  <td colspan="2"> Cargo</th>
                                   <td style="background:#b8dbb5;"> Estado</th>
                                   <td> Usuario</th>
                                   <td width="150px"> Opciones</th>
@@ -140,39 +140,47 @@ $_SESSION["usuario"];
                               <tbody>
                                 <?php 
                                   require('conexion.php');
-                                  $resultado=mysql_query("SELECT * FROM usuario");
+                                  $resultado=mysql_query("SELECT * FROM empleado_usuario");
                                   while ($row = mysql_fetch_assoc($resultado)) {?>
                                   <tr>
-                                      <td><a href=""><?php $id_usuario=$row['id_usuario']; echo $row['id_usuario'];?></a></td>
-                                      <td><?php echo $row['nombre_usuario'];?></td>
-                                      <td><?php echo $row['ap_paterno_usuario'];?></td>
-                                      <td><?php echo $row['ap_materno_usuario'];?></td>
-                                      <td><?php echo $row['ci_usuario'];?></td>
-                                      <td>
+                                      <td><a href=""><?php echo $row['id_empleado_usuario'];?></a></td>
+                                      <?php 
+                                      $idemp=$row['id_empleado_usuario'];
+                                      $polo=mysql_query("SELECT a.* FROM usuario a, empleado_usuario b where b.id_usuario=a.id_usuario and b.id_empleado_usuario='$idemp'");
+                                      $rowo = mysql_fetch_assoc($polo)
+                                      ?>
+                                      <td><?php echo $rowo['nombre_usuario'];?></td>
+                                      <td><?php echo $rowo['ap_paterno_usuario'];?></td>
+                                      <td><?php echo $rowo['ap_materno_usuario'];?></td>
+                                      <td><?php echo $rowo['ci_usuario'];?></td>
+                                      <td width="8%">
                                       <?php 
                                         $id_usuario=$row['id_usuario'];
-                                        $r=mysql_query("SELECT * from empleado a, empleado_usuario b, usuario c where a.id_empleado=b.id_empleado and b.id_usuario=c.id_usuario and c.id_usuario='$id_usuario'");
+                                        $id_empleado_usuario=$row['id_empleado_usuario'];
+                                        $r=mysql_query("SELECT a.* from empleado a, empleado_usuario b, usuario c where a.id_empleado=b.id_empleado and b.id_usuario=c.id_usuario and b.id_empleado_usuario='$id_empleado_usuario'");
                                         $rows = mysql_fetch_assoc($r);
                                         echo $rows['cargo'];
-                                      ?>  
+                                      ?></td>
+                                      <td width="5%">
+                                      <a class="btn btn-warning btn-xs" type="submit"  name="agregar_cargo" href="agregar_cargo.php?id_usuario=<?=$id_usuario?>"><i class="fa fa-plus">Agregar</i></a>
                                       </td>
-                                      <td style="background:#b8dbb5;"> <?php echo $rows['estado'];?></td>
+                                      <td style="background:#b8dbb5;"> <?php echo $row['estado'];?></td>
                                       <td><?php echo $row['user'];?></td>
                                       <td>
                                           <a class="btn btn-primary btn-xs" type="submit" name="editar_usuario" href="editar_usuario.php?id_usuario=<?=$id_usuario?>"><i class="fa fa-pencil"> Editar</i></a>
                                           
 
                                           <?php
-                                            if($rows['estado']=='ACTIVO') 
+                                            if($row['estado']=='ACTIVO') 
                                             { 
                                                 ?>
-                                                <a class="btn btn-danger btn-xs" type="submit"  name="eliminar_usuario" href="eliminar_usuario.php?id_usuario=<?=$id_usuario?>"><i class="fa fa-ban"> Desactivar</i></a>
+                                                <a class="btn btn-danger btn-xs" type="submit"  name="eliminar_usuario" href="eliminar_usuario.php?id_empleado_usuario=<?=$id_empleado_usuario?>"><i class="fa fa-ban"> Desactivar</i></a>
                                                 <?php
                                             } 
                                             else
                                             {
                                                 ?>
-                                                <a class="btn btn-danger btn-xs" type="submit"  name="eliminar_usuario" href="eliminar_usuario.php?id_usuario=<?=$id_usuario?>"><i class="fa fa-ban"> Activar</i></a>
+                                                <a class="btn btn-danger btn-xs" type="submit"  name="eliminar_usuario" href="eliminar_usuario.php?id_empleado_usuario=<?=$id_empleado_usuario?>"><i class="fa fa-ban"> Activar</i></a>
                                                 <?php
                                             }
                                           ?>

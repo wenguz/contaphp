@@ -190,8 +190,12 @@ $id_usuario = htmlentities($_GET['id_usuario']);
                             &emsp;
                             <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">Usuario:&emsp; </label>
+                              <?php
+                              $rq=mysql_query("SELECT * from empleado a, empleado_usuario b, usuario c where a.id_empleado=b.id_empleado and b.id_usuario=c.id_usuario and c.id_usuario='$id_usuario'");
+                            $rowsq = mysql_fetch_assoc($rq);
+                            ?>
                               <div class="col-sm-10">
-                                  <input type="text" class="form-control" name="user" value="<?=$row['user']?>">
+                                  <input type="text" class="form-control" name="user" value="<?=$rowsq['user']?>">
                               </div>
                           </div>
                           
@@ -219,8 +223,7 @@ $id_usuario = htmlentities($_GET['id_usuario']);
                               </div>
                           </div><br>
                           &emsp;<input type="submit" class="btn btn-success" name="modificar_datos" value="Modificar Datos">
-                          &emsp;
-                          &emsp;<input type="submit"  class="btn btn-danger"  name="cancelar" value="Cancelar">
+                          &emsp;&emsp;<input type="submit"  class="btn btn-danger"  name="cancelar" value="Cancelar">
                           </td>
                         </tr>
                       </table>
@@ -240,7 +243,7 @@ $id_usuario = htmlentities($_GET['id_usuario']);
                            // $msga = "Datos de persona-----". $id_usuario." ------ ".$nombre_usuario."---------".$ap_paterno_usuario."---------".$ap_materno_usuario."---------".$ci_usuario."---------".$user."---------".$cargo."------";
                             //print "<script>alert('$msga');</script>";
 
-                            $sql =("UPDATE usuario SET nombre_usuario='$nombre_usuario', ap_paterno_usuario='$ap_paterno_usuario', ap_materno_usuario='$ap_materno_usuario', ci_usuario='$ci_usuario', user='$user' WHERE id_usuario='$id_usuario'");
+                            $sql =("UPDATE usuario SET nombre_usuario='$nombre_usuario', ap_paterno_usuario='$ap_paterno_usuario', ap_materno_usuario='$ap_materno_usuario', ci_usuario='$ci_usuario' WHERE id_usuario='$id_usuario'");
                             mysql_query($sql) or die(mysql_error());
 
                             $r=mysql_query("SELECT id_empleado FROM empleado where cargo='$cargo'");
@@ -249,7 +252,7 @@ $id_usuario = htmlentities($_GET['id_usuario']);
                                 $id_empleado = trim($row[0]);
                               }
 
-                            $sqll =("UPDATE empleado_usuario SET id_empleado='$id_empleado' WHERE id_usuario='$id_usuario' and id_empleado_usuario='$c'");
+                            $sqll =("UPDATE empleado_usuario SET id_empleado='$id_empleado', user='$user' WHERE id_usuario='$id_usuario' and id_empleado_usuario='$c'");
                             mysql_query($sqll) or die(mysql_error());       
 
                             //$msgu = "Datos de persona-----".$sqll."------";

@@ -9,7 +9,7 @@ require('conexion.php');
 
 $_SESSION["usuario"];
 
-$id_usuario = htmlentities($_GET['id_usuario']);
+$id_empleado_usuario= htmlentities($_GET['id_empleado_usuario']);
 
 ?>
 <!DOCTYPE html>
@@ -132,55 +132,41 @@ $id_usuario = htmlentities($_GET['id_usuario']);
                           <td width="40%">
 
                           <?php 
-                            $sql = "SELECT * FROM usuario WHERE id_usuario='".$id_usuario."' LIMIT 1";
-                            $query = mysql_query($sql);
-                            $row = mysql_fetch_assoc($query);
+                            $sql =mysql_query("SELECT * FROM empleado_usuario WHERE id_empleado_usuario='".$id_empleado_usuario."' LIMIT 1");
+                            $row = mysql_fetch_assoc($sql);
 
-                            $r=mysql_query("SELECT a.cargo as cargo from empleado a, empleado_usuario b, usuario c where a.id_empleado=b.id_empleado and b.id_usuario=c.id_usuario and c.id_usuario='$id_usuario'");
-                            $rows = mysql_fetch_assoc($r);
-                            $ccc=$rows['cargo'];
-
-                            $www=mysql_query("SELECT id_empleado as id_empleado from empleado where cargo='$ccc'");
-                            $zzz = mysql_fetch_assoc($www);
-
-                            $a=$row['id_usuario'];
-                            $b=$zzz['id_empleado'];
-
-                            $ppp=mysql_query("SELECT id_empleado_usuario as id_eu from empleado_usuario where id_empleado='$b' and id_usuario='$a'");
-                            $lll = mysql_fetch_assoc($ppp);
-
-                            $c=$lll['id_eu'];
-
+                            $datos_usuario=mysql_query("SELECT a.* FROM usuario a, empleado_usuario b WHERE a.id_usuario=b.id_usuario and b.id_empleado_usuario=$id_empleado_usuario");
+                            $rows = mysql_fetch_assoc($datos_usuario);
                           ?>
                       
                           <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">Codigo:&emsp; </label>
                               <div class="col-sm-10">
-                                  <input type="text" class="form-control" disabled="true" name="id_usuario_cod" value="<?=$row['id_usuario']?>">
+                                  <input type="text" class="form-control" disabled="true" name="id_usuario_cod" value="<?=$rows['id_usuario']?>">
                               </div>
                           </div>
                           <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">Nombre:&emsp; </label>
                               <div class="col-sm-10">
-                                  <input type="text" class="form-control" name="nombre_usuario" value="<?=$row['nombre_usuario']?>">
+                                  <input type="text" class="form-control" disabled="true" name="nombre_usuario" value="<?=$rows['nombre_usuario']?>">
                               </div>
                           </div>
                           <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">Apellido Paterno:&emsp; </label>
                               <div class="col-sm-10">
-                                  <input type="text" class="form-control" name="ap_paterno_usuario" value="<?=$row['ap_paterno_usuario']?>">
+                                  <input type="text" class="form-control" disabled="true" name="ap_paterno_usuario" value="<?=$rows['ap_paterno_usuario']?>">
                               </div>
                           </div>
                           <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">Apellido Materno:&emsp; </label>
                               <div class="col-sm-10">
-                                  <input type="text" class="form-control" name="ap_materno_usuario" value="<?=$row['ap_materno_usuario']?>">
+                                  <input type="text" class="form-control" disabled="true" name="ap_materno_usuario" value="<?=$rows['ap_materno_usuario']?>">
                               </div>
                           </div>
                           <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">CI:&emsp; </label>
                               <div class="col-sm-10">
-                                  <input type="text" class="form-control" name="ci_usuario" value="<?=$row['ci_usuario']?>">
+                                  <input type="text" class="form-control" disabled="true" name="ci_usuario" value="<?=$rows['ci_usuario']?>">
                               </div>
                           </div>
                           </td> 
@@ -198,29 +184,16 @@ $id_usuario = htmlentities($_GET['id_usuario']);
                           <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">Cargo:&emsp; </label>
                               <div class="col-sm-10">
-                                <p>
-                                  <select class="form-control" name="cargo">
-                                    <?php
-                                    
-                                      $resultado=mysql_query("SELECT * FROM empleado");
-                                      $r=mysql_query("SELECT a.cargo as cargo from empleado a, empleado_usuario b, usuario c where a.id_empleado=b.id_empleado and b.id_usuario=c.id_usuario and c.id_usuario='$id_usuario'");
-                                      $rows = mysql_fetch_assoc($r);
-                                          while ($row = mysql_fetch_assoc($resultado)) 
-                                          {
-                                              ?>
-                                                  <option <?php if ($row['cargo']==$rows['cargo']) { ?>selected="selected"<?php } ?>>
-                                                  <?php echo htmlspecialchars($row['cargo']); ?>
-                                                  </option>
-                                      <?php 
-                                          } 
-                                      ?>
-                                  </select>
-                                </p>
+                                <?php
+                                $dato_cargo=mysql_query("SELECT a.cargo as cargo from empleado a, empleado_usuario b where a.id_empleado=b.id_empleado and b.id_empleado_usuario='$id_empleado_usuario'");
+                                $rowcargo=mysql_fetch_assoc($dato_cargo);
+                                ?>
+                                  <input type="text" class="form-control" name="cargo" value="<?=$rowcargo['cargo']?>">
                               </div>
                           </div><br>
                           <?php
-                            $rrrrr=mysql_query("SELECT * from empleado a, empleado_usuario b, usuario c where a.id_empleado=b.id_empleado and b.id_usuario=c.id_usuario and c.id_usuario='$id_usuario'");
-                            $rowsss = mysql_fetch_assoc($rrrrr);
+                            $dato_estado=mysql_query("SELECT estado from empleado_usuario where id_empleado_usuario='$id_empleado_usuario'");
+                            $rowsss = mysql_fetch_assoc($dato_estado);
                             if($rowsss['estado']=='ACTIVO') 
                             { 
                                 ?>
@@ -236,48 +209,14 @@ $id_usuario = htmlentities($_GET['id_usuario']);
                                 <?php
                             }
                           ?>
-
-                          
                           &emsp;<input type="submit"  class="btn btn-danger"  name="cancelar" value="Cancelar">
                           </td>
                         </tr>
                       </table>
                         <?php
-                        
                         if(isset($_POST['desactivar_usuario'])) 
                         { 
-                          
-                            $nombre_usuario = $_POST['nombre_usuario'];
-                            $ap_paterno_usuario = $_POST['ap_paterno_usuario'];
-                            $ap_materno_usuario = $_POST['ap_materno_usuario'];
-                            $ci_usuario = $_POST['ci_usuario'];
-                            $user = $_POST['user'];
-                            $cargo = $_POST['cargo'];
-
-
-                           // $msga = "Datos de persona-----". $id_usuario." ------ ".$nombre_usuario."---------".$ap_paterno_usuario."---------".$ap_materno_usuario."---------".$ci_usuario."---------".$user."---------".$cargo."------";
-                            //print "<script>alert('$msga');</script>";
-
-                            /********************************************************ELIMINAR DATOS
-
-                            $sql =("DELETE FROM usuario WHERE id_usuario='$id_usuario'");
-                            mysql_query($sql) or die(mysql_error());
-                            ********************************************************/
-
-                            $r=mysql_query("SELECT id_empleado FROM empleado where cargo='$cargo'");
-                            if ($row = mysql_fetch_row($r)) 
-                              {
-                                $id_empleado = trim($row[0]);
-                              }
-                              /********************************************************ELIMINAR DATOS
-                            $sqll =("DELETE FROM empleado_usuario WHERE id_empleado_usuario='$c'");
-                            mysql_query($sqll) or die(mysql_error());    
-                            ********************************************************/
-
-                            //$msgu = "Datos de persona-----".$c."------";
-                            //print "<script>alert('$msgu');</script>"; 
-
-                            $sql =("UPDATE empleado_usuario SET estado='NO ACTIVO' WHERE id_usuario='$id_usuario' AND id_empleado=$id_empleado");
+                            $sql =("UPDATE empleado_usuario SET estado='NO ACTIVO' WHERE id_empleado_usuario='$id_empleado_usuario'");
                             mysql_query($sql) or die(mysql_error());
 
                             $msg = "Persona desactivada correctamente";
@@ -289,40 +228,10 @@ $id_usuario = htmlentities($_GET['id_usuario']);
                           if(isset($_POST['activar_usuario'])) 
                         { 
                           
-                            $nombre_usuario = $_POST['nombre_usuario'];
-                            $ap_paterno_usuario = $_POST['ap_paterno_usuario'];
-                            $ap_materno_usuario = $_POST['ap_materno_usuario'];
-                            $ci_usuario = $_POST['ci_usuario'];
-                            $user = $_POST['user'];
-                            $cargo = $_POST['cargo'];
-
-
-                           // $msga = "Datos de persona-----". $id_usuario." ------ ".$nombre_usuario."---------".$ap_paterno_usuario."---------".$ap_materno_usuario."---------".$ci_usuario."---------".$user."---------".$cargo."------";
-                            //print "<script>alert('$msga');</script>";
-
-                            /********************************************************ELIMINAR DATOS
-
-                            $sql =("DELETE FROM usuario WHERE id_usuario='$id_usuario'");
-                            mysql_query($sql) or die(mysql_error());
-                            ********************************************************/
-
-                            $r=mysql_query("SELECT id_empleado FROM empleado where cargo='$cargo'");
-                            if ($row = mysql_fetch_row($r)) 
-                              {
-                                $id_empleado = trim($row[0]);
-                              }
-                              /********************************************************ELIMINAR DATOS
-                            $sqll =("DELETE FROM empleado_usuario WHERE id_empleado_usuario='$c'");
-                            mysql_query($sqll) or die(mysql_error());    
-                            ********************************************************/
-
-                            //$msgu = "Datos de persona-----".$c."------";
-                            //print "<script>alert('$msgu');</script>"; 
-
-                            $sql =("UPDATE empleado_usuario SET estado='ACTIVO' WHERE id_usuario='$id_usuario' AND id_empleado=$id_empleado");
+                            $sql =("UPDATE empleado_usuario SET estado='ACTIVO' WHERE id_empleado_usuario='$id_empleado_usuario'");
                             mysql_query($sql) or die(mysql_error());
 
-                            $msg = "Persona desactivada correctamente";
+                            $msg = "Persona activada correctamente";
                             print "<script>alert('$msg'); window.location='lista_usuario.php';</script>";
 
                         } 

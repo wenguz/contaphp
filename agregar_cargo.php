@@ -1,12 +1,16 @@
 <?php
 session_start();
-require('conexion.php');
 //manejamos en sesion el nombre del usuario que se ha logeado
 if (!isset($_SESSION["usuario"])){
     header("location:index.php?nologin=false");
-$_SESSION["usuario"];
-require('conexion.php');
+    
 }
+require('conexion.php');
+
+$_SESSION["usuario"];
+
+$id_usuario = htmlentities($_GET['id_usuario']);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -77,8 +81,8 @@ require('conexion.php');
                   <span>Usuarios</span>
               </a>
               <ul class="sub">
-                  <li class="active"><a  href="nuevo_usuario.php"><i class="fa fa-user"></i>Nuevo Usuario</a></li>
-                  <li><a  href="lista_usuario.php"><i class="fa fa-list-ol"></i>Lista de USuarios</a></li>
+                  <li><a  href="nuevo_usuario.php"><i class="fa fa-user"></i>Nuevo Usuario</a></li>
+                  <li class="active"><a  href="lista_usuario.php"><i class="fa fa-list-ol"></i>Lista de USuarios</a></li>
               </ul>
           </li>
 
@@ -120,61 +124,74 @@ require('conexion.php');
               <section class="panel">
                   <div class="panel-body">
                             
-                      <h4 class="mb"><i class="fa fa-angle-right"></i> Nuevo Usuario</h4>
-                      <form class="form-horizontal style-form" method="post" action="">
+                      <h4 class="mb"><i class="fa fa-angle-right"></i><a href="lista_usuario.php"> Lista de Usuarios</a> &emsp;<i class="fa fa-angle-right"></i> Editar Usuario </h4>
+                      <form class="form-horizontal style-form" method="POST">
                       <table >
                         <tr>
-                          <td></td>
-                          <td width="50%">
+                          <td width="8%"></td>
+                          <td width="40%">
+
+                          <?php 
+                            $sql = "SELECT * FROM usuario WHERE id_usuario='".$id_usuario."' LIMIT 1";
+                            $query = mysql_query($sql);
+                            $row = mysql_fetch_assoc($query);
+
+                            $r=mysql_query("SELECT a.cargo as cargo from empleado a, empleado_usuario b, usuario c where a.id_empleado=b.id_empleado and b.id_usuario=c.id_usuario and c.id_usuario='$id_usuario'");
+                            $rows = mysql_fetch_assoc($r);
+                            $ccc=$rows['cargo'];
+
+                            $www=mysql_query("SELECT id_empleado as id_empleado from empleado where cargo='$ccc'");
+                            $zzz = mysql_fetch_assoc($www);
+
+                            $a=$row['id_usuario'];
+                            $b=$zzz['id_empleado'];
+
+                            $ppp=mysql_query("SELECT id_empleado_usuario as id_eu from empleado_usuario where id_empleado='$b' and id_usuario='$a'");
+                            $lll = mysql_fetch_assoc($ppp);
+
+                            $c=$lll['id_eu'];
+
+                          ?>
                       
                           <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">Codigo:&emsp; </label>
                               <div class="col-sm-10">
-                                  <input type="text" class="form-control" name="codigo_usuario" disabled="true" value=
-                                  <?php 
-                                  
-                                  $rs=mysql_query("SELECT MAX(id_usuario) AS id FROM usuario");
-                                  if ($row = mysql_fetch_row($rs)) 
-                                    {
-                                      $id = trim($row[0]);
-                                    }
-                                  $id=$id+1;
-                                  echo "$id"; ?>>
+                                  <input type="text" class="form-control" disabled="true" name="id_usuario_cod" value="<?=$row['id_usuario']?>">
                               </div>
                           </div>
                           <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">Nombre:&emsp; </label>
                               <div class="col-sm-10">
-                                  <input type="text" class="form-control" name="nombre_usuario">
+                                  <input type="text" class="form-control"  disabled="true" name="nombre_usuario" value="<?=$row['nombre_usuario']?>">
                               </div>
                           </div>
                           <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">Apellido Paterno:&emsp; </label>
                               <div class="col-sm-10">
-                                  <input type="text" class="form-control" name="appaterno_usuario">
+                                  <input type="text" class="form-control" disabled="true" name="ap_paterno_usuario" value="<?=$row['ap_paterno_usuario']?>">
                               </div>
                           </div>
                           <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">Apellido Materno:&emsp; </label>
                               <div class="col-sm-10">
-                                  <input type="text" class="form-control" name="apmaterno_usuario">
+                                  <input type="text" class="form-control" disabled="true" name="ap_materno_usuario" value="<?=$row['ap_materno_usuario']?>">
                               </div>
                           </div>
                           <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">CI:&emsp; </label>
                               <div class="col-sm-10">
-                                  <input type="text" class="form-control" name="ci_usuario">
+                                  <input type="text" class="form-control" disabled="true" name="ci_usuario" value="<?=$row['ci_usuario']?>">
                               </div>
                           </div>
                           </td> 
-                          <td>
+                          <td width="10%">
                           </td>
                           <td width="40%"> 
                             &emsp;
                             <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">Usuario:&emsp; </label>
                               <div class="col-sm-10">
-                                  <input type="text" class="form-control" name="nuevo_usuario">
+                                  <input type="text" class="form-control" name="nuevo_usuario" >
                               </div>
                           </div>
                           <div class="form-group">
@@ -188,125 +205,71 @@ require('conexion.php');
                               <div class="col-sm-10">
                                 <p>
                                   <select class="form-control" name="cargo">
-                                        <option>ADMINISTRADOR</option>
-                                       <option>CONTADOR</option>
-                                       <option>SECRETARIA</option>
+                                    <?php
+                                    
+                                      $resultado=mysql_query("SELECT * FROM empleado");
+                                      $r=mysql_query("SELECT a.cargo as cargo from empleado a, empleado_usuario b, usuario c where a.id_empleado=b.id_empleado and b.id_usuario=c.id_usuario and c.id_usuario='$id_usuario'");
+                                      $rows = mysql_fetch_assoc($r);
+                                          while ($row = mysql_fetch_assoc($resultado)) 
+                                          {
+                                              ?>
+                                                  <option <?php if ($row['cargo']==$rows['cargo']) { ?>selected="selected"<?php } ?>>
+                                                  <?php echo htmlspecialchars($row['cargo']); ?>
+                                                  </option>
+                                      <?php 
+                                          } 
+                                      ?>
                                   </select>
                                 </p>
                               </div>
                           </div><br>
-                          &emsp;<input type="submit" class="btn btn-success" name="registrar_usuario" value="Registrar Usuario">
-                          &emsp;
-                          &emsp;<input type="submit" class="btn btn-danger"  name="cancelar" value="Cancelar">
+                          &emsp;<input type="submit" class="btn btn-warning" name="modificar_datos" value="Agregar Cargo">
+                          &emsp;&emsp;<input type="submit"  class="btn btn-danger"  name="cancelar" value="Cancelar">
                           </td>
                         </tr>
                       </table>
-                      <?php
-                        //include('conexion.php');
-                        if(isset($_POST['registrar_usuario'])) 
+                        <?php
+                        
+                        if(isset($_POST['modificar_datos'])) 
                         { 
-                            if($_POST['nombre_usuario'] == '' or $_POST['nuevo_usuario'] == '' or $_POST['nueva_contraseña'] == '')
-                            { 
-                                echo 'Por favor llene todos los campos.'; 
-                            } 
-                            else 
-                            { /*
-                                $consul="SELECT * FROM usuario";
-                                $rrr=mysql_query($consul);
-                                if(mysql_num_rows($rrr)==0)
-                                {
-                                  
-                                    $nombre_usuario = $_POST['nombre_usuario'];
-                                    $ap_paterno_usuario = $_POST['appaterno_usuario'];
-                                    $ap_materno_usuario = $_POST['apmaterno_usuario'];
-                                    $ci_usuario = $_POST['ci_usuario'];
-                                    $user = $_POST['nuevo_usuario'];
-                                    $password = $_POST['nueva_contraseña'];
-                                    $cargo = $_POST['cargo']; 
-
-                                    $sql = "INSERT INTO usuario(id_usuario, nombre_usuario, ap_paterno_usuario, ap_materno_usuario, ci_usuario, user, password) VALUES ('1','$nombre_usuario' , '$ap_paterno_usuario', '$ap_materno_usuario', '$ci_usuario', '$user', '$password');";
-                                    mysql_query($sql); 
-
-                                    $r=mysql_query("SELECT id_empleado FROM empleado where cargo='$cargo'");
-                                    if ($row = mysql_fetch_row($r)) 
-                                      {
-                                        $id_empleado = trim($row[0]);
-                                      }
-
-                                    $sq="INSERT INTO empleado_usuario (id_empleado_usuario, id_empleado, id_usuario, estado) VALUES ('1', '$id_empleado','1','ACTIVO')"; 
-                                    mysql_query($sq); 
-
-                                    $mensaje = "no datos..........Usted se ha registrado correctamente.";
-                                    print "<script>alert('$mensaje'); window.location='lista_usuario.php';</script>";
-                                }
-                                else*/
-                                {
-                                  $sql = 'SELECT * FROM usuario'; 
-                                  $rec = mysql_query($sql); 
-                                  $verificar_usuario = 0; 
-                            
-                                  while($result = mysql_fetch_object($rec)) 
-                                  { 
-                                      if($result->ci_usuario == $_POST['ci_usuario']) 
-                                      { 
-                                          $verificar_usuario = 1; 
-                                      } 
-                                  } 
-                            
-                                  if($verificar_usuario == 0) 
-                                  { 
-                                    
-                                    $nombre_usuario = $_POST['nombre_usuario'];
-                                    $ap_paterno_usuario = $_POST['appaterno_usuario'];
-                                    $ap_materno_usuario = $_POST['apmaterno_usuario'];
-                                    $ci_usuario = $_POST['ci_usuario'];
-                                    $user = $_POST['nuevo_usuario'];
-                                    $password = $_POST['nueva_contraseña'];
-                                    $cargo = $_POST['cargo']; 
+                          
+                            $nombre_usuario = $_POST['nombre_usuario'];
+                            $ap_paterno_usuario = $_POST['ap_paterno_usuario'];
+                            $ap_materno_usuario = $_POST['ap_materno_usuario'];
+                            $ci_usuario = $_POST['ci_usuario'];
+                            $nuevo_usuario = $_POST['nuevo_usuario'];
+                            $nueva_contraseña = $_POST['nueva_contraseña'];
+                            $cargo = $_POST['cargo'];
 
 
-                                    $rs=mysql_query("SELECT MAX(id_usuario) AS id FROM usuario");
-                                    if ($row = mysql_fetch_row($rs)) 
-                                      {
-                                        $id = trim($row[0]);
-                                      }
-                                    $id_usuario=$id+1;
-
-
-                                    $sql = "INSERT INTO usuario(id_usuario, nombre_usuario, ap_paterno_usuario, ap_materno_usuario, ci_usuario) VALUES ('$id_usuario','$nombre_usuario' , '$ap_paterno_usuario', '$ap_materno_usuario', '$ci_usuario');";
-                                    mysql_query($sql); 
-
-                                    $rs=mysql_query("SELECT MAX(id_empleado_usuario) AS id FROM empleado_usuario");
-                                    if ($row = mysql_fetch_row($rs)) 
-                                      {
-                                        $id_empleado_usuario = trim($row[0]);
-                                      }
-                                    $id_empleado_usuario=$id_empleado_usuario+1;
-                                    $r=mysql_query("SELECT id_empleado FROM empleado where cargo='$cargo'");
-                                    if ($row = mysql_fetch_row($r)) 
-                                      {
-                                        $id_empleado = trim($row[0]);
-                                      }
+                           $rs=mysql_query("SELECT MAX(id_empleado_usuario) AS id FROM empleado_usuario");
+                            if ($row = mysql_fetch_row($rs)) 
+                              {
+                                $id_empleado_usuario = trim($row[0]);
+                              }
+                            $id_empleado_usuario=$id_empleado_usuario+1;
+                            $r=mysql_query("SELECT id_empleado FROM empleado where cargo='$cargo'");
+                            if ($row = mysql_fetch_row($r)) 
+                              {
+                                $id_empleado = trim($row[0]);
+                              }
 
 
 
-                                    $sq="INSERT INTO empleado_usuario (id_empleado_usuario, id_empleado, id_usuario, estado, user, password) VALUES ('$id_empleado_usuario', '$id_empleado','$id_usuario','ACTIVO' , '$user', '$password')"; 
-                                    mysql_query($sq); 
+                            $sq="INSERT INTO empleado_usuario (id_empleado_usuario, id_empleado, id_usuario, estado, user, password) VALUES ('$id_empleado_usuario', '$id_empleado','$id_usuario','ACTIVO' , '$nuevo_usuario', '$nueva_contraseña')"; 
+                            mysql_query($sq) or die(mysql_error());       
 
-                      
-                                    $mensaje = "Usted se ha registrado correctamente.";
-                                    print "<script>alert('$mensaje'); window.location='lista_usuario.php';</script>";
-                                  } 
+                            //$msgu = "Datos de persona-----".$sqll."------";
+                            //print "<script>alert('$msgu');</script>";                     
 
+                            $msg = "Cargo agregado correctamente";
+                            print "<script>alert('$msg'); window.location='lista_usuario.php';</script>";
 
-                                  else 
-                                  { 
-                                      $mensaje = "Este usuario se ha registrado anteriormente.";
-                                      print "<script>alert('$mensaje'); window.location='principal_administrador.php';</script>";
-                                  } 
-                                }
-                            } 
                         } 
+                        if(isset($_POST['cancelar'])) 
+                        { 
+                          print "<script> window.location='lista_usuario.php';</script>";
+                        }
                       ?>
                       </form>
                   </div>
@@ -337,10 +300,10 @@ require('conexion.php');
 
     <!--script for this page-->
     <script src="assets/js/sparkline-chart.js"></script>    
-	<script src="assets/js/zabuto_calendar.js"></script>	
-	
-	
-	<script type="application/javascript">
+  <script src="assets/js/zabuto_calendar.js"></script>  
+  
+  
+  <script type="application/javascript">
         $(document).ready(function () {
             $("#date-popover").popover({html: true, trigger: "manual"});
             $("#date-popover").hide();

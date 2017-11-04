@@ -78,7 +78,7 @@ $_SESSION["usuario"];
               <ul class="sub">
                   <li ><a  href="informe_ingresos.php"><i class="fa fa-list-alt"></i>Informe Ingresos</a></li>
                   <li ><a  href="informe_egresos.php"><i class="fa fa-list-alt"></i>Informe Egresos</a></li>
-                  <li ><a  href="tablas_diario.php"><i class="fa fa-list-alt"></i>Exportar Diario</a></li>
+                  <li ><a  href="libro_diario.php"><i class="fa fa-list-alt"></i>Libro Diario</a></li>
               </ul>
           </li>
           <li class="sub-menu">
@@ -88,7 +88,6 @@ $_SESSION["usuario"];
               </a>
               <ul class="sub">
                   <li ><a  href="libro_mayor.php"><i class="fa fa-list-alt"></i>Libro Mayor</a></li>
-                  <li ><a  href="tablas_mayor.php"><i class="fa fa-list-alt"></i>Exportar Mayor</a></li>
               </ul>
           </li>
           <li class="sub-menu">
@@ -97,9 +96,9 @@ $_SESSION["usuario"];
                   <span>Reportes Anuales</span>
               </a>
               <ul class="sub">
-                  <li ><a  href="tablas_sumas_saldos.php"><i class="fa fa-list-alt"></i>Reporte Sumas y resultados</a></li>
-                  <li ><a  href="tablas_b_general.php"><i class="fa fa-list-alt"></i>Balance General</a></li>
-                  <li ><a  href="tablas_est_resul.php"><i class="fa fa-list-alt"></i>Estado de resultados</a></li>
+                  <li ><a  href="reporte_sumas_y_resultados.php"><i class="fa fa-list-alt"></i>Reporte Sumas y resultados</a></li>
+                  <li ><a  href="balance_general.php"><i class="fa fa-list-alt"></i>Balance General</a></li>
+                  <li ><a  href="estado_de_resultados.php"><i class="fa fa-list-alt"></i>Estado de resultados</a></li>
               </ul>
           </li>
 
