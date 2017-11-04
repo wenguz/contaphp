@@ -1,5 +1,6 @@
 <?php
     session_start();
+    require('conexion.php');
 ?>
 
 <!DOCTYPE html>
@@ -26,11 +27,43 @@
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    <![endif]--> 
+            
   </head>
 
   <body>
 
+      <?php
+
+      $consul="SELECT * FROM entidad";
+      $rrr=mysql_query($consul);
+      if(mysql_num_rows($rrr)==0)
+      {
+
+      ?>
+          <div class="form-group">
+                                                <label class="col-sm-3 col-sm-3 control-label">Fecha_Inicio: </label>
+                                                <div class="col-sm-8">
+                                                 <input type="date" class="form-control" name="fecha_inicio">
+                                                </div>
+                                              </div>
+          <table width="100%">
+            <tr>
+              <td width="98%"></td>
+              <td>
+                <form  action="primer_registro.php" method="post">
+                  <div>
+                    <input name="entrar" class="btn btn-theme btn-block" href="primer_registro.php" type="submit" value="Primera vez en el sistema">
+                  </div>
+                </form>
+              </td>
+            </tr>
+          </table>
+
+
+      <?php
+      }
+      ?>
       <!-- **********************************************************************************************************************************************************
       MAIN CONTENT
       *********************************************************************************************************************************************************** -->
@@ -41,7 +74,6 @@
 		      <form class="form-login" action="./sesion.php" method="post">
 		        <h2 class="form-login-heading">ingresar al sistema</h2>
 		        <div class="login-wrap">
-            
 		        	<label>Usuario: </label>
 		            <input name="usuario" type="text" class="form-control" placeholder="Usuario" autofocus>
 		            <br>
@@ -49,16 +81,24 @@
 		            <input name="contra" type="password" class="form-control" placeholder="Contraseña">
 		            <label class="checkbox">
 		                <span class="pull-right">
-		                    <a data-toggle="modal" href=""> ¿Olvidaste tu contraseña?</a>
+		                    <a href=""> ¿Olvidaste tu contraseña?</a>
 		
 		                </span>
 		            </label>
 		            <input name="entrar" class="btn btn-theme btn-block" href="./sesion.php" type="submit" value="INGRESAR">
 		        </div>
-		      </form>	  	
-	  	
+
+		      </form>
+          
+          
 	  	</div>
+
 	  </div>
+
+
+
+
+    
 
     <!-- js placed at the end of the document so the pages load faster -->
     <script src="assets/js/jquery.js"></script>
@@ -70,6 +110,7 @@
     <script>
         $.backstretch("assets/img/fon.jpg", {speed: 500});
     </script>
+
 
 
   </body>

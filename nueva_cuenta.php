@@ -6,6 +6,8 @@ if (!isset($_SESSION["usuario"])){
     
 }
 $_SESSION["usuario"];
+
+require('conexion.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -117,78 +119,317 @@ $_SESSION["usuario"];
     <h3><i class="fa fa-angle-right"></i> Cuenta</h3>
       <!-- page start-->
               <section class="panel">
-                  <div class="panel-body">
-                            
-                      <h4 class="mb"><i class="fa fa-angle-right"></i> Nueva Cuenta </h4>
-<form class="form-horizontal style-form" method="get">
-                      <table width="80%" >
+                  <div class="panel-body">  
+                    <h4 class="mb"><i class="fa fa-angle-right"></i> Nueva Cuenta </h4>
+                    
+                      <table class="table table-bordered table-striped table-condensed">
                         <tr>
-                          <td></td>
-                          <td width="90%">
-                          <div class="form-group">
-                              <label class="col-sm-2 col-sm-2 control-label">Clase cuenta:&emsp; </label>
-                              <div class="col-sm-10">
-                                <p>
-                                  <select class="form-control" name="clase">
-                                    <option>1. Cuenta1</option>
-                                    <option>2. Cuenta2</option>
-                                    <option>3. Cuenta3</option>
-                                  </select>
-                                </p>
-                              </div>
-                          </div>
+                          <td width="50%">
+                            <form class="form-horizontal style-form" method="post">
+                              <div class="form-group">
+                                <center>
+                                <label style="font-size: 20px;"> CLASES</label></center>
+                                
+                                <label class="col-sm-4 col-sm-4 control-label">Codigos disponibles: </label>
+                                <div class="col-sm-7">
+                                    <p>
+                                      <select class="form-control" name="codigo_clase">
+                                        <?php
+                                          $cod=mysql_query("SELECT max(id_clase) as id FROM clase");
+                                          if ($row = mysql_fetch_row($cod)) 
+                                          {
+                                            $id = trim($row[0]);
+                                          }
+                                          $id_clase=$id+1;
 
-                          <div class="radio">
-                            <label>
-                               <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>Clase &emsp;&emsp;&emsp; &emsp;<input type="text">
-                            </label>
+                                              while ($id_clase<=9) 
+                                              {
+                                                  ?>
+                                                      <option><?php echo $id_clase; ?></option>
+                                          <?php 
+                                              $id_clase+=1;
+                                              } 
+                                          ?>
+                                      </select>
+                                    </p>
+                                </div>
+                                <label class="col-sm-4 col-sm-4 control-label">Nombre de la clase: </label>
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control" name="nombre_clase">
+                                </div>
+                              </div> 
+                              <br><br>
+                              <center>
+                                <input type="submit" class="btn btn-success" name="registrar_clase" value="Registrar Clase">
+                                &emsp;&emsp;
+                                <input type="submit" class="btn btn-danger"  name="cancelar" value="Cancelar">
+                              </center>
+                              <br>
+                              <?php 
+                                if(isset($_POST['registrar_clase'])) 
+                                {
                             
-                          </div>
-                          <div class="radio">
-                            <label>
-                              <input type="radio" name="optionsRadios" id="optionsRadios2" value="option1" >Grupo &emsp;&emsp;&emsp;&emsp;<input type="text">
-                            </label>
-                          </div>
-                          <div class="radio">
-                            <label>
-                              <input type="radio" name="optionsRadios" id="optionsRadios3" value="option1" >Subgrupo &emsp; &emsp;<input type="text">
-                            </label>
-                          </div>
-                          <div class="radio">
-                            <label>
-                              <input type="radio" name="optionsRadios" id="optionsRadios4" value="option1" >Cuenta del... &emsp;<input type="text"">
-                            </label>
-                          </div>  
-                          <br>                        
-                          <div class="form-group">
-                              <label class="col-sm-3 col-sm-3 control-label">Nombre de la Cuenta:&emsp; </label>
-                              <div class="col-sm-9">
-                                  <input type="text" class="form-control">
+                                  //$mensaje = "Usted se ha registrado correctamente la CLASE.-------------ENTRO A";
+                                  //print "<script>alert('$mensaje');</script>";
+                                    
+                                    $id_clase = $_POST['codigo_clase'];
+                                    $nombre_clase = $_POST['nombre_clase'];
+                                    $hoy = date('Y-m-d');
+
+                                    $sql = "INSERT INTO clase(id_clase, nombre_clase, estado_clase, fecha_registro_clase) VALUES ('$id_clase','$nombre_clase' , 'ACTIVO', '$hoy');";
+                                    mysql_query($sql); 
+
+                                    $mensaje = "Usted se ha registrado correctamente la CLASE.";
+                                    print "<script>alert('$mensaje'); window.location='lista_cuenta.php';</script>"; 
+                                }
+                                else
+                                {
+                                  if(isset($_POST['cancelar'])) 
+                                  {
+                                    print "<script>window.location='lista_cuenta.php';</script>";
+                                  }
+                                }
+                              ?>
+                            </form>
+                          </td>
+                          <td width="50%">
+                            <form class="form-horizontal style-form" method="post">
+                              <div class="form-group">
+                                <center>
+                                <label style="font-size: 20px;"> GRUPOS</label></center>
+                                
+                                <label class="col-sm-4 col-sm-4 control-label">Selecciona una clase: </label>
+                                <div id="contenedor" class="col-sm-7">
+                                  <form>
+                                    <p>
+                                      <select id="clase" class="form-control" name="Clase" onchange="CargarProductos(this.value);">
+                                          <option>-Selecciona un clase-</option>
+                                          <?php
+                                          
+                                          $query = 'SELECT * FROM clase';
+                                          $result = mysql_query($query);
+                                          while($row = mysql_fetch_array($result, MYSQL_ASSOC))
+                                          {
+                                              echo '<option value="' .$row["id_clase"]. '">' .$row["nombre_clase"]. '</option>';
+                                          }
+                                          ?>
+                                      </select>
+                                      <br style="clear:both;">
+
+                                    </p>
+                                  </form>
+                                  
+                                  <div id="respuesta"></div>
+                                  
+                                  
                               </div>
-                          </div>
-                          <div class="form-group">
-                              <label class="col-sm-3 col-sm-3 control-label">Tipo de la cuenta:&emsp; </label>
-                              <div class="col-sm-9">
-                                  <input type="text" class="form-control">
-                              </div>
-                          </div>
-                          <div class="form-group">
-                              <label class="col-sm-4 col-sm-4 control-label">la codificacion de la cuenta será:&emsp; </label>
-                              <div class="col-sm-8">
-                                  <input type="text" class="form-control">
-                              </div>
-                          </div>
-                          <br>
-                          <center>
-                          <button type="button" class="btn btn-success">Registrar Datos</button>
-                          &emsp;&emsp;
-                          <button type="button" class="btn btn-danger">Cancelar</button>
-                        </center>
+                              <label class="col-sm-4 col-sm-4 control-label">Codigos disponibles: </label>
+                              <div class="col-sm-7">
+                                      <p><select class="form-control" name="Grupo" id="productos"></select></p>
+                                  </div>
+                              <script>
+                              function CargarProductos(val)
+                              {
+                                  $('#respuesta').html("Por favor espera un momento");    
+                                  $.ajax({
+                                      type: "POST",
+                                      url: 'consulta.php',
+                                      data: 'idproovedor='+val,
+                                      success: function(resp){
+                                          $('#productos').html(resp);
+                                          $('#respuesta').html("");
+                                      }
+                                  });
+                              }
+                              </script>
+
+                                <label class="col-sm-4 col-sm-4 control-label">Nombre del grupo: </label>
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control" name="nombre_grupo">
+                                </div>
+                              </div> 
+                              
+                              <center>
+                                <input type="submit" class="btn btn-success" name="registrar_grupo" value="Registrar Grupo">
+                                &emsp;&emsp;
+                                <input type="submit" class="btn btn-danger"  name="cancelar" value="Cancelar">
+                              </center>
+                              <br>
+
+                              <?php /**
+                                if(isset($_POST['registrar_grupo'])) 
+                                {
+                            
+                                  $mensaje = "Usted se ha registrado correctamente EL GRUPPO.-------------ENTRO A";
+                                  print "<script>alert('$mensaje');</script>";
+                                    
+                                    $id_clase = $_POST['clase'];
+                                    $id_grupo = $_POST['codigo_grupo'];
+                                    $nombre_grupo = $_POST['nombre_grupo'];
+                                    $hoy = date('Y-m-d');
+
+                                    $sql = "INSERT INTO grupo(id_grupo, nombre_grupo, estado_grupo, fecha_registro_grupo, id_clase) VALUES ('$id_grupo','$nombre_grupo' , 'ACTIVO', '$hoy', '$id_clase');";
+                                    mysql_query($sql); 
+
+                                    $mensaje = "Usted se ha registrado correctamente el GRUPO.";
+                                    print "<script>alert('$mensaje'); window.location='lista_cuenta.php';</script>"; 
+                                }
+                                else
+                                {
+                                  if(isset($_POST['cancelar'])) 
+                                  {
+                                    print "<script>window.location='lista_cuenta.php';</script>";
+                                  }
+                                }*/
+                              ?>
+
+                            </form>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <form class="form-horizontal style-form" method="post">
+                              <div class="form-group">
+                                <center>
+                                <label style="font-size: 20px;"> CUENTAS </label></center>
+                                
+                                <label class="col-sm-4 col-sm-4 control-label">Clase: </label>
+                                <div class="col-sm-7">
+                                    <p>
+                                      <select class="form-control" name="clase">
+                                          <?php
+                                            $resultado1=mysql_query("SELECT * FROM clase");
+                                                while ($row1 = mysql_fetch_assoc($resultado1)) 
+                                                {
+                                                    ?>
+                                                        <option ><?php echo $row1['id_clase']." .- ".$row1['nombre_clase'];?></option>    
+                                                <?php }
+                                          ?>
+                                      </select>
+                                    </p>
+                                </div>
+
+                                <label class="col-sm-4 col-sm-4 control-label">Grupo: </label>
+                                <div class="col-sm-7">
+                                    <p>
+                                      <select class="form-control" name="grupo">
+
+                                      </select>
+                                    </p>
+                                </div>
+
+                                <label class="col-sm-4 col-sm-4 control-label">Codigo disponible: </label>
+                                <div class="col-sm-7">
+                                    <p>
+                                      <select class="form-control" name="codigo_cuenta">
+                                            <?php
+                                            $consul="SELECT * FROM grupo";
+                                            $rrr=mysql_query($consul);
+                                            if(mysql_num_rows($rrr)==0)
+                                            {
+                                              $id_grupo=0;
+                                                while ($id_grupo<=9) 
+                                                  {
+                                                      ?>
+                                                          <option><?php echo $id_grupo; ?></option>
+                                              <?php 
+                                                  $id_grupo+=1;
+                                                  }
+                                            }
+                                            else
+                                            {
+                                              $cod=mysql_query("SELECT max(id_grupo) as idg FROM grupo");
+                                              if ($row = mysql_fetch_row($cod)) 
+                                              {
+                                                $idg = trim($row[0]);
+                                              }
+                                              $id_grupo=$idg+1;
+                                                  while ($id_grupo<=9) 
+                                                  {
+                                                      ?>
+                                                          <option><?php echo $id_grupo; ?></option>
+                                              <?php 
+                                                  $id_grupo+=1;
+                                                  } 
+                                              
+                                            }
+                                          ?>
+                                      </select>
+                                    </p>
+                                </div>
+
+                                <label class="col-sm-4 col-sm-4 control-label">Nombre de la cuenta: </label>
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control">
+                                </div>
+                              </div> 
+                              <br><br><br>
+                              <center>
+                                <input type="submit" class="btn btn-success" name="registrar_cuenta" value="Registrar Cuenta">
+                                &emsp;&emsp;
+                                <input type="submit" class="btn btn-danger"  name="cancelar" value="Cancelar">
+                              </center>
+                              <br>
+                            </form>
+                          </td>
+                          <td>
+                            <form class="form-horizontal style-form" method="post">
+                              <div class="form-group">
+                                <center>
+                                <label style="font-size: 20px;"> SUBCUENTA </label></center>
+                                
+                                <label class="col-sm-4 col-sm-4 control-label">Clase: </label>
+                                <div class="col-sm-7">
+                                    <p>
+                                      <select class="form-control" name="cargo">
+                                            <option>1</option>
+                                      </select>
+                                    </p>
+                                </div>
+
+                                <label class="col-sm-4 col-sm-4 control-label">Grupo: </label>
+                                <div class="col-sm-7">
+                                    <p>
+                                      <select class="form-control" name="cargo">
+                                            <option>1</option>
+                                      </select>
+                                    </p>
+                                </div>
+
+                                <label class="col-sm-4 col-sm-4 control-label">Cuenta: </label>
+                                <div class="col-sm-7">
+                                    <p>
+                                      <select class="form-control" name="cargo">
+                                            <option>1</option>
+                                      </select>
+                                    </p>
+                                </div>
+
+                                <label class="col-sm-4 col-sm-4 control-label">Codigo disponible: </label>
+                                <div class="col-sm-7">
+                                    <p>
+                                      <select class="form-control" name="cargo">
+                                            <option>1</option>
+                                      </select>
+                                    </p>
+                                </div>
+
+                                <label class="col-sm-4 col-sm-4 control-label">Nombre de la Subcuenta: </label>
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control">
+                                </div>
+                              </div> 
+
+                              <center>
+                                <input type="submit" class="btn btn-success" name="registrar_subcuenta" value="Registrar Subcuenta">
+                                &emsp;&emsp;
+                                <input type="submit" class="btn btn-danger"  name="cancelar" value="Cancelar">
+                              </center>
+                              <br>
+                            </form>
                           </td>
                         </tr>
                       </table>
-
-                      </form>
                   </div>
               </section>
           </aside>

@@ -6,6 +6,8 @@ if (!isset($_SESSION["usuario"])){
     
 }
 $_SESSION["usuario"];
+
+require('conexion.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -129,25 +131,36 @@ $_SESSION["usuario"];
                             <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">Nombre: </label>
                               <div class="col-sm-10">
-                                  <input type="text" class="form-control">
+                                  <input type="text" class="form-control" name="nombre_entidad">
                               </div>
                             </div>
                             <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">Direccion: </label>
                               <div class="col-sm-10">
-                                  <input type="text" class="form-control">
+                                  <input type="text" class="form-control" name="direccion_entidad">
                               </div>
                             </div>
                             <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">Telefono: </label>
-                              <div class="col-sm-10">
-                                  <input type="text" class="form-control">
-                              </div>
+                              <table>
+                                <tr>
+                                  <td>
+                                    <div class="col-sm-10">
+                                      <input type="text" placeholder="fono1" class="form-control" name="fono1">
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div class="col-sm-10">
+                                      <input type="text" placeholder="fono2" class="form-control" name="fono2">
+                                    </div>
+                                  </td>
+                                </tr>
+                              </table>
                             </div>
                             <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">Ciudad: </label>
                               <div class="col-sm-10">
-                                  <input type="text" class="form-control">
+                                  <input type="text" class="form-control" name="ciudad_entidad">
                               </div>
                             </div>
                             <h4 class="mb"><i class="fa fa-angle-right"></i> Datos del responsable</h4>

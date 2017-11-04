@@ -115,7 +115,7 @@ $_SESSION["usuario"];
       <h3><i class="fa fa-angle-right"></i> Usuario</h3>
                   <div class="col-md-12">
                       <div class="content-panel">
-                        <form action="eeusuario.php" method="post">
+                        <form action="" method="post">
                           <table class="table table-bordered table-striped table-condensed">
                             <h4><i class="fa fa-angle-right"></i> Lista de Usuarios</h4>
                             &emsp;<label>Buscar por nombre de usuario:  </label> &emsp;
@@ -132,6 +132,7 @@ $_SESSION["usuario"];
                                   <td> Ap. Materno</th>
                                   <td> CI</th>
                                   <td> Cargo</th>
+                                  <td style="background:#b8dbb5;"> Estado</th>
                                   <td> Usuario</th>
                                   <td width="150px"> Opciones</th>
                               </tr>
@@ -139,10 +140,10 @@ $_SESSION["usuario"];
                               <tbody>
                                 <?php 
                                   require('conexion.php');
-                                  $resultado=mysqli_query($con,"SELECT * FROM usuario");
-                                  while ($row = mysqli_fetch_assoc($resultado)) {?>
+                                  $resultado=mysql_query("SELECT * FROM usuario");
+                                  while ($row = mysql_fetch_assoc($resultado)) {?>
                                   <tr>
-                                      <td><a href=""><?php echo $row['id_usuario'];?></a></td>
+                                      <td><a href=""><?php $id_usuario=$row['id_usuario']; echo $row['id_usuario'];?></a></td>
                                       <td><?php echo $row['nombre_usuario'];?></td>
                                       <td><?php echo $row['ap_paterno_usuario'];?></td>
                                       <td><?php echo $row['ap_materno_usuario'];?></td>
@@ -150,22 +151,50 @@ $_SESSION["usuario"];
                                       <td>
                                       <?php 
                                         $id_usuario=$row['id_usuario'];
-                                        $r=mysqli_query($con,"SELECT a.cargo as cargo from empleado a, empleado_usuario b, usuario c where a.id_empleado=b.id_empleado and b.id_usuario=c.id_usuario and c.id_usuario='$id_usuario'");
-                                        $rows = mysqli_fetch_assoc($r);
+                                        $r=mysql_query("SELECT * from empleado a, empleado_usuario b, usuario c where a.id_empleado=b.id_empleado and b.id_usuario=c.id_usuario and c.id_usuario='$id_usuario'");
+                                        $rows = mysql_fetch_assoc($r);
                                         echo $rows['cargo'];
                                       ?>  
                                       </td>
+                                      <td style="background:#b8dbb5;"> <?php echo $rows['estado'];?></td>
                                       <td><?php echo $row['user'];?></td>
                                       <td>
-                                          <input type="submit" class="btn btn-primary btn-xs" name="l_usuario" value="EDITAR">
-                                          <input type="submit" class="btn btn-danger btn-xs" name="l_usuario" value="ELIMINAR">
+                                          <a class="btn btn-primary btn-xs" type="submit" name="editar_usuario" href="editar_usuario.php?id_usuario=<?=$id_usuario?>"><i class="fa fa-pencil"> Editar</i></a>
+                                          
+
+                                          <?php
+                                            if($rows['estado']=='ACTIVO') 
+                                            { 
+                                                ?>
+                                                <a class="btn btn-danger btn-xs" type="submit"  name="eliminar_usuario" href="eliminar_usuario.php?id_usuario=<?=$id_usuario?>"><i class="fa fa-ban"> Desactivar</i></a>
+                                                <?php
+                                            } 
+                                            else
+                                            {
+                                                ?>
+                                                <a class="btn btn-danger btn-xs" type="submit"  name="eliminar_usuario" href="eliminar_usuario.php?id_usuario=<?=$id_usuario?>"><i class="fa fa-ban"> Activar</i></a>
+                                                <?php
+                                            }
+                                          ?>
+
+                                          
+
                                       </td>
                                   </tr>
                                 <?php
+
+                        
+
                                   }
                                 ?>
                               </tbody>
                           </table>
+
+
+
+                          
+
+
                           </form>
                       </div><!-- /content-panel -->
                   </div><!-- /col-md-12 -->

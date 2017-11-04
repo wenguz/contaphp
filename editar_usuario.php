@@ -5,7 +5,12 @@ if (!isset($_SESSION["usuario"])){
     header("location:index.php?nologin=false");
     
 }
+require('conexion.php');
+
 $_SESSION["usuario"];
+
+$id_usuario = htmlentities($_GET['id_usuario']);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -120,78 +125,145 @@ $_SESSION["usuario"];
                   <div class="panel-body">
                             
                       <h4 class="mb"><i class="fa fa-angle-right"></i><a href="lista_usuario.php"> Lista de Usuarios</a> &emsp;<i class="fa fa-angle-right"></i> Editar Usuario </h4>
-                      <form class="form-horizontal style-form" method="get">
+                      <form class="form-horizontal style-form" method="POST">
                       <table >
                         <tr>
-                          <td></td>
-                          <td width="50%">
+                          <td width="8%"></td>
+                          <td width="40%">
+
+                          <?php 
+                            $sql = "SELECT * FROM usuario WHERE id_usuario='".$id_usuario."' LIMIT 1";
+                            $query = mysql_query($sql);
+                            $row = mysql_fetch_assoc($query);
+
+                            $r=mysql_query("SELECT a.cargo as cargo from empleado a, empleado_usuario b, usuario c where a.id_empleado=b.id_empleado and b.id_usuario=c.id_usuario and c.id_usuario='$id_usuario'");
+                            $rows = mysql_fetch_assoc($r);
+                            $ccc=$rows['cargo'];
+
+                            $www=mysql_query("SELECT id_empleado as id_empleado from empleado where cargo='$ccc'");
+                            $zzz = mysql_fetch_assoc($www);
+
+                            $a=$row['id_usuario'];
+                            $b=$zzz['id_empleado'];
+
+                            $ppp=mysql_query("SELECT id_empleado_usuario as id_eu from empleado_usuario where id_empleado='$b' and id_usuario='$a'");
+                            $lll = mysql_fetch_assoc($ppp);
+
+                            $c=$lll['id_eu'];
+
+                          ?>
                       
                           <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">Codigo:&emsp; </label>
                               <div class="col-sm-10">
-                                  <input type="text" class="form-control">
+                                  <input type="text" class="form-control" disabled="true" name="id_usuario_cod" value="<?=$row['id_usuario']?>">
                               </div>
                           </div>
                           <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">Nombre:&emsp; </label>
                               <div class="col-sm-10">
-                                  <input type="text" class="form-control">
+                                  <input type="text" class="form-control" name="nombre_usuario" value="<?=$row['nombre_usuario']?>">
                               </div>
                           </div>
                           <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">Apellido Paterno:&emsp; </label>
                               <div class="col-sm-10">
-                                  <input type="text" class="form-control">
+                                  <input type="text" class="form-control" name="ap_paterno_usuario" value="<?=$row['ap_paterno_usuario']?>">
                               </div>
                           </div>
                           <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">Apellido Materno:&emsp; </label>
                               <div class="col-sm-10">
-                                  <input type="text" class="form-control">
+                                  <input type="text" class="form-control" name="ap_materno_usuario" value="<?=$row['ap_materno_usuario']?>">
                               </div>
                           </div>
                           <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">CI:&emsp; </label>
                               <div class="col-sm-10">
-                                  <input type="text" class="form-control">
+                                  <input type="text" class="form-control" name="ci_usuario" value="<?=$row['ci_usuario']?>">
                               </div>
                           </div>
                           </td> 
-                          <td>
+                          <td width="10%">
                           </td>
                           <td width="40%"> 
                             &emsp;
                             <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">Usuario:&emsp; </label>
                               <div class="col-sm-10">
-                                  <input type="text" class="form-control">
+                                  <input type="text" class="form-control" name="user" value="<?=$row['user']?>">
                               </div>
                           </div>
-                          <div class="form-group">
-                              <label class="col-sm-3 col-sm-3 control-label">Contraseña:&emsp; </label>
-                              <div class="col-sm-9">
-                                  <input type="text" class="form-control">
-                              </div>
-                          </div>
+                          
                           <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">Cargo:&emsp; </label>
                               <div class="col-sm-10">
                                 <p>
                                   <select class="form-control" name="cargo">
-                                        <option>Administrador</option>
-                                       <option>Secretaria</option>
-                                       <option>Contador</option>
+                                    <?php
+                                    
+                                      $resultado=mysql_query("SELECT * FROM empleado");
+                                      $r=mysql_query("SELECT a.cargo as cargo from empleado a, empleado_usuario b, usuario c where a.id_empleado=b.id_empleado and b.id_usuario=c.id_usuario and c.id_usuario='$id_usuario'");
+                                      $rows = mysql_fetch_assoc($r);
+                                          while ($row = mysql_fetch_assoc($resultado)) 
+                                          {
+                                              ?>
+                                                  <option <?php if ($row['cargo']==$rows['cargo']) { ?>selected="selected"<?php } ?>>
+                                                  <?php echo htmlspecialchars($row['cargo']); ?>
+                                                  </option>
+                                      <?php 
+                                          } 
+                                      ?>
                                   </select>
                                 </p>
                               </div>
                           </div><br>
-                          &emsp;<button type="button" class="btn btn-success">Modificar Datos</button>
-                          &emsp;&emsp;
-                          <button type="button" class="btn btn-danger">Cancelar</button>
+                          &emsp;<input type="submit" class="btn btn-success" name="modificar_datos" value="Modificar Datos">
+                          &emsp;
+                          &emsp;<input type="submit"  class="btn btn-danger"  name="cancelar" value="Cancelar">
                           </td>
                         </tr>
                       </table>
+                        <?php
+                        
+                        if(isset($_POST['modificar_datos'])) 
+                        { 
+                          
+                            $nombre_usuario = $_POST['nombre_usuario'];
+                            $ap_paterno_usuario = $_POST['ap_paterno_usuario'];
+                            $ap_materno_usuario = $_POST['ap_materno_usuario'];
+                            $ci_usuario = $_POST['ci_usuario'];
+                            $user = $_POST['user'];
+                            $cargo = $_POST['cargo'];
 
+
+                           // $msga = "Datos de persona-----". $id_usuario." ------ ".$nombre_usuario."---------".$ap_paterno_usuario."---------".$ap_materno_usuario."---------".$ci_usuario."---------".$user."---------".$cargo."------";
+                            //print "<script>alert('$msga');</script>";
+
+                            $sql =("UPDATE usuario SET nombre_usuario='$nombre_usuario', ap_paterno_usuario='$ap_paterno_usuario', ap_materno_usuario='$ap_materno_usuario', ci_usuario='$ci_usuario', user='$user' WHERE id_usuario='$id_usuario'");
+                            mysql_query($sql) or die(mysql_error());
+
+                            $r=mysql_query("SELECT id_empleado FROM empleado where cargo='$cargo'");
+                            if ($row = mysql_fetch_row($r)) 
+                              {
+                                $id_empleado = trim($row[0]);
+                              }
+
+                            $sqll =("UPDATE empleado_usuario SET id_empleado='$id_empleado' WHERE id_usuario='$id_usuario' and id_empleado_usuario='$c'");
+                            mysql_query($sqll) or die(mysql_error());       
+
+                            //$msgu = "Datos de persona-----".$sqll."------";
+                            //print "<script>alert('$msgu');</script>";                     
+
+                            $msg = "Persona editada correctamente";
+                            print "<script>alert('$msg'); window.location='lista_usuario.php';</script>";
+
+                        } 
+                        if(isset($_POST['cancelar'])) 
+                        { 
+                          print "<script> window.location='lista_usuario.php';</script>";
+                        }
+                      ?>
                       </form>
                   </div>
               </section>
