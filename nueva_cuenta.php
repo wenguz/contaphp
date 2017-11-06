@@ -198,50 +198,81 @@ require('conexion.php');
                                 <center>
                                 <label style="font-size: 20px;"> GRUPOS</label></center>
                                 
-                                <label class="col-sm-4 col-sm-4 control-label">Selecciona una clase: </label>
-                                <div id="contenedor" class="col-sm-7">
-                                  <form>
-                                    <p>
-                                      <select id="clase" class="form-control" name="Clase" onchange="CargarProductos(this.value);">
-                                          <option>-Selecciona un clase-</option>
-                                          <?php
+                                <label class="col-sm-4 col-sm-4 control-label">Seleccione Clase: </label>
+                                    <div class="col-sm-8">
+                                      <p>
+                                        <form method="post"> 
+                                          <table>
+                                            <tr>
+                                              <td>
+                                                <select class="form-control" name="grupo_clase">
+                                                  <?php
+                                                  $sqlclase=mysql_query("SELECT * FROM clase");
+                                                  while ($rowclase = mysql_fetch_assoc($sqlclase)) 
+                                                  {
+                                                  ?>
+                                                    <option><?php echo $rowclase['id_clase']." .- ".$rowclase['nombre_clase']; ?></option>
+                                                  <?php 
+                                                  }
+                                                  $nn=$rowclase['id_clase'];
+                                                  ?>
+                                                </select>
+                                              </td>
+                                              <td width="18%">
+                                                <input class="btn btn-success btn-xs" type="submit"  name="check_grupo_clase" value="Añadir">
+                                              </td>
+                                            </tr>
+                                          </table>
                                           
-                                          $query = 'SELECT * FROM clase';
-                                          $result = mysql_query($query);
-                                          while($row = mysql_fetch_array($result, MYSQL_ASSOC))
-                                          {
-                                              echo '<option value="' .$row["id_clase"]. '">' .$row["nombre_clase"]. '</option>';
-                                          }
-                                          ?>
-                                      </select>
-                                      <br style="clear:both;">
+                                        </form>
+                                      </p>
+                                    </div>
+                                  
+                                    <label class="col-sm-4 col-sm-4 control-label">Codigos disponibles: </label>
+                                    <div class="col-sm-7">
+                                        <p>
+                                          <select class="form-control" name="codigo_grupo">
+                                            <?php
+                                            if(isset($_POST['check_grupo_clase'])) 
+                                            {
+                                              $grupo_clase=$_POST['grupo_clase'];
+                                              $grupo_cod_disp=("SELECT * FROM grupo WHERE id_clase='$grupo_clase'");
+                                              $rrr=mysql_query($grupo_cod_disp);
+                                              if(mysql_num_rows($rrr)==0)
+                                              {
+                                                $cod_grupo=0;
+                                                while ($cod_grupo<=9) 
+                                                {
+                                                  ?>
+                                                    <option><?php echo $grupo_clase." ".$cod_grupo; ?></option>
+                                                  <?php 
+                                                    $cod_grupo+=1;
+                                                } 
 
-                                    </p>
-                                  </form>
-                                  
-                                  <div id="respuesta"></div>
-                                  
-                                  
-                              </div>
-                              <label class="col-sm-4 col-sm-4 control-label">Codigos disponibles: </label>
-                              <div class="col-sm-7">
-                                      <p><select class="form-control" name="Grupo" id="productos"></select></p>
-                                  </div>
-                              <script>
-                              function CargarProductos(val)
-                              {
-                                  $('#respuesta').html("Por favor espera un momento");    
-                                  $.ajax({
-                                      type: "POST",
-                                      url: 'consulta.php',
-                                      data: 'idproovedor='+val,
-                                      success: function(resp){
-                                          $('#productos').html(resp);
-                                          $('#respuesta').html("");
-                                      }
-                                  });
-                              }
-                              </script>
+                                              }
+                                              else
+                                              {
+                                                $cod_grupo=0;
+                                                while ($cod_grupo<=9) 
+                                                {
+                                                  $existe=mysql_query("SELECT * FROM grupo WHERE id_grupo='$cod_grupo'");
+                                                  if(mysql_num_rows($existe)!=0)
+                                                  {
+                                                    $cod_grupo+=1;
+                                                  }
+                                                  else
+                                                  {
+                                                    ?>
+                                                    <option><?php echo $cod_grupo; ?></option>
+                                                  <?php 
+                                                    $cod_grupo+=1;
+                                                  }
+                                                }
+                                              }}
+                                              ?>
+                                          </select>
+                                        </p>
+                                    </div>
 
                                 <label class="col-sm-4 col-sm-4 control-label">Nombre del grupo: </label>
                                 <div class="col-sm-7">
@@ -256,14 +287,14 @@ require('conexion.php');
                               </center>
                               <br>
 
-                              <?php /**
+                              <?php 
                                 if(isset($_POST['registrar_grupo'])) 
                                 {
                             
                                   $mensaje = "Usted se ha registrado correctamente EL GRUPPO.-------------ENTRO A";
                                   print "<script>alert('$mensaje');</script>";
                                     
-                                    $id_clase = $_POST['clase'];
+                                    $id_clase = $_POST['grupo_clase'];
                                     $id_grupo = $_POST['codigo_grupo'];
                                     $nombre_grupo = $_POST['nombre_grupo'];
                                     $hoy = date('Y-m-d');
@@ -280,7 +311,7 @@ require('conexion.php');
                                   {
                                     print "<script>window.location='lista_cuenta.php';</script>";
                                   }
-                                }*/
+                                }
                               ?>
 
                             </form>

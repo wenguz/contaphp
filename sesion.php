@@ -3,7 +3,7 @@ $usuario = $_POST["usuario"];
 $password = $_POST["contra"];
 $intentos = 0;
 include('conexion.php'); 
-$result = mysql_query("SELECT a.cargo as cargo from empleado a, usuario b, empleado_usuario c where a.id_empleado=c.id_empleado and c.id_usuario= b.id_usuario and  b.user='$usuario' and b.password='$password'");
+$result = mysql_query("SELECT a.cargo as cargo from empleado a, empleado_usuario b where a.id_empleado=b.id_empleado and  b.user='$usuario' and b.password='$password'");
 
 
 while ($intentos<=3)
