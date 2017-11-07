@@ -132,11 +132,11 @@ $id_empleado_usuario= htmlentities($_GET['id_empleado_usuario']);
                           <td width="40%">
 
                           <?php 
-                            $sql =mysql_query("SELECT * FROM empleado_usuario WHERE id_empleado_usuario='".$id_empleado_usuario."' LIMIT 1");
-                            $row = mysql_fetch_assoc($sql);
+                            $sql =mysqli_query($con,"SELECT * FROM empleado_usuario WHERE id_empleado_usuario='".$id_empleado_usuario."' LIMIT 1");
+                            $row = mysqli_fetch_assoc($sql);
 
-                            $datos_usuario=mysql_query("SELECT a.* FROM usuario a, empleado_usuario b WHERE a.id_usuario=b.id_usuario and b.id_empleado_usuario=$id_empleado_usuario");
-                            $rows = mysql_fetch_assoc($datos_usuario);
+                            $datos_usuario=mysqli_query($con,"SELECT a.* FROM usuario a, empleado_usuario b WHERE a.id_usuario=b.id_usuario and b.id_empleado_usuario=$id_empleado_usuario");
+                            $rows = mysqli_fetch_assoc($datos_usuario);
                           ?>
                       
                           <div class="form-group">
@@ -185,15 +185,15 @@ $id_empleado_usuario= htmlentities($_GET['id_empleado_usuario']);
                               <label class="col-sm-2 col-sm-2 control-label">Cargo:&emsp; </label>
                               <div class="col-sm-10">
                                 <?php
-                                $dato_cargo=mysql_query("SELECT a.cargo as cargo from empleado a, empleado_usuario b where a.id_empleado=b.id_empleado and b.id_empleado_usuario='$id_empleado_usuario'");
-                                $rowcargo=mysql_fetch_assoc($dato_cargo);
+                                $dato_cargo=mysqli_query($con,"SELECT a.cargo as cargo from empleado a, empleado_usuario b where a.id_empleado=b.id_empleado and b.id_empleado_usuario='$id_empleado_usuario'");
+                                $rowcargo=mysqli_fetch_assoc($dato_cargo);
                                 ?>
                                   <input type="text" class="form-control" name="cargo" value="<?=$rowcargo['cargo']?>">
                               </div>
                           </div><br>
                           <?php
-                            $dato_estado=mysql_query("SELECT estado from empleado_usuario where id_empleado_usuario='$id_empleado_usuario'");
-                            $rowsss = mysql_fetch_assoc($dato_estado);
+                            $dato_estado=mysqli_query($con,"SELECT estado from empleado_usuario where id_empleado_usuario='$id_empleado_usuario'");
+                            $rowsss = mysqli_fetch_assoc($dato_estado);
                             if($rowsss['estado']=='ACTIVO') 
                             { 
                                 ?>
@@ -217,7 +217,7 @@ $id_empleado_usuario= htmlentities($_GET['id_empleado_usuario']);
                         if(isset($_POST['desactivar_usuario'])) 
                         { 
                             $sql =("UPDATE empleado_usuario SET estado='NO ACTIVO' WHERE id_empleado_usuario='$id_empleado_usuario'");
-                            mysql_query($sql) or die(mysql_error());
+                            mysqli_query($con,$sql) or die(mysqli_error());
 
                             $msg = "Persona desactivada correctamente";
                             print "<script>alert('$msg'); window.location='lista_usuario.php';</script>";
@@ -229,7 +229,7 @@ $id_empleado_usuario= htmlentities($_GET['id_empleado_usuario']);
                         { 
                           
                             $sql =("UPDATE empleado_usuario SET estado='ACTIVO' WHERE id_empleado_usuario='$id_empleado_usuario'");
-                            mysql_query($sql) or die(mysql_error());
+                            mysqli_query($con,$sql) or die(mysqli_error());
 
                             $msg = "Persona activada correctamente";
                             print "<script>alert('$msg'); window.location='lista_usuario.php';</script>";

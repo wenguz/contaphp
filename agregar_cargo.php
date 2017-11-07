@@ -133,21 +133,21 @@ $id_usuario = htmlentities($_GET['id_usuario']);
 
                           <?php 
                             $sql = "SELECT * FROM usuario WHERE id_usuario='".$id_usuario."' LIMIT 1";
-                            $query = mysql_query($sql);
-                            $row = mysql_fetch_assoc($query);
+                            $query = mysqli_query($con,$sql);
+                            $row = mysqli_fetch_assoc($query);
 
-                            $r=mysql_query("SELECT a.cargo as cargo from empleado a, empleado_usuario b, usuario c where a.id_empleado=b.id_empleado and b.id_usuario=c.id_usuario and c.id_usuario='$id_usuario'");
-                            $rows = mysql_fetch_assoc($r);
+                            $r=mysqli_query($con,"SELECT a.cargo as cargo from empleado a, empleado_usuario b, usuario c where a.id_empleado=b.id_empleado and b.id_usuario=c.id_usuario and c.id_usuario='$id_usuario'");
+                            $rows = mysqli_fetch_assoc($r);
                             $ccc=$rows['cargo'];
 
-                            $www=mysql_query("SELECT id_empleado as id_empleado from empleado where cargo='$ccc'");
-                            $zzz = mysql_fetch_assoc($www);
+                            $www=mysqli_query($con,"SELECT id_empleado as id_empleado from empleado where cargo='$ccc'");
+                            $zzz = mysqli_fetch_assoc($www);
 
                             $a=$row['id_usuario'];
                             $b=$zzz['id_empleado'];
 
-                            $ppp=mysql_query("SELECT id_empleado_usuario as id_eu from empleado_usuario where id_empleado='$b' and id_usuario='$a'");
-                            $lll = mysql_fetch_assoc($ppp);
+                            $ppp=mysqli_query($con,"SELECT id_empleado_usuario as id_eu from empleado_usuario where id_empleado='$b' and id_usuario='$a'");
+                            $lll = mysqli_fetch_assoc($ppp);
 
                             $c=$lll['id_eu'];
 
@@ -207,10 +207,10 @@ $id_usuario = htmlentities($_GET['id_usuario']);
                                   <select class="form-control" name="cargo">
                                     <?php
                                     
-                                      $resultado=mysql_query("SELECT * FROM empleado");
-                                      $r=mysql_query("SELECT a.cargo as cargo from empleado a, empleado_usuario b, usuario c where a.id_empleado=b.id_empleado and b.id_usuario=c.id_usuario and c.id_usuario='$id_usuario'");
-                                      $rows = mysql_fetch_assoc($r);
-                                          while ($row = mysql_fetch_assoc($resultado)) 
+                                      $resultado=mysqli_query($con,"SELECT * FROM empleado");
+                                      $r=mysqli_query($con,"SELECT a.cargo as cargo from empleado a, empleado_usuario b, usuario c where a.id_empleado=b.id_empleado and b.id_usuario=c.id_usuario and c.id_usuario='$id_usuario'");
+                                      $rows = mysqli_fetch_assoc($r);
+                                          while ($row = mysqli_fetch_assoc($resultado)) 
                                           {
                                               ?>
                                                   <option <?php if ($row['cargo']==$rows['cargo']) { ?>selected="selected"<?php } ?>>
@@ -242,14 +242,14 @@ $id_usuario = htmlentities($_GET['id_usuario']);
                             $cargo = $_POST['cargo'];
 
 
-                           $rs=mysql_query("SELECT MAX(id_empleado_usuario) AS id FROM empleado_usuario");
-                            if ($row = mysql_fetch_row($rs)) 
+                           $rs=mysqli_query($con,"SELECT MAX(id_empleado_usuario) AS id FROM empleado_usuario");
+                            if ($row = mysqli_fetch_row($rs)) 
                               {
                                 $id_empleado_usuario = trim($row[0]);
                               }
                             $id_empleado_usuario=$id_empleado_usuario+1;
-                            $r=mysql_query("SELECT id_empleado FROM empleado where cargo='$cargo'");
-                            if ($row = mysql_fetch_row($r)) 
+                            $r=mysqli_query($con,"SELECT id_empleado FROM empleado where cargo='$cargo'");
+                            if ($row = mysqli_fetch_row($r)) 
                               {
                                 $id_empleado = trim($row[0]);
                               }
@@ -257,7 +257,7 @@ $id_usuario = htmlentities($_GET['id_usuario']);
 
 
                             $sq="INSERT INTO empleado_usuario (id_empleado_usuario, id_empleado, id_usuario, estado, user, password) VALUES ('$id_empleado_usuario', '$id_empleado','$id_usuario','ACTIVO' , '$nuevo_usuario', '$nueva_contraseña')"; 
-                            mysql_query($sq) or die(mysql_error());       
+                            mysqli_query($con,$sq) or die(mysqli_error());       
 
                             //$msgu = "Datos de persona-----".$sqll."------";
                             //print "<script>alert('$msgu');</script>";                     

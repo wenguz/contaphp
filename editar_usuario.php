@@ -133,21 +133,21 @@ $id_usuario = htmlentities($_GET['id_usuario']);
 
                           <?php 
                             $sql = "SELECT * FROM usuario WHERE id_usuario='".$id_usuario."' LIMIT 1";
-                            $query = mysql_query($sql);
-                            $row = mysql_fetch_assoc($query);
+                            $query = mysqli_query($con,$sql);
+                            $row = mysqli_fetch_assoc($query);
 
-                            $r=mysql_query("SELECT a.cargo as cargo from empleado a, empleado_usuario b, usuario c where a.id_empleado=b.id_empleado and b.id_usuario=c.id_usuario and c.id_usuario='$id_usuario'");
-                            $rows = mysql_fetch_assoc($r);
+                            $r=mysqli_query($con,"SELECT a.cargo as cargo from empleado a, empleado_usuario b, usuario c where a.id_empleado=b.id_empleado and b.id_usuario=c.id_usuario and c.id_usuario='$id_usuario'");
+                            $rows = mysqli_fetch_assoc($r);
                             $ccc=$rows['cargo'];
 
-                            $www=mysql_query("SELECT id_empleado as id_empleado from empleado where cargo='$ccc'");
-                            $zzz = mysql_fetch_assoc($www);
+                            $www=mysqli_query($con,"SELECT id_empleado as id_empleado from empleado where cargo='$ccc'");
+                            $zzz = mysqli_fetch_assoc($www);
 
                             $a=$row['id_usuario'];
                             $b=$zzz['id_empleado'];
 
-                            $ppp=mysql_query("SELECT id_empleado_usuario as id_eu from empleado_usuario where id_empleado='$b' and id_usuario='$a'");
-                            $lll = mysql_fetch_assoc($ppp);
+                            $ppp=mysqli_query($con,"SELECT id_empleado_usuario as id_eu from empleado_usuario where id_empleado='$b' and id_usuario='$a'");
+                            $lll = mysqli_fetch_assoc($ppp);
 
                             $c=$lll['id_eu'];
 
@@ -191,8 +191,8 @@ $id_usuario = htmlentities($_GET['id_usuario']);
                             <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">Usuario:&emsp; </label>
                               <?php
-                              $rq=mysql_query("SELECT * from empleado a, empleado_usuario b, usuario c where a.id_empleado=b.id_empleado and b.id_usuario=c.id_usuario and c.id_usuario='$id_usuario'");
-                            $rowsq = mysql_fetch_assoc($rq);
+                              $rq=mysqli_query($con,"SELECT * from empleado a, empleado_usuario b, usuario c where a.id_empleado=b.id_empleado and b.id_usuario=c.id_usuario and c.id_usuario='$id_usuario'");
+                            $rowsq = mysqli_fetch_assoc($rq);
                             ?>
                               <div class="col-sm-10">
                                   <input type="text" class="form-control" name="user" value="<?=$rowsq['user']?>">
@@ -206,10 +206,10 @@ $id_usuario = htmlentities($_GET['id_usuario']);
                                   <select class="form-control" name="cargo">
                                     <?php
                                     
-                                      $resultado=mysql_query("SELECT * FROM empleado");
-                                      $r=mysql_query("SELECT a.cargo as cargo from empleado a, empleado_usuario b, usuario c where a.id_empleado=b.id_empleado and b.id_usuario=c.id_usuario and c.id_usuario='$id_usuario'");
-                                      $rows = mysql_fetch_assoc($r);
-                                          while ($row = mysql_fetch_assoc($resultado)) 
+                                      $resultado=mysqli_query($con,"SELECT * FROM empleado");
+                                      $r=mysqli_query($con,"SELECT a.cargo as cargo from empleado a, empleado_usuario b, usuario c where a.id_empleado=b.id_empleado and b.id_usuario=c.id_usuario and c.id_usuario='$id_usuario'");
+                                      $rows = mysqli_fetch_assoc($r);
+                                          while ($row = mysqli_fetch_assoc($resultado)) 
                                           {
                                               ?>
                                                   <option <?php if ($row['cargo']==$rows['cargo']) { ?>selected="selected"<?php } ?>>
@@ -244,16 +244,16 @@ $id_usuario = htmlentities($_GET['id_usuario']);
                             //print "<script>alert('$msga');</script>";
 
                             $sql =("UPDATE usuario SET nombre_usuario='$nombre_usuario', ap_paterno_usuario='$ap_paterno_usuario', ap_materno_usuario='$ap_materno_usuario', ci_usuario='$ci_usuario' WHERE id_usuario='$id_usuario'");
-                            mysql_query($sql) or die(mysql_error());
+                            mysqli_query($con,$sql) or die(mysqli_error());
 
-                            $r=mysql_query("SELECT id_empleado FROM empleado where cargo='$cargo'");
-                            if ($row = mysql_fetch_row($r)) 
+                            $r=mysqli_query($con,"SELECT id_empleado FROM empleado where cargo='$cargo'");
+                            if ($row = mysqli_fetch_row($r)) 
                               {
                                 $id_empleado = trim($row[0]);
                               }
 
                             $sqll =("UPDATE empleado_usuario SET id_empleado='$id_empleado', user='$user' WHERE id_usuario='$id_usuario' and id_empleado_usuario='$c'");
-                            mysql_query($sqll) or die(mysql_error());       
+                            mysqli_query($con,$sqll) or die(mysqli_error());       
 
                             //$msgu = "Datos de persona-----".$sqll."------";
                             //print "<script>alert('$msgu');</script>";                     

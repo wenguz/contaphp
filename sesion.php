@@ -3,12 +3,12 @@ $usuario = $_POST["usuario"];
 $password = $_POST["contra"];
 $intentos = 0;
 include('conexion.php'); 
-$result = mysql_query("SELECT a.cargo as cargo from empleado a, empleado_usuario b where a.id_empleado=b.id_empleado and  b.user='$usuario' and b.password='$password'");
+$result = mysqli_query($con,"SELECT a.cargo as cargo from empleado a, empleado_usuario b where a.id_empleado=b.id_empleado and  b.user='$usuario' and b.password='$password'");
 
 
 while ($intentos<=3)
 {
-	if($row = mysql_fetch_array($result))
+	if($row = mysqli_fetch_array($result))
 	{     
 	 	if($row["cargo"] == 'ADMINISTRADOR')
 		{

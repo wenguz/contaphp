@@ -101,8 +101,8 @@ require('conexion.php');
                                                       <input type="text" class="form-control" name="codigo_usuario" disabled="true" value=
                                                       <?php 
                                                       
-                                                      $rs=mysql_query("SELECT MAX(id_usuario) AS id FROM usuario");
-                                                      if ($row = mysql_fetch_row($rs)) 
+                                                      $rs=mysqli_query($con,"SELECT MAX(id_usuario) AS id FROM usuario");
+                                                      if ($row = mysqli_fetch_row($rs)) 
                                                         {
                                                           $id = trim($row[0]);
                                                         }
@@ -229,8 +229,8 @@ require('conexion.php');
 
                                     
 
-                                    $rs=mysql_query("SELECT MAX(id_entidad) AS iden FROM entidad");
-                                    if ($row = mysql_fetch_row($rs)) 
+                                    $rs=mysqli_query($con,"SELECT MAX(id_entidad) AS iden FROM entidad");
+                                    if ($row = mysqli_fetch_row($rs)) 
                                       {
                                         $iden = trim($row[0]);
                                       }
@@ -246,25 +246,25 @@ require('conexion.php');
                                     //print "<script>alert('$mensaje');</script>";
 
                                     $sqenti = "INSERT INTO entidad(id_entidad, nombre_entidad, direccion_entidad, fono1_entidad, fono2_entidad, ciudad_entidad) VALUES ('$id_entidad','$nombre_entidad' , '$direccion_entidad', '$fono1', '$fono2', '$ciudad_entidad');";
-                                    mysql_query($sqenti); 
+                                    mysqli_query($con,$sqenti); 
 
                                     $mensaje = "ENTRO ENTIDAD".$sqenti."-------";
                                     print "<script>alert('$mensaje');</script>";
 
                                     $emp1="INSERT INTO empleado (id_empleado, cargo, id_entidad) VALUES ('1', 'ADMINISTRADOR', '$id_entidad')";
-                                    mysql_query($emp1);
+                                    mysqli_query($con,$emp1);
                                     $emp2="INSERT INTO empleado (id_empleado, cargo, id_entidad) VALUES ('2', 'CONTADOR', '$id_entidad')";
-                                    mysql_query($emp2);
+                                    mysqli_query($con,$emp2);
                                     $emp3="INSERT INTO empleado (id_empleado, cargo, id_entidad) VALUES ('3', 'SECRETARIA', '$id_entidad')";
-                                    mysql_query($emp3);
+                                    mysqli_query($con,$emp3);
 
 
                                    // $mensaje = "ENTRO EMPLEADO";
                                     //print "<script>alert('$mensaje');</script>";
 
 
-                                    $rspp=mysql_query("SELECT MAX(id_periodo) AS idpa FROM periodo");
-                                    if ($rowpp = mysql_fetch_row($rspp)) 
+                                    $rspp=mysqli_query($con,"SELECT MAX(id_periodo) AS idpa FROM periodo");
+                                    if ($rowpp = mysqli_fetch_row($rspp)) 
                                       {
                                         $idpa = trim($rowpp[0]);
                                       }
@@ -274,7 +274,7 @@ require('conexion.php');
                                     $fecha_cierre_periodo=$_POST['fecha_final'];
 
                                     $sper = "INSERT INTO periodo (id_periodo, anio_periodo, fecha_inicio_periodo, fecha_cierre_periodo, entidad_id_entidad) VALUES ('$id_periodo','$año_periodo','$fecha_inicio_periodo','$fecha_cierre_periodo','$id_entidad')";
-                                    mysql_query($sper)or die(mysql_error()); 
+                                    mysqli_query($con,$sper)or die(mysql_error()); 
 
 
                                     //$mensaje = "ENTRO PERIODO AÑO  ".$id_empleado."----------".$año_periodo."----------".$fecha_inicio_periodo."---------".$fecha_cierre_periodo."-------".$id_entidad."--------";
@@ -282,10 +282,10 @@ require('conexion.php');
 
 
                                   $sql = 'SELECT * FROM usuario'; 
-                                  $rec = mysql_query($sql); 
+                                  $rec = mysqli_query($con,$sql); 
                                   $verificar_usuario = 0; 
                             
-                                  while($result = mysql_fetch_object($rec)) 
+                                  while($result = mysqli_fetch_object($rec)) 
                                   { 
                                       if($result->user == $_POST['ci_usuario']) 
                                       { 
@@ -305,8 +305,8 @@ require('conexion.php');
                                     $cargo = $_POST['cargo']; 
 
 
-                                    $rs=mysql_query("SELECT MAX(id_usuario) AS id FROM usuario");
-                                    if ($row = mysql_fetch_row($rs)) 
+                                    $rs=mysqli_query($con,"SELECT MAX(id_usuario) AS id FROM usuario");
+                                    if ($row = mysqli_fetch_row($rs)) 
                                       {
                                         $id = trim($row[0]);
                                       }
@@ -315,16 +315,16 @@ require('conexion.php');
 
                                     
                                     $sql = "INSERT INTO usuario(id_usuario, nombre_usuario, ap_paterno_usuario, ap_materno_usuario, ci_usuario) VALUES ('$id_usuario','$nombre_usuario' , '$ap_paterno_usuario', '$ap_materno_usuario', '$ci_usuario');";
-                                    mysql_query($sql); 
+                                    mysqli_query($con,$sql); 
 
-                                    $rs=mysql_query("SELECT MAX(id_empleado_usuario) AS id FROM empleado_usuario");
-                                    if ($row = mysql_fetch_row($rs)) 
+                                    $rs=mysqli_query($con,"SELECT MAX(id_empleado_usuario) AS id FROM empleado_usuario");
+                                    if ($row = mysqli_fetch_row($rs)) 
                                       {
                                         $id_empleado_usuario = trim($row[0]);
                                       }
                                     $id_empleado_usuario=$id_empleado_usuario+1;
-                                    $r=mysql_query("SELECT id_empleado FROM empleado where cargo='$cargo'");
-                                    if ($row = mysql_fetch_row($r)) 
+                                    $r=mysqli_query($con,"SELECT id_empleado FROM empleado where cargo='$cargo'");
+                                    if ($row = mysqli_fetch_row($r)) 
                                       {
                                         $id_empleado = trim($row[0]);
                                       }
@@ -332,7 +332,7 @@ require('conexion.php');
 
 
                                     $sq="INSERT INTO empleado_usuario (id_empleado_usuario, id_empleado, id_usuario, estado, user, password) VALUES ('$id_empleado_usuario', '$id_empleado','$id_usuario','ACTIVO' , '$user', '$password')"; 
-                                    mysql_query($sq); 
+                                    mysqli_query($con,$sq); 
 
                       
                                     $mensaje = "Usted se ha registrado correctamente.";

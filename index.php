@@ -36,8 +36,8 @@
       <?php
 
       $consul="SELECT * FROM entidad";
-      $rrr=mysql_query($consul);
-      if(mysql_num_rows($rrr)==0)
+      $rrr=mysqli_query($con,$consul);
+      if(mysqli_num_rows($rrr)==0)
       {
 
       ?>

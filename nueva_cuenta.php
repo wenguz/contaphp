@@ -135,8 +135,8 @@ require('conexion.php');
                                     <p>
                                       <select class="form-control" name="codigo_clase">
                                         <?php
-                                          $cod=mysql_query("SELECT max(id_clase) as id FROM clase");
-                                          if ($row = mysql_fetch_row($cod)) 
+                                          $cod=mysqli_query($con,"SELECT max(id_clase) as id FROM clase");
+                                          if ($row = mysqli_fetch_row($cod)) 
                                           {
                                             $id = trim($row[0]);
                                           }
@@ -177,7 +177,7 @@ require('conexion.php');
                                     $hoy = date('Y-m-d');
 
                                     $sql = "INSERT INTO clase(id_clase, nombre_clase, estado_clase, fecha_registro_clase) VALUES ('$id_clase','$nombre_clase' , 'ACTIVO', '$hoy');";
-                                    mysql_query($sql); 
+                                    mysqli_query($con,$sql); 
 
                                     $mensaje = "Usted se ha registrado correctamente la CLASE.";
                                     print "<script>alert('$mensaje'); window.location='lista_cuenta.php';</script>"; 
@@ -193,7 +193,7 @@ require('conexion.php');
                             </form>
                           </td>
                           <td width="50%">
-                            <form class="form-horizontal style-form" method="post">
+                            
                               <div class="form-group">
                                 <center>
                                 <label style="font-size: 20px;"> GRUPOS</label></center>
@@ -207,8 +207,8 @@ require('conexion.php');
                                               <td>
                                                 <select class="form-control" name="grupo_clase">
                                                   <?php
-                                                  $sqlclase=mysql_query("SELECT * FROM clase");
-                                                  while ($rowclase = mysql_fetch_assoc($sqlclase)) 
+                                                  $sqlclase=mysqli_query($con,"SELECT * FROM clase");
+                                                  while ($rowclase = mysqli_fetch_assoc($sqlclase)) 
                                                   {
                                                   ?>
                                                     <option><?php echo $rowclase['id_clase']." .- ".$rowclase['nombre_clase']; ?></option>
@@ -223,11 +223,10 @@ require('conexion.php');
                                               </td>
                                             </tr>
                                           </table>
-                                          
                                         </form>
                                       </p>
                                     </div>
-                                  
+                                  <form class="form-horizontal style-form" method="post">
                                     <label class="col-sm-4 col-sm-4 control-label">Codigos disponibles: </label>
                                     <div class="col-sm-7">
                                         <p>
@@ -236,15 +235,16 @@ require('conexion.php');
                                             if(isset($_POST['check_grupo_clase'])) 
                                             {
                                               $grupo_clase=$_POST['grupo_clase'];
+                                              $gc = substr($grupo_clase, 0, 2);
                                               $grupo_cod_disp=("SELECT * FROM grupo WHERE id_clase='$grupo_clase'");
-                                              $rrr=mysql_query($grupo_cod_disp);
-                                              if(mysql_num_rows($rrr)==0)
+                                              $rrr=mysqli_query($con,$grupo_cod_disp);
+                                              if(mysqli_num_rows($rrr)==0)
                                               {
                                                 $cod_grupo=0;
                                                 while ($cod_grupo<=9) 
                                                 {
                                                   ?>
-                                                    <option><?php echo $grupo_clase." ".$cod_grupo; ?></option>
+                                                    <option><?php echo $gc." ".$cod_grupo; ?></option>
                                                   <?php 
                                                     $cod_grupo+=1;
                                                 } 
@@ -255,8 +255,8 @@ require('conexion.php');
                                                 $cod_grupo=0;
                                                 while ($cod_grupo<=9) 
                                                 {
-                                                  $existe=mysql_query("SELECT * FROM grupo WHERE id_grupo='$cod_grupo'");
-                                                  if(mysql_num_rows($existe)!=0)
+                                                  $existe=mysqli_query($con,"SELECT * FROM grupo WHERE id_grupo='$cod_grupo'");
+                                                  if(mysqli_num_rows($existe)!=0)
                                                   {
                                                     $cod_grupo+=1;
                                                   }
@@ -286,8 +286,8 @@ require('conexion.php');
                                 <input type="submit" class="btn btn-danger"  name="cancelar" value="Cancelar">
                               </center>
                               <br>
-
-                              <?php 
+                            </form>
+                            <?php 
                                 if(isset($_POST['registrar_grupo'])) 
                                 {
                             
@@ -299,8 +299,8 @@ require('conexion.php');
                                     $nombre_grupo = $_POST['nombre_grupo'];
                                     $hoy = date('Y-m-d');
 
-                                    $sql = "INSERT INTO grupo(id_grupo, nombre_grupo, estado_grupo, fecha_registro_grupo, id_clase) VALUES ('$id_grupo','$nombre_grupo' , 'ACTIVO', '$hoy', '$id_clase');";
-                                    mysql_query($sql); 
+                                    $sql = "INSERT INTO grupo(id_grupo, nombre_grupo, estado_grupo, fecha_registro_grupo, id_clase) VALUES ('$id_grupo','$nombre_grupo' , 'ACTIVO', '$hoy', '$gc');";
+                                    mysqli_query($con,$sql); 
 
                                     $mensaje = "Usted se ha registrado correctamente el GRUPO.";
                                     print "<script>alert('$mensaje'); window.location='lista_cuenta.php';</script>"; 
@@ -313,8 +313,6 @@ require('conexion.php');
                                   }
                                 }
                               ?>
-
-                            </form>
                           </td>
                         </tr>
                         <tr>
@@ -329,8 +327,8 @@ require('conexion.php');
                                     <p>
                                       <select class="form-control" name="clase">
                                           <?php
-                                            $resultado1=mysql_query("SELECT * FROM clase");
-                                                while ($row1 = mysql_fetch_assoc($resultado1)) 
+                                            $resultado1=mysqli_query($con,"SELECT * FROM clase");
+                                                while ($row1 = mysqli_fetch_assoc($resultado1)) 
                                                 {
                                                     ?>
                                                         <option ><?php echo $row1['id_clase']." .- ".$row1['nombre_clase'];?></option>    
@@ -355,8 +353,8 @@ require('conexion.php');
                                       <select class="form-control" name="codigo_cuenta">
                                             <?php
                                             $consul="SELECT * FROM grupo";
-                                            $rrr=mysql_query($consul);
-                                            if(mysql_num_rows($rrr)==0)
+                                            $rrr=mysqli_query($con,$consul);
+                                            if(mysqli_num_rows($rrr)==0)
                                             {
                                               $id_grupo=0;
                                                 while ($id_grupo<=9) 
@@ -369,8 +367,8 @@ require('conexion.php');
                                             }
                                             else
                                             {
-                                              $cod=mysql_query("SELECT max(id_grupo) as idg FROM grupo");
-                                              if ($row = mysql_fetch_row($cod)) 
+                                              $cod=mysqli_query($con,"SELECT max(id_grupo) as idg FROM grupo");
+                                              if ($row = mysqli_fetch_row($cod)) 
                                               {
                                                 $idg = trim($row[0]);
                                               }
