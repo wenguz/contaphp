@@ -10,3 +10,5 @@ Wendy Guzman (representante)
 Cinthia Alvarez
 Cristal Flores
 Fabiola Acarapi
+
+Semestre 2-2017
