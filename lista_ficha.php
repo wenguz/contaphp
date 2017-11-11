@@ -95,12 +95,7 @@ $_SESSION["usuario"];
                   <span>Transferencia</span>
               </a>
           </li>
-          <li class="sub-menu">
-              <a href="transaccion.php" >
-                  <i class="fa fa-th"></i>
-                  <span>Transacciones</span>
-              </a>
-          </li>
+       
     </ul>
 </div>  
       </aside>
@@ -148,7 +143,7 @@ $_SESSION["usuario"];
                           <td>
                             <button class="btn btn-primary btn-xs"><i class="fa fa-pencil"> Editar</i>
                             </button>
-                            <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o ">  Eliminar</i></button>
+                            
                           </td>
                       </tr>
                       

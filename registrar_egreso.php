@@ -105,12 +105,7 @@ $_SESSION["usuario"];
                   <span>Transferencia</span>
               </a>
           </li>
-          <li class="sub-menu">
-              <a href="transaccion.php" >
-                  <i class="fa fa-th"></i>
-                  <span>Transacciones</span>
-              </a>
-          </li>
+           
     </ul>
 </div>
       </aside>
@@ -275,6 +270,21 @@ $_SESSION["usuario"];
                                 <div class="form-group">
                                   <center>
                                   <label style="font-size: 15px;">Recibido por...</label></center>
+
+                                  <label class="col-sm-2 col-sm-2 control-label">Nombre:&emsp; </label>
+                                  <div class="col-sm-9">
+                                      <input type="text" class="form-control">
+                                  </div>
+                                  <label class="col-sm-2 col-sm-2 control-label">CI:&emsp; </label>
+                                  <div class="col-sm-9">
+                                      <input type="text" class="form-control">
+                                  </div>
+                                </div>
+                              </td>
+                              <td>
+                                <div class="form-group">
+                                  <center>
+                                  <label style="font-size: 15px;">Pagado a ...</label></center>
 
                                   <label class="col-sm-2 col-sm-2 control-label">Nombre:&emsp; </label>
                                   <div class="col-sm-9">

@@ -105,12 +105,7 @@ $_SESSION["usuario"];
                   <span>Transferencia</span>
               </a>
           </li>
-          <li class="sub-menu">
-              <a href="transaccion.php" >
-                  <i class="fa fa-th"></i>
-                  <span>Transacciones</span>
-              </a>
-          </li>
+           
     </ul>
 </div>  
       </aside>
@@ -184,26 +179,22 @@ $_SESSION["usuario"];
                                     </label>
                                   </div>
                                   <div class="form-group">
-                              <label class="col-sm-2 col-sm-2 control-label">Monto: </label>
+                              <label class="col-sm-2 col-sm-2 control-label">Número de cuenta: </label>
                               <div class="col-sm-10">
                                   <input type="text" class="form-control">
                               </div>
                             </div>
-                            <div class="form-group">
-                              <label class="col-sm-3 col-sm-3 control-label">Nro_de_cuenta: </label>
-                              <div class="col-sm-9">
-                                  <input type="text" class="form-control">
-                              </div>
-                            </div>
+
                             <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">Banco: </label>
                               <div class="col-sm-10">
-                                  <p>
-                                        <select class="form-control" name="cargo">
-                                              <option>BNB.</option>
-                                             <option>Mercantil Santa Cruz.</option>
-                                        </select>
-                                      </p>
+                                  <input type="text" class="form-control">
+                              </div>
+                            </div> <hr>
+                            <div class="form-group">
+                              <label class="col-sm-2 col-sm-2 control-label">Monto: </label>
+                              <div class="col-sm-10">
+                                  <input type="text" class="form-control">
                               </div>
                             </div>
                               </td>

@@ -105,12 +105,7 @@ $_SESSION["usuario"];
                   <span>Transferencia</span>
               </a>
           </li>
-          <li class="sub-menu">
-              <a href="transaccion.php" >
-                  <i class="fa fa-th"></i>
-                  <span>Transacciones</span>
-              </a>
-          </li>
+           
     </ul>
 </div>  
       </aside>
@@ -134,7 +129,11 @@ $_SESSION["usuario"];
                             <label class="col-sm-3 col-sm-3 control-label"  >Fecha:&emsp; 
                                 <input type="date" name="fecha" placeholder="YYYY-MM-DD" class="form-input"/>
                             </label>
-                            <div class="col-sm-10">
+                            
+                          </div>
+                        </td>
+                        <td colspan="2">
+                          <div class="col-sm-3 col-sm-3 control-label">
                               Hora:
                                 <p type="time" class="form-control"   ><a><?php  
                                   $time = time();
@@ -142,15 +141,12 @@ $_SESSION["usuario"];
                                     ?></a></p>
                                 
                             </div>
-                          </div>
-                        </td>
-                        <td colspan="2">
                         </td>
                         <td>
                           <div class="form-group">
-                            <label class="col-sm-4 col-sm-4 control-label">Nro._de_comprobante:&emsp; </label>
+                            <label class="col-sm-4 col-sm-4 control-label">Nro. de comprobante:&emsp; </label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control">
+                                <input type="number" name ="numero_partida_ficha" class="form-control">
                             </div>
                           </div>
                         </td>
@@ -158,32 +154,30 @@ $_SESSION["usuario"];
                       <tr>
                         <td>
                           <div class="form-group">
-                            <label class="col-sm-3 col-sm-3 control-label">Tipo de Cambio:&emsp; </label>
+                            <label class="col-sm-10">Tipo de Cambio:&emsp; </label>
                             <div class="col-sm-10">
-                                <div class="col-sm-10">
                                 <p>
                                   
                                       <?php
                                            $con = mysqli_connect('localhost', 'root', '', 'contabilidad'); 
                                            $cod=mysqli_query($con,"SELECT   monto FROM tipo_cambio ORDER BY id_tipo_cambio DESC LIMIT 1 " );
 
-                                    if ($row = mysqli_fetch_row($cod)) 
-                                      {
-                                        $iden = trim($row[0]);
-                                      } 
-                                    echo '<input type="number"  class="form-control" name="cambio" value="'.$iden.'"> </option>';
+                                          if ($row = mysqli_fetch_row($cod)) 
+                                            {
+                                              $iden = trim($row[0]);
+                                            } 
+                                          echo '<input type="number"  class="form-control" name="cambio" value="'.$iden.'"> </input> ';
                                       ?>
-                                  </input>
+                                  
                                 </p>
                               </div>
-                            </div>
-                          </div>
+                            </div> 
                         </td>
                         <td>
                           <div class="form-group">
-                              <label class="col-sm-2 col-sm-2 control-label">Moneda:   &emsp; </label>
+                              <label class="col-sm-10">Moneda:   &emsp; </label>
                               <div class="col-sm-10">
-                                <p><br>
+                                <p> 
                                   <select class="form-control" name="cargo">
                                         <option>Bs.</option>
                                        <option>$us.</option>
@@ -194,7 +188,7 @@ $_SESSION["usuario"];
                         </td>
                         <td>
                           <div class="form-group">
-                              <label class="col-sm-4 col-sm-4 control-label" >Destino de Pago :&emsp; </label>
+                              <label class="col-sm-10" >Destino de Pago :&emsp; </label>
 
                               <div class="col-sm-10">
                                 <p>
@@ -216,7 +210,7 @@ $_SESSION["usuario"];
                         </td>
                         <td>
                           <div class="form-group">
-                            <label class="col-sm-4 col-sm-4 control-label">Tipo de ingreso:&emsp; </label>
+                            <label class="col-sm-10">Tipo de ingreso:&emsp; </label>
                             <div class="col-sm-10">
                                 <p>
                                   <select class="form-control" name="trans">
@@ -235,13 +229,7 @@ $_SESSION["usuario"];
                           </div>
                         </td>
                       </tr>
-                      <tr>
-                        <td colspan="4">
-                          <div class="form-group">
-                           
-                          </div>
-                        </td>
-                      </tr>
+                      
                     </table>
                     <table class="table table-bordered table-striped table-condensed">
                       <hr>
@@ -252,26 +240,33 @@ $_SESSION["usuario"];
                               <thead >
                               <tr>
                                   <td>Codigo</th>
-                                  <td class="hidden-phone"> Cuenta
-                                  </th>
-                                  <td> Concepto</th>
+                                  <td class="hidden-phone"> Cuenta</th>
+                                  <td width="350px"> Concepto</th>
                                   <td> Monto</th>
+                                  <td> Factura/Recibo</th>
+                                  <td width="150px"> Opciones</th>
                               </tr>
                               </thead>
                               <tfoot >
                                 <tr>
                                   <td colspan="3">Total</th>
                                   <td> 200</th>
+                                    <td colspan="2">  </th>
                                 </tr>
 
                               </tfoot>
 
-                              <tbody>
+                                   <tbody>
                               <tr>
                                   <td><a href="">1</a></td>
                                   <td class="hidden-phone">b</td>
                                   <td>b</td>
+                                  <td>b</td>
                                   <td>200</td>
+                                  <td>
+                                      <button class="btn btn-primary btn-xs"><i class="fa fa-pencil">  Editar</i></button>
+                                      <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o ">  Eliminar</i></button>
+                                  </td>
                               </tr>
                               </tbody>
                           </table>
@@ -339,11 +334,11 @@ $_SESSION["usuario"];
                                   
                                   <label class="col-sm-2 col-sm-2 control-label">Nombre:&emsp; </label>
                                   <div class="col-sm-9">
-                                      <input type="text" class="form-control">
+                                      <input type="text" name="p_nom" class="form-control">
                                   </div>
                                   <label class="col-sm-2 col-sm-2 control-label">CI:&emsp; </label>
                                   <div class="col-sm-9">
-                                      <input type="text" class="form-control">
+                                      <input type="text" name="p_ci" class="form-control">
                                   </div>
                                 </div>
                               </td>
@@ -353,20 +348,28 @@ $_SESSION["usuario"];
                                   <center>
                                   <label style="font-size: 15px;">Elaborado por...</label></center>
                                   
-                                  <label class="col-sm-2 col-sm-2 control-label">Nombre:&emsp; </label>
+                                  
                                   <div class="col-sm-9">
-                                      <input type="text" class="form-control">
+                                      
                                        <?php
-                                      $user= $_SESSION["usuario"];
-                                       
-                                            echo $user;   
+                                       $user= $_SESSION["usuario"];
+                                        $con = mysqli_connect('localhost', 'root', '', 'contabilidad'); 
+                                           $cod=mysqli_query($con,"SELECT   ci_usuario FROM usuario WHERE nombre_usuario='$user' LIMIT 1");
+
+                                          if ($row = mysqli_fetch_row($cod)) 
+                                            {
+                                              $iden = trim($row[0]);
+                                            }  
+                                             
+                                             echo " 
+                                             <Br><p class='col-sm-10' >Nombre:    $user</p>
+                                             <br>
+                                              <p  class='col-sm-10'>CI:     $iden</p>
+                                             ";  
                                               
                                           ?>
                                   </div>
-                                  <label class="col-sm-2 col-sm-2 control-label">CI:&emsp; </label>
-                                  <div class="col-sm-9">
-                                      <input type="text" class="form-control">
-                                  </div>
+                                   
                                 </div>
                               </td>
                             </tr>
@@ -383,19 +386,16 @@ $_SESSION["usuario"];
                          <?php
                            if(isset($_POST['registrar_datos'])) 
                         { 
-                         
-                         $fechai ="";
-                         $id_entidad="";
-                         $pago="";
+                          
                          include('conexion.php');
                          
-                            if($_POST['fecha'] == '' or  $_POST['pago'] == ''or $_POST['trans'] == '' or $_POST['cambio']== '' or$_POST['cuenta']== '')
+                            if($_POST['fecha'] == '' or  $_POST['pago'] == ''or $_POST['trans'] == '' or $_POST['cambio']== '' or$_POST['cuenta']== '' or $_POST['numero_partida_ficha']=='')
                             { 
                                 echo 'Por favor llene todos los campos.'; 
                             } 
                             else 
                             { 
-                         $rs=mysqli_query($con,"SELECT MAX(id_ficha) AS iden FROM ficha");
+                             $rs=mysqli_query($con,"SELECT MAX(id_ficha) AS iden FROM ficha");
                                     if ($row = mysqli_fetch_row($rs)) 
                                       {
                                         $iden = trim($row[0]);
@@ -406,19 +406,49 @@ $_SESSION["usuario"];
                           $trans =$_POST["trans"] ;
                           $cambio =$_POST["cambio"] ;
                           $cuenta =$_POST["cuenta"] ;
+                          $partida=$_POST["numero_partida_ficha"];
+                          $p_nom=$_POST["p_nom"];
+                          $p_ci=$_POST["p_ci"];
+                           $cod1=mysqli_query($con,"SELECT   id_persona FROM persona WHERE ci_persona='$p_ci' LIMIT 1");
+
+                                          if ($row1 = mysqli_fetch_row($cod1)) 
+                                            {
+                                              $id_persona = trim($row1[0]);
+                                            }
+                                            else {
+                                              $cod2=mysqli_query($con,"SELECT   MAX(id_persona) FROM persona");
+                                              if ($row2 = mysqli_fetch_row($cod2)) 
+                                                {
+                                                  $id = trim($row2[0]);
+                                                }
+                                                $id_persona = $id+1;
+                                              $sq2= "INSERT INTO persona(id_persona,nombre_persona,ci_persona,descripcion_persona) 
+                                                    VALUES ('$id_persona','$p_nom','$p_ci','');";
+                                              mysqli_query($con,$sq2)  ;   
+                                            }
+            
+                           $cod=mysqli_query($con,"SELECT   id_tipo_cambio FROM tipo_cambio WHERE monto='$cambio' LIMIT 1");
+
+                                          if ($row = mysqli_fetch_row($cod)) 
+                                            {
+                                              $id_cambio = trim($row[0]);
+                                            } 
+                            
+                           
                            $time = time();
                            $hora= date("H:i:s", $time);
-                          // echo date("d-m-Y (H:i:s)", $time); 
-                             echo 'entro'; 
-                          $sqenti = "INSERT INTO ficha(id_ficha, numero_partida_ficha, fecha_ficha, tiempo_ficha, total_ficha, total_debe_ficha, total_haber_ficha, id_tipo_transaccion, id_tipo_cambio, id_tipo_pago, id_persona) 
-                          VALUES ($id_entidad,'$id_entidad','$fechai','$hora',2,1,1,'$trans','$cambio','$pago',100);";
+                           $sq= "INSERT INTO ficha(id_ficha, numero_partida_ficha, fecha_ficha, tiempo_ficha, total_ficha, total_debe_ficha, total_haber_ficha, id_tipo_transaccion, id_tipo_cambio, id_tipo_pago, id_persona) 
+                          VALUES ('$id_entidad','$partida','$fechai','$hora','0','0','0','$trans','$id_cambio','$pago','$id_persona')";
+                            mysqli_query($con,$sq)  ;       
+                           $msg = 'Cargo agregado correctamente'.'entro:'.'10'.$partida.$fechai.$hora.'2'.'1'.'1'.$trans.$id_cambio.$pago.$id_persona ;
+                            print "<script>alert('$msg'); window.location='registrar_ingreso.php';</script>";
                            
-                                    mysqli_query($con,$sqenti); 
-                           
-                                    $mensaje = "ENTRO ENTIDAD".$sqenti."-------";
-                                    print "<script>alert('$mensaje');</script>";
                         
                              }  }
+                             if(isset($_POST['cancelar'])) 
+                        { 
+                          print "<script> window.location='registrar_ingreso.php';</script>";
+                        }
                          ?>
                             </form>
                           </table>

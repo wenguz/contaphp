@@ -105,12 +105,7 @@ $_SESSION["usuario"];
                   <span>Transferencia</span>
               </a>
           </li>
-          <li class="sub-menu">
-              <a href="transaccion.php" >
-                  <i class="fa fa-th"></i>
-                  <span>Transacciones</span>
-              </a>
-          </li>
+           
     </ul>
 </div>  
       </aside>
@@ -192,21 +187,7 @@ $_SESSION["usuario"];
                           </div>
                         </td>
                       </tr>
-                      <tr>
-                        <td colspan="4">
-                          <div class="form-group">
-                            <label class="col-sm-1 col-sm-1 control-label">Cuenta:&emsp; </label>
-                            <div class="col-sm-10">
-                                <p>
-                                  <select class="form-control" name="cargo">
-                                        <option>1. Cuenta 1</option>
-                                       <option>2. Cuenta 2</option>
-                                  </select>
-                                </p>
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
+                      
                     </table>
                     <table class="table table-bordered table-striped table-condensed">
                       <hr>
