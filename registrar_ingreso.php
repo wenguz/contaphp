@@ -135,10 +135,10 @@ $_SESSION["usuario"];
                                 <input type="date" name="fecha" placeholder="YYYY-MM-DD" class="form-input"/>
                             </label>
                             <div class="col-sm-10">
-                                <input type="time" class="form-control"   ><a><?php  
+                                <p type="time" class="form-control"   ><a><?php  
                                   $time = time();
                                   echo date("H:i:s", $time); 
-                                    ?></a></input>
+                                    ?></a></p>
                                 
                             </div>
                           </div>
@@ -161,18 +161,20 @@ $_SESSION["usuario"];
                             <div class="col-sm-10">
                                 <div class="col-sm-10">
                                 <p>
-                                  <select class="form-control" name="cambio">
+                                  <input type="number"  class="form-control" name="cambio">
                                       <?php
                                            $con = mysqli_connect('localhost', 'root', '', 'contabilidad'); 
-                                           $cod=mysqli_query($con,"SELECT * FROM tipo_cambio");
-                                            
-                                        while ($valores = mysqli_fetch_array($cod)) {
-                                                    
-                                          echo '<option value="'.$valores[id_tipo_cambio].'">'.$valores[monto].'</option>';                
-                                           
-                                       }
+                                           $cod=mysqli_query($con,"SELECT   monto FROM tipo_cambio ORDER BY id_tipo_cambio DESC LIMIT 1 " );
+
+                                    if ($row = mysqli_fetch_row($cod)) 
+                                      {
+                                        $iden = trim($row[0]);
+                                      }
+                                      $id_entidad=$iden+1;
+                                        echo   $iden  ; 
+                                
                                       ?>
-                                  </select>
+                                  </input>
                                 </p>
                               </div>
                             </div>
