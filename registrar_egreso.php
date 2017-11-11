@@ -211,28 +211,14 @@ $_SESSION["usuario"];
                         </td>
                         <td>
                           <div class="form-group">
-                            <label class="col-sm-4 col-sm-4 control-label">Fuente_de_ingreso:&emsp; </label>
+                            <label class="col-sm-4 col-sm-4 control-label">Tipo de Ingreso :&emsp; </label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control">
                             </div>
                           </div>
                         </td>
                       </tr>
-                      <tr>
-                        <td colspan="4">
-                          <div class="form-group">
-                            <label class="col-sm-1 col-sm-1 control-label">Cuenta:&emsp; </label>
-                            <div class="col-sm-10">
-                                <p>
-                                  <select class="form-control" name="cargo">
-                                        <option>1. Cuenta 1</option>
-                                       <option>2. Cuenta 2</option>
-                                  </select>
-                                </p>
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
+                      
                     </table>
                     <table class="table table-bordered table-striped table-condensed">
                       <hr>
@@ -284,21 +270,7 @@ $_SESSION["usuario"];
                           </table>
                           <table class="table table-bordered table-striped table-condensed">
                             <tr>
-                              <td>
-                                <div class="form-group">
-                                  <center>
-                                  <label style="font-size: 15px;">Pagado a...</label></center>
-
-                                  <label class="col-sm-2 col-sm-2 control-label">Nombre:&emsp; </label>
-                                  <div class="col-sm-9">
-                                      <input type="text" class="form-control">
-                                  </div>
-                                  <label class="col-sm-2 col-sm-2 control-label">CI:&emsp; </label>
-                                  <div class="col-sm-9">
-                                      <input type="text" class="form-control">
-                                  </div>
-                                </div>
-                              </td>
+                               
                               <td>
                                 <div class="form-group">
                                   <center>

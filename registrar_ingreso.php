@@ -135,6 +135,7 @@ $_SESSION["usuario"];
                                 <input type="date" name="fecha" placeholder="YYYY-MM-DD" class="form-input"/>
                             </label>
                             <div class="col-sm-10">
+                              Hora:
                                 <p type="time" class="form-control"   ><a><?php  
                                   $time = time();
                                   echo date("H:i:s", $time); 
@@ -161,7 +162,7 @@ $_SESSION["usuario"];
                             <div class="col-sm-10">
                                 <div class="col-sm-10">
                                 <p>
-                                  <input type="number"  class="form-control" name="cambio">
+                                  
                                       <?php
                                            $con = mysqli_connect('localhost', 'root', '', 'contabilidad'); 
                                            $cod=mysqli_query($con,"SELECT   monto FROM tipo_cambio ORDER BY id_tipo_cambio DESC LIMIT 1 " );
@@ -169,10 +170,8 @@ $_SESSION["usuario"];
                                     if ($row = mysqli_fetch_row($cod)) 
                                       {
                                         $iden = trim($row[0]);
-                                      }
-                                      $id_entidad=$iden+1;
-                                        echo   $iden  ; 
-                                
+                                      } 
+                                    echo '<input type="number"  class="form-control" name="cambio" value="'.$iden.'"> </option>';
                                       ?>
                                   </input>
                                 </p>
@@ -195,7 +194,7 @@ $_SESSION["usuario"];
                         </td>
                         <td>
                           <div class="form-group">
-                              <label class="col-sm-4 col-sm-4 control-label" >Forma de Pago :&emsp; </label>
+                              <label class="col-sm-4 col-sm-4 control-label" >Destino de Pago :&emsp; </label>
 
                               <div class="col-sm-10">
                                 <p>
@@ -239,22 +238,7 @@ $_SESSION["usuario"];
                       <tr>
                         <td colspan="4">
                           <div class="form-group">
-                            <label class="col-sm-1 col-sm-1 control-label">Cuenta:&emsp; </label>
-                             <div class="col-sm-10">
-                                <p>
-                                  <select class="form-control" name="cuenta" >
-                            <?php
-                                             $cod=mysqli_query($con,"SELECT * FROM cuenta");
-                                               
-                                        while ($valores = mysqli_fetch_array($cod)) {
-                                                    
-                                          echo '<option value="'.$valores[id_cuenta].'">'.$valores[nombre_cuenta].'</option>';                
-                                           
-                                       }
-                                      ?>
-                                       </select>
-                                </p>
-                              </div>
+                           
                           </div>
                         </td>
                       </tr>
@@ -268,7 +252,8 @@ $_SESSION["usuario"];
                               <thead >
                               <tr>
                                   <td>Codigo</th>
-                                  <td class="hidden-phone"> Cuenta</th>
+                                  <td class="hidden-phone"> Cuenta
+                                  </th>
                                   <td> Concepto</th>
                                   <td> Monto</th>
                               </tr>
@@ -310,12 +295,27 @@ $_SESSION["usuario"];
                               <h4 class="modal-title">Registrar Ingreso</h4>
                           </div>
                           <div class="modal-body">
-                              <p>Cuenta</p>
-                              <input type="text" name="ri_cuenta" placeholder="" autocomplete="off" class="form-control placeholder-no-fix">
+                             
+                               <label class="col-sm-1 col-sm-1 control-label">Cuenta:&emsp; </label>
+                             <div class="col-sm-10">
+                                <p>
+                                  <select class="form-control" name="cuenta" >
+                            <?php
+                                             $cod=mysqli_query($con,"SELECT * FROM cuenta");
+                                               
+                                        while ($valores = mysqli_fetch_array($cod)) {
+                                                    
+                                          echo '<option value="'.$valores[id_cuenta].'">'.$valores[nombre_cuenta].'</option>';                
+                                           
+                                       }
+                                      ?>
+                                       </select>
+                                </p>
+                              </div>
                               <p>Concepto</p>
                               <input type="text" name="ri_concepto" placeholder=" " autocomplete="off" class="form-control placeholder-no-fix">
                               <p>Monto (Bs)</p>
-                              <input type="number" name="ri_monto" placeholder=" " autocomplete="off" class="form-control placeholder-no-fix">
+                              <input type="number" name="ri_monto" placeholder=" "  class="form-control placeholder-no-fix">
                           </div>
                           <div class="modal-footer">
                               <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
@@ -347,21 +347,7 @@ $_SESSION["usuario"];
                                   </div>
                                 </div>
                               </td>
-                              <td>
-                                <div class="form-group">
-                                  <center>
-                                  <label style="font-size: 15px;">Pagado a...</label></center>
-                                  
-                                  <label class="col-sm-2 col-sm-2 control-label">Nombre:&emsp; </label>
-                                  <div class="col-sm-9">
-                                      <input type="text" class="form-control">
-                                  </div>
-                                  <label class="col-sm-2 col-sm-2 control-label">CI:&emsp; </label>
-                                  <div class="col-sm-9">
-                                      <input type="text" class="form-control">
-                                  </div>
-                                </div>
-                              </td>
+                              
                               <td>
                                 <div class="form-group">
                                   <center>
