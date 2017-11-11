@@ -3,7 +3,7 @@ session_start();
 //manejamos en sesion el nombre del usuario que se ha logeado
 if (!isset($_SESSION["usuario"])){
     header("location:index.php?nologin=false");
-    
+
 }
 $_SESSION["usuario"];
 
@@ -26,15 +26,15 @@ require('conexion.php');
     <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="assets/css/zabuto_calendar.css">
     <link rel="stylesheet" type="text/css" href="assets/js/gritter/css/jquery.gritter.css" />
-    <link rel="stylesheet" type="text/css" href="assets/lineicons/style.css">    
-    
+    <link rel="stylesheet" type="text/css" href="assets/lineicons/style.css">
+
     <!-- Custom styles for this template -->
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="assets/css/style-responsive.css" rel="stylesheet">
 
     <script src="assets/js/chart-master/Chart.js"></script>
   </head>
- 
+
   <body>
 
   <section id="container" >
@@ -48,7 +48,7 @@ require('conexion.php');
               </div>
             <!--logo start-->
             <a href="index.php" class="logo"><b>SISTEMA CONTABLE</b></a>
-            
+
             <div class="top-menu">
               <ul class="nav pull-right top-menu">
                     <li><a class="logout" href="index.php">Cerrar Sesion</a></li>
@@ -56,7 +56,7 @@ require('conexion.php');
             </div>
         </header>
       <!--header end-->
-      
+
       <!-- **********************************************************************************************************************************************************
       MAIN SIDEBAR MENU
       *********************************************************************************************************************************************************** -->
@@ -106,9 +106,9 @@ require('conexion.php');
               </a>
           </li>
     </ul>
-</div>  
+</div>
       </aside>
-     
+
 
 </section>
 
@@ -119,9 +119,9 @@ require('conexion.php');
     <h3><i class="fa fa-angle-right"></i> Cuenta</h3>
       <!-- page start-->
               <section class="panel">
-                  <div class="panel-body">  
+                  <div class="panel-body">
                     <h4 class="mb"><i class="fa fa-angle-right"></i> Nueva Cuenta </h4>
-                    
+
                       <table class="table table-bordered table-striped table-condensed">
                         <tr>
                           <td width="50%">
@@ -129,26 +129,26 @@ require('conexion.php');
                               <div class="form-group">
                                 <center>
                                 <label style="font-size: 20px;"> CLASES</label></center>
-                                
+
                                 <label class="col-sm-4 col-sm-4 control-label">Codigos disponibles: </label>
                                 <div class="col-sm-7">
                                     <p>
                                       <select class="form-control" name="codigo_clase">
                                         <?php
                                           $cod=mysqli_query($con,"SELECT max(id_clase) as id FROM clase");
-                                          if ($row = mysqli_fetch_row($cod)) 
+                                          if ($row = mysqli_fetch_row($cod))
                                           {
                                             $id = trim($row[0]);
                                           }
                                           $id_clase=$id+1;
 
-                                              while ($id_clase<=9) 
+                                              while ($id_clase<=9)
                                               {
                                                   ?>
                                                       <option><?php echo $id_clase; ?></option>
-                                          <?php 
+                                          <?php
                                               $id_clase+=1;
-                                              } 
+                                              }
                                           ?>
                                       </select>
                                     </p>
@@ -157,7 +157,7 @@ require('conexion.php');
                                 <div class="col-sm-7">
                                     <input type="text" class="form-control" name="nombre_clase">
                                 </div>
-                              </div> 
+                              </div>
                               <br><br>
                               <center>
                                 <input type="submit" class="btn btn-success" name="registrar_clase" value="Registrar Clase">
@@ -165,26 +165,26 @@ require('conexion.php');
                                 <input type="submit" class="btn btn-danger"  name="cancelar" value="Cancelar">
                               </center>
                               <br>
-                              <?php 
-                                if(isset($_POST['registrar_clase'])) 
+                              <?php
+                                if(isset($_POST['registrar_clase']))
                                 {
-                            
+
                                   //$mensaje = "Usted se ha registrado correctamente la CLASE.-------------ENTRO A";
                                   //print "<script>alert('$mensaje');</script>";
-                                    
+
                                     $id_clase = $_POST['codigo_clase'];
                                     $nombre_clase = $_POST['nombre_clase'];
                                     $hoy = date('Y-m-d');
 
                                     $sql = "INSERT INTO clase(id_clase, nombre_clase, estado_clase, fecha_registro_clase) VALUES ('$id_clase','$nombre_clase' , 'ACTIVO', '$hoy');";
-                                    mysqli_query($con,$sql); 
+                                    mysqli_query($con,$sql);
 
                                     $mensaje = "Usted se ha registrado correctamente la CLASE.";
-                                    print "<script>alert('$mensaje'); window.location='lista_cuenta.php';</script>"; 
+                                    print "<script>alert('$mensaje'); window.location='lista_cuenta.php';</script>";
                                 }
                                 else
                                 {
-                                  if(isset($_POST['cancelar'])) 
+                                  if(isset($_POST['cancelar']))
                                   {
                                     print "<script>window.location='lista_cuenta.php';</script>";
                                   }
@@ -193,26 +193,28 @@ require('conexion.php');
                             </form>
                           </td>
                           <td width="50%">
-                            
+
                               <div class="form-group">
                                 <center>
                                 <label style="font-size: 20px;"> GRUPOS</label></center>
-                                
+
                                 <label class="col-sm-4 col-sm-4 control-label">Seleccione Clase: </label>
                                     <div class="col-sm-8">
                                       <p>
-                                        <form method="post"> 
+                                        <form method="post">
                                           <table>
                                             <tr>
                                               <td>
                                                 <select class="form-control" name="grupo_clase">
                                                   <?php
                                                   $sqlclase=mysqli_query($con,"SELECT * FROM clase");
-                                                  while ($rowclase = mysqli_fetch_assoc($sqlclase)) 
+                                                  while ($rowclase = mysqli_fetch_assoc($sqlclase))
                                                   {
                                                   ?>
-                                                    <option><?php echo $rowclase['id_clase']." .- ".$rowclase['nombre_clase']; ?></option>
-                                                  <?php 
+                                                    <option>
+                                                    <?php echo $rowclase['id_clase']." .- ".$rowclase['nombre_clase']; ?>
+                                                    </option>
+                                                  <?php
                                                   }
                                                   $nn=$rowclase['id_clase'];
                                                   ?>
@@ -232,43 +234,56 @@ require('conexion.php');
                                         <p>
                                           <select class="form-control" name="codigo_grupo">
                                             <?php
-                                            if(isset($_POST['check_grupo_clase'])) 
+                                            if(isset($_POST['check_grupo_clase']))
                                             {
                                               $grupo_clase=$_POST['grupo_clase'];
-                                              $gc = substr($grupo_clase, 0, 2);
+                                              $gc = substr($grupo_clase, 0, 1);
                                               $grupo_cod_disp=("SELECT * FROM grupo WHERE id_clase='$grupo_clase'");
                                               $rrr=mysqli_query($con,$grupo_cod_disp);
                                               if(mysqli_num_rows($rrr)==0)
                                               {
                                                 $cod_grupo=0;
-                                                while ($cod_grupo<=9) 
+                                                while ($cod_grupo<=9)
                                                 {
                                                   ?>
-                                                    <option><?php echo $gc." ".$cod_grupo; ?></option>
-                                                  <?php 
+                                                    <option><?php echo $gc.$cod_grupo; ?></option>
+                                                  <?php
                                                     $cod_grupo+=1;
-                                                } 
+                                                }
 
                                               }
                                               else
                                               {
+                                                //$mensaje = "else row diferente";
+                                                //print "<script>alert('$mensaje');</script>";
                                                 $cod_grupo=0;
-                                                while ($cod_grupo<=9) 
+                                                while ($cod_grupo<=9)
                                                 {
-                                                  $existe=mysqli_query($con,"SELECT * FROM grupo WHERE id_grupo='$cod_grupo'");
+                                                  //$mensaje = "else row diferente ---------- $cod_grupo -----";
+                                                  //print "<script>alert('$mensaje');</script>";
+
+                                                  $numexiste=$gc.$cod_grupo;
+                                                  $existe=mysqli_query($con,"SELECT * FROM grupo WHERE id_grupo='$numexiste'");
                                                   if(mysqli_num_rows($existe)!=0)
                                                   {
+                                                    //$mensaje = "else row diferente ---------- $cod_grupo ----- EXISTE  ----------";
+                                                    //print "<script>alert('$mensaje');</script>";
+
                                                     $cod_grupo+=1;
+
                                                   }
                                                   else
                                                   {
                                                     ?>
-                                                    <option><?php echo $cod_grupo; ?></option>
-                                                  <?php 
+                                                    <option><?php echo $gc.$cod_grupo;  ?></option>
+                                                  <?php
                                                     $cod_grupo+=1;
                                                   }
                                                 }
                                               }}
+
+
+
                                               ?>
                                           </select>
                                         </p>
@@ -276,38 +291,39 @@ require('conexion.php');
 
                                 <label class="col-sm-4 col-sm-4 control-label">Nombre del grupo: </label>
                                 <div class="col-sm-7">
-                                    <input type="text" class="form-control" name="nombre_grupo">
+                                    <input type="text" class="form-control" name="nombre_grupo"><br>
                                 </div>
-                              </div> 
-                              
-                              <center>
+                              </div>
+                              <br><br><br>
+                              <center><br>
                                 <input type="submit" class="btn btn-success" name="registrar_grupo" value="Registrar Grupo">
                                 &emsp;&emsp;
                                 <input type="submit" class="btn btn-danger"  name="cancelar" value="Cancelar">
                               </center>
                               <br>
                             </form>
-                            <?php 
-                                if(isset($_POST['registrar_grupo'])) 
+                            <?php
+                                if(isset($_POST['registrar_grupo']))
                                 {
-                            
-                                  $mensaje = "Usted se ha registrado correctamente EL GRUPPO.-------------ENTRO A";
-                                  print "<script>alert('$mensaje');</script>";
-                                    
-                                    $id_clase = $_POST['grupo_clase'];
+
+                                  //$mensaje = "Usted se ha registrado correctamente EL GRUPPO.-------------ENTRO A";
+                                  //print "<script>alert('$mensaje');</script>";
+
+
                                     $id_grupo = $_POST['codigo_grupo'];
                                     $nombre_grupo = $_POST['nombre_grupo'];
                                     $hoy = date('Y-m-d');
+                                    $id_clase = substr($id_grupo, 0, 1);
 
-                                    $sql = "INSERT INTO grupo(id_grupo, nombre_grupo, estado_grupo, fecha_registro_grupo, id_clase) VALUES ('$id_grupo','$nombre_grupo' , 'ACTIVO', '$hoy', '$gc');";
-                                    mysqli_query($con,$sql); 
+                                    $sql = "INSERT INTO grupo(id_grupo, nombre_grupo, estado_grupo, fecha_registro_grupo, id_clase) VALUES ('$id_grupo','$nombre_grupo' , 'ACTIVO', '$hoy', '$id_clase');";
+                                    mysqli_query($con,$sql);
 
                                     $mensaje = "Usted se ha registrado correctamente el GRUPO.";
-                                    print "<script>alert('$mensaje'); window.location='lista_cuenta.php';</script>"; 
+                                    print "<script>alert('$mensaje'); window.location='lista_cuenta.php';</script>";
                                 }
                                 else
                                 {
-                                  if(isset($_POST['cancelar'])) 
+                                  if(isset($_POST['cancelar']))
                                   {
                                     print "<script>window.location='lista_cuenta.php';</script>";
                                   }
@@ -321,78 +337,103 @@ require('conexion.php');
                               <div class="form-group">
                                 <center>
                                 <label style="font-size: 20px;"> CUENTAS </label></center>
-                                
-                                <label class="col-sm-4 col-sm-4 control-label">Clase: </label>
-                                <div class="col-sm-7">
-                                    <p>
-                                      <select class="form-control" name="clase">
-                                          <?php
-                                            $resultado1=mysqli_query($con,"SELECT * FROM clase");
-                                                while ($row1 = mysqli_fetch_assoc($resultado1)) 
-                                                {
-                                                    ?>
-                                                        <option ><?php echo $row1['id_clase']." .- ".$row1['nombre_clase'];?></option>    
-                                                <?php }
-                                          ?>
-                                      </select>
-                                    </p>
-                                </div>
 
-                                <label class="col-sm-4 col-sm-4 control-label">Grupo: </label>
-                                <div class="col-sm-7">
-                                    <p>
-                                      <select class="form-control" name="grupo">
-
-                                      </select>
-                                    </p>
-                                </div>
-
-                                <label class="col-sm-4 col-sm-4 control-label">Codigo disponible: </label>
-                                <div class="col-sm-7">
-                                    <p>
-                                      <select class="form-control" name="codigo_cuenta">
-                                            <?php
-                                            $consul="SELECT * FROM grupo";
-                                            $rrr=mysqli_query($con,$consul);
-                                            if(mysqli_num_rows($rrr)==0)
-                                            {
-                                              $id_grupo=0;
-                                                while ($id_grupo<=9) 
+                                <label class="col-sm-4 col-sm-4 control-label">Seleccione Grupo: </label>
+                                    <div class="col-sm-8">
+                                      <p>
+                                        <form method="post">
+                                          <table>
+                                            <tr>
+                                              <td>
+                                                <select class="form-control" name="cuenta_grupo">
+                                                  <?php
+                                                  $sqlclase=mysqli_query($con,"SELECT * FROM grupo");
+                                                  while ($rowclase = mysqli_fetch_assoc($sqlclase))
                                                   {
-                                                      ?>
-                                                          <option><?php echo $id_grupo; ?></option>
-                                              <?php 
-                                                  $id_grupo+=1;
+                                                  ?>
+                                                    <option>
+                                                    <?php echo $rowclase['id_grupo']." .- ".$rowclase['nombre_grupo']; ?>
+                                                    </option>
+                                                  <?php
                                                   }
-                                            }
-                                            else
+                                                  $nn=$rowclase['id_grupo'];
+                                                  ?>
+                                                </select>
+                                              </td>
+                                              <td width="18%">
+                                                <input class="btn btn-success btn-xs" type="submit"  name="check_grupo_cuenta" value="Añadir">
+                                              </td>
+                                            </tr>
+                                          </table>
+                                        </form>
+                                      </p>
+                                    </div>
+                                  <form class="form-horizontal style-form" method="post">
+                                    <label class="col-sm-4 col-sm-4 control-label">Codigos disponibles: </label>
+                                    <div class="col-sm-7">
+                                        <p>
+                                          <select class="form-control" name="codigo_cuenta">
+                                            <?php
+                                            if(isset($_POST['check_grupo_cuenta']))
                                             {
-                                              $cod=mysqli_query($con,"SELECT max(id_grupo) as idg FROM grupo");
-                                              if ($row = mysqli_fetch_row($cod)) 
+                                              $cuenta_grupo=$_POST['cuenta_grupo'];
+                                              $gc = substr($cuenta_grupo, 0, 2);
+                                              $cuenta_cod_disp=("SELECT * FROM cuenta WHERE id_grupo='$cuenta_grupo'");
+                                              $rrr=mysqli_query($con,$cuenta_cod_disp);
+                                              if(mysqli_num_rows($rrr)==0)
                                               {
-                                                $idg = trim($row[0]);
-                                              }
-                                              $id_grupo=$idg+1;
-                                                  while ($id_grupo<=9) 
-                                                  {
-                                                      ?>
-                                                          <option><?php echo $id_grupo; ?></option>
-                                              <?php 
-                                                  $id_grupo+=1;
-                                                  } 
-                                              
-                                            }
-                                          ?>
-                                      </select>
-                                    </p>
-                                </div>
+                                                $cod_cuenta=0;
+                                                while ($cod_cuenta<=9)
+                                                {
+                                                  ?>
+                                                    <option><?php echo $gc.$cod_cuenta; ?></option>
+                                                  <?php
+                                                    $cod_cuenta+=1;
+                                                }
 
-                                <label class="col-sm-4 col-sm-4 control-label">Nombre de la cuenta: </label>
+                                              }
+                                              else
+                                              {
+                                                //$mensaje = "else row diferente";
+                                                //print "<script>alert('$mensaje');</script>";
+                                                $cod_cuenta=0;
+                                                while ($cod_cuenta<=9)
+                                                {
+                                                  //$mensaje = "else row diferente ---------- $cod_cuenta -----";
+                                                  //print "<script>alert('$mensaje');</script>";
+
+                                                  $numexiste=$gc.$cod_cuenta;
+                                                  $existe=mysqli_query($con,"SELECT * FROM cuenta WHERE id_cuenta='$numexiste'");
+                                                  if(mysqli_num_rows($existe)!=0)
+                                                  {
+                                                    //$mensaje = "else row diferente ---------- $cod_cuenta ----- EXISTE  ----------";
+                                                    //print "<script>alert('$mensaje');</script>";
+
+                                                    $cod_cuenta+=1;
+
+                                                  }
+                                                  else
+                                                  {
+                                                    ?>
+                                                    <option><?php echo $gc.$cod_cuenta;  ?></option>
+                                                  <?php
+                                                    $cod_cuenta+=1;
+                                                  }
+                                                }
+                                              }}
+
+
+
+                                              ?>
+                                          </select>
+                                        </p>
+                                    </div>
+
+                                <label class="col-sm-4 col-sm-4 control-label">Nombre del grupo: </label>
                                 <div class="col-sm-7">
-                                    <input type="text" class="form-control">
+                                    <input type="text" class="form-control" name="nombre_cuenta"><br>
                                 </div>
-                              </div> 
-                              <br><br><br>
+                              </div>
                               <center>
                                 <input type="submit" class="btn btn-success" name="registrar_cuenta" value="Registrar Cuenta">
                                 &emsp;&emsp;
@@ -400,54 +441,136 @@ require('conexion.php');
                               </center>
                               <br>
                             </form>
+                            <?php
+                                if(isset($_POST['registrar_cuenta']))
+                                {
+
+                                  //$mensaje = "Usted se ha registrado correctamente EL GRUPPO.-------------ENTRO A";
+                                  //print "<script>alert('$mensaje');</script>";
+
+
+                                    $id_cuenta = $_POST['codigo_cuenta'];
+                                    $nombre_cuenta = $_POST['nombre_cuenta'];
+                                    $hoy = date('Y-m-d');
+                                    $id_grupo = substr($id_cuenta, 0, 2);
+
+                                    $sql = "INSERT INTO cuenta(id_cuenta, nombre_cuenta, estado_cuenta, fecha_registro_cuenta, id_grupo) VALUES ('$id_cuenta','$nombre_cuenta' , 'ACTIVO', '$hoy', '$id_grupo');";
+                                    mysqli_query($con,$sql);
+
+                                    $mensaje = "Usted se ha registrado correctamente la CUENTA.";
+                                    print "<script>alert('$mensaje'); window.location='lista_cuenta.php';</script>";
+                                }
+                                else
+                                {
+                                  if(isset($_POST['cancelar']))
+                                  {
+                                    print "<script>window.location='lista_cuenta.php';</script>";
+                                  }
+                                }
+                              ?>
                           </td>
                           <td>
                             <form class="form-horizontal style-form" method="post">
                               <div class="form-group">
                                 <center>
-                                <label style="font-size: 20px;"> SUBCUENTA </label></center>
-                                
-                                <label class="col-sm-4 col-sm-4 control-label">Clase: </label>
-                                <div class="col-sm-7">
-                                    <p>
-                                      <select class="form-control" name="cargo">
-                                            <option>1</option>
-                                      </select>
-                                    </p>
-                                </div>
+                                <label style="font-size: 20px;"> SUBCUENTAS </label></center>
 
-                                <label class="col-sm-4 col-sm-4 control-label">Grupo: </label>
-                                <div class="col-sm-7">
-                                    <p>
-                                      <select class="form-control" name="cargo">
-                                            <option>1</option>
-                                      </select>
-                                    </p>
-                                </div>
+                                <label class="col-sm-4 col-sm-4 control-label">Seleccione Grupo: </label>
+                                    <div class="col-sm-8">
+                                      <p>
+                                        <form method="post">
+                                          <table>
+                                            <tr>
+                                              <td>
+                                                <select class="form-control" name="subcuenta_cuenta">
+                                                  <?php
+                                                  $sqlclase=mysqli_query($con,"SELECT * FROM cuenta");
+                                                  while ($rowclase = mysqli_fetch_assoc($sqlclase))
+                                                  {
+                                                  ?>
+                                                    <option>
+                                                    <?php echo $rowclase['id_cuenta']." .- ".$rowclase['nombre_cuenta']; ?>
+                                                    </option>
+                                                  <?php
+                                                  }
+                                                  $nn=$rowclase['id_cuenta'];
+                                                  ?>
+                                                </select>
+                                              </td>
+                                              <td width="18%">
+                                                <input class="btn btn-success btn-xs" type="submit"  name="check_grupo_subcuenta" value="Añadir">
+                                              </td>
+                                            </tr>
+                                          </table>
+                                        </form>
+                                      </p>
+                                    </div>
+                                  <form class="form-horizontal style-form" method="post">
+                                    <label class="col-sm-4 col-sm-4 control-label">Codigos disponibles: </label>
+                                    <div class="col-sm-7">
+                                        <p>
+                                          <select class="form-control" name="codigo_subcuenta">
+                                            <?php
+                                            if(isset($_POST['check_grupo_subcuenta']))
+                                            {
+                                              $subcuenta_cuenta=$_POST['subcuenta_cuenta'];
+                                              $gc = substr($subcuenta_cuenta, 0, 3);
+                                              $subcuenta_cod_disp=("SELECT * FROM cuenta WHERE id_cuenta='$subcuenta_cuenta'");
+                                              $rrr=mysqli_query($con,$subcuenta_cod_disp);
+                                              if(mysqli_num_rows($rrr)==0)
+                                              {
+                                                $cod_subcuenta=0;
+                                                while ($cod_subcuenta<=9)
+                                                {
+                                                  ?>
+                                                    <option><?php echo $gc.$cod_subcuenta; ?></option>
+                                                  <?php
+                                                    $cod_subcuenta+=1;
+                                                }
 
-                                <label class="col-sm-4 col-sm-4 control-label">Cuenta: </label>
-                                <div class="col-sm-7">
-                                    <p>
-                                      <select class="form-control" name="cargo">
-                                            <option>1</option>
-                                      </select>
-                                    </p>
-                                </div>
+                                              }
+                                              else
+                                              {
+                                                //$mensaje = "else row diferente";
+                                                //print "<script>alert('$mensaje');</script>";
+                                                $cod_subcuenta=0;
+                                                while ($cod_subcuenta<=9)
+                                                {
+                                                  //$mensaje = "else row diferente ---------- $cod_subcuenta -----";
+                                                  //print "<script>alert('$mensaje');</script>";
 
-                                <label class="col-sm-4 col-sm-4 control-label">Codigo disponible: </label>
-                                <div class="col-sm-7">
-                                    <p>
-                                      <select class="form-control" name="cargo">
-                                            <option>1</option>
-                                      </select>
-                                    </p>
-                                </div>
+                                                  $numexiste=$gc.$cod_subcuenta;
+                                                  $existe=mysqli_query($con,"SELECT * FROM cuenta WHERE id_cuenta='$numexiste'");
+                                                  if(mysqli_num_rows($existe)!=0)
+                                                  {
+                                                    //$mensaje = "else row diferente ---------- $cod_subcuenta ----- EXISTE  ----------";
+                                                    //print "<script>alert('$mensaje');</script>";
 
-                                <label class="col-sm-4 col-sm-4 control-label">Nombre de la Subcuenta: </label>
+                                                    $cod_subcuenta+=1;
+
+                                                  }
+                                                  else
+                                                  {
+                                                    ?>
+                                                    <option><?php echo $gc.$cod_subcuenta;  ?></option>
+                                                  <?php
+                                                    $cod_subcuenta+=1;
+                                                  }
+                                                }
+                                              }}
+
+
+
+                                              ?>
+                                          </select>
+                                        </p>
+                                    </div>
+
+                                <label class="col-sm-4 col-sm-4 control-label">Nombre de la subcuenta: </label>
                                 <div class="col-sm-7">
-                                    <input type="text" class="form-control">
+                                    <input type="text" class="form-control" name="nombre_subcuenta"><br>
                                 </div>
-                              </div> 
+                              </div>
 
                               <center>
                                 <input type="submit" class="btn btn-success" name="registrar_subcuenta" value="Registrar Subcuenta">
@@ -456,6 +579,33 @@ require('conexion.php');
                               </center>
                               <br>
                             </form>
+                            <?php
+                                if(isset($_POST['registrar_subcuenta']))
+                                {
+
+                                  //$mensaje = "Usted se ha registrado correctamente EL GRUPPO.-------------ENTRO A";
+                                  //print "<script>alert('$mensaje');</script>";
+
+
+                                    $id_subcuenta = $_POST['codigo_subcuenta'];
+                                    $nombre_subcuenta = $_POST['nombre_subcuenta'];
+                                    $hoy = date('Y-m-d');
+                                    $id_cuenta = substr($id_subcuenta, 0, 3);
+
+                                    $sql = "INSERT INTO subcuenta(id_subcuenta, nombre_subcuenta, estado_subcuenta, fecha_registro_subcuenta, id_cuenta) VALUES ('$id_subcuenta','$nombre_subcuenta' , 'ACTIVO', '$hoy', '$id_cuenta');";
+                                    mysqli_query($con,$sql);
+
+                                    $mensaje = "Usted se ha registrado correctamente la SUBCUENTA.";
+                                    print "<script>alert('$mensaje'); window.location='lista_cuenta.php';</script>";
+                                }
+                                else
+                                {
+                                  if(isset($_POST['cancelar']))
+                                  {
+                                    print "<script>window.location='lista_cuenta.php';</script>";
+                                  }
+                                }
+                              ?>
                           </td>
                         </tr>
                       </table>
@@ -466,7 +616,7 @@ require('conexion.php');
   </section>
 </section>
       <!--main content end-->
-  
+
 
 
     <!-- js placed at the end of the document so the pages load faster -->
@@ -486,10 +636,10 @@ require('conexion.php');
     <script type="text/javascript" src="assets/js/gritter-conf.js"></script>
 
     <!--script for this page-->
-    <script src="assets/js/sparkline-chart.js"></script>    
-  <script src="assets/js/zabuto_calendar.js"></script>  
-  
-  
+    <script src="assets/js/sparkline-chart.js"></script>
+  <script src="assets/js/zabuto_calendar.js"></script>
+
+
   <script type="application/javascript">
         $(document).ready(function () {
             $("#date-popover").popover({html: true, trigger: "manual"});
@@ -497,7 +647,7 @@ require('conexion.php');
             $("#date-popover").click(function (e) {
                 $(this).hide();
             });
-        
+
             $("#my-calendar").zabuto_calendar({
                 action: function () {
                     return myDateFunction(this.id, false);
@@ -515,8 +665,8 @@ require('conexion.php');
                 ]
             });
         });
-        
-        
+
+
         function myNavFunction(id) {
             $("#date-popover").hide();
             var nav = $("#" + id).data("navigation");
@@ -524,7 +674,7 @@ require('conexion.php');
             console.log('nav ' + nav + ' to: ' + to.month + '/' + to.year);
         }
     </script>
-  
+
 
   </body>
 </html>
