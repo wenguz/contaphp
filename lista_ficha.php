@@ -113,17 +113,21 @@ $_SESSION["usuario"];
                     &emsp;
                    
 
-                    <form>
+                   <form action="" method="post">
 <tr>
                        <p>Ingrese codigo de ficha:  </p> &emsp;
-                      <input style="padding: 5px" type="number" value="Buscar..." onfocus="if (this.value == 'Buscar...') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Buscar...';}" />
-                      <input class="btn btn-primary"  type="button" value="Buscar" />
+                      <input style="padding: 5px" type="number" name ="b_id" value="Buscar..." onfocus="if (this.value == 'Buscar...') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Buscar...';}" />
+                      <input type="submit"  class="btn btn-theme" name="buscar_id" value="Buscar"> 
                       <br>
                     </tr>
                     <tr>
                       <p>    Ingrese Fecha:  </p> &emsp;
-                      <input type="date" name="fecha" placeholder="YYYY-MM-DD" class="form-input"/>
-                      <input class="btn btn-primary"  type="button" value="Buscar" />
+                      <input type="date" name="b_fecha" placeholder="YYYY-MM-DD" class="form-input"/>
+                      <input type="submit"  class="btn btn-theme" name="buscar_fecha" value="Buscar">
+                    </tr>
+                    <tr>
+                      <p>    Click aqui para mostrar todos (solo se mostrara este boton para el proceso de desarrollo del sistema) : </p>  
+                      <input type="submit"  class="btn btn-theme" name="buscar1" value="Mostrar todos">
                     </tr>
                     </form>
                     <hr>
@@ -142,41 +146,80 @@ $_SESSION["usuario"];
                       </tr>
                       </thead>
                       <tbody>
+                      
                       <tr>
-                          <td><a href="">1</a></td>
-                          <td class="hidden-phone">b</td>
-                          <td>b</td>
-                          <td>b</td>
-                          <td>b</td>
-                          <td>b</td>
-                          <td>b</td>
-                          <td>b</td>
-                          <td>
-                            <button class="btn btn-primary btn-xs"><i class="fa fa-pencil"> Editar</i>
+                        <?php
+                            if(isset($_POST['buscar1'])) 
+                        { 
+                         $con = mysqli_connect('localhost', 'root', '', 'contabilidad') or die(mysql_error()); 
+                          $cod=mysqli_query($con,"SELECT * FROM ficha");
+                           while ($valores = mysqli_fetch_array($cod)) { ?>
+                              <tr>
+                                  <td><?php echo $valores['id_ficha'] ?></td>
+                                  <td><?php echo $valores['id_tipo_pago'] ?></td>
+                                  <td><?php echo 'Concepto' ?></td>
+                                  <td><?php echo $valores['total_ficha'] ?></td>
+                                  <td><?php echo $valores['fecha_ficha'] ?></td>
+                                  <td><?php echo 'aut' ?></td>
+                                  <td><?php echo 'entre' ?></td>
+                                  <td><?php echo 'rec' ?></td>
+                                  <td><?php echo $valores['id_persona'] ?></td> 
+                          <td><button class="btn btn-primary btn-xs"><i class="fa fa-pencil"> Editar</i>
                             </button>
                             
                           </td>
-                      </tr>
-                      <tr>
-                        <?php
-                            if(isset($_POST['registrar_datos'])) 
+                              </tr>
+                         <?php } }   ?>
+                       <?php
+                            if(isset($_POST['buscar_id'])) 
                         { 
-                         $con = mysqli_connect('localhost', 'root', '', 'contabilidad'); 
-                          $cod=mysqli_query($con,"SELECT * FROM ficha");
-                          while ($valores = mysqli_fetch_array($cod)) {
-                                echo '<td >'.$valores[id_ficha].'</td>';
-                                echo '<td >'.'Concepto '.'</td>';
-                                echo '<td >'.$valores[id_tipo_pago].'</td>';
-                                echo '<td >'.$valores[total_ficha].'</td>';
-                                echo '<td >'.$valores[fecha_ficha].'</td>';
-                                echo '<td >'.'aut'.'</td>';
-                                echo '<td >'.'entre'.'</td>'; 
-                                echo '<td >'.'rec'.'</td>'; 
-                                echo '<td >'.$valores[id_persona].'</td>'; 
-                              }
-                            }
-                        ?>
-                       </tr>
+                         $con = mysqli_connect('localhost', 'root', '', 'contabilidad') or die(mysql_error());
+                               $a =$_POST["b_id"] ;
+
+                          $cod=mysqli_query($con,"SELECT * FROM ficha WHERE id_ficha=$a");
+                           while ($valores = mysqli_fetch_array($cod)) { ?>
+                              <tr>
+                                  <td><?php echo $valores['id_ficha'] ?></td>
+                                  <td><?php echo $valores['id_tipo_pago'] ?></td>
+                                  <td><?php echo 'Concepto' ?></td>
+                                  <td><?php echo $valores['total_ficha'] ?></td>
+                                  <td><?php echo $valores['fecha_ficha'] ?></td>
+                                  <td><?php echo 'aut' ?></td>
+                                  <td><?php echo 'entre' ?></td>
+                                  <td><?php echo 'rec' ?></td>
+                                  <td><?php echo $valores['id_persona'] ?></td> 
+                          <td><button class="btn btn-primary btn-xs"><i class="fa fa-pencil"> Editar</i>
+                            </button>
+                            
+                          </td>
+                              </tr>
+                          <?php } } 
+                            ?>
+                            <?php
+                            if(isset($_POST['buscar_fecha'])) 
+                        { 
+                         $con = mysqli_connect('localhost', 'root', '', 'contabilidad') or die(mysql_error());
+                               $a =$_POST["b_fecha"] ;
+
+                          $cod=mysqli_query($con,"SELECT * FROM ficha WHERE fecha_ficha='$a'");
+                           while ($valores = mysqli_fetch_array($cod)) { ?>
+                              <tr>
+                                  <td><?php echo $valores['id_ficha'] ?></td>
+                                  <td><?php echo $valores['id_tipo_pago'] ?></td>
+                                  <td><?php echo 'Concepto' ?></td>
+                                  <td><?php echo $valores['total_ficha'] ?></td>
+                                  <td><?php echo $valores['fecha_ficha'] ?></td>
+                                  <td><?php echo 'aut' ?></td>
+                                  <td><?php echo 'entre' ?></td>
+                                  <td><?php echo 'rec' ?></td>
+                                  <td><?php echo $valores['id_persona'] ?></td> 
+                          <td><button class="btn btn-primary btn-xs"><i class="fa fa-pencil"> Editar</i>
+                            </button>
+                            
+                          </td>
+                              </tr>
+                          <?php } } 
+                            ?>
                       </tbody>
                   </table>
               </div><!-- /content-panel -->

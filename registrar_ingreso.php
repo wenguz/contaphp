@@ -307,8 +307,8 @@ $_SESSION["usuario"];
                               <input type="number" name="ri_monto" placeholder=" "  class="form-control placeholder-no-fix">
                           </div>
                           <div class="modal-footer">
-                              <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
-                              <input type="submit" name=""> class="btn btn-theme" type="button">Agregar</input>
+                              <input type="submit" name="" class="btn btn-theme" >Cancelar</input>
+                             <input type="submit" name="" class="btn btn-theme" >Agregar</input> 
                           </div>
                       </div>
                   </div>
