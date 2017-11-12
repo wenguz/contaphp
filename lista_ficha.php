@@ -89,13 +89,7 @@ $_SESSION["usuario"];
                   <span>Lista de Fichas</span>
               </a>
           </li>
-          <li class="sub-menu">
-              <a href="transferencia.php" >
-                  <i class="fa fa-th"></i>
-                  <span>Transferencia</span>
-              </a>
-          </li>
-       
+        
     </ul>
 </div>  
       </aside>

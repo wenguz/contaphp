@@ -99,12 +99,7 @@ $_SESSION["usuario"];
                   <span>Lista de Fichas</span>
               </a>
           </li>
-          <li class="sub-menu">
-              <a href="transferencia.php" >
-                  <i class="fa fa-th"></i>
-                  <span>Transferencia</span>
-              </a>
-          </li>
+       
            
     </ul>
 </div>
@@ -413,12 +408,87 @@ $_SESSION["usuario"];
                               <td colspan="4">
                                 <hr>
                                 <center>
-                            &emsp;<button type="button" class="btn btn-success">Registrar Datos</button>
-                          &emsp;&emsp;
+                           <input type="submit"  class="btn btn-theme" name="registrar_datos" value="REGISTRAR DATOS">
                           <button type="button" class="btn btn-danger">Cancelar</button></center></td>
                         </tr>
 
+  <?php
+                           if(isset($_POST['registrar_datos'])) 
+                        { 
+                          
+                         include('conexion.php');
+                         
+                            if($_POST['fecha'] == '' or  $_POST['pago'] == ''or $_POST['trans'] == '' or $_POST['cambio']== '' or$_POST['cuenta']== '' or $_POST['numero_partida_ficha']=='')
+                            { 
+                                echo 'Por favor llene todos los campos.'; 
+                            } 
+                            else 
+                            { 
+                             $rs=mysqli_query($con,"SELECT MAX(id_ficha) AS iden FROM ficha");
+                                    if ($row = mysqli_fetch_row($rs)) 
+                                      {
+                                        $iden = trim($row[0]);
+                                      }
+                          $id_entidad=$iden+1;
+                          $fechai =$_POST["fecha"] ;
+                          $pago =$_POST["pago"] ;
+                          $trans =$_POST["trans"] ;
+                          $cambio =$_POST["cambio"] ;
+                          $cuenta =$_POST["cuenta"] ;
+                          $partida=$_POST["numero_partida_ficha"];
+                          $p_nom=$_POST["p_nom"];
+                          $p_ci=$_POST["p_ci"];
+                           $cod1=mysqli_query($con,"SELECT   id_persona FROM persona WHERE ci_persona='$p_ci' LIMIT 1");
 
+                                          if ($row1 = mysqli_fetch_row($cod1)) 
+                                            {
+                                              $id_persona = trim($row1[0]);
+                                            }
+                                            else {
+                                              $cod2=mysqli_query($con,"SELECT   MAX(id_persona) FROM persona");
+                                              if ($row2 = mysqli_fetch_row($cod2)) 
+                                                {
+                                                  $id = trim($row2[0]);
+                                                }
+                                                $id_persona = $id+1;
+                                              $sq2= "INSERT INTO persona(id_persona,nombre_persona,ci_persona,descripcion_persona) 
+                                                    VALUES ('$id_persona','$p_nom','$p_ci','');";
+                                              mysqli_query($con,$sq2)  ;   
+                                            }
+            
+                           $cod3=mysqli_query($con,"SELECT   id_tipo_cambio FROM tipo_cambio WHERE monto='$cambio' LIMIT 1");
+
+                                          if ($row3 = mysqli_fetch_row($cod3)) 
+                                            {
+                                              $id_cambio = trim($row3[0]);
+                                            } 
+                                          else {
+                                              $cod3=mysqli_query($con,"SELECT   MAX(id_tipo_cambio) FROM tipo_cambio");
+                                              if ($row3 = mysqli_fetch_row($cod3)) 
+                                                {
+                                                  $id3 = trim($row3[0]);
+                                                }
+                                                $id_cambio = $id3+1;
+                                              $sq2= "INSERT INTO tipo_cambio( id_tipo_cambio,monto,fecha) 
+                                                    VALUES ('$id_cambio','$cambio','$fechai');";
+                                              mysqli_query($con,$sq2)  ;   
+                                            }
+                           
+                           $time = time();
+                           $hora= date("H:i:s", $time);
+                           $sq= "INSERT INTO ficha(id_ficha, numero_partida_ficha, fecha_ficha, tiempo_ficha, total_ficha, total_debe_ficha, total_haber_ficha, id_tipo_transaccion, id_tipo_cambio, id_tipo_pago, id_persona) 
+                          VALUES ('$id_entidad','$partida','$fechai','$hora','0','0','0','$trans','$id_cambio','$pago','$id_persona')";
+                            mysqli_query($con,$sq)  ;       
+                           $msg = 'Cargo agregado correctamente'  ;
+                            print "<script>alert('$msg'); window.location='registrar_ingreso.php';</script>";
+                           
+                        
+                             }  }
+                             if(isset($_POST['cancelar'])) 
+                        { 
+                          print "<script> window.location='registrar_egreso.php';</script>";
+                        }
+                         ?>
                             </form>
                           </table>
               </div><!-- /content-panel -->
