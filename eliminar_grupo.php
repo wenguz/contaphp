@@ -6,11 +6,13 @@ if (!isset($_SESSION["usuario"])){
     
 }
 $_SESSION["usuario"];
+
+$id_grupo = htmlentities($_GET['gr']);
+
 require('conexion.php');
 ?>
-
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -84,12 +86,12 @@ require('conexion.php');
           </li>
 
           <li class="sub-menu">
-              <a href="javascript:;" >
+              <a class="active" href="javascript:;" >
                   <i class="fa fa-list-alt"></i>
                   <span>Cuentas</span>
               </a>
               <ul class="sub">
-                  <li><a  href="nueva_cuenta.php">Nueva Cuenta</a></li>
+                  <li class="active"><a  href="nueva_cuenta.php">Nueva Cuenta</a></li>
                   <li><a  href="lista_cuenta.php">Lista de Cuentas</a></li>
               </ul>
           </li>
@@ -100,7 +102,7 @@ require('conexion.php');
               </a>
           </li>
           <li class="sub-menu">
-              <a class="active" href="anadir_gestion.php" >
+              <a href="anadir_gestion.php" >
                   <i class="fa fa-th"></i>
                   <span>Añadir Gestion</span>
               </a>
@@ -116,132 +118,89 @@ require('conexion.php');
 <!--main content start-->
 <section id="main-content">
   <section class="wrapper">
-    <h3><i class="fa fa-angle-right"></i> Añadir Gestión</h3>
+    <h3><i class="fa fa-angle-right"></i> Cuenta</h3>
       <!-- page start-->
               <section class="panel">
-                  <div class="panel-body">
-                            
-                      <center>
-                      <form class="form-horizontal style-form" method="get">
-                      
-                      <table width="80%" >
+                  <div class="panel-body">  
+                    <h4 class="mb"><i class="fa fa-angle-right"></i><a href="lista_cuenta.php"> Lista de cuentas</a> &emsp;<i class="fa fa-angle-right"></i>  Grupo </h4>
+                      <center><label style="font-size: 24px">GRUPO</label></center><br>
+                      <form class="form-horizontal style-form" method="POST">
+                      <table width="100%">
                         <tr>
-                          <td>
-                            <h4 class="mb"><i class="fa fa-angle-right"></i> Datos de la entidad</h4>
+                          <?php 
+                            $sql = "SELECT * FROM grupo WHERE id_grupo='".$id_grupo."' LIMIT 1";
+                            $query = mysqli_query($con,$sql);
+                            $row = mysqli_fetch_assoc($query);
+                          ?>
+                          <td width="10%"></td>
+                          <td width="80%">
                             <div class="form-group">
-                              <label class="col-sm-2 col-sm-2 control-label">Nombre: </label>
+                              <label class="col-sm-2 col-sm-2 control-label">Codigo_de_Grupo: </label>
                               <div class="col-sm-10">
-
-                                <?php
-                                $datos=mysqli_query($con,"SELECT * FROM entidad LIMIT 1");
-                                $row=mysqli_fetch_assoc($datos);
-
-                                ?>
-
-                                  <input type="text" class="form-control" name="nombre_entidad" disabled="true" value="<?=$row['nombre_entidad']?>">
+                                  <input type="text" class="form-control" name="cod_grupo" value="<?=$row['id_grupo']?>">
                               </div>
                             </div>
                             <div class="form-group">
-                              <label class="col-sm-2 col-sm-2 control-label">Direccion: </label>
+                              <label class="col-sm-2 col-sm-2 control-label">Nombre_de_Grupo: </label>
                               <div class="col-sm-10">
-                                  <input type="text" class="form-control" name="direccion_entidad" disabled="true" value="<?=$row['direccion_entidad'];?>">
+                                  <input type="text" class="form-control" name="nom_clase" value="<?=$row['nombre_grupo']?>">
                               </div>
                             </div>
-                            <div class="form-group">
-                              <label class="col-sm-2 col-sm-2 control-label">Telefono: </label>
-                              <table>
-                                <tr>
-                                  <td>
-                                    <div class="col-sm-10">
-                                      <input type="text" placeholder="fono1" class="form-control" name="fono1" disabled="true" value="<?=$row['fono1_entidad'];?>">
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div class="col-sm-10">
-                                      <input type="text" placeholder="fono2" class="form-control" name="fono2" disabled="true" value="<?=$row['fono2_entidad'];?>">
-                                    </div>
-                                  </td>
-                                </tr>
-                              </table>
-                            </div>
-                            <div class="form-group">
-                              <label class="col-sm-2 col-sm-2 control-label">Ciudad: </label>
-                              <div class="col-sm-10">
-                                  <input type="text" class="form-control" name="ciudad_entidad" disabled="true" value="<?=$row['ciudad_entidad'];?>">
-                              </div>
-                            </div>
-                            <h4 class="mb"><i class="fa fa-angle-right"></i> Datos del responsable</h4>
-                            <div class="form-group">
-                              <label class="col-sm-2 col-sm-2 control-label">Nombre completo: </label>
-                              <div class="col-sm-10">
-
-                                <?php
-                                $responsable=mysqli_query($con, "SELECT * FROM usuario where id_usuario='1'");
-                                $res=mysqli_fetch_assoc($responsable);
-                                ?>
-
-                                  <input type="text" class="form-control" disabled="true" value="<?=$res['nombre_usuario']." ".$res['ap_paterno_usuario']." ".$res['ap_materno_usuario'];?>">
-                              </div>
-                            </div>
-                            <div class="form-group">
-                              <label class="col-sm-2 col-sm-2 control-label">CI: </label>
-                              <div class="col-sm-10">
-                                  <input type="text" class="form-control" disabled="true" value="<?=$res['ci_usuario']?>">
-                              </div>
-                            </div>
-                            <center>
-                          <!--<button type="button" class="btn btn-success">Registrar Datos</button>
-                          &emsp;&emsp;
-                          <button type="button" class="btn btn-danger">Cancelar</button>-->
-                          </center>
-                            <h4 class="mb"><i class="fa fa-angle-right"></i> Año y Periodo</h4>
-                            <?php
-                            $rs=mysqli_query($con,"SELECT MAX(id_periodo) as id FROM periodo");
-                            if ($row = mysqli_fetch_row($rs)) 
-                              {
-                                $id = ($row[0]);
-                              }
-                            $periodo=mysqli_query($con, "SELECT * FROM periodo WHERE id_periodo='$id'");
-                            $per=mysqli_fetch_assoc($periodo);
-                            ?>
-                            <table>
-                              <tr>
-                                <td>
-                                  <div class="form-group">
-                                    <label class="col-sm-2 col-sm-2 control-label">Año: </label>
-                                    <div class="col-sm-10">
-                                     <input type="text" class="form-control" name="año" disabled="true" value="<?=$per['anio_periodo']+1?>">
-                                    </div>
-                                  </div>
-                                </td>
-                                <td width="5%"></td>
-                                <td>
-                                  <div class="form-group">
-                                    <label class="col-sm-4 col-sm-4 control-label">Fecha_Inicio: </label>
-                                    <div class="col-sm-8">
-                                     <input type="date" class="form-control" name="fecha_inicio" value="<?=$per['fecha_inicio_periodo']?>">
-                                    </div>
-                                  </div>
-                                </td>
-                                <td width="5%">  </td>
-                                <td>
-                                  <div class="form-group">
-                                    <label class="col-sm-3 col-sm-3 control-label">Fecha_fin: </label>
-                                    <div class="col-sm-8">
-                                     <input type="date" class="form-control" name="fecha_final" value="<?=$per['fecha_cierre_periodo']?>">
-                                    </div>
-                                  </div>
-                                </td>
-                              </tr>
-                            </table>
                           </td>
+                          <td width="10%"></td>
                         </tr>
                       </table>
-                      &emsp;
-                      <input type="submit" class="btn btn-success" name="guardar_datos" value="Guardar Datos">
-                      &emsp;&emsp;
-                      <input type="submit"  class="btn btn-danger"  name="cancelar" value="Cancelar">
-                      </form></center>    
+                      <center>
+                        <br>
+                          <?php
+                            $dato_estado_grupo=mysqli_query($con,"SELECT estado_grupo from grupo where id_grupo='$id_grupo'");
+                            $rowsss = mysqli_fetch_assoc($dato_estado_grupo);
+                            if($rowsss['estado_grupo']=='ACTIVO') 
+                            { 
+                                ?>
+                                &emsp;<input type="submit" class="btn btn-success" name="desactivar_grupo" value="Deshabilitar grupo">
+                                &emsp;
+                                <?php
+                            } 
+                            else
+                            {
+                                ?>
+                                &emsp;<input type="submit" class="btn btn-success" name="activar_grupo" value="Habilitar grupo">
+                                &emsp;
+                                <?php
+                            }
+                          ?>
+                          &emsp;&emsp;<input type="submit"  class="btn btn-danger"  name="cancelar" value="Cancelar">
+                      </center>
+                       <?php
+                        if(isset($_POST['desactivar_grupo'])) 
+                        { 
+                            $sql =("UPDATE grupo SET estado_grupo='NO ACTIVO' WHERE id_grupo='$id_grupo'");
+                            mysqli_query($con,$sql) or die(mysqli_error());
+
+                            $msg = "grupo Deshabilitada correctamente";
+                            print "<script>alert('$msg'); window.location='lista_cuenta.php';</script>";
+
+                        } 
+                        else
+                        {
+                          if(isset($_POST['activar_grupo'])) 
+                        { 
+                          
+                            $sql =("UPDATE grupo SET estado_grupo='ACTIVO' WHERE id_grupo='$id_grupo'");
+                            mysqli_query($con,$sql) or die(mysqli_error());
+
+                            $msg = "grupo Habilitada correctamente";
+                            print "<script>alert('$msg'); window.location='lista_cuenta.php';</script>";
+
+                        } 
+                        }
+                        if(isset($_POST['cancelar'])) 
+                        { 
+                          print "<script> window.location='lista_cuenta.php';</script>";
+                        }
+                      ?>
+                    </form>
                   </div>
               </section>
           </aside>
