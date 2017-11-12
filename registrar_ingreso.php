@@ -135,7 +135,7 @@ $_SESSION["usuario"];
                         <td colspan="2">
                           <div class="col-sm-3 col-sm-3 control-label">
                               Hora:
-                                <p type="time" class="form-control"   ><a><?php  
+                                <p  readonly="readonly" type="time" class="form-control"   ><a><?php  
                                   $time = time();
                                   echo date("H:i:s", $time); 
                                     ?></a></p>
@@ -307,8 +307,8 @@ $_SESSION["usuario"];
                               <input type="number" name="ri_monto" placeholder=" "  class="form-control placeholder-no-fix">
                           </div>
                           <div class="modal-footer">
-                              <input type="submit" name="" class="btn btn-theme" >Cancelar</input>
-                             <input type="submit" name="" class="btn btn-theme" >Agregar</input> 
+                              <input type="submit" name="" class="btn btn-theme" value="Cancelar">
+                             <input type="submit" name="" class="btn btn-theme" value="Agregar">
                           </div>
                       </div>
                   </div>
@@ -355,11 +355,12 @@ $_SESSION["usuario"];
                                               $iden = trim($row[0]);
                                             }  
                                              
-                                             echo " 
-                                             <Br><p class='col-sm-10' >Nombre:    $user</p>
-                                             <br>
-                                              <p  class='col-sm-10'>CI:     $iden</p>
-                                             ";  
+                                             echo '<p class="col-sm-2 col-sm-2 control-label">Nombre:&emsp; </p>
+                                              <div class="col-sm-9">
+                                              <input type="text" step="any" class="form-control"  readonly="readonly" name="cambio" value="'.$user.'"> </input> </div>';
+                                               echo '<p class="col-sm-2 col-sm-2 control-label">CI:&emsp; </p>
+                                              <div class="col-sm-9">
+                                              <input type="number" step="any" class="form-control" name="cambio"   readonly="readonly" value="'.$iden.'"> </input> </div>';
                                               
                                           ?>
                                   </div>

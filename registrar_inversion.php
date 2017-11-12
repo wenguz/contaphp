@@ -315,8 +315,8 @@ $_SESSION["usuario"];
                               <input type="number" name="ri_monto" placeholder=" "  class="form-control placeholder-no-fix">
                           </div>
                           <div class="modal-footer">
-                              <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
-                              <button class="btn btn-theme" type="button">Agregar</button>
+                              <input type="submit" name="" class="btn btn-theme" value="Cancelar">
+                             <input type="submit" name="" class="btn btn-theme" value="Agregar">
                           </div>
                       </div>
                   </div>
@@ -396,11 +396,12 @@ $_SESSION["usuario"];
                                               $iden = trim($row[0]);
                                             }  
                                              
-                                             echo " 
-                                             <Br><p class='col-sm-10' >Nombre:    $user</p>
-                                             <br>
-                                              <p  class='col-sm-10'>CI:     $iden</p>
-                                             ";  
+                                              echo '<p class="col-sm-2 col-sm-2 control-label">Nombre:&emsp; </p>
+                                              <div class="col-sm-9">
+                                              <input type="text" step="any" class="form-control"  readonly="readonly" name="cambio" value="'.$user.'"> </input> </div>';
+                                               echo '<p class="col-sm-2 col-sm-2 control-label">CI:&emsp; </p>
+                                              <div class="col-sm-9">
+                                              <input type="number" step="any" class="form-control" name="cambio"   readonly="readonly" value="'.$iden.'"> </input> </div>';
                                               
                                           ?>
                                   </div>
