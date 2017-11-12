@@ -111,10 +111,20 @@ $_SESSION["usuario"];
                   <table class="table table-bordered table-striped table-condensed">
                     <h4><i class="fa fa-angle-right"></i> Busqueda de fichas</h4>
                     &emsp;
-                    <label>Ingrese codigo de ficha:  </label> &emsp;
+                   
+
                     <form>
-                      <input style="padding: 5px" type="text" value="Buscar..." onfocus="if (this.value == 'Buscar...') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Buscar...';}" />
+<tr>
+                       <p>Ingrese codigo de ficha:  </p> &emsp;
+                      <input style="padding: 5px" type="number" value="Buscar..." onfocus="if (this.value == 'Buscar...') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Buscar...';}" />
                       <input class="btn btn-primary"  type="button" value="Buscar" />
+                      <br>
+                    </tr>
+                    <tr>
+                      <p>    Ingrese Fecha:  </p> &emsp;
+                      <input type="date" name="fecha" placeholder="YYYY-MM-DD" class="form-input"/>
+                      <input class="btn btn-primary"  type="button" value="Buscar" />
+                    </tr>
                     </form>
                     <hr>
                       <thead >
@@ -124,6 +134,7 @@ $_SESSION["usuario"];
                           <td> Concepto</th>
                           <td> Tipo de Pago</th>
                           <td> Monto</th>
+                             <td>Fecha</th>
                           <td> Autorizado por...</th>
                           <td> Entregado por...</th>
                           <td> Recibido por...</th>
@@ -146,7 +157,26 @@ $_SESSION["usuario"];
                             
                           </td>
                       </tr>
-                      
+                      <tr>
+                        <?php
+                            if(isset($_POST['registrar_datos'])) 
+                        { 
+                         $con = mysqli_connect('localhost', 'root', '', 'contabilidad'); 
+                          $cod=mysqli_query($con,"SELECT * FROM ficha");
+                          while ($valores = mysqli_fetch_array($cod)) {
+                                echo '<td >'.$valores[id_ficha].'</td>';
+                                echo '<td >'.'Concepto '.'</td>';
+                                echo '<td >'.$valores[id_tipo_pago].'</td>';
+                                echo '<td >'.$valores[total_ficha].'</td>';
+                                echo '<td >'.$valores[fecha_ficha].'</td>';
+                                echo '<td >'.'aut'.'</td>';
+                                echo '<td >'.'entre'.'</td>'; 
+                                echo '<td >'.'rec'.'</td>'; 
+                                echo '<td >'.$valores[id_persona].'</td>'; 
+                              }
+                            }
+                        ?>
+                       </tr>
                       </tbody>
                   </table>
               </div><!-- /content-panel -->

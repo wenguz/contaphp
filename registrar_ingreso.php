@@ -166,7 +166,7 @@ $_SESSION["usuario"];
                                             {
                                               $iden = trim($row[0]);
                                             } 
-                                          echo '<input type="number"  class="form-control" name="cambio" value="'.$iden.'"> </input> ';
+                                          echo '<input type="number" step="any" class="form-control" name="cambio" value="'.$iden.'"> </input> ';
                                       ?>
                                   
                                 </p>
@@ -243,7 +243,6 @@ $_SESSION["usuario"];
                                   <td class="hidden-phone"> Cuenta</th>
                                   <td width="350px"> Concepto</th>
                                   <td> Monto</th>
-                                  <td> Factura/Recibo</th>
                                   <td width="150px"> Opciones</th>
                               </tr>
                               </thead>
@@ -251,7 +250,7 @@ $_SESSION["usuario"];
                                 <tr>
                                   <td colspan="3">Total</th>
                                   <td> 200</th>
-                                    <td colspan="2">  </th>
+                                    <td colspan="1">  </th>
                                 </tr>
 
                               </tfoot>
@@ -260,7 +259,6 @@ $_SESSION["usuario"];
                               <tr>
                                   <td><a href="">1</a></td>
                                   <td class="hidden-phone">b</td>
-                                  <td>b</td>
                                   <td>b</td>
                                   <td>200</td>
                                   <td>
@@ -271,18 +269,14 @@ $_SESSION["usuario"];
                               </tbody>
                           </table>
                           <!--Ventana Emergente-->
-                          <!-- inicio Boton de Ventana Emergente-->
+                      
                           <td colspan="4">
                                 <hr>
                                 <center>
-                            &emsp;<button type="button"  data-toggle="modal"class="btn btn-success" href="login.html#myModal">Agregar Cuenta</button>
+                            &emsp;<button type="button"  data-toggle="modal"class="btn btn-success" href="login.html#myModal" >Agregar Cuenta</button>
                            
                            </center></td>
-                           <!--fin Boton de Ventana Emergente-->
-                            
-
-
-                    <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
+                  <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
                   <div class="modal-dialog">
                       <div class="modal-content">
                           <div class="modal-header">
@@ -314,7 +308,7 @@ $_SESSION["usuario"];
                           </div>
                           <div class="modal-footer">
                               <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
-                              <button class="btn btn-theme" type="button">Agregar</button>
+                              <input type="submit" name=""> class="btn btn-theme" type="button">Agregar</input>
                           </div>
                       </div>
                   </div>
@@ -427,20 +421,30 @@ $_SESSION["usuario"];
                                               mysqli_query($con,$sq2)  ;   
                                             }
             
-                           $cod=mysqli_query($con,"SELECT   id_tipo_cambio FROM tipo_cambio WHERE monto='$cambio' LIMIT 1");
+                           $cod3=mysqli_query($con,"SELECT   id_tipo_cambio FROM tipo_cambio WHERE monto='$cambio' LIMIT 1");
 
-                                          if ($row = mysqli_fetch_row($cod)) 
+                                          if ($row3 = mysqli_fetch_row($cod3)) 
                                             {
-                                              $id_cambio = trim($row[0]);
+                                              $id_cambio = trim($row3[0]);
                                             } 
-                            
+                                          else {
+                                              $cod3=mysqli_query($con,"SELECT   MAX(id_tipo_cambio) FROM tipo_cambio");
+                                              if ($row3 = mysqli_fetch_row($cod3)) 
+                                                {
+                                                  $id3 = trim($row3[0]);
+                                                }
+                                                $id_cambio = $id3+1;
+                                              $sq2= "INSERT INTO tipo_cambio( id_tipo_cambio,monto,fecha) 
+                                                    VALUES ('$id_cambio','$cambio','$fechai');";
+                                              mysqli_query($con,$sq2)  ;   
+                                            }
                            
                            $time = time();
                            $hora= date("H:i:s", $time);
                            $sq= "INSERT INTO ficha(id_ficha, numero_partida_ficha, fecha_ficha, tiempo_ficha, total_ficha, total_debe_ficha, total_haber_ficha, id_tipo_transaccion, id_tipo_cambio, id_tipo_pago, id_persona) 
                           VALUES ('$id_entidad','$partida','$fechai','$hora','0','0','0','$trans','$id_cambio','$pago','$id_persona')";
                             mysqli_query($con,$sq)  ;       
-                           $msg = 'Cargo agregado correctamente'.'entro:'.'10'.$partida.$fechai.$hora.'2'.'1'.'1'.$trans.$id_cambio.$pago.$id_persona ;
+                           $msg = 'Cargo agregado correctamente'  ;
                             print "<script>alert('$msg'); window.location='registrar_ingreso.php';</script>";
                            
                         
