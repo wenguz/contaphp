@@ -105,12 +105,7 @@ $_SESSION["usuario"];
                   <span>Transferencia</span>
               </a>
           </li>
-          <li class="sub-menu">
-              <a href="transaccion.php" >
-                  <i class="fa fa-th"></i>
-                  <span>Transacciones</span>
-              </a>
-          </li>
+           
     </ul>
 </div>  
       </aside>
@@ -171,12 +166,14 @@ $_SESSION["usuario"];
                                 <div class="form-group">
                                   <center><br>
                                   <label style="font-size: 15px;">BANCO</label></center>
-                                  <div class="radio">
+                                  
+                                    <div class="radio">
                                     <label>
                                       &emsp;<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
                                       Deposito
                                     </label>
                                   </div>
+                                  
                                   <div class="radio">
                                     &emsp;<label>
                                       <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
@@ -184,26 +181,24 @@ $_SESSION["usuario"];
                                     </label>
                                   </div>
                                   <div class="form-group">
-                              <label class="col-sm-2 col-sm-2 control-label">Monto: </label>
+                              <p class="col-sm-2 col-sm-2 control-label">Núm. de cuenta: </p>
                               <div class="col-sm-10">
                                   <input type="text" class="form-control">
                               </div>
+                              <br>
                             </div>
+
                             <div class="form-group">
-                              <label class="col-sm-3 col-sm-3 control-label">Nro_de_cuenta: </label>
-                              <div class="col-sm-9">
+                              <br>
+                              <p class="col-sm-2 col-sm-2 control-label"> Banco: </p>
+                              <div class="col-sm-10">
                                   <input type="text" class="form-control">
                               </div>
-                            </div>
+                            </div> <hr>
                             <div class="form-group">
-                              <label class="col-sm-2 col-sm-2 control-label">Banco: </label>
+                              <p class="col-sm-2 col-sm-2 control-label">Monto: </p>
                               <div class="col-sm-10">
-                                  <p>
-                                        <select class="form-control" name="cargo">
-                                              <option>BNB.</option>
-                                             <option>Mercantil Santa Cruz.</option>
-                                        </select>
-                                      </p>
+                                  <input type="text" class="form-control">
                               </div>
                             </div>
                               </td>
@@ -239,14 +234,26 @@ $_SESSION["usuario"];
                                   <center>
                                   <label style="font-size: 15px;">Elaborado por...</label></center>
                                   
-                                  <label class="col-sm-2 col-sm-2 control-label">Nombre:&emsp; </label>
-                                  <div class="col-sm-9">
-                                      <input type="text" class="form-control">
-                                  </div>
-                                  <label class="col-sm-2 col-sm-2 control-label">CI:&emsp; </label>
-                                  <div class="col-sm-9">
-                                      <input type="text" class="form-control">
-                                  </div>
+                                  
+                                       <?php
+                                       $user= $_SESSION["usuario"];
+                                        $con = mysqli_connect('localhost', 'root', '', 'contabilidad'); 
+                                           $cod=mysqli_query($con,"SELECT   ci_usuario FROM usuario WHERE nombre_usuario='$user' LIMIT 1");
+
+                                          if ($row = mysqli_fetch_row($cod)) 
+                                            {
+                                              $iden = trim($row[0]);
+                                            }  
+                                              echo '<p class="col-sm-2 col-sm-2 control-label">Nombre:&emsp; </p>
+                                              <div class="col-sm-9">
+                                              <input type="text" step="any" class="form-control"  readonly="readonly" name="cambio" value="'.$user.'"> </input> </div>';
+                                               echo '<p class="col-sm-2 col-sm-2 control-label">CI:&emsp; </p>
+                                              <div class="col-sm-9">
+                                              <input type="number" step="any" class="form-control" name="cambio"   readonly="readonly" value="'.$iden.'"> </input> </div>';
+                                              
+                                              
+                                          ?>
+                                   
                                 </div>
                               </td>
                               <td>

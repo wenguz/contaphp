@@ -1,4 +1,4 @@
-<?php
+in<?php
 session_start();
 //manejamos en sesion el nombre del usuario que se ha logeado
 if (!isset($_SESSION["usuario"])){
