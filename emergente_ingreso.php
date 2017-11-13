@@ -68,88 +68,298 @@ $_SESSION["usuario"];
       <!-- **********************************************************************************************************************************************************
       MAIN SIDEBAR MENU
       *********************************************************************************************************************************************************** -->
-      
-    <!--Ventana Emergente-->
-                      
-      
-<section id="main-content">
-    <section class="wrapper">
-      <h3><i class="fa fa-angle-right"></i>Ficha Ingreso</h3>
-                                <hr>
-                    <form action="" name="ASIENTOS" method="post">  
-                  <div class="modal-dialog">
-                      <div class="modal-content">
-                          <div class="modal-header">
-                              <h4 class="modal-title">Registrar Ingreso</h4>
-                          </div>
-                          <div class="modal-body">
-                             
-                               <label class="col-sm-1 col-sm-1 control-label">Cuenta:&emsp; </label>
-                             <div class="col-sm-10">
-                                <p>
-                                  <select class="form-control" name="ri_cuenta" >
-                            <?php
-                                       $con = mysqli_connect('localhost', 'root', '', 'contabilidad'); 
-                                             $cod_cuenta=mysqli_query($con,"SELECT * FROM cuenta");
-                                               
-                                        while ($valores_cuenta = mysqli_fetch_array($cod_cuenta)) {
-                                                    
-                                          echo '<option value="'.$valores_cuenta[id_cuenta].'">'.$valores_cuenta[nombre_cuenta].'</option>';                
-                                           
-                                       }
-                                      ?>
-                                       </select>
-                                </p>
-                              </div>
-                              <p>Concepto</p>
-                              <input type="text" name="ri_concepto" placeholder=" " autocomplete="off" class="form-control placeholder-no-fix">
-                              <p>Monto (Bs)</p>
-                              <input type="number" name="ri_monto" placeholder=" "  class="form-control placeholder-no-fix">
-                          </div>
-                          <div class="modal-footer">
-                              <input type="submit" name="" class="btn btn-theme" value="CANCELAR">
-                              <input type="submit"  class="btn btn-theme" href="registrar_egreso.php" name="registrar_asientos" value="AGREGAR">
-         <p><a href="registrar_ingreso.php">Cerrar </a></p>
-                                     </div>
-                      </div>
-                  </div>
-                  <?php
-                           if(isset($_POST['registrar_asientos'])) 
-                           {
-                            include('conexion.php');
-                          if($_POST['ri_cuenta'] == '' or  $_POST['ri_monto'] == ''or $_POST['ri_concepto'] == ''  )
-                            { 
-                                echo 'Por favor llene todos los campos.'; 
-                            } 
-                            else {
-                                       $con = mysqli_connect('localhost', 'root', '', 'contabilidad'); 
-                    $id_entidad0=1;
-                              $rs0=mysqli_query($con,"SELECT count(id_as) AS iden FROM temp_as");
-                                    if ($row0 = mysqli_fetch_row($rs0)) 
-                                      {
-                                        $iden0 = trim($row0[0]);
-                                      }
-                              $id_entidad0=$iden0+1;
-                              $ri_cuenta =$_POST["ri_cuenta"] ;
-                             $ri_monto =$_POST["ri_monto"] ;
-                             $ri_concepto=$_POST["ri_concepto"] ;
-                              $sq2= "INSERT INTO temp_as (id_as,glosa_asiento,monto_asiento,id_subcuenta   ) 
-                                                    VALUES ( '$id_entidad0','$ri_concepto','$ri_monto','$ri_cuenta');";
-                                              mysqli_query($con,$sq2)  ;  
-                            }}
-                          ?>
-                  </form>
-              </div>
+      <!--sidebar start-->
+      <aside>
+          <div id="sidebar"  class="nav-collapse ">
+    <ul class="sidebar-menu" id="nav-accordion"><br>
+        <h5 class="centered">Usuario: <?php echo $_SESSION["usuario"]; ?></h5>
+        <li class="mt">
+            <a  href="principal_secretaria.php">
+                <i class="fa fa-home">    </i>
+                <span>Inicio  </span>
+            </a>
+        </li>
+        
+        <li class="sub-menu">
+            <a  class="active" href="javascript:;" >
+                  <i class="fa fa-list-alt"></i>
+                  <span>Registrar Fichas</span>
+              </a>
+              <ul class="sub">
+                  <li class="active"><a  href="registrar_ingreso.php"><i class="fa fa-list-alt"></i>Registrar Ingreso</a></li>
+                  <li ><a  href="registrar_egreso.php"><i class="fa fa-list-alt"></i>Registrar Egreso</a></li>
+                  <li ><a  href="registrar_inversion.php"><i class="fa fa-list-alt"></i>Registrar Inversion</a></li>
+              </ul>
+          </li>
 
-                    <!--Fin de ventana emergente-->
-                      
+          
+          <li class="sub-menu">
+              <a href="lista_ficha.php" >
+                  <i class="fa fa-th"></i>
+                  <span>Lista de Fichas</span>
+              </a>
+          </li>
+          
+           
+    </ul>
+</div>  
+      </aside>
+     
+
 </section>
 
-                      </section><!-- /MAIN CONTENT -->
+<section id="main-content">
+    <section class="wrapper">
+      <h3><i class="fa fa-angle-right"></i>Ficha Ingreso <i class="fa fa-angle-right"></i> Detalle </h3>
+          <div class="col-md-12">
+              <div class="content-panel"> 
+      <h3><i class="fa fa-angle-right"></i>Agregar Detalle de Ficha Ingreso</h3>
+                                <hr>
+                    <form action="" name="ASIENTOS" method="post">  
+                   
+                          <div class="form-group">
+                             
+                               <p class="col-sm-1 col-sm-1 control-label">Cuenta:  </p>
+                             
+                                <p>
+                                  <select class="form-control placeholder-no-fix" name="ri_cuenta" >
+                                <?php
+                                      $con = mysqli_connect('localhost', 'root', '', 'contabilidad'); 
+                                      $cod_cuenta=mysqli_query($con,"SELECT * FROM cuenta");
+                                      while ($valores_cuenta = mysqli_fetch_array($cod_cuenta)) {
+                                      echo '<option value="'.$valores_cuenta[id_cuenta].'">'.$valores_cuenta[nombre_cuenta].'</option>';                
+                                      }
+                                      echo "<br>"; 
+                                 ?>
+                                       </select>
+                                </p>
+                                
+                             
+                             
+                              <p class="col-sm-1 col-sm-1 control-label">Concepto</p>
+                              <input type="text" name="ri_concepto" placeholder=" " autocomplete="off" class="form-control placeholder-no-fix">
+                              <p class="col-sm-1 col-sm-1 control-label">Cantidad</p>
+                              <input type="number" name="ri_cantidad" placeholder=" " autocomplete="off" class="form-control placeholder-no-fix">
+                              <p>Monto (Bs)</p>
+                              <input type="number" name="ri_monto" placeholder=" "  class="form-control placeholder-no-fix">
+                          
+                          </div>
+                          <div class="form-group"> <center>
+                              <input type="submit" name="" class="btn btn-danger" value="CANCELAR">
+                              <input type="submit"  class="btn btn-theme" href="registrar_egreso.php" name="registrar_asientos" value="AGREGAR">
+                               
+                       
+                                  <?php
+                                   if(isset($_POST['registrar_asientos'])) 
+                                   {
+                                    include('conexion.php');
+                                  if($_POST['ri_cuenta'] == '' or  $_POST['ri_monto'] == ''or $_POST['ri_concepto'] == '' or $_POST['ri_cantidad'] == ''  )
+                                    { 
+                                        echo 'Por favor llene todos los campos.'; 
+                                    } 
+                                    else {
+                                               $con = mysqli_connect('localhost', 'root', '', 'contabilidad'); 
+                                    $id_entidad0=1;
+                                      $rs0=mysqli_query($con,"SELECT count(id_as) AS iden FROM temp_as");
+                                            if ($row0 = mysqli_fetch_row($rs0)) 
+                                              {
+                                                $iden0 = trim($row0[0]);
+                                              }
+                                      $id_entidad0=$iden0+1;
+                                      $ri_cuenta =$_POST["ri_cuenta"] ;
+                                     $ri_monto =$_POST["ri_monto"] ;
+                                     $ri_concepto=$_POST["ri_concepto"] ;
+                                     $ri_cantidad=$_POST["ri_cantidad"] ;
+                                      $sq2= "INSERT INTO temp_as (id_as,glosa_asiento,monto_asiento,id_subcuenta,cantidad   ) 
+                                                            VALUES ( '$id_entidad0','$ri_concepto','$ri_monto','$ri_cuenta','$ri_cantidad');";
+                                                      mysqli_query($con,$sq2)  ;  
+                                    }}
+                                  ?>
+                                  </center>
+                          </div>
+                  </form>
+  
+                    <!--Fin de ventana emergente-->
+                     <form action="" name="tablas" method="post">  
+               <table class="table table-bordered table-striped table-condensed">
+                            <h4><i class="fa fa-angle-right"></i> Detalle</h4>
+                            
+                              <thead >
+                              <tr>
+                                  <td>Codigo</td>
+                                  <td class="hidden-phone"> Cuenta</td>
+                                  <td width="350px"> Concepto</td>
+                                  <td> Cantidad</th>
+                                    <td> Monto</th>
+                                  <td width="150px"> Opciones</td>
+                              </tr>
+                              </thead>
+                              <tfoot >
+                                <tr>
+                                  <td colspan="3" ><center>Total</center> </th>
+                                  <td> <center><?php
+                                            $totala=0;
+                             $cod_fichaa=mysqli_query($con,"SELECT   cantidad AS c, monto_asiento AS mo FROM temp_as");
+                                               while ($valores8a = mysqli_fetch_array($cod_fichaa)) 
+                                                {
+                                                  $xa = $valores8a['c'];
+                                                  $x1a = $valores8a['mo'];
+                                                  $totala= $totala +( $xa *$x1a);
+                                                }
+                                           
+                                          echo  $totala;
+                                      ?></th>
+                                    <td colspan="1"> </center> </th>
+                                </tr>  </tfoot> <tbody>  <tr>
+                                       <?php
+                                       $m=0;
+                                           $rs8=mysqli_query($con,"SELECT  count(id_as) AS iden FROM temp_as");
+                                    if ($row8 = mysqli_fetch_row($rs8)) 
+                                      {
+                                        $iden8 = trim($row8[0]);
+                            $cod8=mysqli_query($con,"SELECT * FROM temp_as ");
+                           while ($valores8 = mysqli_fetch_array($cod8)) { 
+                           $m=$m+1;
+                           ?>
+                              <tr class="identificador" data-id="id" >
+                                  <td><?php echo $valores8['id_as'] ?></td>
+                                  <td><?php echo $valores8['id_subcuenta'] ?></td>
+                                  <td><?php echo $valores8['glosa_asiento'] ?></td> 
+                                  <td><?php echo $valores8['cantidad'] ?></td> 
+                                  <td><?php echo $valores8['monto_asiento'] ?></td>
+                                 
+                          <td> <input name="checkbox[]" type="checkbox" id="checkbox[]" value="<?php echo  $valores8['id_as']; ?>">
+                           <input type="submit"  class="btn btn-primary btn-xs" name="registrar_ed"> Editar</input> 
+                           <input type="submit"  class="btn btn-danger btn-xs"   name="registrar_el" value="ELIMINAR"> 
+                          </td>
+                              </tr>
+
+                          <?php } 
+                                      }
+                                      else{ ?>
+                                         <td><?php echo 'aut' ?></td>
+                                  <td><?php echo 'entre' ?></td>
+                                  <td><?php echo 'rec' ?></td>
+                                  <?php
+                                      }
+                                      ?>
+                              </tr>
+
+                              </tbody>
+
+                          </table> 
+                          </form>   
+                           <form action="" name="actualizar" method="post">  
+                          <center><input type="submit"  class="btn btn-theme" name="registrar_datos1"  value="REGISTRAR DATOS"> </center>
+                         <?php
+                          if(isset($_POST['registrar_datos1'])) 
+                        { 
+                          //obtener id de la ultima ficha
+                         $rs=mysqli_query($con,"SELECT MAX(id_ficha) AS iden FROM ficha");
+                                    if ($row = mysqli_fetch_row($rs)) 
+                                      {
+                                        $iden = trim($row[0]);
+                                      }
+                           
+                         /*agregrar asienteos
+                              
+                            */
+                             $codb=mysqli_query($con,"SELECT   MAX(id_asiento) FROM asiento");
+                                              if ($rowb = mysqli_fetch_row($codb)) 
+                                                {
+                                                  $ida = trim($rowb[0]);
+                                                }
+                                                $id_asiento = $ida+1;
+                          $result0 = mysqli_query($con,"SELECT * from temp_as");
+                            $s=1;
+                              while ($row0 = mysqli_fetch_array($result0)) {
+                                  $id=$row0['id_as']+$ida;
+                                  $campo1=$row0['glosa_asiento'];
+                                  $campo2=$row0['cantidad'];
+                                  $campo3=$row0['monto_asiento'];
+                                  $campo4=0;
+                                  $campo5=0;
+                                  $campo6=$iden;
+                                  $campo7=$row0['id_subcuenta'];
+echo $id.' >> '.$campo1.' >> '.$campo2.' >> '.$campo3.' >> '.$campo4.' >> '.$campo5.' identidq: '.$campo6.' >> '.$campo7;
+                                  $insercion="INSERT INTO asiento values ('$id', '$campo1', '$campo2', '$campo3', '$campo4', '$campo5', '$campo6', '$campo7');";
+                                mysqli_query($con,$insercion)  ;
+                            } 
+                            //actualizar el monot total de ficha
+                            $total=0;
+                             $cod_ficha=mysqli_query($con,"SELECT   cantidad AS c, monto_asiento AS mo FROM temp_as");
+                                               while ($v8g = mysqli_fetch_array($cod_ficha)) 
+                                                {
+                                                  $x = $v8g['c'];
+                                                  $x1 = $v8g['mo'];
+                                                  $total= $total +( $x *$x1);
+                                                }
+                             $update_ficha="UPDATE ficha SET `total_ficha`='$total' WHERE id_ficha='$iden';";
+                                mysqli_query($con,$update_ficha)  ;
+                             //borrar tabla temporal
+                            $sq_delete= "DELETE FROM temp_as";
+                             mysqli_query($con,$sq_delete)  ;
+
+                         $msg = 'Cargo agregado correctamente ' ;
+                            print "<script>alert('$msg'); window.location='emergente_ingreso.php';</script>";
+                            }
+                         ?>
+                        </form>
+                        
+</section>
+
+                      </section><!--    -->
 
       <!--main content end-->
-  
+<script type="text/javascript">
 
+var seleccionado=null;            //contiene la fila seleccionada
+function A(id) 
+{ 
+var f=puntero_formulario; 
+f.id.value=id; 
+f.submit(); 
+ return alert("Seleccione una fila haciendo click sobre ella");
+} 
+function onclickHandler() {
+        if(seleccionado==this) {
+            this.style.backgroundColor="transparent";
+            seleccionado=null;
+        }
+        else {
+            if(seleccionado!=null) 
+                seleccionado.style.backgroundColor="transparent";
+            this.style.backgroundColor="#e0b";
+            seleccionado=this;
+        }
+        
+    }
+
+var filas=document.getElementById("tabla").getElementsByTagName("tr");
+for(var i=0; i<filas.length; i++) {
+    filas[i].onclick=onclickHandler;
+}
+
+
+function anadir() {
+    var tr=document.createElement("TR");
+    var celdas=["Curso","Asignatura","Convocatoria","Nota","Número Créditos"];
+    for( var i in celdas ) {
+        var td=document.createElement("TD");
+        var txt=document.createTextNode( window.prompt(celdas[i],"a") );
+        td.appendChild(txt);
+        tr.appendChild(td);
+    }
+    tr.onclick=onclickHandler;
+    document.getElementById("tabla").appendChild(tr);
+}
+
+function eliminar( a ) {
+    if(seleccionado==null) return alert("Seleccione una fila haciendo click sobre ella");
+  //  seleccionado.parentNode.removeChild(seleccionado);
+}
+
+</script> 
 
     <!-- js placed at the end of the document so the pages load faster -->
     <script src="assets/js/jquery.js"></script>
