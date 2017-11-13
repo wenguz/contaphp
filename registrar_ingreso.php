@@ -115,14 +115,14 @@ $_SESSION["usuario"];
               <div class="content-panel">
 
                     <h4><i class="fa fa-angle-right"></i> Registrar Ingreso</h4>
-
+                        <h6>  * Llenar todos los espacios vacios obligatoriamente</h6>
                     <table class="">
                       <form action="" method="post">
                       <tr>
                         <td>
                           <div class="form-group">
                             <label class="col-sm-3 col-sm-3 control-label"  >Fecha:&emsp; 
-                                <input type="date" name="fecha" placeholder="YYYY-MM-DD" class="form-input"/>
+                                <input required type="date" name="fecha" placeholder="YYYY-MM-DD" min="2017-01-01" class="form-input"/>
                             </label>
                             
                           </div>
@@ -141,7 +141,7 @@ $_SESSION["usuario"];
                           <div class="form-group">
                             <label class="col-sm-4 col-sm-4 control-label">Nro. de comprobante:&emsp; </label>
                             <div class="col-sm-10">
-                                <input type="number" name ="numero_partida_ficha" class="form-control">
+                                <input required type="number" name ="numero_partida_ficha" class="form-control">
                             </div>
                           </div>
                         </td>
@@ -161,7 +161,7 @@ $_SESSION["usuario"];
                                             {
                                               $iden = trim($row[0]);
                                             } 
-                                          echo '<input type="number" step="any" class="form-control" name="cambio" value="'.$iden.'"> </input> ';
+                                          echo '<input required type="number" step="any" class="form-control" name="cambio" value="'.$iden.'"> </input> ';
                                       ?>
                                   
                                 </p>
@@ -173,7 +173,7 @@ $_SESSION["usuario"];
                               <label class="col-sm-10">Moneda:   &emsp; </label>
                               <div class="col-sm-10">
                                 <p> 
-                                  <select class="form-control" name="cargo">
+                                  <select required class="form-control" name="moneda">
                                         <option>Bs.</option>
                                        <option>$us.</option>
                                   </select>
@@ -187,10 +187,10 @@ $_SESSION["usuario"];
 
                               <div class="col-sm-10">
                                 <p>
-                                  <select class="form-control" name="pago">
+                                  <select  required class="form-control" name="pago">
                                       <?php
                                            $con = mysqli_connect('localhost', 'root', '', 'contabilidad'); 
-                                           $cod=mysqli_query($con,"SELECT * FROM tipo_pago");
+                                           $cod=mysqli_query($con,"SELECT * FROM tipo_pago WHERE descripcion_tipo_pago='Ingreso' or descripcion_tipo_pago='Deposito' ");
                                             
                                         while ($valores = mysqli_fetch_array($cod)) {
                                                     
@@ -208,9 +208,9 @@ $_SESSION["usuario"];
                             <label class="col-sm-10">Tipo de ingreso:&emsp; </label>
                             <div class="col-sm-10">
                                 <p>
-                                  <select class="form-control" name="trans">
+                                  <select  readonly="readonly" class="form-control" name="trans" >
                                       <?php
-                                           $cod=mysqli_query($con,"SELECT * FROM tipo_transaccion");
+                                           $cod=mysqli_query($con,"SELECT * FROM tipo_transaccion WHERE id_tipo_transaccion='121'");
                                                
                                         while ($valores = mysqli_fetch_array($cod)) {
                                                     
@@ -238,12 +238,12 @@ $_SESSION["usuario"];
                                   
                                   <label class="col-sm-2 col-sm-2 control-label">Nombre:&emsp; </label>
                                   <div class="col-sm-9">
-                                      <input type="text" name="p_nom" class="form-control">
+                                      <input  required type="text" name="p_nom" class="form-control">
                                   </div>
                                   <label class="col-sm-2 col-sm-2 c
                                   ontrol-label">CI:&emsp; </label>
                                   <div class="col-sm-9">
-                                      <input type="text" name="p_ci" class="form-control">
+                                      <input  required type="text" name="p_ci" class="form-control">
                                   </div>
                                 </div>
                               </td>

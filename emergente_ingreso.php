@@ -145,7 +145,7 @@ $_SESSION["usuario"];
                           
                           </div>
                           <div class="form-group"> <center>
-                              <input type="submit" name="" class="btn btn-danger" value="CANCELAR">
+                             
                               <input type="submit"  class="btn btn-theme" href="registrar_egreso.php" name="registrar_asientos" value="AGREGAR">
                                
                        
@@ -209,7 +209,7 @@ $_SESSION["usuario"];
                                            
                                           echo  $totala;
                                       ?></th>
-                                    <td colspan="1"> </center> </th>
+                                    <td colspan="2"> </center> </th>
                                 </tr>  </tfoot> <tbody>  <tr>
                                        <?php
                                        $m=0;
@@ -229,7 +229,7 @@ $_SESSION["usuario"];
                                   <td><?php echo $valores8['monto_asiento'] ?></td>
                                  
                           <td> <input name="checkbox[]" type="checkbox" id="checkbox[]" value="<?php echo  $valores8['id_as']; ?>">
-                           <input type="submit"  class="btn btn-primary btn-xs" name="registrar_ed"> Editar</input> 
+                           <input type="submit"  class="btn btn-primary btn-xs" name="registrar_ed" value="Editar" > </input> 
                            <input type="submit"  class="btn btn-danger btn-xs"   name="registrar_el" value="ELIMINAR"> 
                           </td>
                               </tr>
@@ -250,7 +250,8 @@ $_SESSION["usuario"];
                           </table> 
                           </form>   
                            <form action="" name="actualizar" method="post">  
-                          <center><input type="submit"  class="btn btn-theme" name="registrar_datos1"  value="REGISTRAR DATOS"> </center>
+                          <center><input type="submit"  class="btn btn-theme" name="registrar_datos1"  value="REGISTRAR DATOS"> 
+                            <input type="submit" name="borrar_ficha" class="btn btn-danger" value="CANCELAR"> </center>
                          <?php
                           if(isset($_POST['registrar_datos1'])) 
                         { 
@@ -278,10 +279,10 @@ $_SESSION["usuario"];
                                   $campo2=$row0['cantidad'];
                                   $campo3=$row0['monto_asiento'];
                                   $campo4=0;
-                                  $campo5=0;
+                                  $campo5=$row0['monto_asiento'];
                                   $campo6=$iden;
                                   $campo7=$row0['id_subcuenta'];
-echo $id.' >> '.$campo1.' >> '.$campo2.' >> '.$campo3.' >> '.$campo4.' >> '.$campo5.' identidq: '.$campo6.' >> '.$campo7;
+ 
                                   $insercion="INSERT INTO asiento values ('$id', '$campo1', '$campo2', '$campo3', '$campo4', '$campo5', '$campo6', '$campo7');";
                                 mysqli_query($con,$insercion)  ;
                             } 
@@ -294,15 +295,33 @@ echo $id.' >> '.$campo1.' >> '.$campo2.' >> '.$campo3.' >> '.$campo4.' >> '.$cam
                                                   $x1 = $v8g['mo'];
                                                   $total= $total +( $x *$x1);
                                                 }
-                             $update_ficha="UPDATE ficha SET `total_ficha`='$total' WHERE id_ficha='$iden';";
+                             $update_ficha="UPDATE ficha SET `total_ficha`='$total',`total_haber_ficha`='$total' WHERE id_ficha='$iden';";
                                 mysqli_query($con,$update_ficha)  ;
                              //borrar tabla temporal
                             $sq_delete= "DELETE FROM temp_as";
                              mysqli_query($con,$sq_delete)  ;
 
-                         $msg = 'Cargo agregado correctamente ' ;
-                            print "<script>alert('$msg'); window.location='emergente_ingreso.php';</script>";
+                         $msg = 'Agregado correctamente ' ;
+                            print "<script>alert('$msg'); window.location='lista_ficha.php';</script>";
                             }
+                            if(isset($_POST['borrar_ficha'])) 
+                        { 
+                          //obtener id de la ultima ficha
+                         $rs=mysqli_query($con,"SELECT MAX(id_ficha) AS iden FROM ficha");
+                                    if ($row = mysqli_fetch_row($rs)) 
+                                      {
+                                        $iden = trim($row[0]);
+                                      }
+                                      //borrar tabla temporal
+                            $sq_delete= "DELETE FROM temp_as";
+                             mysqli_query($con,$sq_delete)  ;
+                                       //borrar ficha
+                            $sq_delete= "DELETE FROM ficha WHERE id_ficha='$iden'";
+                             mysqli_query($con,$sq_delete)  ;
+                              $msg = 'Cancelar ingreso de ficha Exitoso ' ;
+                            print "<script>alert('$msg'); window.location='lista_ficha.php';</script>";
+
+                        }
                          ?>
                         </form>
                         

@@ -128,14 +128,14 @@ $_SESSION["usuario"];
                       <thead >
                       <tr>
                           <td>Nro</th>
-                          <td class="hidden-phone"> Cuenta</th>
-                          <td> Concepto</th>
-                          <td> Tipo de Pago</th>
-                          <td> Monto</th>
+                          <td> Tipo de Ingreso</th>
+                             <td> Tipo de Trans.</th>
+                          
+                          <td> Monto Total</th>
                              <td>Fecha</th>
                           <td> Autorizado por...</th>
                           <td> Entregado por...</th>
-                          <td> Recibido por...</th>
+                          <td> Elaborado por...</th>
                           <td> Opciones</th>
                       </tr>
                       </thead>
@@ -143,6 +143,43 @@ $_SESSION["usuario"];
                       
                       <tr>
                         <?php
+function pago1($id) {
+   $con = mysqli_connect('localhost', 'root', '', 'contabilidad'); 
+   $cod_1=mysqli_query($con,"SELECT   tipo FROM tipo_pago WHERE id_tipo_pago='$id' LIMIT 1");
+  if ($row_1 = mysqli_fetch_row($cod_1)) 
+   {
+       $ing = trim($row_1[0]); 
+    } 
+    return $ing;
+}
+function pago2($id) {
+   $con = mysqli_connect('localhost', 'root', '', 'contabilidad'); 
+   $cod_1=mysqli_query($con,"SELECT     descripcion_tipo_pago FROM tipo_pago WHERE id_tipo_pago='$id' LIMIT 1");
+  if ($row_1 = mysqli_fetch_row($cod_1)) 
+   {
+       $ing = trim($row_1[0]); 
+    } 
+    return $ing;
+}
+function trans($id) {
+   $con = mysqli_connect('localhost', 'root', '', 'contabilidad'); 
+   $cod_1=mysqli_query($con,"SELECT     nombre_transaccion FROM tipo_transaccion WHERE id_tipo_transaccion='$id' LIMIT 1");
+  if ($row_1 = mysqli_fetch_row($cod_1)) 
+   {
+       $ing = trim($row_1[0]); 
+    } 
+    return $ing;
+}
+function elab($id) {
+   $con = mysqli_connect('localhost', 'root', '', 'contabilidad'); 
+   $cod_1=mysqli_query($con,"SELECT     nombre_persona FROM persona WHERE id_persona='$id' LIMIT 1");
+  if ($row_1 = mysqli_fetch_row($cod_1)) 
+   {
+       $ing = trim($row_1[0]); 
+    } 
+    return $ing;
+}
+
                             if(isset($_POST['buscar1'])) 
                         { 
                          $con = mysqli_connect('localhost', 'root', '', 'contabilidad') or die(mysql_error()); 
@@ -150,14 +187,17 @@ $_SESSION["usuario"];
                            while ($valores = mysqli_fetch_array($cod)) { ?>
                               <tr>
                                   <td><?php echo $valores['id_ficha'] ?></td>
-                                  <td><?php echo $valores['id_tipo_pago'] ?></td>
-                                  <td><?php echo 'Concepto' ?></td>
+                                  <td><?php  $func = 'pago1'; $func2 = 'pago2';
+                                             echo $func($valores['id_tipo_pago']).' , '.$func2($valores['id_tipo_pago']); ?></td>
+                                  <td><?php $func3 = 'trans';
+                                            echo $func3($valores['id_tipo_transaccion']) ?></td>
+                                   
                                   <td><?php echo $valores['total_ficha'] ?></td>
                                   <td><?php echo $valores['fecha_ficha'] ?></td>
-                                  <td><?php echo 'aut' ?></td>
-                                  <td><?php echo 'entre' ?></td>
-                                  <td><?php echo 'rec' ?></td>
-                                  <td><?php echo $valores['id_persona'] ?></td> 
+                                  <td><?php echo '-' ?></td>
+                                  <td><?php echo '-' ?></td> 
+                                  <td><?php $func4 = 'elab';
+                                            echo $func4($valores['id_persona']) ?></td> 
                           <td><button class="btn btn-primary btn-xs"><i class="fa fa-pencil"> Editar</i>
                             </button>
                             
@@ -171,24 +211,26 @@ $_SESSION["usuario"];
                                $a =$_POST["b_id"] ;
 
                           $cod=mysqli_query($con,"SELECT * FROM ficha WHERE id_ficha=$a");
-                           while ($valores = mysqli_fetch_array($cod)) { ?>
+                          while ($valores = mysqli_fetch_array($cod)) { ?>
                               <tr>
                                   <td><?php echo $valores['id_ficha'] ?></td>
-                                  <td><?php echo $valores['id_tipo_pago'] ?></td>
-                                  <td><?php echo 'Concepto' ?></td>
+                                  <td><?php  $func = 'pago1'; $func2 = 'pago2';
+                                             echo $func($valores['id_tipo_pago']).' , '.$func2($valores['id_tipo_pago']); ?></td>
+                                  <td><?php $func3 = 'trans';
+                                            echo $func3($valores['id_tipo_transaccion']) ?></td>
+                                   
                                   <td><?php echo $valores['total_ficha'] ?></td>
                                   <td><?php echo $valores['fecha_ficha'] ?></td>
-                                  <td><?php echo 'aut' ?></td>
-                                  <td><?php echo 'entre' ?></td>
-                                  <td><?php echo 'rec' ?></td>
-                                  <td><?php echo $valores['id_persona'] ?></td> 
+                                  <td><?php echo '-' ?></td>
+                                  <td><?php echo '-' ?></td> 
+                                  <td><?php $func4 = 'elab';
+                                            echo $func4($valores['id_persona']) ?></td> 
                           <td><button class="btn btn-primary btn-xs"><i class="fa fa-pencil"> Editar</i>
                             </button>
                             
                           </td>
                               </tr>
-                          <?php } } 
-                            ?>
+                         <?php } }   ?>
                             <?php
                             if(isset($_POST['buscar_fecha'])) 
                         { 
@@ -199,21 +241,23 @@ $_SESSION["usuario"];
                            while ($valores = mysqli_fetch_array($cod)) { ?>
                               <tr>
                                   <td><?php echo $valores['id_ficha'] ?></td>
-                                  <td><?php echo $valores['id_tipo_pago'] ?></td>
-                                  <td><?php echo 'Concepto' ?></td>
+                                  <td><?php  $func = 'pago1'; $func2 = 'pago2';
+                                             echo $func($valores['id_tipo_pago']).' , '.$func2($valores['id_tipo_pago']); ?></td>
+                                  <td><?php $func3 = 'trans';
+                                            echo $func3($valores['id_tipo_transaccion']) ?></td>
+                                   
                                   <td><?php echo $valores['total_ficha'] ?></td>
                                   <td><?php echo $valores['fecha_ficha'] ?></td>
-                                  <td><?php echo 'aut' ?></td>
-                                  <td><?php echo 'entre' ?></td>
-                                  <td><?php echo 'rec' ?></td>
-                                  <td><?php echo $valores['id_persona'] ?></td> 
+                                  <td><?php echo '-' ?></td>
+                                  <td><?php echo '-' ?></td> 
+                                  <td><?php $func4 = 'elab';
+                                            echo $func4($valores['id_persona']) ?></td> 
                           <td><button class="btn btn-primary btn-xs"><i class="fa fa-pencil"> Editar</i>
                             </button>
                             
                           </td>
                               </tr>
-                          <?php } } 
-                            ?>
+                         <?php } }   ?>
                       </tbody>
                   </table>
               </div><!-- /content-panel -->
