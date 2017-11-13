@@ -37,11 +37,11 @@ require('conexion.php');
       MAIN CONTENT
       *********************************************************************************************************************************************************** -->
 
-	  <div id="login-page">
-	  	<div class="container">
-	  	
-		      <form class="form-horizontal style-form" action="" method="post">
-		        <div>
+    <div id="login-page">
+      <div class="container">
+      
+          <form class="form-horizontal style-form" action="" method="post">
+            <div>
                     <br><br>
                     <div>
                         <div class="modal-content">
@@ -329,12 +329,44 @@ require('conexion.php');
                                         $id_empleado = trim($row[0]);
                                       }
 
-
-
                                     $sq="INSERT INTO empleado_usuario (id_empleado_usuario, id_empleado, id_usuario, estado, user, password) VALUES ('$id_empleado_usuario', '$id_empleado','$id_usuario','ACTIVO' , '$user', '$password')"; 
                                     mysqli_query($con,$sq); 
+                                    $sq="INSERT INTO tipo_transaccion (id_tipo_transaccion,nombre_transaccion)values(1,'Ingreso')"; 
+                                    mysqli_query($con,$sq);
+                                    $sq="INSERT INTO tipo_transaccion (id_tipo_transaccion,nombre_transaccion)values(2,'Egreso')";
+                                    mysqli_query($con,$sq);
+                                    $sq="INSERT INTO tipo_transaccion (id_tipo_transaccion,nombre_transaccion)values(3,'Inversion');"; 
+                                    mysqli_query($con,$sq);
+                                    $sq="INSERT INTO tipo_transaccion (id_tipo_transaccion,nombre_transaccion)values(4,'Transferencia')"; 
+                                    mysqli_query($con,$sq);
+                                    $sq="INSERT INTO tipo_pago (id_tipo_pago,tipo,descripcion_tipo_pago)values(1,'Caja', 'Ingreso')"; 
+                                    mysqli_query($con,$sq);
+                                    $sq="INSERT INTO tipo_pago (id_tipo_pago,tipo,descripcion_tipo_pago)values(2,'Caja','Egreso')"; 
+                                    mysqli_query($con,$sq);
+                                    $sq="INSERT INTO tipo_pago (id_tipo_pago,tipo,descripcion_tipo_pago)values(3,'Banco','Deposito')"; 
+                                    mysqli_query($con,$sq);
+                                    $sq="INSERT INTO tipo_pago (id_tipo_pago,tipo,descripcion_tipo_pago)values(4, 'Banco','Retiro')"; 
+                                    mysqli_query($con,$sq);
+                                    $sq="INSERT INTO depreciacion (bien,vida_util)values('Terrenos',40)";
+                                    mysqli_query($con,$sq);
+                                    $sq="INSERT INTO depreciacion (bien,vida_util)values('Edificaciones',40)"; 
+                                    mysqli_query($con,$sq);
+                                    $sq="INSERT INTO depreciacion (bien,vida_util)values('Muebles y enseres de oficina',10)"; 
+                                    mysqli_query($con,$sq);
+                                    $sq="INSERT INTO depreciacion (bien,vida_util)values('Maquinaria en General',8)"; 
+                                    mysqli_query($con,$sq);
+                                    $sq="INSERT INTO depreciacion (bien,vida_util)values('Equipos e  Instalaciones',8)"; 
+                                    mysqli_query($con,$sq);
+                                    $sq="INSERT INTO depreciacion (bien,vida_util)values('Vehículos',5)"; 
+                                    mysqli_query($con,$sq);
+                                    $sq="INSERT INTO depreciacion (bien,vida_util)values('Maquinaria para construccion',5)"; 
+                                    mysqli_query($con,$sq);
+                                    $sq="INSERT INTO depreciacion (bien,vida_util)values('Herramientas en general',4)"; 
+                                    mysqli_query($con,$sq);
+                                    $sq="INSERT INTO depreciacion (bien,vida_util)values('Equipos de Computacion',4)"; 
+                                    mysqli_query($con,$sq);
 
-                      
+
                                     $mensaje = "Usted se ha registrado correctamente.";
                                     print "<script>alert('$mensaje'); window.location='lista_usuario.php';</script>";
                                   } 
@@ -355,10 +387,10 @@ require('conexion.php');
 
 
 
-		      </form>	  	
-	  	
-	  	</div>
-	  </div>
+          </form>     
+      
+      </div>
+    </div>
 <br><br>
     <script>
     function valida(e){

@@ -102,7 +102,7 @@ require('conexion.php');
           <li class="sub-menu">
               <a href="anadir_gestion.php" >
                   <i class="fa fa-th"></i>
-                  <span>Añadir Gestion</span>
+                  <span>Saldo Anterior</span>
               </a>
           </li>
     </ul>
@@ -429,7 +429,7 @@ require('conexion.php');
                                         </p>
                                     </div>
 
-                                <label class="col-sm-4 col-sm-4 control-label">Nombre del grupo: </label>
+                                <label class="col-sm-4 col-sm-4 control-label">Nombre de la cuenta: </label>
                                 <div class="col-sm-7">
                                     <input type="text" class="form-control" name="nombre_cuenta"><br>
                                 </div>
@@ -475,7 +475,7 @@ require('conexion.php');
                                 <center>
                                 <label style="font-size: 20px;"> SUBCUENTAS </label></center>
                                 
-                                <label class="col-sm-4 col-sm-4 control-label">Seleccione Grupo: </label>
+                                <label class="col-sm-4 col-sm-4 control-label">Seleccione Cuenta: </label>
                                     <div class="col-sm-8">
                                       <p>
                                         <form method="post"> 

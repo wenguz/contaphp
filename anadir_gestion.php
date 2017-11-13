@@ -102,7 +102,7 @@ require('conexion.php');
           <li class="sub-menu">
               <a class="active" href="anadir_gestion.php" >
                   <i class="fa fa-th"></i>
-                  <span>Añadir Gestion</span>
+                  <span>Saldo Anterior</span>
               </a>
           </li>
     </ul>
@@ -115,139 +115,140 @@ require('conexion.php');
 
 <!--main content start-->
 <section id="main-content">
-  <section class="wrapper">
-    <h3><i class="fa fa-angle-right"></i> Añadir Gestión</h3>
-      <!-- page start-->
-              <section class="panel">
-                  <div class="panel-body">
+    <section class="wrapper">
+      <h3><i class="fa fa-angle-right"></i>Saldo Anterior</h3>
+          <div class="col-md-12">
+              <div class="content-panel">
+
+                    <h4><i class="fa fa-angle-right"></i>Nueva Gestion</h4>
+                    
+                    <table class="">
+                      <form>
+                      <tr>
+                        <td>
+                          <div class="form-group">
+                            <label class="col-sm-3 col-sm-3 control-label">Año:&emsp; </label>
+                            <div class="col-sm-10">
+                              <?php
+                              $rs=mysqli_query($con,"SELECT MAX(id_periodo) as id FROM periodo");
+                              if ($row = mysqli_fetch_row($rs)) 
+                                {
+                                  $id = ($row[0]);
+                                }
+                              $periodo=mysqli_query($con, "SELECT * FROM periodo WHERE id_periodo='$id'");
+                              $per=mysqli_fetch_assoc($periodo);
+                              ?>
+                                <input type="text" class="form-control" value="<?php echo $per['anio_periodo'];?>">
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="form-group">
+                            <label class="col-sm-3 col-sm-3 control-label">Fecha_inicio:&emsp; </label>
+                            <div class="col-sm-10">
+                              
+                                <input type="date" class="form-control" value="<?php echo $per['fecha_inicio_periodo'];?>">
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="form-group">
+                            <label class="col-sm-4 col-sm-4 control-label">Fecha_fin:&emsp; </label>
+                            <div class="col-sm-10">
+                                <input type="date" class="form-control" value="<?php echo $per['fecha_cierre_periodo'];?>">
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                     
+                    </table>
+                    <table class="table table-bordered">
+                      <hr>
+                      <tr>
+                        <td colspan="4">
+                          <div class="form-group">
                             
-                      <center>
-                      <form class="form-horizontal style-form" method="get">
-                      
-                      <table width="80%" >
-                        <tr>
-                          <td>
-                            <h4 class="mb"><i class="fa fa-angle-right"></i> Datos de la entidad</h4>
-                            <div class="form-group">
-                              <label class="col-sm-2 col-sm-2 control-label">Nombre: </label>
-                              <div class="col-sm-10">
+                            <label class="col-sm-1 col-sm-1 control-label">Cuenta:&emsp; </label>
+                            <div class="col-sm-10">
+                                <p>
+                                  <select class="form-control" name="cuenta">
+                                        <?php
+                                        $sqlclase=mysqli_query($con,"SELECT * FROM cuenta");
+                                        while ($rowclase = mysqli_fetch_assoc($sqlclase)) 
+                                        {
+                                           $idc = substr($subcuenta_cuenta, 0, 1);
+                                          if($idc<=4)
+                                          {
+                                        ?>
+                                          <option>
+                                          <?php echo $rowclase['id_cuenta']." .- ".$rowclase['nombre_cuenta']; ?>
+                                          </option>
+                                        <?php 
+                                        }}
+                                        $nn=$rowclase['id_cuenta'];
+                                        ?>
+                                  </select>
+                                </p>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                    <table class="table table-bordered table-striped table-condensed">
 
-                                <?php
-                                $datos=mysqli_query($con,"SELECT * FROM entidad LIMIT 1");
-                                $row=mysqli_fetch_assoc($datos);
+                            
 
-                                ?>
-
-                                  <input type="text" class="form-control" name="nombre_entidad" disabled="true" value="<?=$row['nombre_entidad']?>">
-                              </div>
-                            </div>
-                            <div class="form-group">
-                              <label class="col-sm-2 col-sm-2 control-label">Direccion: </label>
-                              <div class="col-sm-10">
-                                  <input type="text" class="form-control" name="direccion_entidad" disabled="true" value="<?=$row['direccion_entidad'];?>">
-                              </div>
-                            </div>
-                            <div class="form-group">
-                              <label class="col-sm-2 col-sm-2 control-label">Telefono: </label>
-                              <table>
-                                <tr>
-                                  <td>
-                                    <div class="col-sm-10">
-                                      <input type="text" placeholder="fono1" class="form-control" name="fono1" disabled="true" value="<?=$row['fono1_entidad'];?>">
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div class="col-sm-10">
-                                      <input type="text" placeholder="fono2" class="form-control" name="fono2" disabled="true" value="<?=$row['fono2_entidad'];?>">
-                                    </div>
-                                  </td>
-                                </tr>
-                              </table>
-                            </div>
-                            <div class="form-group">
-                              <label class="col-sm-2 col-sm-2 control-label">Ciudad: </label>
-                              <div class="col-sm-10">
-                                  <input type="text" class="form-control" name="ciudad_entidad" disabled="true" value="<?=$row['ciudad_entidad'];?>">
-                              </div>
-                            </div>
-                            <h4 class="mb"><i class="fa fa-angle-right"></i> Datos del responsable</h4>
-                            <div class="form-group">
-                              <label class="col-sm-2 col-sm-2 control-label">Nombre completo: </label>
-                              <div class="col-sm-10">
-
-                                <?php
-                                $responsable=mysqli_query($con, "SELECT * FROM usuario where id_usuario='1'");
-                                $res=mysqli_fetch_assoc($responsable);
-                                ?>
-
-                                  <input type="text" class="form-control" disabled="true" value="<?=$res['nombre_usuario']." ".$res['ap_paterno_usuario']." ".$res['ap_materno_usuario'];?>">
-                              </div>
-                            </div>
-                            <div class="form-group">
-                              <label class="col-sm-2 col-sm-2 control-label">CI: </label>
-                              <div class="col-sm-10">
-                                  <input type="text" class="form-control" disabled="true" value="<?=$res['ci_usuario']?>">
-                              </div>
-                            </div>
-                            <center>
-                          <!--<button type="button" class="btn btn-success">Registrar Datos</button>
-                          &emsp;&emsp;
-                          <button type="button" class="btn btn-danger">Cancelar</button>-->
-                          </center>
-                            <h4 class="mb"><i class="fa fa-angle-right"></i> Año y Periodo</h4>
-                            <?php
-                            $rs=mysqli_query($con,"SELECT MAX(id_periodo) as id FROM periodo");
-                            if ($row = mysqli_fetch_row($rs)) 
-                              {
-                                $id = ($row[0]);
-                              }
-                            $periodo=mysqli_query($con, "SELECT * FROM periodo WHERE id_periodo='$id'");
-                            $per=mysqli_fetch_assoc($periodo);
-                            ?>
-                            <table>
+                              <thead >
                               <tr>
-                                <td>
-                                  <div class="form-group">
-                                    <label class="col-sm-2 col-sm-2 control-label">Año: </label>
-                                    <div class="col-sm-10">
-                                     <input type="text" class="form-control" name="año" disabled="true" value="<?=$per['anio_periodo']+1?>">
-                                    </div>
-                                  </div>
-                                </td>
-                                <td width="5%"></td>
-                                <td>
-                                  <div class="form-group">
-                                    <label class="col-sm-4 col-sm-4 control-label">Fecha_Inicio: </label>
-                                    <div class="col-sm-8">
-                                     <input type="date" class="form-control" name="fecha_inicio" value="<?=$per['fecha_inicio_periodo']?>">
-                                    </div>
-                                  </div>
-                                </td>
-                                <td width="5%">  </td>
-                                <td>
-                                  <div class="form-group">
-                                    <label class="col-sm-3 col-sm-3 control-label">Fecha_fin: </label>
-                                    <div class="col-sm-8">
-                                     <input type="date" class="form-control" name="fecha_final" value="<?=$per['fecha_cierre_periodo']?>">
-                                    </div>
-                                  </div>
-                                </td>
+                                  <td width="40%">Codigo</th>
+                                  <td width="10%"> Monto</th>
+                                  <td width="40%"> Cuenta</th>
+                                  <td width="10%"> Monto</th>
                               </tr>
-                            </table>
-                          </td>
+                              </thead>
+                              <tfoot >
+                                <tr>
+                                  <td>Total</th>
+                                  <td> 200</th>
+                                  <td>Total</th>
+                                  <td> 200</th>
+                                </tr>
+                              </tfoot>
+                              <tbody>
+                              <tr>
+                                  <td><a href="">1</a></td>
+                                  <td>200</td>
+                                  <td><a href="">1</a></td>
+                                  <td>200</td>
+                                  
+                              </tr>
+                              </tbody>
+                          </table>
+                          <table>
+                            <tr>
+                              <td width="92%"></td>
+
+                                  <td>
+                                    <button type="button" class="btn btn-success">Agregar</button>
+                                  </td>
+                            </tr>
+                          </table>
+                          <table class="table table-bordered table-striped table-condensed">
+                            <hr>
+                          
+                                <center>
+                            &emsp;<button type="button" class="btn btn-success">Registrar Datos</button>
+                          &emsp;&emsp;
+                          <button type="button" class="btn btn-danger">Cancelar</button></center></td>
                         </tr>
-                      </table>
-                      &emsp;
-                      <input type="submit" class="btn btn-success" name="guardar_datos" value="Guardar Datos">
-                      &emsp;&emsp;
-                      <input type="submit"  class="btn btn-danger"  name="cancelar" value="Cancelar">
-                      </form></center>    
-                  </div>
-              </section>
-          </aside>
-      </div>
-  </section>
-</section>
+
+
+                            </form>
+                          </table>
+              </div><!-- /content-panel -->
+          </div><!-- /col-md-12 -->
+    </section><!--/wrapper -->
+</section><!-- /MAIN CONTENT -->
       <!--main content end-->
   
 

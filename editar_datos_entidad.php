@@ -111,7 +111,6 @@ require('conexion.php');
 
 </section>
 
-
 <!--main content start-->
 <section id="main-content">
   <section class="wrapper">
@@ -126,7 +125,7 @@ require('conexion.php');
                       <table width="80%" >
                         <tr>
                           <td>
-                            <h4 class="mb"><i class="fa fa-angle-right"></i> Datos de la entidad</h4>
+                            <h4 class="mb"><i class="fa fa-angle-right"></i><a href="datos_entidad.php"> Datos Entidad</a> &emsp;<i class="fa fa-angle-right"></i>  Editar Datos Entidad </h4>
                             <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">Nombre: </label>
                               <div class="col-sm-10">
@@ -137,13 +136,13 @@ require('conexion.php');
 
                                 ?>
 
-                                  <input type="text" class="form-control" name="nombre_entidad" disabled="true" value="<?=$row['nombre_entidad']?>">
+                                  <input type="text" class="form-control" name="nombre_entidad" value="<?=$row['nombre_entidad']?>">
                               </div>
                             </div>
                             <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">Direccion: </label>
                               <div class="col-sm-10">
-                                  <input type="text" class="form-control" name="direccion_entidad" disabled="true" value="<?=$row['direccion_entidad'];?>">
+                                  <input type="text" class="form-control" name="direccion_entidad" value="<?=$row['direccion_entidad'];?>">
                               </div>
                             </div>
                             <div class="form-group">
@@ -152,12 +151,12 @@ require('conexion.php');
                                 <tr>
                                   <td>
                                     <div class="col-sm-10">
-                                      <input type="text" placeholder="fono1" class="form-control" name="fono1" disabled="true" value="<?=$row['fono1_entidad'];?>">
+                                      <input type="text" placeholder="fono1" class="form-control" name="fono1" value="<?=$row['fono1_entidad'];?>">
                                     </div>
                                   </td>
                                   <td>
                                     <div class="col-sm-10">
-                                      <input type="text" placeholder="fono2" class="form-control" name="fono2" disabled="true" value="<?=$row['fono2_entidad'];?>">
+                                      <input type="text" placeholder="fono2" class="form-control" name="fono2" value="<?=$row['fono2_entidad'];?>">
                                     </div>
                                   </td>
                                 </tr>
@@ -166,7 +165,7 @@ require('conexion.php');
                             <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">Ciudad: </label>
                               <div class="col-sm-10">
-                                  <input type="text" class="form-control" name="ciudad_entidad" disabled="true" value="<?=$row['ciudad_entidad'];?>">
+                                  <input type="text" class="form-control" name="ciudad_entidad" value="<?=$row['ciudad_entidad'];?>">
                               </div>
                             </div>
                             <h4 class="mb"><i class="fa fa-angle-right"></i> Datos del responsable</h4>
@@ -179,13 +178,13 @@ require('conexion.php');
                                 $res=mysqli_fetch_assoc($responsable);
                                 ?>
 
-                                  <input type="text" class="form-control" disabled="true" value="<?=$res['nombre_usuario']." ".$res['ap_paterno_usuario']." ".$res['ap_materno_usuario'];?>">
+                                  <input type="text" class="form-control" value="<?=$res['nombre_usuario']." ".$res['ap_paterno_usuario']." ".$res['ap_materno_usuario'];?>">
                               </div>
                             </div>
                             <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">CI: </label>
                               <div class="col-sm-10">
-                                  <input type="text" class="form-control" disabled="true" value="<?=$res['ci_usuario']?>">
+                                  <input type="text" class="form-control" value="<?=$res['ci_usuario']?>">
                               </div>
                             </div>
                             <center>
@@ -193,7 +192,7 @@ require('conexion.php');
                           &emsp;&emsp;
                           <button type="button" class="btn btn-danger">Cancelar</button>-->
                           </center>
-                            <h4 class="mb"><i class="fa fa-angle-right"></i> Año y Periodo</h4>
+                            <h4 class="mb"><i class="fa fa-angle-right"></i> Año y Periodo de inicio de sistema</h4>
                             <?php
                             $rs=mysqli_query($con,"SELECT MAX(id_periodo) as id FROM periodo");
                             if ($row = mysqli_fetch_row($rs)) 
@@ -237,22 +236,9 @@ require('conexion.php');
                         </tr>
                       </table>
                       &emsp;
-                      <input type="submit" class="btn btn-success" name="mod" value="Editar Datos de Entidad">
+                      <input type="submit" class="btn btn-success" name="modificar_datos" value="Editar Datos de Entidad">
                       &emsp;&emsp;
                       <input type="submit"  class="btn btn-danger"  name="cancelar" value="Cancelar">
-                      <?php
-                        if(isset($_POST['mod'])) 
-                        { 
-
-                            print "<script> window.location='editar_datos_entidad.php';</script>";
-
-                        }
-                        
-                        if(isset($_POST['cancelar'])) 
-                        { 
-                          print "<script> window.location='datos_entidad.php';</script>";
-                        }
-                      ?>
                       </form></center>
                   </div>
               </section>
