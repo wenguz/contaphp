@@ -110,10 +110,10 @@ $_SESSION["usuario"];
 
 <section id="main-content">
     <section class="wrapper">
-      <h3><i class="fa fa-angle-right"></i>Ficha Ingreso <i class="fa fa-angle-right"></i> Detalle </h3>
+      <h3><i class="fa fa-angle-right"></i>Ficha Egreso <i class="fa fa-angle-right"></i> Detalle </h3>
           <div class="col-md-12">
               <div class="content-panel"> 
-      <h3><i class="fa fa-angle-right"></i>Agregar Detalle de Ficha Ingreso</h3>
+      <h3><i class="fa fa-angle-right"></i>Agregar Detalle de Ficha Egreso</h3>
                                 <hr>
                     <form action="" name="ASIENTOS" method="post">  
                    
@@ -139,10 +139,15 @@ $_SESSION["usuario"];
                               <p class="col-sm-1 col-sm-1 control-label">Concepto</p>
                               <input type="text" name="ri_concepto" placeholder=" " autocomplete="off" class="form-control placeholder-no-fix">
                               <p class="col-sm-1 col-sm-1 control-label">Cantidad</p>
-                              <input type="number" name="ri_cantidad" placeholder=" " autocomplete="off" class="form-control placeholder-no-fix">
+                              <input required type="number" name="ri_cantidad" placeholder=" " autocomplete="off" class="form-control placeholder-no-fix">
                               <p>Monto (Bs)</p>
-                              <input type="number"  step="any"  name="ri_monto" placeholder=" "  class="form-control placeholder-no-fix">
-                          
+                              <input  required type="number"  step="any"  name="ri_monto" placeholder=" "  class="form-control placeholder-no-fix">
+                          <p>Tipo de Documento</p>
+                              <input required type="text" name="ri_tipo" placeholder=" "  class="form-control placeholder-no-fix">
+                              <p>Num. Documento</p>
+                              <input required type="number" name="ri_doc" placeholder=" "  class="form-control placeholder-no-fix">
+                              <p>Descripcion del Documento</p>
+                              <input required type="text" name="ri_doc_des" placeholder=" "  class="form-control placeholder-no-fix">
                           </div>
                           <div class="form-group"> <center>
                              
@@ -170,9 +175,28 @@ $_SESSION["usuario"];
                                      $ri_monto =$_POST["ri_monto"] ;
                                      $ri_concepto=$_POST["ri_concepto"] ;
                                      $ri_cantidad=$_POST["ri_cantidad"] ;
+                                     $ri_tipo=$_POST["ri_tipo"] ;
+                                     $ri_doc=$_POST["ri_doc"] ;
+                                     $ri_doc_des=$_POST["ri_doc_des"] ;
                                       $sq2= "INSERT INTO temp_as (id_as,glosa_asiento,monto_asiento,id_subcuenta,cantidad   ) 
                                                             VALUES ( '$id_entidad0','$ri_concepto','$ri_monto','$ri_cuenta','$ri_cantidad');";
-                                                      mysqli_query($con,$sq2)  ;  
+                                                      mysqli_query($con,$sq2)  ; 
+                                                      //agragar documento
+                                    $rsd=mysqli_query($con,"SELECT MAX(id_ficha) AS iden FROM ficha");
+                                    if ($rowd = mysqli_fetch_row($rsd)) 
+                                      {
+                                        $iden = trim($rowd[0]);
+                                      } 
+                                       $iden2 =0;
+                                      $rsd2=mysqli_query($con,"SELECT MAX(id_documento_extra)  FROM documento_extra");
+                                    if ($rowd2 = mysqli_fetch_row($rsd2)) 
+                                      {
+                                        $iden2 = trim($rowd2[0]);
+                                      } 
+                                      $id_doc_new= $iden2 +1;
+                                    $sq3= "INSERT INTO documento_extra (  id_documento_extra,codigo_documento,tipo,descripcion, id_ficha   ) 
+                                                            VALUES ( '$id_doc_new','$ri_doc','$ri_tipo','$ri_doc_des','$iden');";
+                                                      mysqli_query($con,$sq3)  ;  
                                     }}
                                   ?>
                                   </center>
@@ -191,6 +215,9 @@ $_SESSION["usuario"];
                                   <td width="350px"> Concepto</td>
                                   <td> Cantidad</th>
                                     <td> Monto</th>
+                                      <td width="150px">Tipo de documento</td>
+                                      <td width="150px"> Num. Doc </td>
+                                      <td width="150px"> Descrip. Doc </td>
                                   <td width="150px"> Opciones</td>
                               </tr>
                               </thead>
@@ -209,7 +236,7 @@ $_SESSION["usuario"];
                                            
                                           echo  $totala;
                                       ?></th>
-                                    <td colspan="2"> </center> </th>
+                                    <td colspan="5"> </center> </th>
                                 </tr>  </tfoot> <tbody>  <tr>
                                        <?php
                                        $m=0;
@@ -227,7 +254,8 @@ $_SESSION["usuario"];
                                   <td><?php echo $valores8['glosa_asiento'] ?></td> 
                                   <td><?php echo $valores8['cantidad'] ?></td> 
                                   <td><?php echo $valores8['monto_asiento'] ?></td>
-                                 
+                                <td><? $func3 = 'ver_doc_t';
+                                            echo $func3($valores8['id_as'])?></td>
                           <td> <input name="checkbox[]" type="checkbox" id="checkbox[]" value="<?php echo  $valores8['id_as']; ?>">
                            <input type="submit"  class="btn btn-primary btn-xs" name="registrar_ed" value="Editar" > </input> 
                            <input type="submit"  class="btn btn-danger btn-xs"   name="registrar_el" value="ELIMINAR"> 
@@ -278,8 +306,8 @@ $_SESSION["usuario"];
                                   $campo1=$row0['glosa_asiento'];
                                   $campo2=$row0['cantidad'];
                                   $campo3=$row0['monto_asiento'];
-                                  $campo4=0;
-                                  $campo5=$row0['monto_asiento'];
+                                  $campo4=$row0['monto_asiento'];
+                                  $campo5=0;
                                   $campo6=$iden;
                                   $campo7=$row0['id_subcuenta'];
  
@@ -315,6 +343,9 @@ $_SESSION["usuario"];
                                       //borrar tabla temporal
                             $sq_delete= "DELETE FROM temp_as";
                              mysqli_query($con,$sq_delete)  ;
+                             //borrar tabla docuemtno
+                            $sq_delete_d= "DELETE FROM documento_extra WHERE id_ficha='$iden' ";
+                             mysqli_query($con,$sq_delete_d)  ;
                                        //borrar ficha
                             $sq_delete= "DELETE FROM ficha WHERE id_ficha='$iden'";
                              mysqli_query($con,$sq_delete)  ;
@@ -328,7 +359,21 @@ $_SESSION["usuario"];
 </section>
 
                       </section><!--    -->
+<?php
+  function ver_doc_t($f) {
+    $s='es ';
+   $con = mysqli_connect('localhost', 'root', '', 'contabilidad'); 
+     $cod_1=mysqli_query($con,"SELECT  Tipo FROM documento_extra WHERE  id_ficha='$f' LIMIT 1 ");
+    while ($valores = mysqli_fetch_array($cod_1)) {
+                                                    
+       $s=$s+$valores[tipo];  
+    // echo " <td>".$valores[codigo_documento]."</td>";  
+    // echo " <td>".$valores[descripcion]."</td>";  
 
+      }  
+    return $s;
+}
+ ?>
       <!--main content end-->
 <script type="text/javascript">
 

@@ -134,8 +134,8 @@ $_SESSION["usuario"];
                           <td> Monto Total</th>
                              <td>Fecha</th>
                           <td> Autorizado por...</th>
-                          <td> Entregado por...</th>
                           <td> Elaborado por...</th>
+                          <td> Recibido por...</th>
                           <td> Opciones</th>
                       </tr>
                       </thead>
@@ -179,6 +179,26 @@ function elab($id) {
     } 
     return $ing;
 }
+function aut($id) {
+  $ing =' ';
+   $con = mysqli_connect('localhost', 'root', '', 'contabilidad'); 
+   $cod_1=mysqli_query($con,"SELECT    u.nombre_usuario FROM usuario u, empleado_ficha em,empleado_usuario eu  WHERE em.id_ficha='$id' AND em.descripcion_empleado='Autorizado' AND em.id_empleado_usuario=eu.id_empleado_usuario AND eu.id_usuario=u.id_usuario LIMIT 1");
+  if ($row_1 = mysqli_fetch_row($cod_1)) 
+   {
+       $ing = trim($row_1[0]); 
+    } 
+    return $ing;
+}
+function ent($id) {
+  $ing =' ';
+   $con = mysqli_connect('localhost', 'root', '', 'contabilidad'); 
+   $cod_1=mysqli_query($con,"SELECT    u.nombre_usuario FROM usuario u, empleado_ficha em,empleado_usuario eu  WHERE em.id_ficha='$id' AND em.descripcion_empleado='Elaborado' AND em.id_empleado_usuario=eu.id_empleado_usuario AND eu.id_usuario=u.id_usuario LIMIT 1");
+  if ($row_1 = mysqli_fetch_row($cod_1)) 
+   {
+       $ing = trim($row_1[0]); 
+    } 
+    return $ing;
+}
 
                             if(isset($_POST['buscar1'])) 
                         { 
@@ -194,8 +214,10 @@ function elab($id) {
                                    
                                   <td><?php echo $valores['total_ficha'] ?></td>
                                   <td><?php echo $valores['fecha_ficha'] ?></td>
-                                  <td><?php echo '-' ?></td>
-                                  <td><?php echo '-' ?></td> 
+                                  <td><?php  $func4 = 'aut';
+                                            echo $func4($valores['id_ficha'])  ?></td>
+                                  <td><?php  $func5 = 'ent';
+                                            echo $func5($valores['id_ficha'])  ?></td> 
                                   <td><?php $func4 = 'elab';
                                             echo $func4($valores['id_persona']) ?></td> 
                           <td><button class="btn btn-primary btn-xs"><i class="fa fa-pencil"> Editar</i>
@@ -221,8 +243,10 @@ function elab($id) {
                                    
                                   <td><?php echo $valores['total_ficha'] ?></td>
                                   <td><?php echo $valores['fecha_ficha'] ?></td>
-                                  <td><?php echo '-' ?></td>
-                                  <td><?php echo '-' ?></td> 
+                                  <td><?php  $func4 = 'aut';
+                                            echo $func4($valores['id_ficha'])  ?></td>
+                                  <td><?php  $func5 = 'ent';
+                                            echo $func5($valores['id_ficha'])  ?></td>
                                   <td><?php $func4 = 'elab';
                                             echo $func4($valores['id_persona']) ?></td> 
                           <td><button class="btn btn-primary btn-xs"><i class="fa fa-pencil"> Editar</i>
@@ -248,8 +272,10 @@ function elab($id) {
                                    
                                   <td><?php echo $valores['total_ficha'] ?></td>
                                   <td><?php echo $valores['fecha_ficha'] ?></td>
-                                  <td><?php echo '-' ?></td>
-                                  <td><?php echo '-' ?></td> 
+                                   <td><?php  $func4 = 'aut';
+                                            echo $func4($valores['id_ficha'])  ?></td>
+                                  <td><?php  $func5 = 'ent';
+                                            echo $func5($valores['id_ficha'])  ?></td>
                                   <td><?php $func4 = 'elab';
                                             echo $func4($valores['id_persona']) ?></td> 
                           <td><button class="btn btn-primary btn-xs"><i class="fa fa-pencil"> Editar</i>

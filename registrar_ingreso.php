@@ -334,7 +334,7 @@ $_SESSION["usuario"];
                                                 }
                                                 $id_persona = $id+1;
                                               $sq_p= "INSERT INTO persona(id_persona,nombre_persona,ci_persona,descripcion_persona) 
-                                                    VALUES ('$id_persona','$p_nom','$p_ci','');";
+                                                    VALUES ('$id_persona','$p_nom','$p_ci','Recibio');";
                                               mysqli_query($con,$sq_p)  ;   
                                             }
             //tipo de cambio 
