@@ -6,6 +6,10 @@ if (!isset($_SESSION["usuario"])){
     
 }
 $_SESSION["usuario"];
+
+$id_clase = htmlentities($_GET['cl']);
+
+require('conexion.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -117,78 +121,86 @@ $_SESSION["usuario"];
     <h3><i class="fa fa-angle-right"></i> Cuenta</h3>
       <!-- page start-->
               <section class="panel">
-                  <div class="panel-body">
-                            
-                      <h4 class="mb"><i class="fa fa-angle-right"></i> <a href="lista_cuenta.php"> Lista de cuentas</a> &emsp;<i class="fa fa-angle-right"></i> Editar cuenta </h4>
-<form class="form-horizontal style-form" method="get">
-                      <table width="80%" >
+                  <div class="panel-body">  
+                    <h4 class="mb"><i class="fa fa-angle-right"></i><a href="lista_cuenta.php"> Lista de cuentas</a> &emsp;<i class="fa fa-angle-right"></i>  Clase </h4>
+                      <center><label style="font-size: 24px">CLASE</label></center><br>
+                      <form class="form-horizontal style-form" method="POST">
+                      <table width="100%">
                         <tr>
-                          <td></td>
-                          <td width="90%">
-                          <div class="form-group">
-                              <label class="col-sm-2 col-sm-2 control-label">Clase cuenta:&emsp; </label>
+                          <?php 
+                            $sql = "SELECT * FROM clase WHERE id_clase='".$id_clase."' LIMIT 1";
+                            $query = mysqli_query($con,$sql);
+                            $row = mysqli_fetch_assoc($query);
+                          ?>
+                          <td width="10%"></td>
+                          <td width="80%">
+                            <div class="form-group">
+                              <label class="col-sm-2 col-sm-2 control-label">Codigo_de_Clase: </label>
                               <div class="col-sm-10">
-                                <p>
-                                  <select class="form-control" name="clase">
-                                    <option>1. Cuenta1</option>
-                                    <option>2. Cuenta2</option>
-                                    <option>3. Cuenta3</option>
-                                  </select>
-                                </p>
+                                  <input type="text" class="form-control" name="cod_clase" value="<?=$row['id_clase']?>">
                               </div>
-                          </div>
-
-                          <div class="radio">
-                            <label>
-                               <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>Clase &emsp;&emsp;&emsp; &emsp;<input type="text">
-                            </label>
-                            
-                          </div>
-                          <div class="radio">
-                            <label>
-                              <input type="radio" name="optionsRadios" id="optionsRadios2" value="option1" >Grupo &emsp;&emsp;&emsp;&emsp;<input type="text">
-                            </label>
-                          </div>
-                          <div class="radio">
-                            <label>
-                              <input type="radio" name="optionsRadios" id="optionsRadios3" value="option1" >Subgrupo &emsp; &emsp;<input type="text">
-                            </label>
-                          </div>
-                          <div class="radio">
-                            <label>
-                              <input type="radio" name="optionsRadios" id="optionsRadios4" value="option1" >Cuenta del... &emsp;<input type="text"">
-                            </label>
-                          </div>  
-                          <br>                        
-                          <div class="form-group">
-                              <label class="col-sm-3 col-sm-3 control-label">Nombre de la Cuenta:&emsp; </label>
-                              <div class="col-sm-9">
-                                  <input type="text" class="form-control">
+                            </div>
+                            <div class="form-group">
+                              <label class="col-sm-2 col-sm-2 control-label">Nombre_de_Clase: </label>
+                              <div class="col-sm-10">
+                                  <input type="text" class="form-control" name="nom_clase" value="<?=$row['nombre_clase']?>">
                               </div>
-                          </div>
-                          <div class="form-group">
-                              <label class="col-sm-3 col-sm-3 control-label">Tipo de la cuenta:&emsp; </label>
-                              <div class="col-sm-9">
-                                  <input type="text" class="form-control">
-                              </div>
-                          </div>
-                          <div class="form-group">
-                              <label class="col-sm-4 col-sm-4 control-label">la codificacion de la cuenta será:&emsp; </label>
-                              <div class="col-sm-8">
-                                  <input type="text" class="form-control">
-                              </div>
-                          </div>
-                          <br>
-                          <center>
-                          <button type="button" class="btn btn-success">Modificar Datos</button>
-                          &emsp;&emsp;
-                          <button type="button" class="btn btn-danger">Cancelar</button>
-                        </center>
+                            </div>
                           </td>
+                          <td width="10%"></td>
                         </tr>
                       </table>
+                      <center>
+                        <br>
+                          <?php
+                            $dato_estado_clase=mysqli_query($con,"SELECT estado_clase from clase where id_clase='$id_clase'");
+                            $rowsss = mysqli_fetch_assoc($dato_estado_clase);
+                            if($rowsss['estado_clase']=='ACTIVO') 
+                            { 
+                                ?>
+                                &emsp;<input type="submit" class="btn btn-success" name="desactivar_clase" value="Deshabilitar Clase">
+                                &emsp;
+                                <?php
+                            } 
+                            else
+                            {
+                                ?>
+                                &emsp;<input type="submit" class="btn btn-success" name="activar_clase" value="Habilitar Clase">
+                                &emsp;
+                                <?php
+                            }
+                          ?>
+                          &emsp;&emsp;<input type="submit"  class="btn btn-danger"  name="cancelar" value="Cancelar">
+                      </center>
+                       <?php
+                        if(isset($_POST['desactivar_clase'])) 
+                        { 
+                            $sql =("UPDATE clase SET estado_clase='NO ACTIVO' WHERE id_clase='$id_clase'");
+                            mysqli_query($con,$sql) or die(mysqli_error());
 
-                      </form>
+                            $msg = "Clase Deshabilitada correctamente";
+                            print "<script>alert('$msg'); window.location='lista_cuenta.php';</script>";
+
+                        } 
+                        else
+                        {
+                          if(isset($_POST['activar_clase'])) 
+                        { 
+                          
+                            $sql =("UPDATE clase SET estado_clase='ACTIVO' WHERE id_clase='$id_clase'");
+                            mysqli_query($con,$sql) or die(mysqli_error());
+
+                            $msg = "Clase Habilitada correctamente";
+                            print "<script>alert('$msg'); window.location='lista_cuenta.php';</script>";
+
+                        } 
+                        }
+                        if(isset($_POST['cancelar'])) 
+                        { 
+                          print "<script> window.location='lista_cuenta.php';</script>";
+                        }
+                      ?>
+                    </form>
                   </div>
               </section>
           </aside>
