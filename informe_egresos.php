@@ -3,7 +3,7 @@ session_start();
 //manejamos en sesion el nombre del usuario que se ha logeado
 if (!isset($_SESSION["usuario"])){
     header("location:index.php?nologin=false");
-    
+
 }
 $_SESSION["usuario"];
 ?>
@@ -24,8 +24,8 @@ $_SESSION["usuario"];
     <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="assets/css/zabuto_calendar.css">
     <link rel="stylesheet" type="text/css" href="assets/js/gritter/css/jquery.gritter.css" />
-    <link rel="stylesheet" type="text/css" href="assets/lineicons/style.css">    
-    
+    <link rel="stylesheet" type="text/css" href="assets/lineicons/style.css">
+
     <!-- Custom styles for this template -->
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="assets/css/style-responsive.css" rel="stylesheet">
@@ -33,7 +33,7 @@ $_SESSION["usuario"];
     <script src="assets/js/chart-master/Chart.js"></script>
   </head>
   <style type="text/css">
-      
+
       tfoot {
         text-align: right;
         background: #4b5c4e;
@@ -42,7 +42,7 @@ $_SESSION["usuario"];
       }
 
     </style>
- 
+
   <body>
 
   <section id="container" >
@@ -56,7 +56,7 @@ $_SESSION["usuario"];
               </div>
             <!--logo start-->
             <a href="index.php" class="logo"><b>SISTEMA CONTABLE</b></a>
-            
+
             <div class="top-menu">
               <ul class="nav pull-right top-menu">
                     <li><a class="logout" href="index.php">Cerrar Sesion</a></li>
@@ -64,7 +64,7 @@ $_SESSION["usuario"];
             </div>
         </header>
       <!--header end-->
-      
+
       <!-- **********************************************************************************************************************************************************
       MAIN SIDEBAR MENU
       *********************************************************************************************************************************************************** -->
@@ -79,15 +79,15 @@ $_SESSION["usuario"];
                 <span>Inicio  </span>
             </a>
         </li>
-        
+
         <li class="sub-menu">
             <a class="active" href="javascript:;" >
                   <i class="fa fa-list-alt"></i>
                   <span>Reportes Diarios</span>
               </a>
               <ul class="sub">
-                  <li ><a  href="informe_ingresos.php"><i class="fa fa-list-alt"></i>Informe Ingresos</a></li>
-                  <li class="active"><a  href="informe_egresos.php"><i class="fa fa-list-alt"></i>Informe Egresos</a></li>
+                  <li class="active"><a  href="informe_ingresos.php"><i class="fa fa-list-alt"></i>Informe Ingresos</a></li>
+                  <li ><a  href="informe_egresos.php"><i class="fa fa-list-alt"></i>Informe Egresos</a></li>
                   <li ><a  href="libro_diario.php"><i class="fa fa-list-alt"></i>Libro Diario</a></li>
               </ul>
           </li>
@@ -113,56 +113,76 @@ $_SESSION["usuario"];
           </li>
 
     </ul>
-</div>  
+</div>
       </aside>
-     
+
 
 </section>
 
 <section id="main-content">
     <section class="wrapper">
-      <h3><i class="fa fa-angle-right"></i>Reportes Diarios</h3>
+      <h3><i class="fa fa-angle-right"></i>Lista de fichas</h3>
           <div class="col-md-12">
               <div class="content-panel" >
                   <table class="table table-bordered table-striped table-condensed">
                     <h4><i class="fa fa-angle-right"></i> Informe de Egresos</h4>
-                    &emsp;<label>Mostrar informe de la fecha:  </label> &emsp;
-                    <form>
-                      <input  type="date" value="Buscar..." onfocus="if (this.value == 'Buscar...') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Buscar...';}" />
-                      <input class="btn btn-primary" type="button" value="Buscar" />
+                      <label>&emsp;&emsp;    Ingrese Fecha:  </label> &emsp;
+                    <form action="" method="post">
+                        <input type="date" name="b_fecha" placeholder="YYYY-MM-DD" class="form-input"/>
+                        <input type="submit"  class="btn btn-theme" name="fecha" value="Buscar">
                     </form><!-- style="display: block; overflow-y: auto; height: 100px;"-->
-                    <hr >
+                    <hr>
                       <thead >
                       <tr>
                           <td>Nro</th>
                           <td> Fecha</th>
-                          <td class="hidden-phone"> Cuenta</th>
-                          <td> Concepto</th>
-                          <td> entregado a...</th>
-                          <td> Monto</th>
-                          <td> Amortizacion</th>
-                          <td> Monto amortizado</th>
+                          <td> Cuenta</th>
+                          <td>Concepto</th>
+                          <td>Entregado a</th>
+                          <td>Monto</th>
+                          <td>Nro Amortizacion</th>
+                          <td>Monto Amortizacion</th>
                       </tr>
                       </thead>
                       <tfoot>
                          <tr>
-                          <td colspan="5">Total Ingresos del Dìa</td> 
+                          <td colspan="6">Total Egresos del Dìa</td>
+                          <td></td>
+                          <td></td>
                           <td></td>
                         </tr>
                       </tfoot>
                     <tbody  >
                       <tr>
-                        <td><a href="">1</a></td>
-                          <td >b</td>
-                          <td>b</td>
-                          <td>b</td>
-                          <td>b</td>
-                          <td>b</td>
-                          
-                          <td>b</td>
-                          <td>b</td>
+                        <?php
+                        if(isset($_POST['fecha']))
+                          {
+                             $con = mysqli_connect('localhost', 'root', '', 'contabilidad') or die(mysql_error());
+                            $a =$_POST["b_fecha"] ;
+//falta relacion con amortizacion y depreciacion
+                              $cod=mysqli_query($con,"SELECT b.id_ficha, b.fecha_ficha, e.nombre_cuenta, x.glosa_asiento,p.nombre_persona, x.monto_asiento
+                                FROM tipo_transaccion a, ficha b, asiento x, subcuenta d, cuenta e, tipo_pago tp
+                                WHERE a.id_tipo_transaccion=b.id_tipo_transaccion
+                                AND tp.id_tipo_pago=b.id_tipo_pago
+                                AND b.id_ficha=x.ficha_id_ficha
+                                AND x.id_subcuenta=d.id_subcuenta
+                                AND d.id_cuenta=e.id_cuenta
+                                AND b.fecha_ficha='$a'
+                                AND a.nombre_transaccion='Egreso'");
+                               while ($valores = mysqli_fetch_array($cod)) { ?>
+                                  <tr>
+                                      <td><?php echo $valores['id_ficha'] ?></td>
+                                      <td><?php echo $valores['fecha_ficha'] ?></td>
+                                      <td><?php echo $valores['nombre_cuenta'] ?></td>
+                                      <td><?php echo $valores['glosa_asiento'] ?></td>
+                                      <td><?php echo $valores['tipo'] ?></td>
+                                      <td><?php echo $valores['nombre_persona'] ?></td>
+                                      <td><?php echo $valores['monto_asiento'] ?></td>
+                                  </tr>
+                                <?php }
+                          }?>
                       </tr>
-                      
+
                       </tbody>
                   </table>
               </div><!-- /content-panel -->
@@ -171,7 +191,7 @@ $_SESSION["usuario"];
 </section><!-- /MAIN CONTENT -->
 
       <!--main content end-->
-  
+
 
 
     <!-- js placed at the end of the document so the pages load faster -->
@@ -186,15 +206,15 @@ $_SESSION["usuario"];
 
     <!--common script for all pages-->
     <script src="assets/js/common-scripts.js"></script>
-    
+
     <script type="text/javascript" src="assets/js/gritter/js/jquery.gritter.js"></script>
     <script type="text/javascript" src="assets/js/gritter-conf.js"></script>
 
     <!--script for this page-->
-    <script src="assets/js/sparkline-chart.js"></script>    
-  <script src="assets/js/zabuto_calendar.js"></script>  
-  
-  
+    <script src="assets/js/sparkline-chart.js"></script>
+  <script src="assets/js/zabuto_calendar.js"></script>
+
+
   <script type="application/javascript">
         $(document).ready(function () {
             $("#date-popover").popover({html: true, trigger: "manual"});
@@ -202,7 +222,7 @@ $_SESSION["usuario"];
             $("#date-popover").click(function (e) {
                 $(this).hide();
             });
-        
+
             $("#my-calendar").zabuto_calendar({
                 action: function () {
                     return myDateFunction(this.id, false);
@@ -220,8 +240,8 @@ $_SESSION["usuario"];
                 ]
             });
         });
-        
-        
+
+
         function myNavFunction(id) {
             $("#date-popover").hide();
             var nav = $("#" + id).data("navigation");
@@ -229,7 +249,7 @@ $_SESSION["usuario"];
             console.log('nav ' + nav + ' to: ' + to.month + '/' + to.year);
         }
     </script>
-  
+
 
   </body>
 </html>

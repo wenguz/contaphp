@@ -3,7 +3,7 @@ session_start();
 //manejamos en sesion el nombre del usuario que se ha logeado
 if (!isset($_SESSION["usuario"])){
     header("location:index.php?nologin=false");
-    
+
 }
 $_SESSION["usuario"];
 ?>
@@ -24,15 +24,15 @@ $_SESSION["usuario"];
     <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="assets/css/zabuto_calendar.css">
     <link rel="stylesheet" type="text/css" href="assets/js/gritter/css/jquery.gritter.css" />
-    <link rel="stylesheet" type="text/css" href="assets/lineicons/style.css">    
-    
+    <link rel="stylesheet" type="text/css" href="assets/lineicons/style.css">
+
     <!-- Custom styles for this template -->
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="assets/css/style-responsive.css" rel="stylesheet">
 
     <script src="assets/js/chart-master/Chart.js"></script>
   </head>
- 
+
   <body>
 
   <section id="container" >
@@ -46,7 +46,7 @@ $_SESSION["usuario"];
               </div>
             <!--logo start-->
             <a href="index.php" class="logo"><b>SISTEMA CONTABLE</b></a>
-            
+
             <div class="top-menu">
               <ul class="nav pull-right top-menu">
                     <li><a class="logout" href="index.php">Cerrar Sesion</a></li>
@@ -54,7 +54,7 @@ $_SESSION["usuario"];
             </div>
         </header>
       <!--header end-->
-      
+
       <!-- **********************************************************************************************************************************************************
       MAIN SIDEBAR MENU
       *********************************************************************************************************************************************************** -->
@@ -69,7 +69,7 @@ $_SESSION["usuario"];
                 <span>Inicio  </span>
             </a>
         </li>
-        
+
         <li class="sub-menu">
             <a  href="javascript:;" >
                   <i class="fa fa-list-alt"></i>
@@ -78,7 +78,7 @@ $_SESSION["usuario"];
               <ul class="sub">
                   <li ><a  href="informe_ingresos.php"><i class="fa fa-list-alt"></i>Informe Ingresos</a></li>
                   <li ><a  href="informe_egresos.php"><i class="fa fa-list-alt"></i>Informe Egresos</a></li>
-                  <li ><a  href="libro_diario.php"><i class="fa fa-list-alt"></i>Libro Diario</a></li>
+                  <li ><a  href="guardar_diario.php"><i class="fa fa-list-alt"></i>Libro Diario</a></li>
               </ul>
           </li>
           <li class="sub-menu">
@@ -103,9 +103,9 @@ $_SESSION["usuario"];
           </li>
 
     </ul>
-</div>  
+</div>
       </aside>
-     
+
 
 </section>
 
@@ -116,14 +116,14 @@ $_SESSION["usuario"];
               <div class="content-panel">
                   <table class="table table-bordered table-striped table-condensed">
                     <h4><i class="fa fa-angle-right"></i> ...</h4>
-                    
+
               </div><!-- /content-panel -->
           </div><!-- /col-md-12 -->
     </section><!--/wrapper -->
 </section><!-- /MAIN CONTENT -->
 
       <!--main content end-->
-  
+
 
 
     <!-- js placed at the end of the document so the pages load faster -->
@@ -138,15 +138,15 @@ $_SESSION["usuario"];
 
     <!--common script for all pages-->
     <script src="assets/js/common-scripts.js"></script>
-    
+
     <script type="text/javascript" src="assets/js/gritter/js/jquery.gritter.js"></script>
     <script type="text/javascript" src="assets/js/gritter-conf.js"></script>
 
     <!--script for this page-->
-    <script src="assets/js/sparkline-chart.js"></script>    
-  <script src="assets/js/zabuto_calendar.js"></script>  
-  
-  
+    <script src="assets/js/sparkline-chart.js"></script>
+  <script src="assets/js/zabuto_calendar.js"></script>
+
+
   <script type="application/javascript">
         $(document).ready(function () {
             $("#date-popover").popover({html: true, trigger: "manual"});
@@ -154,7 +154,7 @@ $_SESSION["usuario"];
             $("#date-popover").click(function (e) {
                 $(this).hide();
             });
-        
+
             $("#my-calendar").zabuto_calendar({
                 action: function () {
                     return myDateFunction(this.id, false);
@@ -172,8 +172,8 @@ $_SESSION["usuario"];
                 ]
             });
         });
-        
-        
+
+
         function myNavFunction(id) {
             $("#date-popover").hide();
             var nav = $("#" + id).data("navigation");
@@ -181,7 +181,7 @@ $_SESSION["usuario"];
             console.log('nav ' + nav + ' to: ' + to.month + '/' + to.year);
         }
     </script>
-  
+
 
   </body>
 </html>
