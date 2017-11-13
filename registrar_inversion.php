@@ -174,9 +174,9 @@ $_SESSION["usuario"];
                               <label class="col-sm-10">Moneda:   &emsp; </label>
                               <div class="col-sm-10">
                                 <p> 
-                                  <select class="form-control" name="cargo">
-                                        <option>Bs.</option>
-                                       <option>$us.</option>
+                                  <select class="form-control" name="moneda">
+                                        <option value="1">Bs.</option>
+                                       <option value="0">$us.</option>
                                   </select>
                                 </p>
                               </div>
@@ -232,7 +232,7 @@ $_SESSION["usuario"];
                       <tr>
                           <h4><i class="fa fa-angle-right"></i> Registrar Personal </h4>
                               
-                              <td>
+                              <td colspan="2">
                                 <div class="form-group">
                                   <center>
                                   <label style="font-size: 15px;">Pagado a ...</label></center>
@@ -300,7 +300,7 @@ $_SESSION["usuario"];
                                 <hr>
                                 <center>
                            <input type="submit"  class="btn btn-danger"  onClick="document.location.reload();"  name="cancelar" value="CANCELAR"> 
-                         <input type="submit"  class="btn btn-theme" name="registrar_datos"  value="AGREGAR CUENTAS">
+                         <input type="submit"  class="btn btn-theme" name="registrar_datos"  value="AGREGAR ">
                            
                                </center></td>
                         </tr>
@@ -346,13 +346,23 @@ $_SESSION["usuario"];
                                       {
                                         $iden = trim($row[0]);
                                       }
+                                      $tot=0;
                               $id_entidad=$iden+1;
                               $fechai =$_POST["fecha"] ;
                               $pago =$_POST["pago"] ;
                               $trans =$_POST["trans"] ;
                               $cambio =$_POST["cambio"] ;
-                              //$cuenta =$_POST["cuenta"] ;
+                               $moneda =$_POST["moneda"] ;
                               $partida=$_POST["numero_partida_ficha"];
+                                 //modena
+                          if ($moneda==0)
+                          {
+                            $tot=$cambio;
+                          }
+                          else
+                          {
+                            $tot=1;
+                          }
                               //pagado a 
                                $pag_nom=$_POST["pag_nom"];
                                //Autorizado por
@@ -425,7 +435,7 @@ $_SESSION["usuario"];
                            //insertar ficha
                            $sq= "INSERT INTO ficha(id_ficha, numero_partida_ficha, fecha_ficha, tiempo_ficha, total_ficha, total_debe_ficha, total_haber_ficha, id_tipo_transaccion, id_tipo_cambio, id_tipo_pago, id_persona)
 
-                              VALUES ('$id_entidad','$partida','$fechai','$hora','0','0','0','$trans','$id_cambio','$pago','$id_persona');";
+                              VALUES ('$id_entidad','$partida','$fechai','$hora','$tot','0','0','$trans','$id_cambio','$pago','$id_persona');";
                          
                             mysqli_query($con,$sq)  ;       
                              //agregar personal

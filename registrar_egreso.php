@@ -302,7 +302,7 @@ $_SESSION["usuario"];
                                 <hr>
                                 <center>
                            <input type="submit"  class="btn btn-danger"  onClick="document.location.reload();"  name="cancelar" value="CANCELAR"> 
-                         <input type="submit"  class="btn btn-theme" name="registrar_datos"  value="AGREGAR CUENTAS">
+                         <input type="submit"  class="btn btn-theme" name="registrar_datos"  value="AGREGAR  ">
                            
                                </center></td>
                         </tr>

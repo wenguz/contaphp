@@ -124,9 +124,9 @@ $_SESSION["usuario"];
                                         <select class="form-control placeholder-no-fix" name="ri_cuenta" >
                                       <?php
                                             $con = mysqli_connect('localhost', 'root', '', 'contabilidad'); 
-                                            $cod_cuenta=mysqli_query($con,"SELECT * FROM cuenta");
+                                            $cod_cuenta=mysqli_query($con,"SELECT * FROM subcuenta");
                                             while ($valores_cuenta = mysqli_fetch_array($cod_cuenta)) {
-                                            echo '<option value="'.$valores_cuenta[id_cuenta].'">'.$valores_cuenta[nombre_cuenta].'</option>'; }
+                                            echo '<option value="'.$valores_cuenta[idsubcuenta].'">'.$valores_cuenta[nombre_subcuenta].'</option>'; }
                                             echo "<br>"; 
                                        ?>
                                              </select>
