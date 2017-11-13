@@ -111,18 +111,19 @@ $_SESSION["usuario"];
 <section id="main-content">
     <section class="wrapper">
       <h3><i class="fa fa-angle-right"></i>Ficha Inversion</h3>
-          <div class="col-md-12">
+           
+            <div class="col-md-12">
               <div class="content-panel">
 
-                    <h4><i class="fa fa-angle-right"></i> Registrar Inversion</h4>
-
+                    <h4><i class="fa fa-angle-right"></i> Registrar Inversión</h4>
+                      <h6>  * Llenar todos los espacios vacios obligatoriamente</h6>
                     <table class="">
                       <form action="" method="post">
                       <tr>
                         <td>
                           <div class="form-group">
                             <label class="col-sm-3 col-sm-3 control-label"  >Fecha:&emsp; 
-                                <input type="date" name="fecha" placeholder="YYYY-MM-DD" class="form-input"/>
+                                <input required type="date" name="fecha" placeholder="YYYY-MM-DD" class="form-input"/>
                             </label>
                             
                           </div>
@@ -130,7 +131,7 @@ $_SESSION["usuario"];
                         <td colspan="2">
                           <div class="col-sm-3 col-sm-3 control-label">
                               Hora:
-                                <p type="time" class="form-control"   ><a><?php  
+                                <p  readonly="readonly"type="time" class="form-control"   ><a><?php  
                                   $time = time();
                                   echo date("H:i:s", $time); 
                                     ?></a></p>
@@ -141,7 +142,7 @@ $_SESSION["usuario"];
                           <div class="form-group">
                             <label class="col-sm-4 col-sm-4 control-label">Nro. de comprobante:&emsp; </label>
                             <div class="col-sm-10">
-                                <input type="number" name ="numero_partida_ficha" class="form-control">
+                                <input required type="number" name ="numero_partida_ficha" class="form-control">
                             </div>
                           </div>
                         </td>
@@ -161,7 +162,7 @@ $_SESSION["usuario"];
                                             {
                                               $iden = trim($row[0]);
                                             } 
-                                          echo '<input type="number" step="any" class="form-control" name="cambio" value="'.$iden.'"> </input> ';
+                                          echo '<input type="number"  step="any" class="form-control" name="cambio" value="'.$iden.'"> </input> ';
                                       ?>
                                   
                                 </p>
@@ -187,15 +188,15 @@ $_SESSION["usuario"];
 
                               <div class="col-sm-10">
                                 <p>
-                                  <select class="form-control" name="pago">
+                                  <select  required class="form-control" name="pago">
                                       <?php
                                            $con = mysqli_connect('localhost', 'root', '', 'contabilidad'); 
-                                           $cod=mysqli_query($con,"SELECT * FROM tipo_pago");
+                                           $cod=mysqli_query($con,"SELECT * FROM tipo_pago WHERE descripcion_tipo_pago='Egreso' or descripcion_tipo_pago='Retiro' ");
                                             
                                         while ($valores = mysqli_fetch_array($cod)) {
                                                     
                                           echo '<option value="'.$valores[id_tipo_pago].'">'.$valores[tipo].'</option>';                
-                                           
+                                          
                                        }
                                       ?>
                                   </select>
@@ -208,9 +209,9 @@ $_SESSION["usuario"];
                             <label class="col-sm-10">Tipo de ingreso:&emsp; </label>
                             <div class="col-sm-10">
                                 <p>
-                                  <select class="form-control" name="trans">
+                                   <select  readonly="readonly" class="form-control" name="trans" >
                                       <?php
-                                           $cod=mysqli_query($con,"SELECT * FROM tipo_transaccion");
+                                           $cod=mysqli_query($con,"SELECT * FROM tipo_transaccion WHERE id_tipo_transaccion='123'");
                                                
                                         while ($valores = mysqli_fetch_array($cod)) {
                                                     
@@ -226,150 +227,37 @@ $_SESSION["usuario"];
                       </tr>
                       
                     </table>
-                    <table class="table table-bordered table-striped table-condensed">
-                      <hr>
-                    </table>
                      <table class="table table-bordered table-striped table-condensed">
-                            <h4><i class="fa fa-angle-right"></i> Detalle</h4>
-                            
-                              <thead >
-                              <tr>
-                                  <td>Codigo</th>
-                                  <td class="hidden-phone"> Cuenta</th>
-                                  <td width="350px"> Concepto</th>
-                                  <td> Costo Total</th>
-                                    <td>Monto Periodico</th>
-                                      <td>Tiempo amortización</th>
-                                  <td width="150px"> Opciones</th>
-                              </tr>
-                              </thead>
-                              <tfoot >
-                                <tr>
-                                  <td colspan="3">Total</th>
-                                  <td> 200</th>
-                                    <td colspan="3">  </th>
-                                </tr>
-
-                              </tfoot>
-
-                                   <tbody>
-                              <tr>
-                                  <td><a href="">1</a></td>
-                                  <td class="hidden-phone">b</td>
-                                  <td>b</td>
-                                  <td>200</td>
-                                  <td>b</td>
-                                  <td>b</td>
-                                  <td>
-                                      <button class="btn btn-primary btn-xs"><i class="fa fa-pencil">  Editar</i></button>
-                                      <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o ">  Eliminar</i></button>
-                                  </td>
-                              </tr>
-                              </tbody>
-                          </table>
-                          <!--Ventana Emergente-->
-                      
-                          <td colspan="4">
-                                <hr>
-                                <center>
-                            &emsp;<button type="button"  data-toggle="modal" class="btn btn-success"  href="login.html#myModal">Agregar Cuenta</button>
-                           
-                           </center></td>
-                  <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
-                  <div class="modal-dialog">
-                      <div class="modal-content">
-                          <div class="modal-header">
-                              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                              <h4 class="modal-title">Registrar Inversión</h4>
-                          </div>
-                          <div class="modal-body">
-                             
-                               <label class="col-sm-1 col-sm-1 control-label">Cuenta:&emsp; </label>
-                             <div class="col-sm-10">
-                                <p>
-                                  <select class="form-control" name="cuenta" >
-                            <?php
-                                             $cod=mysqli_query($con,"SELECT * FROM cuenta");
-                                               
-                                        while ($valores = mysqli_fetch_array($cod)) {
-                                                    
-                                          echo '<option value="'.$valores[id_cuenta].'">'.$valores[nombre_cuenta].'</option>';                
-                                           
-                                       }
-                                      ?>
-                                       </select>
-                                </p>
-                              </div>
-                              <p>Concepto</p>
-                              <input type="text" name="ri_concepto" placeholder=" " autocomplete="off" class="form-control placeholder-no-fix">
-                              <p>Costo Total (Bs)</p>
-                              <input type="number" name="ri_monto" placeholder=" "  class="form-control placeholder-no-fix">
-                              <p>Monto Periodico</p>
-                              <input type="number" name="ri_monto" placeholder=" "  class="form-control placeholder-no-fix">
-                              <p>Tiempo Amortización</p>
-                              <input type="number" name="ri_monto" placeholder=" "  class="form-control placeholder-no-fix">
-                          </div>
-                          <div class="modal-footer">
-                              <input type="submit" name="" class="btn btn-theme" value="Cancelar">
-                             <input type="submit" name="" class="btn btn-theme" value="Agregar">
-                          </div>
-                      </div>
-                  </div>
-              </div>
-
-                    <!--Fin de ventana emergente-->
-                        </tr>
-                          <table class="table table-bordered table-striped table-condensed">
-                            <hr>
-                          </table>
-                           
-                           
-                          <table class="table table-bordered table-striped table-condensed">
-                            <tr>
+                      <hr>
+                      <tr>
+                          <h4><i class="fa fa-angle-right"></i> Registrar Personal </h4>
+                              
                               <td>
                                 <div class="form-group">
                                   <center>
-                                  <label style="font-size: 15px;">Pagado a...</label></center>
-                                  
+                                  <label style="font-size: 15px;">Pagado a ...</label></center>
+
                                   <label class="col-sm-2 col-sm-2 control-label">Nombre:&emsp; </label>
                                   <div class="col-sm-9">
-                                      <input type="text" class="form-control">
+                                      <input   type="text" name="pag_nom" class="form-control">
                                   </div>
-                                  <label class="col-sm-2 col-sm-2 control-label">CI:&emsp; </label>
-                                  <div class="col-sm-9">
-                                      <input type="text" class="form-control">
-                                  </div>
-                                </div>
-                              </td>
-                              <td>
-                                <div class="form-group">
-                                  <center>
-                                  <label style="font-size: 15px;">Recibido por...</label></center>
-                                  
-                                  <label class="col-sm-2 col-sm-2 control-label">Nombre:&emsp; </label>
-                                  <div class="col-sm-9">
-                                      <input type="text" class="form-control">
-                                  </div>
-                                  <label class="col-sm-2 col-sm-2 control-label">CI:&emsp; </label>
-                                  <div class="col-sm-9">
-                                      <input type="text" class="form-control">
-                                  </div>
+                                   
                                 </div>
                               </td>
                             </tr>
-                            <tr>
+                             <tr>
                               <td>
                                 <div class="form-group">
                                   <center>
                                   <label style="font-size: 15px;">Autorizado por...</label></center>
-                                  
+
                                   <label class="col-sm-2 col-sm-2 control-label">Nombre:&emsp; </label>
                                   <div class="col-sm-9">
-                                      <input type="text" class="form-control">
+                                      <input type="text" name="aut_nom"  class="form-control">
                                   </div>
-                                  <label class="col-sm-2 col-sm-2 control-label">CI:&emsp; </label>
+                                  <label class="col-sm-2 col-sm-2 control-label">Ci:&emsp; </label>
                                   <div class="col-sm-9">
-                                      <input type="text" class="form-control">
+                                      <input required type="number" name="aut_ci" class="form-control">
                                   </div>
                                 </div>
                               </td>
@@ -393,10 +281,10 @@ $_SESSION["usuario"];
                                              
                                               echo '<p class="col-sm-2 col-sm-2 control-label">Nombre:&emsp; </p>
                                               <div class="col-sm-9">
-                                              <input type="text" step="any" class="form-control"  readonly="readonly" name="cambio" value="'.$user.'"> </input> </div>';
-                                               echo '<p class="col-sm-2 col-sm-2 control-label">CI:&emsp; </p>
+                                              <input type="text" step="any" class="form-control"  readonly="readonly" name="el_nomm" value="'.$user.'"> </input> </div>';
+                                               echo '<p class="col-sm-2 col-sm-2 control-label">Ci:&emsp; </p>
                                               <div class="col-sm-9">
-                                              <input type="number" step="any" class="form-control" name="cambio"   readonly="readonly" value="'.$iden.'"> </input> </div>';
+                                              <input required  type="number" step="any" class="form-control" name="el_ci"   readonly="readonly" value="'.$iden.'"> </input> </div>';
                                               
                                           ?>
                                   </div>
@@ -405,18 +293,157 @@ $_SESSION["usuario"];
                               </td>
                               <td>
                             </tr>
-                            <tr>
-                              <td colspan="4">
+                    </table>
+                    <tr>
+                      
+                          <td colspan="4">
                                 <hr>
                                 <center>
-                            &emsp;<button type="button" class="btn btn-success">Registrar Datos</button>
-                          &emsp;&emsp;
-                          <button type="button" class="btn btn-danger">Cancelar</button></center></td>
+                           <input type="submit"  class="btn btn-danger"  onClick="document.location.reload();"  name="cancelar" value="CANCELAR"> 
+                         <input type="submit"  class="btn btn-theme" name="registrar_datos"  value="AGREGAR CUENTAS">
+                           
+                               </center></td>
                         </tr>
+
+    <?php
+    function nom_e($id) {
+   $con = mysqli_connect('localhost', 'root', '', 'contabilidad'); 
+   $cod_1=mysqli_query($con,"SELECT     nombre_usuario FROM usuario WHERE iid_usuario='$id' LIMIT 1");
+  if ($row_1 = mysqli_fetch_row($cod_1)) 
+   {
+       $ing = trim($row_1[0]); 
+    } 
+  }
+     function add_ela($f,$emp,$text) {
+   $con = mysqli_connect('localhost', 'root', '', 'contabilidad'); 
+     $cod_1=mysqli_query($con,"SELECT     MAX(id_empleado_ficha) FROM empleado_ficha  ");
+  if ($row_1 = mysqli_fetch_row($cod_1)) 
+   {
+    $id = trim($row_1[0])+1; 
+    $sq_c= "INSERT INTO empleado_ficha( id_empleado_ficha ,descripcion_empleado,id_ficha, id_empleado_usuario) 
+     VALUES ('$id','$text','$f','$emp');";
+      mysqli_query($con,$sq_c)  ;
+       }
+        else {$sq_c= "INSERT INTO empleado_ficha( id_empleado_ficha ,descripcion_empleado,id_ficha, id_empleado_usuario) 
+     VALUES ('1','$text','$f','$emp');";
+      mysqli_query($con,$sq_c)  ;
+                   }    
+                   return true;
+}
+                           if(isset($_POST['registrar_datos'])) 
+                        { 
+                          
+                         include('conexion.php');
+                          
+                            if($_POST['fecha'] == '' or  $_POST['pago'] == ''or $_POST['trans'] == '' or $_POST['cambio']== ''  or $_POST['numero_partida_ficha']=='' )
+                            { 
+                                echo 'Por favor llene todos los campos.'; 
+                            } 
+                            else 
+                            { 
+                             $rs=mysqli_query($con,"SELECT MAX(id_ficha) AS iden FROM ficha");
+                                    if ($row = mysqli_fetch_row($rs)) 
+                                      {
+                                        $iden = trim($row[0]);
+                                      }
+                              $id_entidad=$iden+1;
+                              $fechai =$_POST["fecha"] ;
+                              $pago =$_POST["pago"] ;
+                              $trans =$_POST["trans"] ;
+                              $cambio =$_POST["cambio"] ;
+                              //$cuenta =$_POST["cuenta"] ;
+                              $partida=$_POST["numero_partida_ficha"];
+                              //pagado a 
+                               $pag_nom=$_POST["pag_nom"];
+                               //Autorizado por
+                               $aut_nom=$_POST["aut_nom"];
+                              $aut_ci=$_POST["aut_ci"];
+                              //Elaborado
+                               $el_nom=$_POST["el_nom"];
+                              $el_ci=$_POST["el_ci"];
+                              //empleado autorizo  
+                         $cod_p=mysqli_query($con,"SELECT   e.id_empleado_usuario FROM usuario u, empleado_usuario e WHERE   ci_usuario='$aut_ci' AND u.id_usuario=e.id_usuario LIMIT 1");
+                                           if ($row_p = mysqli_fetch_row($cod_p)) 
+                                            {
+                                              $id_empleado_aut = trim($row_p[0]);
+                                            }
+                                            else {
+                                               $msg = 'No existe empleado con el número de carnet ingresado en  autorizado por ... ';
+                                               print "<script>alert('$msg'); window.location='registrar_egreso.php';</script>"; 
+                                            }
+                           //empleado elaborado 
+                          $cod_p=mysqli_query($con,"SELECT   e.id_empleado_usuario FROM usuario u, empleado_usuario e WHERE   ci_usuario='$el_ci' AND u.id_usuario=e.id_usuario LIMIT 1");
+
+                                          if ($row_p = mysqli_fetch_row($cod_p)) 
+                                            {
+                                              $id_empleado_el = trim($row_p[0]);
+                                            }
+                                            else {
+                                               $msg = 'No existe empleado con el número de carnet ingresado en elaborado ';
+                                               print "<script>alert('$msg'); window.location='registrar_egreso.php';</script>";
+                             
+                                            }
+                          //persona pagado por 
+                           $cod_p=mysqli_query($con,"SELECT   id_persona FROM persona WHERE nombre_persona='$pag_nom' LIMIT 1");
+
+                                          if ($row_p = mysqli_fetch_row($cod_p)) 
+                                            {
+                                              $id_persona = trim($row_p[0]);
+                                            }
+                                            else {
+                                              $cod_p=mysqli_query($con,"SELECT   MAX(id_persona) FROM persona");
+                                              if ($row_p = mysqli_fetch_row($cod_p)) 
+                                                {
+                                                  $id = trim($row_p[0]);
+                                                }
+                                                $id_persona = $id+1;
+                                              $sq_p= "INSERT INTO persona(id_persona,nombre_persona,ci_persona,descripcion_persona) 
+                                                    VALUES ('$id_persona','$pag_nom',' ','Pagado');";
+                                              mysqli_query($con,$sq_p)  ;   
+                                            }
+            //tipo de cambio 
+                           $cod_c=mysqli_query($con,"SELECT   id_tipo_cambio FROM tipo_cambio WHERE monto='$cambio' LIMIT 1");
+
+                                          if ($row_c = mysqli_fetch_row($cod_c)) 
+                                            {
+                                              $id_cambio = trim($row_c[0]);
+                                            } 
+                                          else {
+                                              $cod_c=mysqli_query($con,"SELECT   MAX(id_tipo_cambio) FROM tipo_cambio");
+                                              if ($row_c = mysqli_fetch_row($cod_c)) 
+                                                {
+                                                  $id_c = trim($row_c[0]);
+                                                }
+                                                $id_cambio = $id_c+1;
+                                              $sq_c= "INSERT INTO tipo_cambio( id_tipo_cambio,monto,fecha) 
+                                                    VALUES ('$id_cambio','$cambio','$fechai');";
+                                              mysqli_query($con,$sq_c)  ;   
+                                            }
+                           //tiempo  y hora
+                           $time = time();
+                           $hora= date("H:i:s", $time);
+                           //insertar ficha
+                           $sq= "INSERT INTO ficha(id_ficha, numero_partida_ficha, fecha_ficha, tiempo_ficha, total_ficha, total_debe_ficha, total_haber_ficha, id_tipo_transaccion, id_tipo_cambio, id_tipo_pago, id_persona)
+
+                              VALUES ('$id_entidad','$partida','$fechai','$hora','0','0','0','$trans','$id_cambio','$pago','$id_persona');";
+                         
+                            mysqli_query($con,$sq)  ;       
+                             //agregar personal
+                            //elaborado
+                            $func1 = 'add_ela';
+                            echo  $func1($id_entidad,$id_empleado_el,'Elaborado');
+                            //autorizado
+                            $func2 = 'add_ela';
+                            echo  $func2($id_entidad,$id_empleado_aut,'Autorizado');
+                            $msg = 'Cargo agregado correctamente';
+                            print "<script>alert('$msg'); window.location='emergente_inversion.php';</script>";
+                              
+                         } } 
+
+                         ?>
+                   
                             </form>
-                          </table>
-              </div><!-- /content-panel -->
-          </div><!-- /col-md-12 -->
+                          </table>    
     </section><!--/wrapper -->
 </section><!-- /MAIN CONTENT -->
 
