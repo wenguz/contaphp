@@ -344,10 +344,10 @@ $_SESSION["usuario"];
                                              
                                              echo '<p class="col-sm-2 col-sm-2 control-label">Nombre:&emsp; </p>
                                               <div class="col-sm-9">
-                                              <input type="text" step="any" class="form-control"  readonly="readonly" name="cambio" value="'.$user.'"> </input> </div>';
+                                              <input type="text" step="any" class="form-control"  readonly="readonly" name="p_nom" value="'.$user.'"> </input> </div>';
                                                echo '<p class="col-sm-2 col-sm-2 control-label">CI:&emsp; </p>
                                               <div class="col-sm-9">
-                                              <input type="number" step="any" class="form-control" name="cambio"   readonly="readonly" value="'.$iden.'"> </input> </div>';
+                                              <input type="number" step="any" class="form-control" name="p_ci"   readonly="readonly" value="'.$iden.'"> </input> </div>';
                                               
                                           ?>
                                   </div>
@@ -433,7 +433,7 @@ $_SESSION["usuario"];
                            //insertar ficha
                            $sq= "INSERT INTO ficha(id_ficha, numero_partida_ficha, fecha_ficha, tiempo_ficha, total_ficha, total_debe_ficha, total_haber_ficha, id_tipo_transaccion, id_tipo_cambio, id_tipo_pago, id_persona)
 
-                              VALUES ('$id_entidad','$partida','$fechai','$hora','0','0','0','$trans','$id_cambio','$pago','$id_persona');";
+                              VALUES ('$id_entidad','$partida','$fechai','$hora','$tt','0','0','$trans','$id_cambio','$pago','$id_persona');";
                          
                             mysqli_query($con,$sq)  ;       
                              /*agregrar asienteos
@@ -458,7 +458,7 @@ $campo4=0;
 $campo5=0;
 $campo6=$id_entidad-1;
 $campo7=$row0['id_subcuenta'];
-$ida=$ida+1;
+
 $insercion="INSERT INTO asiento values ('$id', '$campo1', '$campo2', '$campo3', '$campo4', '$campo5', '$campo6', '$campo7');";
                        //    $sqa= "INSERT INTO  asiento VALUES ('4', 'preuba0','1','5500','0','0','1','1'); ";  
                             mysqli_query($con,$insercion)  ;
