@@ -3,7 +3,7 @@ session_start();
 //manejamos en sesion el nombre del usuario que se ha logeado
 if (!isset($_SESSION["usuario"])){
     header("location:index.php?nologin=false");
-    
+
 }
 $_SESSION["usuario"];
 ?>
@@ -24,15 +24,15 @@ $_SESSION["usuario"];
     <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="assets/css/zabuto_calendar.css">
     <link rel="stylesheet" type="text/css" href="assets/js/gritter/css/jquery.gritter.css" />
-    <link rel="stylesheet" type="text/css" href="assets/lineicons/style.css">    
-    
+    <link rel="stylesheet" type="text/css" href="assets/lineicons/style.css">
+
     <!-- Custom styles for this template -->
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="assets/css/style-responsive.css" rel="stylesheet">
 
     <script src="assets/js/chart-master/Chart.js"></script>
   </head>
- 
+
   <body>
 
   <section id="container" >
@@ -46,7 +46,7 @@ $_SESSION["usuario"];
               </div>
             <!--logo start-->
             <a href="index.php" class="logo"><b>SISTEMA CONTABLE</b></a>
-            
+
             <div class="top-menu">
               <ul class="nav pull-right top-menu">
                     <li><a class="logout" href="index.php">Cerrar Sesion</a></li>
@@ -54,7 +54,7 @@ $_SESSION["usuario"];
             </div>
         </header>
       <!--header end-->
-      
+
       <!-- **********************************************************************************************************************************************************
       MAIN SIDEBAR MENU
       *********************************************************************************************************************************************************** -->
@@ -69,7 +69,7 @@ $_SESSION["usuario"];
                 <span>Inicio  </span>
             </a>
         </li>
-        
+
         <li class="sub-menu">
             <a  href="javascript:;" >
                   <i class="fa fa-list-alt"></i>
@@ -82,18 +82,18 @@ $_SESSION["usuario"];
               </ul>
           </li>
 
-          
+
           <li class="sub-menu">
               <a class="active"  href="lista_ficha.php" >
                   <i class="fa fa-th"></i>
                   <span>Lista de Fichas</span>
               </a>
           </li>
-        
+
     </ul>
-</div>  
+</div>
       </aside>
-     
+
 
 </section>
 
@@ -105,22 +105,24 @@ $_SESSION["usuario"];
                   <table class="table table-bordered table-striped table-condensed">
                     <h4><i class="fa fa-angle-right"></i> Busqueda de fichas</h4>
                     &emsp;
-                   
+
 
                    <form action="" method="post">
-<tr>
-                       <p>Ingrese codigo de ficha:  </p> &emsp;
-                      <input style="padding: 5px" type="number" name ="b_id" value="Buscar..." onfocus="if (this.value == 'Buscar...') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Buscar...';}" />
-                      <input type="submit"  class="btn btn-theme" name="buscar_id" value="Buscar"> 
-                      <br>
+                     <tr>&emsp;
+                       <label>Ingrese codigo de ficha:  </label> &emsp;
+                      <input style="padding: 5px" type="number" name ="b_id" value="Buscar..." onfocus="if (this.value == 'Buscar...') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Buscar...';}" />&emsp;
+                      <input type="submit"  class="btn btn-theme" name="buscar_id" value="Buscar">    <br>
+
                     </tr>
+                    <br>
                     <tr>
-                      <p>    Ingrese Fecha:  </p> &emsp;
-                      <input type="date" name="b_fecha" placeholder="YYYY-MM-DD" class="form-input"/>
-                      <input type="submit"  class="btn btn-theme" name="buscar_fecha" value="Buscar">
+                      &emsp;&emsp;  <label>Ingrese Fecha:  </label> &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                      <input style="padding: 5px" type="date" name="b_fecha" placeholder="YYYY-MM-DD" class="form-input"/>&emsp;
+                      <input type="submit"  class="btn btn-theme" name="buscar_fecha" value="Buscar">    <br>
                     </tr>
+                    <br>
                     <tr>
-                      <p>    Click aqui para mostrar todos (solo se mostrara este boton para el proceso de desarrollo del sistema) : </p>  
+                      <p>&emsp;&emsp;&emsp;Click aqui para mostrar todos (solo se mostrara este boton para el proceso de desarrollo del sistema) : </p>
                       <input type="submit"  class="btn btn-theme" name="buscar1" value="Mostrar todos">
                     </tr>
                     </form>
@@ -130,7 +132,7 @@ $_SESSION["usuario"];
                           <td>Nro</th>
                           <td> Tipo de Ingreso</th>
                              <td> Tipo de Trans.</th>
-                          
+
                           <td> Monto Total</th>
                              <td>Fecha</th>
                           <td> Autorizado por...</th>
@@ -140,69 +142,69 @@ $_SESSION["usuario"];
                       </tr>
                       </thead>
                       <tbody>
-                      
+
                       <tr>
                         <?php
 function pago1($id) {
-   $con = mysqli_connect('localhost', 'root', '', 'contabilidad'); 
+   $con = mysqli_connect('localhost', 'root', '', 'contabilidad');
    $cod_1=mysqli_query($con,"SELECT   tipo FROM tipo_pago WHERE id_tipo_pago='$id' LIMIT 1");
-  if ($row_1 = mysqli_fetch_row($cod_1)) 
+  if ($row_1 = mysqli_fetch_row($cod_1))
    {
-       $ing = trim($row_1[0]); 
-    } 
+       $ing = trim($row_1[0]);
+    }
     return $ing;
 }
 function pago2($id) {
-   $con = mysqli_connect('localhost', 'root', '', 'contabilidad'); 
+   $con = mysqli_connect('localhost', 'root', '', 'contabilidad');
    $cod_1=mysqli_query($con,"SELECT     descripcion_tipo_pago FROM tipo_pago WHERE id_tipo_pago='$id' LIMIT 1");
-  if ($row_1 = mysqli_fetch_row($cod_1)) 
+  if ($row_1 = mysqli_fetch_row($cod_1))
    {
-       $ing = trim($row_1[0]); 
-    } 
+       $ing = trim($row_1[0]);
+    }
     return $ing;
 }
 function trans($id) {
-   $con = mysqli_connect('localhost', 'root', '', 'contabilidad'); 
+   $con = mysqli_connect('localhost', 'root', '', 'contabilidad');
    $cod_1=mysqli_query($con,"SELECT     nombre_transaccion FROM tipo_transaccion WHERE id_tipo_transaccion='$id' LIMIT 1");
-  if ($row_1 = mysqli_fetch_row($cod_1)) 
+  if ($row_1 = mysqli_fetch_row($cod_1))
    {
-       $ing = trim($row_1[0]); 
-    } 
+       $ing = trim($row_1[0]);
+    }
     return $ing;
 }
 function elab($id) {
-   $con = mysqli_connect('localhost', 'root', '', 'contabilidad'); 
+   $con = mysqli_connect('localhost', 'root', '', 'contabilidad');
    $cod_1=mysqli_query($con,"SELECT     nombre_persona FROM persona WHERE id_persona='$id' LIMIT 1");
-  if ($row_1 = mysqli_fetch_row($cod_1)) 
+  if ($row_1 = mysqli_fetch_row($cod_1))
    {
-       $ing = trim($row_1[0]); 
-    } 
+       $ing = trim($row_1[0]);
+    }
     return $ing;
 }
 function aut($id) {
   $ing =' ';
-   $con = mysqli_connect('localhost', 'root', '', 'contabilidad'); 
+   $con = mysqli_connect('localhost', 'root', '', 'contabilidad');
    $cod_1=mysqli_query($con,"SELECT    u.nombre_usuario FROM usuario u, empleado_ficha em,empleado_usuario eu  WHERE em.id_ficha='$id' AND em.descripcion_empleado='Autorizado' AND em.id_empleado_usuario=eu.id_empleado_usuario AND eu.id_usuario=u.id_usuario LIMIT 1");
-  if ($row_1 = mysqli_fetch_row($cod_1)) 
+  if ($row_1 = mysqli_fetch_row($cod_1))
    {
-       $ing = trim($row_1[0]); 
-    } 
+       $ing = trim($row_1[0]);
+    }
     return $ing;
 }
 function ent($id) {
   $ing =' ';
-   $con = mysqli_connect('localhost', 'root', '', 'contabilidad'); 
+   $con = mysqli_connect('localhost', 'root', '', 'contabilidad');
    $cod_1=mysqli_query($con,"SELECT    u.nombre_usuario FROM usuario u, empleado_ficha em,empleado_usuario eu  WHERE em.id_ficha='$id' AND em.descripcion_empleado='Elaborado' AND em.id_empleado_usuario=eu.id_empleado_usuario AND eu.id_usuario=u.id_usuario LIMIT 1");
-  if ($row_1 = mysqli_fetch_row($cod_1)) 
+  if ($row_1 = mysqli_fetch_row($cod_1))
    {
-       $ing = trim($row_1[0]); 
-    } 
+       $ing = trim($row_1[0]);
+    }
     return $ing;
 }
 
-                            if(isset($_POST['buscar1'])) 
-                        { 
-                         $con = mysqli_connect('localhost', 'root', '', 'contabilidad') or die(mysql_error()); 
+                            if(isset($_POST['buscar1']))
+                        {
+                         $con = mysqli_connect('localhost', 'root', '', 'contabilidad') or die(mysql_error());
                           $cod=mysqli_query($con,"SELECT * FROM ficha");
                            while ($valores = mysqli_fetch_array($cod)) { ?>
                               <tr>
@@ -211,24 +213,24 @@ function ent($id) {
                                              echo $func($valores['id_tipo_pago']).' , '.$func2($valores['id_tipo_pago']); ?></td>
                                   <td><?php $func3 = 'trans';
                                             echo $func3($valores['id_tipo_transaccion']) ?></td>
-                                   
+
                                   <td><?php echo $valores['total_ficha'] ?></td>
                                   <td><?php echo $valores['fecha_ficha'] ?></td>
                                   <td><?php  $func4 = 'aut';
                                             echo $func4($valores['id_ficha'])  ?></td>
                                   <td><?php  $func5 = 'ent';
-                                            echo $func5($valores['id_ficha'])  ?></td> 
+                                            echo $func5($valores['id_ficha'])  ?></td>
                                   <td><?php $func4 = 'elab';
-                                            echo $func4($valores['id_persona']) ?></td> 
+                                            echo $func4($valores['id_persona']) ?></td>
                           <td><button class="btn btn-primary btn-xs"><i class="fa fa-pencil"> Editar</i>
                             </button>
-                            
+
                           </td>
                               </tr>
                          <?php } }   ?>
                        <?php
-                            if(isset($_POST['buscar_id'])) 
-                        { 
+                            if(isset($_POST['buscar_id']))
+                        {
                          $con = mysqli_connect('localhost', 'root', '', 'contabilidad') or die(mysql_error());
                                $a =$_POST["b_id"] ;
 
@@ -240,7 +242,7 @@ function ent($id) {
                                              echo $func($valores['id_tipo_pago']).' , '.$func2($valores['id_tipo_pago']); ?></td>
                                   <td><?php $func3 = 'trans';
                                             echo $func3($valores['id_tipo_transaccion']) ?></td>
-                                   
+
                                   <td><?php echo $valores['total_ficha'] ?></td>
                                   <td><?php echo $valores['fecha_ficha'] ?></td>
                                   <td><?php  $func4 = 'aut';
@@ -248,16 +250,16 @@ function ent($id) {
                                   <td><?php  $func5 = 'ent';
                                             echo $func5($valores['id_ficha'])  ?></td>
                                   <td><?php $func4 = 'elab';
-                                            echo $func4($valores['id_persona']) ?></td> 
+                                            echo $func4($valores['id_persona']) ?></td>
                           <td><button class="btn btn-primary btn-xs"><i class="fa fa-pencil"> Editar</i>
                             </button>
-                            
+
                           </td>
                               </tr>
                          <?php } }   ?>
                             <?php
-                            if(isset($_POST['buscar_fecha'])) 
-                        { 
+                            if(isset($_POST['buscar_fecha']))
+                        {
                          $con = mysqli_connect('localhost', 'root', '', 'contabilidad') or die(mysql_error());
                                $a =$_POST["b_fecha"] ;
 
@@ -269,7 +271,7 @@ function ent($id) {
                                              echo $func($valores['id_tipo_pago']).' , '.$func2($valores['id_tipo_pago']); ?></td>
                                   <td><?php $func3 = 'trans';
                                             echo $func3($valores['id_tipo_transaccion']) ?></td>
-                                   
+
                                   <td><?php echo $valores['total_ficha'] ?></td>
                                   <td><?php echo $valores['fecha_ficha'] ?></td>
                                    <td><?php  $func4 = 'aut';
@@ -277,10 +279,10 @@ function ent($id) {
                                   <td><?php  $func5 = 'ent';
                                             echo $func5($valores['id_ficha'])  ?></td>
                                   <td><?php $func4 = 'elab';
-                                            echo $func4($valores['id_persona']) ?></td> 
+                                            echo $func4($valores['id_persona']) ?></td>
                           <td><button class="btn btn-primary btn-xs"><i class="fa fa-pencil"> Editar</i>
                             </button>
-                            
+
                           </td>
                               </tr>
                          <?php } }   ?>
@@ -292,7 +294,7 @@ function ent($id) {
 </section><!-- /MAIN CONTENT -->
 
       <!--main content end-->
-  
+
 
 
     <!-- js placed at the end of the document so the pages load faster -->
@@ -307,15 +309,15 @@ function ent($id) {
 
     <!--common script for all pages-->
     <script src="assets/js/common-scripts.js"></script>
-    
+
     <script type="text/javascript" src="assets/js/gritter/js/jquery.gritter.js"></script>
     <script type="text/javascript" src="assets/js/gritter-conf.js"></script>
 
     <!--script for this page-->
-    <script src="assets/js/sparkline-chart.js"></script>    
-  <script src="assets/js/zabuto_calendar.js"></script>  
-  
-  
+    <script src="assets/js/sparkline-chart.js"></script>
+  <script src="assets/js/zabuto_calendar.js"></script>
+
+
   <script type="application/javascript">
         $(document).ready(function () {
             $("#date-popover").popover({html: true, trigger: "manual"});
@@ -323,7 +325,7 @@ function ent($id) {
             $("#date-popover").click(function (e) {
                 $(this).hide();
             });
-        
+
             $("#my-calendar").zabuto_calendar({
                 action: function () {
                     return myDateFunction(this.id, false);
@@ -341,8 +343,8 @@ function ent($id) {
                 ]
             });
         });
-        
-        
+
+
         function myNavFunction(id) {
             $("#date-popover").hide();
             var nav = $("#" + id).data("navigation");
@@ -350,7 +352,7 @@ function ent($id) {
             console.log('nav ' + nav + ' to: ' + to.month + '/' + to.year);
         }
     </script>
-  
+
 
   </body>
 </html>

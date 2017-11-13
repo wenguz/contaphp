@@ -1,2 +1,0 @@
-2;2017-11-01;prueba  2 ;Por recojo de material;0;500;
-1;2017-11-01;prueba  2 ;Donacion de Institucion;0;1000;
