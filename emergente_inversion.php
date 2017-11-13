@@ -86,9 +86,9 @@ $_SESSION["usuario"];
                   <span>Registrar Fichas</span>
               </a>
               <ul class="sub">
-                  <li class="active"><a  href="registrar_ingreso.php"><i class="fa fa-list-alt"></i>Registrar Ingreso</a></li>
+                  <li ><a  href="registrar_ingreso.php"><i class="fa fa-list-alt"></i>Registrar Ingreso</a></li>
                   <li ><a  href="registrar_egreso.php"><i class="fa fa-list-alt"></i>Registrar Egreso</a></li>
-                  <li ><a  href="registrar_inversion.php"><i class="fa fa-list-alt"></i>Registrar Inversion</a></li>
+                  <li class="active" ><a  href="registrar_inversion.php"><i class="fa fa-list-alt"></i>Registrar Inversion</a></li>
               </ul>
           </li>
 
@@ -110,10 +110,10 @@ $_SESSION["usuario"];
 
 <section id="main-content">
     <section class="wrapper">
-      <h3><i class="fa fa-angle-right"></i>Ficha Egreso <i class="fa fa-angle-right"></i> Detalle </h3>
+      <h3><i class="fa fa-angle-right"></i>Ficha Inversion <i class="fa fa-angle-right"></i> Detalle </h3>
           <div class="col-md-12">
               <div class="content-panel"> 
-      <h3><i class="fa fa-angle-right"></i>Agregar Detalle de Ficha Egreso</h3>
+      <h3><i class="fa fa-angle-right"></i>Agregar Detalle </h3>
                                 
                     <form action="" name="ASIENTOS" method="post">  
                       <div class="form-group"> 
@@ -122,7 +122,7 @@ $_SESSION["usuario"];
                                      <p class="col-sm-3 col-sm-3 control-label">Cuenta:  </p>
                                      <div class="col-sm-10"> <p>
                                         <select class="form-control placeholder-no-fix" name="ri_cuenta" >
-                                      <?php
+                                       <?php
                                             $con = mysqli_connect('localhost', 'root', '', 'contabilidad'); 
                                             $cod_cuenta=mysqli_query($con,"SELECT * FROM subcuenta");
                                             while ($valores_cuenta = mysqli_fetch_array($cod_cuenta)) {
@@ -173,24 +173,60 @@ $_SESSION["usuario"];
                                           </td>  
                                     </tr>
                                     <tr><td colspan="2">
-                                      <h3><i class="fa fa-angle-right"></i>Informacion de Documento </h3>
+                                      <h3><i class="fa fa-angle-right"></i>Informacion General de Amortizacion </h3>
                                 
                                     </td></tr>
                                 <tr>  
                                   <td> <div class="form-group">
-                                  <p class="col-sm-3 col-sm-3 control-label" >Tipo de Documento</p>
-                                   <div class="col-sm-10"> <input required type="text" name="ri_tipo" placeholder=" "  class="form-control placeholder-no-fix">
-                                    </div></div> </td><td>
-                                     <div class="form-group"> <p lass="col-sm-4 col-sm-4 control-label" >Num. Documento</p>
-                                    <div class="col-sm-10"> <input required type="number" name="ri_doc" placeholder=" "  class="form-control placeholder-no-fix">
+                                  <p class="col-sm-3 col-sm-3 control-label" >Monto de Amortizacion</p>
+                                   <div class="col-sm-10"> <input required type="number" name="ri_mon" placeholder=" "  class="form-control placeholder-no-fix">
+                                    </div></div> </td>
+                                    <td>
+                                     <div class="form-group"> <p lass="col-sm-4 col-sm-4 control-label" >Interes  (Ej: 0.10 )</p>
+                                    <div class="col-sm-10"> <input required type="number" name="ri_int" placeholder=" "  class="form-control placeholder-no-fix">
+                                  </div>   </div></td>
+                                  <td>
+                                     <div class="form-group"> <p lass="col-sm-4 col-sm-4 control-label" >Tiempo (en años)</p>
+                                    <div class="col-sm-10"> <input required type="number" name="ri_t" placeholder=" "  class="form-control placeholder-no-fix">
                                   </div>   </div></td>
                              </tr>
                                 <tr>  <td colspan="2"> <div class="form-group">
-                                    <p class="col-sm-3 col-sm-3 control-label" >Descripcion del Documento</p>
-                                     <div class="col-sm-11"> <input required type="text" name="ri_doc_des" placeholder=" "  class="form-control placeholder-no-fix">
+                                    <p class="col-sm-3 col-sm-3 control-label" >Descripcion del  Amortizacion</p>
+                                     <div class="col-sm-11"> <input required type="text" name="ri_det" placeholder=" "  class="form-control placeholder-no-fix">
                                 </div></div></td></tr>
                           
-                          
+                          <tr><td colspan="2">
+                                      <h3><i class="fa fa-angle-right"></i>Informacion Detallada de Amortizacion </h3>
+                                
+                                    </td></tr>
+                                <tr>  
+                                  <td> <div class="form-group">
+                                  <p class="col-sm-3 col-sm-3 control-label" >periodo</p>
+                                   <div class="col-sm-10"> <input required type="number" name="aa_per" placeholder=" "  class="form-control placeholder-no-fix">
+                                    </div></div> </td>
+                                    <td>
+                                     <div class="form-group"> <p lass="col-sm-4 col-sm-4 control-label" >capital inicial</p>
+                                    <div class="col-sm-10"> <input required type="number" step="any" name="aa_cap" placeholder=" "  class="form-control placeholder-no-fix">
+                                  </div>   </div></td>
+                                  <td>
+                                     <div class="form-group"> <p lass="col-sm-4 col-sm-4 control-label" >pago interes</p>
+                                    <div class="col-sm-10"> <input required type="number" step="any" name="aa_pago" placeholder=" "  class="form-control placeholder-no-fix">
+                                  </div>   </div></td>
+                             </tr>
+                                <tr>  
+                                  <td> <div class="form-group">
+                                  <p class="col-sm-3 col-sm-3 control-label" >amortizacion</p>
+                                   <div class="col-sm-10"> <input required type="number" name="aa_per" placeholder=" "  class="form-control placeholder-no-fix">
+                                    </div></div> </td>
+                                    <td>
+                                     <div class="form-group"> <p lass="col-sm-4 col-sm-4 control-label" >cuota</p>
+                                    <div class="col-sm-10"> <input required type="number" step="any" name="aa_cap" placeholder=" "  class="form-control placeholder-no-fix">
+                                  </div>   </div></td>
+                                  <td>
+                                     <div class="form-group"> <p lass="col-sm-4 col-sm-4 control-label" >Fecha</p>
+                                    <div class="col-sm-10">  <input required type="date" name="fecha" placeholder="YYYY-MM-DD" min="2017-01-01" class="form-input"/>
+                                  </div>   </div></td>
+                             </tr>
                         </div>
                              <div class="form-group">
                               <tr><td colspan="2"> <center>
@@ -262,9 +298,9 @@ $_SESSION["usuario"];
                                   <td width="350px"> Concepto</td>
                                   <td> Cantidad</th>
                                     <td> Monto</th>
-                                      <td width="150px">Tipo de documento</td>
-                                      <td width="150px"> Num. Doc </td>
-                                      <td width="150px"> Descrip. Doc </td>
+                                      <td width="150px">Monto Periodico</td>
+                                      <td width="150px"> Tiempo Amortizacion </td>
+                                     
                                   <td width="150px"> Opciones</td>
                               </tr>
                               </thead>

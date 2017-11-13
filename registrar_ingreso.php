@@ -174,8 +174,8 @@ $_SESSION["usuario"];
                               <div class="col-sm-10">
                                 <p> 
                                   <select required class="form-control" name="moneda">
-                                        <option>Bs.</option>
-                                       <option>$us.</option>
+                                        <option value="1">Bs.</option>
+                                       <option value="0">$us.</option>
                                   </select>
                                 </p>
                               </div>
@@ -309,16 +309,25 @@ $_SESSION["usuario"];
                                       {
                                         $iden = trim($row[0]);
                                       }
+                                      $tot=0;
                           $id_entidad=$iden+1;
                           $fechai =$_POST["fecha"] ;
                           $pago =$_POST["pago"] ;
                           $trans =$_POST["trans"] ;
                           $cambio =$_POST["cambio"] ;
-                          //$cuenta =$_POST["cuenta"] ;
+                          $moneda =$_POST["moneda"] ;
                           $partida=$_POST["numero_partida_ficha"];
                           $p_nom=$_POST["p_nom"];
                           $p_ci=$_POST["p_ci"];
-
+                          //modena
+                          if ($moneda==0)
+                          {
+                            $tot=$cambio;
+                          }
+                          else
+                          {
+                            $tot=1;
+                          }
                           //persona recibido por 
                            $cod_p=mysqli_query($con,"SELECT   id_persona FROM persona WHERE ci_persona='$p_ci' LIMIT 1");
 
@@ -361,7 +370,7 @@ $_SESSION["usuario"];
                            //insertar ficha
                            $sq= "INSERT INTO ficha(id_ficha, numero_partida_ficha, fecha_ficha, tiempo_ficha, total_ficha, total_debe_ficha, total_haber_ficha, id_tipo_transaccion, id_tipo_cambio, id_tipo_pago, id_persona)
 
-                              VALUES ('$id_entidad','$partida','$fechai','$hora','0','0','0','$trans','$id_cambio','$pago','$id_persona');";
+                              VALUES ('$id_entidad','$partida','$fechai','$hora','$tot','0','0','$trans','$id_cambio','$pago','$id_persona');";
                          
                             mysqli_query($con,$sq)  ;       
                              
