@@ -114,87 +114,43 @@ $_SESSION["usuario"];
           <div class="col-md-12">
               <div class="content-panel"> 
       <h3><i class="fa fa-angle-right"></i>Agregar Detalle de Ficha Egreso</h3>
-                                
+                                <hr>
                     <form action="" name="ASIENTOS" method="post">  
-                      <div class="form-group"> 
-                              <table class="col-md-12">
-                                      <tr>  <td> <div  >
-                                     <p class="col-sm-3 col-sm-3 control-label">Cuenta:  </p>
-                                     <div class="col-sm-10"> <p>
-                                        <select class="form-control placeholder-no-fix" name="ri_cuenta" >
-                                      <?php
-                                            $con = mysqli_connect('localhost', 'root', '', 'contabilidad'); 
-                                            $cod_cuenta=mysqli_query($con,"SELECT * FROM cuenta");
-                                            while ($valores_cuenta = mysqli_fetch_array($cod_cuenta)) {
-                                            echo '<option value="'.$valores_cuenta[id_cuenta].'">'.$valores_cuenta[nombre_cuenta].'</option>'; }
-                                            echo "<br>"; 
-                                       ?>
-                                             </select>
-                                      </p></div>
-                                     </div> </td> </tr>
-                                   <tr>  <td  colspan="2"  >
-                                    <div class="form-group">
-                                    <p class="col-sm-3 col-sm-3 control-label">Concepto</p>
-                                    <div class="col-sm-11"><input  required type="text" name="ri_concepto" placeholder=" " autocomplete="off" class="form-control placeholder-no-fix">
-                                    </div></div></td> </tr>
-                                    <tr  > 
-                                           <td>
-                                           <div class="form-group"> 
-                                            <p class="col-sm-4 col-sm-4 control-label">Cantidad: </p>
-                                            <div class="col-sm-10">
-                                          <input required type="number" name="ri_cantidad" placeholder=" " autocomplete="off" class="form-control placeholder-no-fix"></div> </div>
-                                          </td><td   > 
-                                            <div class="form-group">
-                                          <p class="col-sm-4 col-sm-4 control-label" >Precio 
-                                           <?php 
-                                              $con = mysqli_connect('localhost', 'root', '', 'contabilidad'); 
-                                              //obtener id de la ultima ficha
-                         $rs=mysqli_query($con,"SELECT MAX(id_ficha) AS iden FROM ficha");
-                                    if ($row = mysqli_fetch_row($rs)) 
-                                      {
-                                        $iden = trim($row[0]);
+                   
+                          <div class="form-group">
+                             
+                               <p class="col-sm-1 col-sm-1 control-label">Cuenta:  </p>
+                             
+                                <p>
+                                  <select class="form-control placeholder-no-fix" name="ri_cuenta" >
+                                <?php
+                                      $con = mysqli_connect('localhost', 'root', '', 'contabilidad'); 
+                                      $cod_cuenta=mysqli_query($con,"SELECT * FROM cuenta");
+                                      while ($valores_cuenta = mysqli_fetch_array($cod_cuenta)) {
+                                      echo '<option value="'.$valores_cuenta[id_cuenta].'">'.$valores_cuenta[nombre_cuenta].'</option>';                
                                       }
-                          
-                          //obtener moneda 
-                                              
-                                        
-                         $rs_m=mysqli_query($con,"SELECT total_ficha AS iden FROM ficha WHERE id_ficha=$iden");
-                                    if ($row_m = mysqli_fetch_row($rs_m)) 
-                                      {
-                                        $moneda = trim($row_m[0]);
-                                     
-                                      if ($moneda==1){
-                                        echo ' (Bs)';
-                                      }
-                                        else{echo ' ($us)';}  }
-                                              ?></p>
-                                          <div class="col-sm-10">
-                                          <input  required type="number"  step="any"  name="ri_monto" placeholder=" "  class="form-control placeholder-no-fix"></div> </div>
-                                          </td>  
-                                    </tr>
-                                    <tr><td colspan="2">
-                                      <h3><i class="fa fa-angle-right"></i>Informacion de Documento </h3>
+                                      echo "<br>"; 
+                                 ?>
+                                       </select>
+                                </p>
                                 
-                                    </td></tr>
-                                <tr>  
-                                  <td> <div class="form-group">
-                                  <p class="col-sm-3 col-sm-3 control-label" >Tipo de Documento</p>
-                                   <div class="col-sm-10"> <input required type="text" name="ri_tipo" placeholder=" "  class="form-control placeholder-no-fix">
-                                    </div></div> </td><td>
-                                     <div class="form-group"> <p lass="col-sm-4 col-sm-4 control-label" >Num. Documento</p>
-                                    <div class="col-sm-10"> <input required type="number" name="ri_doc" placeholder=" "  class="form-control placeholder-no-fix">
-                                  </div>   </div></td>
-                             </tr>
-                                <tr>  <td colspan="2"> <div class="form-group">
-                                    <p class="col-sm-3 col-sm-3 control-label" >Descripcion del Documento</p>
-                                     <div class="col-sm-11"> <input required type="text" name="ri_doc_des" placeholder=" "  class="form-control placeholder-no-fix">
-                                </div></div></td></tr>
-                          
-                          
-                        </div>
-                             <div class="form-group">
-                              <tr><td colspan="2"> <center>
-                               <br>
+                             
+                             
+                              <p class="col-sm-1 col-sm-1 control-label">Concepto</p>
+                              <input type="text" name="ri_concepto" placeholder=" " autocomplete="off" class="form-control placeholder-no-fix">
+                              <p class="col-sm-1 col-sm-1 control-label">Cantidad</p>
+                              <input required type="number" name="ri_cantidad" placeholder=" " autocomplete="off" class="form-control placeholder-no-fix">
+                              <p>Monto (Bs)</p>
+                              <input  required type="number"  step="any"  name="ri_monto" placeholder=" "  class="form-control placeholder-no-fix">
+                          <p>Tipo de Documento</p>
+                              <input required type="text" name="ri_tipo" placeholder=" "  class="form-control placeholder-no-fix">
+                              <p>Num. Documento</p>
+                              <input required type="number" name="ri_doc" placeholder=" "  class="form-control placeholder-no-fix">
+                              <p>Descripcion del Documento</p>
+                              <input required type="text" name="ri_doc_des" placeholder=" "  class="form-control placeholder-no-fix">
+                          </div>
+                          <div class="form-group"> <center>
+                             
                               <input type="submit"  class="btn btn-theme" href="registrar_egreso.php" name="registrar_asientos" value="AGREGAR">
                                
                        
@@ -243,18 +199,15 @@ $_SESSION["usuario"];
                                                       mysqli_query($con,$sq3)  ;  
                                     }}
                                   ?>
-
-                                  </center> <hr></td></tr>
-                         </table> 
+                                  </center>
                           </div>
                   </form>
   
                     <!--Fin de ventana emergente-->
                      <form action="" name="tablas" method="post">  
-                      
                <table class="table table-bordered table-striped table-condensed">
-                            <h3><i class="fa fa-angle-right"></i> Detalle</h3>
-                            <h5> Se muestra todos los asientos pertenecientes a la ficha </h5>
+                            <h4><i class="fa fa-angle-right"></i> Detalle</h4>
+                            
                               <thead >
                               <tr>
                                   <td>Codigo</td>
@@ -270,7 +223,7 @@ $_SESSION["usuario"];
                               </thead>
                               <tfoot >
                                 <tr>
-                                  <td colspan="4" ><center>Total</center> </th>
+                                  <td colspan="3" ><center>Total</center> </th>
                                   <td> <center><?php
                            $id_1='';  $id_or='';
                                            $totala=0;
@@ -307,20 +260,19 @@ $_SESSION["usuario"];
                                             echo $func3($valores8['id_as']);?></td>
                               <td><?php echo $valores8['cantidad']; ?></td> 
                                   <td><?php echo $valores8['monto_asiento'];  ?></td>
-                               
-
-                          <?php }  ?>
-                          <td>
-                            <input type="submit"  class="btn btn-primary btn-xs"  class="btn btn-theme" name="eliminar_item"     value="Eliminar"> 
+                               <td>
+                            <input type="submit"  class="btn btn-primary btn-xs"  class="btn btn-theme" name="eliminar_item"  ref="<?php  $id_or[1]=$id_1;?> registrar_egreso.php"  value="Eliminar"> 
                                                                                                        
                           </td>
                               </tr>
-                                     <?php 
+
+                          <?php } 
+                                      
                           if (isset($_POST['eliminar_item'])){              
-                          $s='es '; 
+                          $s='es ';
                            $con = mysqli_connect('localhost', 'root', '', 'contabilidad'); 
                             //borrar tabla temporal
-                            $sq_delete= "DELETE FROM temp_as WHERE  id_as= '$id_1'";
+                            $sq_delete= "DELETE FROM temp_as WHERE  id_as= '$id_or[1]'";
                             mysqli_query($con,$sq_delete)  ;
                             echo '<meta http-equiv="refresh" content="0" />';       }
 }
@@ -337,28 +289,19 @@ $_SESSION["usuario"];
 
                           </table> 
                           </form>   
-                           <form action="" name="actualizar" method="post">
-                           <hr>
-                           <h3><i class="fa fa-angle-right"></i> Guardar</h3>
-                           <h5> Click en Registrar Datos para almacenar la ficha, o Click en Cancelar para Borrar ficha </h5>  
+                           <form action="" name="actualizar" method="post">  
                           <center><input type="submit"  class="btn btn-theme" name="registrar_datos1"  value="REGISTRAR DATOS"> 
-                            <input type="submit" name="borrar_ficha" class="btn btn-danger" value="CANCELAR"> <br> <br> </center>
+                            <input type="submit" name="borrar_ficha" class="btn btn-danger" value="CANCELAR"> </center>
                          <?php
                           if(isset($_POST['registrar_datos1'])) 
                         { 
-                           $moneda=1;
                           //obtener id de la ultima ficha
                          $rs=mysqli_query($con,"SELECT MAX(id_ficha) AS iden FROM ficha");
                                     if ($row = mysqli_fetch_row($rs)) 
                                       {
                                         $iden = trim($row[0]);
                                       }
-                           //obtener moneda 
-                         $rs_m=mysqli_query($con,"SELECT total_ficha AS iden FROM ficha WHERE id_ficha=$iden");
-                                    if ($row_m = mysqli_fetch_row($rs_m)) 
-                                      {
-                                        $moneda = trim($row_m[0]);
-                                      }
+                           
                          /*agregrar asienteos
                               
                             */
@@ -375,9 +318,7 @@ $_SESSION["usuario"];
                                   $campo1=$row0['glosa_asiento'];
                                   $campo2=$row0['cantidad'];
                                   $campo3=$row0['monto_asiento'];
-                                  $campo3=$campo3*$moneda;
                                   $campo4=$row0['monto_asiento'];
-                                  $campo4=$campo4*$moneda;
                                   $campo5=0;
                                   $campo6=$iden;
                                   $campo7=$row0['id_subcuenta'];
@@ -394,7 +335,6 @@ $_SESSION["usuario"];
                                                   $x1 = $v8g['mo'];
                                                   $total= $total +( $x *$x1);
                                                 }
-                                                $total= $total*$moneda;
                              $update_ficha="UPDATE ficha SET `total_ficha`='$total',`total_haber_ficha`='$total' WHERE id_ficha='$iden';";
                                 mysqli_query($con,$update_ficha)  ;
                              //borrar tabla temporal
@@ -407,23 +347,20 @@ $_SESSION["usuario"];
                             if(isset($_POST['borrar_ficha'])) 
                         { 
                           //obtener id de la ultima ficha
-                         $rs9=mysqli_query($con,"SELECT MAX(id_ficha) AS iden FROM ficha");
-                                    if ($row9 = mysqli_fetch_row($rs9)) 
+                         $rs=mysqli_query($con,"SELECT MAX(id_ficha) AS iden FROM ficha");
+                                    if ($row = mysqli_fetch_row($rs)) 
                                       {
-                                        $iden = trim($row9[0]);
+                                        $iden = trim($row[0]);
                                       }
                                       //borrar tabla temporal
                             $sq_delete= "DELETE FROM temp_as";
                              mysqli_query($con,$sq_delete)  ;
                              //borrar tabla docuemtno
-                            $sq_delete_d= "DELETE FROM documento_extra WHERE id_ficha='$iden' ; ";
+                            $sq_delete_d= "DELETE FROM documento_extra WHERE id_ficha='$iden' ";
                              mysqli_query($con,$sq_delete_d)  ;
-                             //borrar empleado_ficha
-                            $sq_delete_d1= "DELETE FROM empleado_ficha WHERE id_ficha ='$iden'; ";
-                              mysqli_query($con,$sq_delete_d1)  ;
-                                        //borrar ficha
-                            $sq_delete1= "DELETE   FROM ficha WHERE id_ficha='$iden'";
-                             mysqli_query($con,$sq_delete1)  ;
+                                       //borrar ficha
+                            $sq_delete= "DELETE FROM ficha WHERE id_ficha='$iden'";
+                             mysqli_query($con,$sq_delete)  ;
                               $msg = 'Cancelar ingreso de ficha Exitoso ' ;
                             print "<script>alert('$msg'); window.location='lista_ficha.php';</script>";
 

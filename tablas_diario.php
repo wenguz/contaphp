@@ -14,7 +14,6 @@ function Header()
     $this->Cell(0,5,$title,0,1,'L');
     $this->Cell(0,5,'Direccion:   '.$direccion,0,1,'L');
     $this->Cell(0,5,'Telefono/s:  '.$fono1.'-'.$fono2,0,1,'L');
-    //$this->Cell(0,5,$fono2,0,1,'L');
      $this->Cell(0,5,$ciudad,0,1,'L');
     // Salto de línea
     $this->Ln(10);
@@ -32,13 +31,13 @@ function Footer()
 function ChapterTitle($label)
 {
     // Arial 12
-    $this->SetFont('Times','B',14);
+    $this->SetFont('Times','B',12);
     // Color de fondo
     $this->SetFillColor(200,220,255);//
     // Título
-    $this->Cell(0,6,"Transacciones del día",0,1,'C');
+    $this->Cell(0,6,"Libro Diario",0,1,'C');
     // Salto de línea
-    $this->Ln(4);
+    //$this->Ln(1);
 }
 function ChapterBody($file)
 {
@@ -49,16 +48,16 @@ function ChapterBody($file)
     // Imprimimos el texto justificado
     $this->MultiCell(0,5,$txt);
     // Salto de línea
-    $this->Ln();
+    //$this->Ln();
     // Cita en itálica
     $this->SetFont('','B',12);
 }
 
-function PrintChapter($title/*, $file*/)
+function PrintChapter($file)
 {
     $this->AddPage();
-    $this->ChapterTitle($title);
-    //$this->ChapterBody($file);
+    $this->ChapterTitle($file);
+    $this->ChapterBody($file);
 }
 
 
@@ -94,7 +93,10 @@ function FancyTable($header, $data)
     $numclases = mysqli_num_rows($codc);
 
 
-     $cods=mysqli_query($con,"SELECT clase.nombre_clase, clase.id_clase FROM clase,grupo,cuenta,subcuenta Where clase.id_clase=grupo.id_clase And grupo.id_grupo=cuenta.id_grupo And cuenta.id_cuenta=subcuenta.id_cuenta");
+     $cods=mysqli_query($con,"SELECT clase.nombre_clase, clase.id_clase
+        FROM clase,grupo,cuenta,subcuenta Where clase.id_clase=grupo.id_clase
+        And grupo.id_grupo=cuenta.id_grupo
+        And cuenta.id_cuenta=subcuenta.id_cuenta");
 
 
 for ($ii=0; $ii <$numclases ; $ii++) {
@@ -102,7 +104,7 @@ for ($ii=0; $ii <$numclases ; $ii++) {
      $sc = mysqli_fetch_array($cods);
     // Restauración de colores y fuentes
 
-    if($ii=$sc['id_clase'] && $clas['nombre_clase']=$sc['nombre_clase']){
+    if($clas['nombre_clase']=$sc['nombre_clase']){
             $this->SetFillColor(173, 255, 47);
 
         }
@@ -157,6 +159,7 @@ for ($ii=0; $ii <$numclases ; $ii++) {
 
 $pdf = new PDF('L', 'mm', 'Letter', true, 'UTF-8', false);
 $pdf->SetMargins(18,18);
+  $pdf->SetFont('Times','',11);
 $cod=mysqli_query($con,"SELECT * FROM entidad where id_entidad='1'");
 $valores = mysqli_fetch_array($cod);
     $title = $valores['nombre_entidad'];
@@ -165,14 +168,14 @@ $valores = mysqli_fetch_array($cod);
     $fono1=$valores['fono1_entidad'];
     $fono2=$valores['fono2_entidad'];
 $pdf->SetTitle($title,$direccion,$fono1,$fono2,$ciudad);
-$pdf->PrintChapter(date(" m "));
+$pdf->PrintChapter('Libro Diario');
 
 // Títulos de las columnas
 $header = array('NRO','FECHA','CUENTA', 'CONCEPTO','DEBE','HABER');
 
 // Carga de datos
 $data = $pdf->LoadData('Diario.txt');
-$pdf->SetFont('Arial','',14);
+$pdf->SetFont('Arial','',11);
 $pdf->FancyTable($header,$data);
 $pdf->Output();
 ob_end_flush();

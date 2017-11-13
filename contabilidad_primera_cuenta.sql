@@ -1,15 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.0
--- https://www.phpmyadmin.net/
+-- version 4.5.1
+-- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 06-11-2017 a las 23:35:00
--- Versión del servidor: 10.1.25-MariaDB
--- Versión de PHP: 5.6.31
+-- Tiempo de generación: 13-11-2017 a las 22:42:29
+-- Versión del servidor: 10.1.13-MariaDB
+-- Versión de PHP: 7.0.5
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -75,11 +73,11 @@ CREATE TABLE `asiento_amortizacion` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `asiento_deperciacion`
+-- Estructura de tabla para la tabla `asiento_depreciacion`
 --
 
-CREATE TABLE `asiento_deperciacion` (
-  `id_asiento_deperciacion` int(11) NOT NULL,
+CREATE TABLE `asiento_depreciacion` (
+  `id_asiento_depreciacion` int(11) NOT NULL,
   `periodo_depreciacion` int(11) DEFAULT NULL,
   `valor_original` double DEFAULT NULL,
   `depreciacion` double DEFAULT NULL,
@@ -104,6 +102,13 @@ CREATE TABLE `clase` (
   `fecha_modifico_clase` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Volcado de datos para la tabla `clase`
+--
+
+INSERT INTO `clase` (`id_clase`, `nombre_clase`, `estado_clase`, `fecha_registro_clase`, `fecha_modifico_clase`) VALUES
+(1, 'FinanciaciÃ³n bÃ¡sica', 'ACTIVO', '2017-11-13', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -119,6 +124,39 @@ CREATE TABLE `cuenta` (
   `id_grupo` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Volcado de datos para la tabla `cuenta`
+--
+
+INSERT INTO `cuenta` (`id_cuenta`, `nombre_cuenta`, `estado_cuenta`, `fecha_registro_cuenta`, `fecha_modifico_cuenta`, `id_grupo`) VALUES
+(100, 'DotaciÃ³n fundacional.', 'ACTIVO', '2017-11-13', NULL, 10),
+(101, 'Fondo social.', 'ACTIVO', '2017-11-13', NULL, 10),
+(113, 'Reservas voluntarias. ', 'ACTIVO', '2017-11-13', NULL, 11),
+(120, 'Remanente. ', 'ACTIVO', '2017-11-13', NULL, 12),
+(129, 'Excedente del ejercicio. ', 'ACTIVO', '2017-11-13', NULL, 12),
+(130, 'Subvenciones oficiales de capital. ', 'ACTIVO', '2017-11-13', NULL, 13),
+(131, 'Donaciones y legados de capital. ', 'ACTIVO', '2017-11-13', NULL, 13),
+(132, 'Otras subvenciones, donaciones y legados. ', 'ACTIVO', '2017-11-13', NULL, 13),
+(133, 'Ajustes por valoraciÃ³n en activos financieros disponibles para la venta. ', 'ACTIVO', '2017-11-13', NULL, 13),
+(134, 'Operaciones de cobertura. ', 'ACTIVO', '2017-11-13', NULL, 13),
+(140, 'ProvisiÃ³n por retribuciones a largo plazo al personal. ', 'ACTIVO', '2017-11-13', NULL, 14),
+(141, 'ProvisiÃ³n para impuestos. ', 'ACTIVO', '2017-11-13', NULL, 14),
+(142, 'ProvisiÃ³n para otras responsabilidades. ', 'ACTIVO', '2017-11-13', NULL, 14),
+(143, 'ProvisiÃ³n por desmantelamiento, retiro o rehabilitaciÃ³n del inmovilizado. ', 'ACTIVO', '2017-11-13', NULL, 14),
+(160, 'Deudas a largo plazo con entidades vinculadas ', 'ACTIVO', '2017-11-13', NULL, 16),
+(161, 'Proveedores de inmovilizado a largo plazo, partes vinculadas ', 'ACTIVO', '2017-11-13', NULL, 16),
+(163, 'Otras deudas a largo plazo con entidades vinculadas', 'ACTIVO', '2017-11-13', NULL, 16),
+(170, 'Deudas a largo plazo con entidades de credito. ', 'ACTIVO', '2017-11-13', NULL, 17),
+(171, 'Deudas a largo plazo. ', 'ACTIVO', '2017-11-13', NULL, 17),
+(172, 'Deudas a largo plazo transformables en subvenciones, donaciones y legados. ', 'ACTIVO', '2017-11-13', NULL, 17),
+(173, 'Proveedores de inmovilizado a largo plazo. ', 'ACTIVO', '2017-11-13', NULL, 17),
+(174, 'Acreedores por arrendamiento financiero a largo plazo. ', 'ACTIVO', '2017-11-13', NULL, 17),
+(175, 'Efectos a pagar a largo plazo. ', 'ACTIVO', '2017-11-13', NULL, 17),
+(180, 'Fianzas recibidas a largo plazo. ', 'ACTIVO', '2017-11-13', NULL, 18),
+(181, 'Anticipos recibidos por ventas o prestaciones de servicios a largo plazo. ', 'ACTIVO', '2017-11-13', NULL, 18),
+(185, 'DepÃ³sitos recibidos a largo plazo. ', 'ACTIVO', '2017-11-13', NULL, 18),
+(189, 'Garantias financieras a largo plazo. ', 'ACTIVO', '2017-11-13', NULL, 18);
+
 -- --------------------------------------------------------
 
 --
@@ -130,6 +168,21 @@ CREATE TABLE `depreciacion` (
   `bien` varchar(45) DEFAULT NULL,
   `vida_util` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `depreciacion`
+--
+
+INSERT INTO `depreciacion` (`id_depreciacion`, `bien`, `vida_util`) VALUES
+(1, 'Terrenos', 40),
+(2, 'Edificaciones', 40),
+(3, 'Muebles y enseres de oficina', 10),
+(4, 'Maquinaria en General', 8),
+(5, 'Equipos e  Instalaciones', 8),
+(6, 'VehÃ­culos', 5),
+(7, 'Maquinaria para construccion', 5),
+(8, 'Herramientas en general', 4),
+(9, 'Equipos de Computacion', 4);
 
 -- --------------------------------------------------------
 
@@ -156,6 +209,15 @@ CREATE TABLE `empleado` (
   `cargo` varchar(45) DEFAULT NULL,
   `id_entidad` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `empleado`
+--
+
+INSERT INTO `empleado` (`id_empleado`, `cargo`, `id_entidad`) VALUES
+(1, 'ADMINISTRADOR', 1),
+(2, 'CONTADOR', 1),
+(3, 'SECRETARIA', 1);
 
 -- --------------------------------------------------------
 
@@ -185,6 +247,15 @@ CREATE TABLE `empleado_usuario` (
   `password` varchar(45) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Volcado de datos para la tabla `empleado_usuario`
+--
+
+INSERT INTO `empleado_usuario` (`id_empleado_usuario`, `id_empleado`, `id_usuario`, `estado`, `user`, `password`) VALUES
+(1, 1, 1, 'ACTIVO', 'admin', 'admin'),
+(2, 2, 2, 'ACTIVO', 'conta', 'conta'),
+(3, 3, 3, 'ACTIVO', 'secre', 'secre');
+
 -- --------------------------------------------------------
 
 --
@@ -199,6 +270,13 @@ CREATE TABLE `entidad` (
   `fono2_entidad` int(11) DEFAULT NULL,
   `ciudad_entidad` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `entidad`
+--
+
+INSERT INTO `entidad` (`id_entidad`, `nombre_entidad`, `direccion_entidad`, `fono1_entidad`, `fono2_entidad`, `ciudad_entidad`) VALUES
+(1, 'Instituto Superior de Estudios TecnolÃ³gicos  ', 'Av. Armentia # 511', 2281900, 2281901, 'La Paz');
 
 -- --------------------------------------------------------
 
@@ -235,6 +313,20 @@ CREATE TABLE `grupo` (
   `id_clase` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Volcado de datos para la tabla `grupo`
+--
+
+INSERT INTO `grupo` (`id_grupo`, `nombre_grupo`, `estado_grupo`, `fecha_registro_grupo`, `fecha_modifico_grupo`, `id_clase`) VALUES
+(10, 'Capital', 'ACTIVO', '2017-11-13', NULL, 1),
+(11, 'Reservas', 'ACTIVO', '2017-11-13', NULL, 1),
+(12, 'Excedentes pendientes de aplicaciÃ³n', 'ACTIVO', '2017-11-13', NULL, 1),
+(13, 'Subvenciones, donaciones, legados y otros ajustes por cambios de valor.', 'ACTIVO', '2017-11-13', NULL, 1),
+(14, 'Provisiones', 'ACTIVO', '2017-11-13', NULL, 1),
+(16, 'Deudas a largo plazo con partes vinculadas', 'ACTIVO', '2017-11-13', NULL, 1),
+(17, 'Deudas a largo plazo por prÃ©stamos recibidos, emprÃ©stitos y otros conceptos. ', 'ACTIVO', '2017-11-13', NULL, 1),
+(18, 'Pasivos por fianzas, garantÃ­as y otros conceptos a largo plazo. ', 'ACTIVO', '2017-11-13', NULL, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -248,6 +340,13 @@ CREATE TABLE `periodo` (
   `fecha_cierre_periodo` date DEFAULT NULL,
   `entidad_id_entidad` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `periodo`
+--
+
+INSERT INTO `periodo` (`id_periodo`, `anio_periodo`, `fecha_inicio_periodo`, `fecha_cierre_periodo`, `entidad_id_entidad`) VALUES
+(1, 2017, '2017-01-01', '2017-12-31', 1);
 
 -- --------------------------------------------------------
 
@@ -276,6 +375,18 @@ CREATE TABLE `subcuenta` (
   `fecha_modifico_subcuenta` date DEFAULT NULL,
   `id_cuenta` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `subcuenta`
+--
+
+INSERT INTO `subcuenta` (`id_subcuenta`, `nombre_subcuenta`, `estado_subcuenta`, `fecha_registro_subcuenta`, `fecha_modifico_subcuenta`, `id_cuenta`) VALUES
+(1300, 'Subvenciones del estado. ', 'ACTIVO', '2017-11-13', NULL, 130),
+(1301, 'Subvenciones de otras administraciones pÃºblicas. ', 'ACTIVO', '2017-11-13', NULL, 130),
+(1320, 'Otras subvenciones. ', 'ACTIVO', '2017-11-13', NULL, 132),
+(1321, 'Otras donaciones y legados. ', 'ACTIVO', '2017-11-13', NULL, 132),
+(1720, 'Deudas a largo plazo transformables en subvenciones. ', 'ACTIVO', '2017-11-13', NULL, 172),
+(1721, 'Deudas a largos plazos transformables en donaciones y legados. ', 'ACTIVO', '2017-11-13', NULL, 172);
 
 -- --------------------------------------------------------
 
@@ -306,6 +417,19 @@ CREATE TABLE `subcuenta_depreciacion` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `temp_as`
+--
+
+CREATE TABLE `temp_as` (
+  `id_as` int(11) NOT NULL,
+  `glosa_asiento` text,
+  `monto_asiento` double DEFAULT NULL,
+  `subcuenta_id_subcuenta` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `tipo_cambio`
 --
 
@@ -327,6 +451,16 @@ CREATE TABLE `tipo_pago` (
   `descripcion_tipo_pago` varchar(45) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Volcado de datos para la tabla `tipo_pago`
+--
+
+INSERT INTO `tipo_pago` (`id_tipo_pago`, `tipo`, `descripcion_tipo_pago`) VALUES
+(1, 'Caja', 'Ingreso'),
+(2, 'Caja', 'Egreso'),
+(3, 'Banco', 'Deposito'),
+(4, 'Banco', 'Retiro');
+
 -- --------------------------------------------------------
 
 --
@@ -337,6 +471,16 @@ CREATE TABLE `tipo_transaccion` (
   `id_tipo_transaccion` int(11) NOT NULL,
   `nombre_transaccion` varchar(45) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `tipo_transaccion`
+--
+
+INSERT INTO `tipo_transaccion` (`id_tipo_transaccion`, `nombre_transaccion`) VALUES
+(1, 'Ingreso'),
+(2, 'Egreso'),
+(3, 'Inversion'),
+(4, 'Transferencia');
 
 -- --------------------------------------------------------
 
@@ -351,6 +495,15 @@ CREATE TABLE `usuario` (
   `ap_materno_usuario` varchar(45) DEFAULT NULL,
   `ci_usuario` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `usuario`
+--
+
+INSERT INTO `usuario` (`id_usuario`, `nombre_usuario`, `ap_paterno_usuario`, `ap_materno_usuario`, `ci_usuario`) VALUES
+(1, 'Wendy', 'Guzman', 'Rojas', 9876543),
+(2, 'Cinthia', 'Alvarez', 'De la Torre', 1234567),
+(3, 'Cristal', 'Flores', 'Hilari', 6861591);
 
 --
 -- Índices para tablas volcadas
@@ -379,10 +532,10 @@ ALTER TABLE `asiento_amortizacion`
   ADD KEY `fk_asiento_amortizacion_asiento1_idx` (`id_asiento`);
 
 --
--- Indices de la tabla `asiento_deperciacion`
+-- Indices de la tabla `asiento_depreciacion`
 --
-ALTER TABLE `asiento_deperciacion`
-  ADD PRIMARY KEY (`id_asiento_deperciacion`),
+ALTER TABLE `asiento_depreciacion`
+  ADD PRIMARY KEY (`id_asiento_depreciacion`),
   ADD KEY `fk_asiento_deperciacion_depreciacion1_idx` (`id_depreciacion`),
   ADD KEY `fk_asiento_deperciacion_asiento1_idx` (`id_asiento`);
 
@@ -495,6 +648,13 @@ ALTER TABLE `subcuenta_depreciacion`
   ADD KEY `fk_subcuenta_depreciacion_subcuenta1_idx` (`id_subcuenta`);
 
 --
+-- Indices de la tabla `temp_as`
+--
+ALTER TABLE `temp_as`
+  ADD PRIMARY KEY (`id_as`),
+  ADD KEY `fk_temp_as_subcuenta1_idx` (`subcuenta_id_subcuenta`);
+
+--
 -- Indices de la tabla `tipo_cambio`
 --
 ALTER TABLE `tipo_cambio`
@@ -519,6 +679,15 @@ ALTER TABLE `usuario`
   ADD PRIMARY KEY (`id_usuario`);
 
 --
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `depreciacion`
+--
+ALTER TABLE `depreciacion`
+  MODIFY `id_depreciacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+--
 -- Restricciones para tablas volcadas
 --
 
@@ -537,9 +706,9 @@ ALTER TABLE `asiento_amortizacion`
   ADD CONSTRAINT `fk_asiento_amortizacion_asiento1` FOREIGN KEY (`id_asiento`) REFERENCES `asiento` (`id_asiento`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Filtros para la tabla `asiento_deperciacion`
+-- Filtros para la tabla `asiento_depreciacion`
 --
-ALTER TABLE `asiento_deperciacion`
+ALTER TABLE `asiento_depreciacion`
   ADD CONSTRAINT `fk_asiento_deperciacion_asiento1` FOREIGN KEY (`id_asiento`) REFERENCES `asiento` (`id_asiento`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_asiento_deperciacion_depreciacion1` FOREIGN KEY (`id_depreciacion`) REFERENCES `depreciacion` (`id_depreciacion`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
@@ -615,7 +784,12 @@ ALTER TABLE `subcuenta_amortizacion`
 ALTER TABLE `subcuenta_depreciacion`
   ADD CONSTRAINT `fk_subcuenta_depreciacion_depreciacion1` FOREIGN KEY (`id_depreciacion`) REFERENCES `depreciacion` (`id_depreciacion`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_subcuenta_depreciacion_subcuenta1` FOREIGN KEY (`id_subcuenta`) REFERENCES `subcuenta` (`id_subcuenta`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-COMMIT;
+
+--
+-- Filtros para la tabla `temp_as`
+--
+ALTER TABLE `temp_as`
+  ADD CONSTRAINT `fk_temp_as_subcuenta1` FOREIGN KEY (`subcuenta_id_subcuenta`) REFERENCES `subcuenta` (`id_subcuenta`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
