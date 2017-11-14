@@ -87,7 +87,7 @@ $_SESSION["usuario"];
                   <span>Reportes Mensuales</span>
               </a>
               <ul class="sub">
-                  <li ><a  href="libro_mayor.php"><i class="fa fa-list-alt"></i>Libro Mayor</a></li>
+                  <li ><a  href="guardar_mayor.php"><i class="fa fa-list-alt"></i>Libro Mayor</a></li>
               </ul>
           </li>
           <li class="sub-menu">
