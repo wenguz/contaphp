@@ -9,14 +9,12 @@ if ($exist)
 		echo "Se borro exitosamente el txt";
 	}
 }
-$asiento ='SELECT Distinct(asiento.id_asiento),ficha.total_debe_ficha,ficha.total_haber_ficha,ficha.fecha_ficha,subcuenta.nombre_subcuenta,asiento.glosa_asiento,asiento.debe_asiento,asiento.haber_asiento
-FROM asiento,ficha,subcuenta
-where ficha.fecha_ficha=date(Y-m-d)';
+$asiento ='SELECT Distinct(asiento.id_asiento),ficha.total_debe_ficha,ficha.total_haber_ficha,ficha.fecha_ficha,subcuenta.nombre_subcuenta,asiento.glosa_asiento,asiento.debe_asiento,asiento.haber_asiento FROM asiento,ficha,subcuenta';
 
 
  $resultado=mysqli_query($con,$asiento);
 while ($row = mysqli_fetch_assoc($resultado)) {
-    $fi=fopen('Diario.txt','a') or die ("No se pudo Crear el archivo");
+$fi=fopen('Diario.txt','a') or die ("No se pudo Crear el archivo");
 fwrite($fi,$row['id_asiento'].';');
 fwrite($fi,$row['fecha_ficha'].';');
 fwrite($fi,$row['nombre_subcuenta'].';');
