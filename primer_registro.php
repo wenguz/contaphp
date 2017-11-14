@@ -366,6 +366,12 @@ require('conexion.php');
                                     $sq="INSERT INTO depreciacion (bien,vida_util)values('Equipos de Computacion',4)";
                                     mysqli_query($con,$sq);
 
+                                    $sq="INSERT INTO `tipo_cambio` (`id_tipo_cambio`, `monto`, `fecha`) VALUES
+                                    (103, 1000, '2017-11-09'),
+                                    (104, 6.97, '2017-11-10'),
+                                    (105, 1234342, '2017-11-30'),
+                                    (106, 8.12, '2017-11-02')";
+                                    mysqli_query($con,$sq);
 
                                     $mensaje = "Usted se ha registrado correctamente.";
                                     print "<script>alert('$mensaje'); window.location='lista_usuario.php';</script>";
