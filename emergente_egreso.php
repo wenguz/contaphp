@@ -126,7 +126,7 @@ $_SESSION["usuario"];
                                             $con = mysqli_connect('localhost', 'root', '', 'contabilidad'); 
                                             $cod_cuenta=mysqli_query($con,"SELECT * FROM subcuenta");
                                             while ($valores_cuenta = mysqli_fetch_array($cod_cuenta)) {
-                                            echo '<option value="'.$valores_cuenta[idsubcuenta].'">'.$valores_cuenta[nombre_subcuenta].'</option>'; }
+                                            echo '<option value="'.$valores_cuenta[id_subcuenta].'">'.$valores_cuenta[nombre_subcuenta].'</option>'; }
                                             echo "<br>"; 
                                        ?>
                                              </select>
@@ -445,9 +445,9 @@ $_SESSION["usuario"];
 }
 
   function ver_doc_t($f) {
-    $iden='es ';
+    $iden='  ';
    $con = mysqli_connect('localhost', 'root', '', 'contabilidad'); 
-     $cod_1=mysqli_query($con,"SELECT  Tipo FROM documento_extra WHERE  id_ficha='$f' LIMIT 1 ");
+     $cod_1=mysqli_query($con,"SELECT  tipo FROM documento_extra WHERE  id_ficha='$f' LIMIT 1 ");
    
     if ($row = mysqli_fetch_row($cod_1)) 
     {
