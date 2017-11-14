@@ -261,10 +261,10 @@ require('conexion.php');
                                                 {
                                                   $xa = $valores8a['c'];
                                                   $x1a = $valores8a['mo'];
-                                                  $totala= ($totala +( $xa *$x1a));
+                                                  $totala= ($totala +($x1a));
                                                 }
 
-                                          echo  $totala;
+                                          echo  $totala/2;
                                       ?></th>
                                     <td colspan="2"> </center> </th>
                                 </tr>  </tfoot> <tbody>  <tr>
