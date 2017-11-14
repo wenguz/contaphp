@@ -32,11 +32,12 @@ function Footer()
 function ChapterTitle($label)
 {
     // Arial 12
-    $this->SetFont('Times','B',14);
+    $this->SetFont('Times','B',12);
     // Color de fondo
     $this->SetFillColor(200,220,255);//
     // Título
-    $this->Cell(0,6,"Transacciones del día",0,1,'C');
+$fecha=date('d-m-y');
+    $this->Cell(0,6,"LIBRO DIARIO ".$fecha,0,1,'C');
     // Salto de línea
     $this->Ln(4);
 }
@@ -93,7 +94,7 @@ function FancyTable($header, $data)
     $codc=mysqli_query($con,"SELECT clase.nombre_clase FROM clase");
     $codcu=mysqli_query($con,"SELECT cuenta.nombre_cuenta FROM cuenta");
     $numclases = mysqli_num_rows($codc);
-    
+
 
      $cods=mysqli_query($con,"SELECT clase.nombre_clase, clase.id_clase FROM clase,grupo,cuenta,subcuenta Where clase.id_clase=grupo.id_clase And grupo.id_grupo=cuenta.id_grupo And cuenta.id_cuenta=subcuenta.id_cuenta");
 
