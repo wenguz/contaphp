@@ -6,6 +6,7 @@ if (!isset($_SESSION["usuario"])){
 
 }
 $_SESSION["usuario"];
+require('conexion.php');
 ?>
 <!DOCTYPE html>
 <html lang="en"   >
@@ -124,7 +125,6 @@ $_SESSION["usuario"];
                                      <div class="col-sm-10"> <p>
                                   <select class="form-control placeholder-no-fix" name="ri_cuenta" >
                                 <?php
-                                            $con = mysqli_connect('localhost', 'root', '', 'contabilidad');
                                             $cod_cuenta=mysqli_query($con,"SELECT * FROM subcuenta");
                                             while ($valores_cuenta = mysqli_fetch_array($cod_cuenta)) {
                                             echo '<option value="'.$valores_cuenta[id_subcuenta].'">'.$valores_cuenta[nombre_subcuenta].'</option>'; }
@@ -151,7 +151,6 @@ $_SESSION["usuario"];
                                             <div class="form-group">
                                               <p class="col-sm-4 col-sm-4 control-label" >Precio
                                               <?php
-                                              $con = mysqli_connect('localhost', 'root', '', 'contabilidad');
                                               //obtener id de la ultima ficha
                          $rs=mysqli_query($con,"SELECT MAX(id_ficha) AS iden FROM ficha");
                                     if ($row = mysqli_fetch_row($rs))
@@ -162,7 +161,7 @@ $_SESSION["usuario"];
                           //obtener moneda
 
 
-                         $rs_m=mysqli_query($con,"SELECT total_ficha AS iden FROM ficha WHERE id_ficha='$iden'");
+                         $rs_m=mysqli_query($con,"SELECT total_ficha AS iden FROM ficha WHERE id_ficha=$iden");
                                     if ($row_m = mysqli_fetch_row($rs_m))
                                       {
                                         $moneda = trim($row_m[0]);
@@ -207,9 +206,9 @@ $_SESSION["usuario"];
                                      $ri_monto =$_POST["ri_monto"] ;
                                      $ri_concepto=$_POST["ri_concepto"] ;
                                      $ri_cantidad=$_POST["ri_cantidad"] ;
-                                      $sq2= "INSERT INTO temp_as (id_as,glosa_asiento,monto_asiento,id_subcuenta,cantidad   )
+                                      $sq2= "INSERT INTO temp_as (id_as,glosa_asiento,monto_asiento,subcuenta_id_subcuenta,cantidad   )
                                                             VALUES ( '$id_entidad0','$ri_concepto','$ri_monto','$ri_cuenta','$ri_cantidad');";
-                                                      mysqli_query($con,$sq2)  ;
+                                                      mysqli_query($con,$sq2) or die(mysqli_error($con))  ;
                                     }}
                                   ?>
                                   </center><hr></td></tr>
@@ -262,7 +261,7 @@ $_SESSION["usuario"];
                            ?>
                               <tr class="identificador" data-id="id" >
                                   <td><?php echo $valores8['id_as'] ?></td>
-                                  <td><?php echo $valores8['id_subcuenta'] ?></td>
+                                  <td><?php echo $valores8['subcuenta_id_subcuenta'] ?></td>
                                   <td><?php echo $valores8['glosa_asiento'] ?></td>
                                   <td><?php echo $valores8['cantidad'] ?></td>
                                   <td><?php echo $valores8['monto_asiento'] ?></td>
@@ -334,18 +333,18 @@ $_SESSION["usuario"];
                                   $campo2=$row0['cantidad'];
                                   $campo3=$row0['monto_asiento'];
                                   $campo3=$campo3*$moneda;
-                                  $campo4=0;
-                                  $campo5=$row0['monto_asiento'];
+                                  $campo4=$row0['monto_asiento'];
+                                  $campo5=0;
                                   $campo5=$campo5*$moneda;
                                   $campo6=$iden;
-                                  $campo7=$row0['id_subcuenta'];
+                                  $campo7=$row0['subcuenta_id_subcuenta'];
 
                                   $insercion="INSERT INTO asiento values ('$id', '$campo1', '$campo2', '$campo3', '$campo4', '$campo5', '$campo6', '$campo7');";
-                                mysqli_query($con,$insercion)  ;
+                                mysqli_query($con,$insercion) or die (mysqli_error($con))  ;
                             }
                             //actualizar el monot total de ficha
                             $total=0;
-                             $cod_ficha=mysqli_query($con,"SELECT   cantidad AS c, monto_asiento AS mo FROM temp_as");
+                             $cod_ficha=mysqli_query($con,"SELECT cantidad AS c, monto_asiento AS mo FROM temp_as");
                                                while ($v8g = mysqli_fetch_array($cod_ficha))
                                                 {
                                                   $x = $v8g['c'];
@@ -353,7 +352,7 @@ $_SESSION["usuario"];
                                                   $total= $total +( $x *$x1);
                                                 }
                                                 $total= $total*$moneda;
-                             $update_ficha="UPDATE ficha SET `total_ficha`='$total',`total_haber_ficha`='$total' WHERE id_ficha='$iden';";
+                             $update_ficha="UPDATE ficha SET `total_ficha`='$total',`total_debe_ficha`='$total' WHERE id_ficha='$iden';";
                                 mysqli_query($con,$update_ficha)  ;
                              //borrar tabla temporal
                             $sq_delete= "DELETE FROM temp_as";
