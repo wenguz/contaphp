@@ -9,8 +9,8 @@ if ($exist)
 		echo "Se borro exitosamente el txt";
 	}
 }
-$mensaje = "ENTRA";
-print "<script>alert('$mensaje');</script>";
+/*$mensaje = "ENTRA";
+print "<script>alert('$mensaje');</script>";*/
 
 $ing ='SELECT c.id_cuenta, c.nombre_cuenta, f.fecha_ficha,
 (SELECT SUM(f.total_debe_ficha) FROM tipo_transaccion tt WHERE tt.id_tipo_transaccion =1) as debe,
