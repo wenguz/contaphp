@@ -103,7 +103,7 @@ $_SESSION["usuario"];
           <div class="col-md-12">
               <div class="content-panel">
                   <table class="table table-bordered table-striped table-condensed">
-                    <h4><i class="fa fa-angle-right"></i> Busqueda de fichas</h4>
+                    <h3><i class="fa fa-angle-right"></i> Busqueda de fichas</h3>
                     &emsp;
 
 
@@ -121,12 +121,10 @@ $_SESSION["usuario"];
                       <input type="submit"  class="btn btn-theme" name="buscar_fecha" value="Buscar">    <br>
                     </tr>
                     <br>
-                    <tr>
-                      <p>&emsp;&emsp;&emsp;Click aqui para mostrar todos (solo se mostrara este boton para el proceso de desarrollo del sistema) : </p>
-                      <input type="submit"  class="btn btn-theme" name="buscar1" value="Mostrar todos">
-                    </tr>
+                    
                     </form>
                     <hr>
+                    <h3><i class="fa fa-angle-right"></i> Tabla de fichas </h3> 
                       <thead >
                       <tr>
                           <td>Nro</th>
@@ -229,12 +227,13 @@ function ent($id) {
                               </tr>
                          <?php } }   ?>
                        <?php
+                       $a='';
                             if(isset($_POST['buscar_id']))
                         {
                          $con = mysqli_connect('localhost', 'root', '', 'contabilidad') or die(mysql_error());
                                $a =$_POST["b_id"] ;
 
-                          $cod=mysqli_query($con,"SELECT * FROM ficha WHERE id_ficha=$a");
+                          $cod=mysqli_query($con,"SELECT * FROM ficha WHERE id_ficha='$a'");
                           while ($valores = mysqli_fetch_array($cod)) { ?>
                               <tr>
                                   <td><?php echo $valores['id_ficha'] ?></td>
@@ -258,6 +257,7 @@ function ent($id) {
                               </tr>
                          <?php } }   ?>
                             <?php
+                            $a='';
                             if(isset($_POST['buscar_fecha']))
                         {
                          $con = mysqli_connect('localhost', 'root', '', 'contabilidad') or die(mysql_error());
