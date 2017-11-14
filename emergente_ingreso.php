@@ -162,7 +162,7 @@ $_SESSION["usuario"];
                           //obtener moneda
 
 
-                         $rs_m=mysqli_query($con,"SELECT total_ficha AS iden FROM ficha WHERE id_ficha=$iden");
+                         $rs_m=mysqli_query($con,"SELECT total_ficha AS iden FROM ficha WHERE id_ficha='$iden'");
                                     if ($row_m = mysqli_fetch_row($rs_m))
                                       {
                                         $moneda = trim($row_m[0]);
