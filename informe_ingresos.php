@@ -88,7 +88,7 @@ $_SESSION["usuario"];
               <ul class="sub">
                   <li class="active"><a  href="informe_ingresos.php"><i class="fa fa-list-alt"></i>Informe Ingresos</a></li>
                   <li ><a  href="informe_egresos.php"><i class="fa fa-list-alt"></i>Informe Egresos</a></li>
-                  <li ><a  href="libro_diario.php"><i class="fa fa-list-alt"></i>Libro Diario</a></li>
+                  <li ><a  href="guardar_diario.php"><i class="fa fa-list-alt"></i>Libro Diario</a></li>
               </ul>
           </li>
           <li class="sub-menu">
@@ -97,7 +97,7 @@ $_SESSION["usuario"];
                   <span>Reportes Mensuales</span>
               </a>
               <ul class="sub">
-                  <li ><a  href="libro_mayor.php"><i class="fa fa-list-alt"></i>Libro Mayor</a></li>
+                  <li ><a  href="guardar_mayor.php"><i class="fa fa-list-alt"></i>Libro Mayor</a></li>
               </ul>
           </li>
           <li class="sub-menu">
@@ -157,7 +157,14 @@ $_SESSION["usuario"];
                              $con = mysqli_connect('localhost', 'root', '', 'contabilidad') or die(mysql_error());
                             $a =$_POST["b_fecha"] ;
 
-                              $cod=mysqli_query($con,"SELECT b.id_ficha, b.fecha_ficha, e.nombre_cuenta, x.glosa_asiento, tp.tipo, p.nombre_persona, x.monto_asiento FROM tipo_transaccion a, ficha b, asiento x, subcuenta d, cuenta e, tipo_pago tp, persona p WHERE p.id_persona=b.id_persona AND a.id_tipo_transaccion=b.id_tipo_transaccion AND tp.id_tipo_pago=b.id_tipo_pago AND b.id_ficha=x.ficha_id_ficha AND x.id_subcuenta=d.id_subcuenta
+                              $cod=mysqli_query($con,"SELECT b.id_ficha, b.fecha_ficha, e.nombre_cuenta, x.glosa_asiento, tp.tipo, p.nombre_persona, x.monto_asiento
+                                FROM tipo_transaccion a, ficha b, asiento x, subcuenta d, cuenta e, tipo_pago tp, persona p
+                                WHERE p.id_persona=b.id_persona
+                                AND a.id_tipo_transaccion=b.id_tipo_transaccion
+                                AND tp.id_tipo_pago=b.id_tipo_pago
+                                AND b.id_ficha=x.ficha_id_ficha
+                                AND x.id_subcuenta=d.id_subcuenta
+                                and x.haber_asiento = '0'
                                 AND d.id_cuenta=e.id_cuenta
                                 AND b.fecha_ficha='$a'
                                 AND a.nombre_transaccion='Ingreso'");
