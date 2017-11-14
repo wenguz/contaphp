@@ -6,8 +6,6 @@ if (!isset($_SESSION["usuario"])){
 
 }
 $_SESSION["usuario"];
-
-  require('conexion.php');
 ?>
 
 <!DOCTYPE html>
@@ -121,8 +119,8 @@ $_SESSION["usuario"];
                           <table class="table table-bordered table-striped table-condensed">
                             <h4><i class="fa fa-angle-right"></i> Lista de Usuarios</h4>
                             &emsp;<label>Buscar por nombre de usuario:  </label> &emsp;
-                            <form action="" method="get">
-                              <input style="padding: 5px" type="text" id="q" value="Buscar..." onfocus="if (this.value == 'Buscar...') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Buscar...';}" />
+                            <form action="" method="post">
+                              <input style="padding: 5px" type="text" value="Buscar..." onfocus="if (this.value == 'Buscar...') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Buscar...';}" />
                               <input class="btn btn-primary" type="button" value="Buscar" />
                             </form>
                             <hr>
@@ -139,92 +137,9 @@ $_SESSION["usuario"];
                                   <td width="150px"> Opciones</th>
                               </tr>
                               </thead>
-                              <?php
-                              if(!empty($_GET['q']))
-                              {
-                                  $nombre = htmlentities($_GET['q']);
-                                  $sql = "SELECT * FROM usuario WHERE nombre_usuario LIKE '%".$nombre."%'";
-                                  $query = mysql_query($sql,$con);
-                                  $msg = "Resultados para el nombre ".$nombre;
-                                  if(!empty($_GET['q']))    {?>
-
-                                <div id="cuadro">
-                                <center>
-                                    <div id="titulo">
-                                        <center>
-                                        <h1 style="font-size: 22px"><br>USUARIOS ENCONTRADOS
-                                        <br>---------------------------------------------------------------------------------------</h1>
-                                        </center>
-                                        </div>
-
-                                                <tbody>
-                                                    <?php
-                                                    $resultado=mysqli_query($con,"SELECT * FROM empleado_usuario");
-                                                        while ($row1 =mysqli_fetch_assoc($resultado))                             {
-                                                            ?>
-                                                            <?php while($row = mysqli_fetch_assoc($query))                                    {
-                                                    ?>
-
-                                                    <tr>
-                                                        <td><a href=""><?php echo $row['id_empleado_usuario'];?></a></td>
-                                                        <?php
-                                                        $idemp=$row['id_empleado_usuario'];
-                                                        $polo=mysqli_query($con,"SELECT a.* FROM usuario a, empleado_usuario b where b.id_usuario=a.id_usuario and b.id_empleado_usuario='$idemp'");
-                                                        $rowo = mysqli_fetch_assoc($polo)
-                                                        ?>
-                                                        <td><?php echo $rowo['nombre_usuario'];?></td>
-                                                        <td><?php echo $rowo['ap_paterno_usuario'];?></td>
-                                                        <td><?php echo $rowo['ap_materno_usuario'];?></td>
-                                                        <td><?php echo $rowo['ci_usuario'];?></td>
-                                                        <td width="8%">
-                                                        <?php
-                                                          $id_usuario=$row['id_usuario'];
-                                                          $id_empleado_usuario=$row['id_empleado_usuario'];
-                                                          $r=mysqli_query($con,"SELECT a.* from empleado a, empleado_usuario b, usuario c where a.id_empleado=b.id_empleado and b.id_usuario=c.id_usuario and b.id_empleado_usuario='$id_empleado_usuario'");
-                                                          $rows = mysqli_fetch_assoc($r);
-                                                          echo $rows['cargo'];
-                                                        ?></td>
-                                                        <td width="5%">
-                                                        <a class="btn btn-warning btn-xs" type="submit"  name="agregar_cargo" href="agregar_cargo.php?id_usuario=<?=$id_usuario?>"><i class="fa fa-plus">Agregar</i></a>
-                                                        </td>
-                                                        <td style="background:#b8dbb5;"> <?php echo $row['estado'];?></td>
-                                                        <td><?php echo $row['user'];?></td>
-                                                        <td>
-                                                            <a class="btn btn-primary btn-xs" type="submit" name="editar_usuario" href="editar_usuario.php?id_usuario=<?=$id_usuario?>"><i class="fa fa-pencil"> Editar</i></a>
-                                                            <?php
-                                                              if($row['estado']=='ACTIVO')
-                                                              {
-                                                                  ?>
-                                                                  <a class="btn btn-danger btn-xs" type="submit"  name="eliminar_usuario" href="eliminar_usuario.php?id_empleado_usuario=<?=$id_empleado_usuario?>"><i class="fa fa-ban"> Desactivar</i></a>
-                                                                  <?php
-                                                              }
-                                                              else
-                                                              {
-                                                                  ?>
-                                                                  <a class="btn btn-danger btn-xs" type="submit"  name="eliminar_usuario" href="eliminar_usuario.php?id_empleado_usuario=<?=$id_empleado_usuario?>"><i class="fa fa-ban"> Activar</i></a>
-                                                                  <?php
-                                                              }
-                                                          }
-                                                            ?>
-                                                        </td>
-                                                    </tr>
-                                                    <?php
-                                                                }
-                                                        }
-                                                    ?>
-                                                  </tbody>
-                                </center>
-                            </div>
-                            <?php
-                               }
-
-                              }
-                              else
-                              {
-
-                              ?>
                               <tbody>
                                 <?php
+                                  require('conexion.php');
                                   $resultado=mysqli_query($con,"SELECT * FROM empleado_usuario");
                                   while ($row = mysqli_fetch_assoc($resultado)) {?>
                                   <tr>
@@ -253,6 +168,8 @@ $_SESSION["usuario"];
                                       <td><?php echo $row['user'];?></td>
                                       <td>
                                           <a class="btn btn-primary btn-xs" type="submit" name="editar_usuario" href="editar_usuario.php?id_usuario=<?=$id_usuario?>"><i class="fa fa-pencil"> Editar</i></a>
+
+
                                           <?php
                                             if($row['estado']=='ACTIVO')
                                             {
@@ -266,14 +183,19 @@ $_SESSION["usuario"];
                                                 <a class="btn btn-danger btn-xs" type="submit"  name="eliminar_usuario" href="eliminar_usuario.php?id_empleado_usuario=<?=$id_empleado_usuario?>"><i class="fa fa-ban"> Activar</i></a>
                                                 <?php
                                             }
-                                        }
                                           ?>
+
+
+
                                       </td>
                                   </tr>
+                                <?php
+
+
+
+                                  }
+                                ?>
                               </tbody>
-                              <?php
-                              }
-                              ?>
                           </table>
 
 
