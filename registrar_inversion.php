@@ -3,7 +3,7 @@ session_start();
 //manejamos en sesion el nombre del usuario que se ha logeado
 if (!isset($_SESSION["usuario"])){
     header("location:index.php?nologin=false");
-    
+
 }
 $_SESSION["usuario"];
 ?>
@@ -24,15 +24,15 @@ $_SESSION["usuario"];
     <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="assets/css/zabuto_calendar.css">
     <link rel="stylesheet" type="text/css" href="assets/js/gritter/css/jquery.gritter.css" />
-    <link rel="stylesheet" type="text/css" href="assets/lineicons/style.css">    
-    
+    <link rel="stylesheet" type="text/css" href="assets/lineicons/style.css">
+
     <!-- Custom styles for this template -->
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="assets/css/style-responsive.css" rel="stylesheet">
 
     <script src="assets/js/chart-master/Chart.js"></script>
     <style type="text/css">
-      
+
       tfoot {
         text-align: right;
         background: #4b5c4e;
@@ -42,7 +42,7 @@ $_SESSION["usuario"];
 
     </style>
   </head>
- 
+
   <body>
 
   <section id="container" >
@@ -56,7 +56,7 @@ $_SESSION["usuario"];
               </div>
             <!--logo start-->
             <a href="index.php" class="logo"><b>SISTEMA CONTABLE</b></a>
-            
+
             <div class="top-menu">
               <ul class="nav pull-right top-menu">
                     <li><a class="logout" href="index.php">Cerrar Sesion</a></li>
@@ -64,7 +64,7 @@ $_SESSION["usuario"];
             </div>
         </header>
       <!--header end-->
-      
+
       <!-- **********************************************************************************************************************************************************
       MAIN SIDEBAR MENU
       *********************************************************************************************************************************************************** -->
@@ -79,7 +79,7 @@ $_SESSION["usuario"];
                 <span>Inicio  </span>
             </a>
         </li>
-        
+
         <li class="sub-menu">
             <a  class="active" href="javascript:;" >
                   <i class="fa fa-list-alt"></i>
@@ -92,26 +92,26 @@ $_SESSION["usuario"];
               </ul>
           </li>
 
-          
+
           <li class="sub-menu">
               <a href="lista_ficha.php" >
                   <i class="fa fa-th"></i>
                   <span>Lista de Fichas</span>
               </a>
           </li>
-          
-           
+
+
     </ul>
-</div>  
+</div>
       </aside>
-     
+
 
 </section>
 
 <section id="main-content">
     <section class="wrapper">
       <h3><i class="fa fa-angle-right"></i>Ficha Inversion</h3>
-           
+
             <div class="col-md-12">
               <div class="content-panel">
 
@@ -122,20 +122,20 @@ $_SESSION["usuario"];
                       <tr>
                         <td>
                           <div class="form-group">
-                            <label class="col-sm-3 col-sm-3 control-label"  >Fecha:&emsp; 
+                            <label class="col-sm-3 col-sm-3 control-label"  >Fecha:&emsp;
                                 <input required type="date" name="fecha" placeholder="YYYY-MM-DD" class="form-input"/>
                             </label>
-                            
+
                           </div>
                         </td>
                         <td colspan="2">
                           <div class="col-sm-3 col-sm-3 control-label">
                               Hora:
-                                <p  readonly="readonly"type="time" class="form-control"   ><a><?php  
+                                <p  readonly="readonly"type="time" class="form-control"   ><a><?php
                                   $time = time();
-                                  echo date("H:i:s", $time); 
+                                  echo date("H:i:s", $time);
                                     ?></a></p>
-                                
+
                             </div>
                         </td>
                         <td>
@@ -153,27 +153,27 @@ $_SESSION["usuario"];
                             <label class="col-sm-10">Tipo de Cambio:&emsp; </label>
                             <div class="col-sm-10">
                                 <p>
-                                  
+
                                       <?php
-                                           $con = mysqli_connect('localhost', 'root', '', 'contabilidad'); 
+                                           $con = mysqli_connect('localhost', 'root', '', 'contabilidad');
                                            $cod=mysqli_query($con,"SELECT   monto FROM tipo_cambio ORDER BY id_tipo_cambio DESC LIMIT 1 " );
 
-                                          if ($row = mysqli_fetch_row($cod)) 
+                                          if ($row = mysqli_fetch_row($cod))
                                             {
                                               $iden = trim($row[0]);
-                                            } 
+                                            }
                                           echo '<input type="number"  step="any" class="form-control" name="cambio" value="'.$iden.'"> </input> ';
                                       ?>
-                                  
+
                                 </p>
                               </div>
-                            </div> 
+                            </div>
                         </td>
                         <td>
                           <div class="form-group">
                               <label class="col-sm-10">Moneda:   &emsp; </label>
                               <div class="col-sm-10">
-                                <p> 
+                                <p>
                                   <select class="form-control" name="moneda">
                                         <option value="1">Bs.</option>
                                        <option value="0">$us.</option>
@@ -190,13 +190,13 @@ $_SESSION["usuario"];
                                 <p>
                                   <select  required class="form-control" name="pago">
                                       <?php
-                                           $con = mysqli_connect('localhost', 'root', '', 'contabilidad'); 
+                                           $con = mysqli_connect('localhost', 'root', '', 'contabilidad');
                                            $cod=mysqli_query($con,"SELECT * FROM tipo_pago WHERE descripcion_tipo_pago='Egreso' or descripcion_tipo_pago='Retiro' ");
-                                            
+
                                         while ($valores = mysqli_fetch_array($cod)) {
-                                                    
-                                          echo '<option value="'.$valores[id_tipo_pago].'">'.$valores[tipo].'</option>';                
-                                          
+
+                                          echo '<option value="'.$valores[id_tipo_pago].'">'.$valores[tipo].'</option>';
+
                                        }
                                       ?>
                                   </select>
@@ -206,32 +206,29 @@ $_SESSION["usuario"];
                         </td>
                         <td>
                           <div class="form-group">
-                            <label class="col-sm-10">Tipo de ingreso:&emsp; </label>
+                            <label class="col-sm-10">Tipo de Transaccion:&emsp; </label>
                             <div class="col-sm-10">
-                                <p>
-                                   <select  readonly="readonly" class="form-control" name="trans" >
                                       <?php
-                                           $cod=mysqli_query($con,"SELECT * FROM tipo_transaccion WHERE id_tipo_transaccion='123'");
-                                               
+                                           $cod=mysqli_query($con,"SELECT * FROM tipo_transaccion WHERE id_tipo_transaccion='3'");
+
                                         while ($valores = mysqli_fetch_array($cod)) {
-                                                    
-                                          echo '<option value="'.$valores[id_tipo_transaccion].'">'.$valores[nombre_transaccion].'</option>';                
-                                           
+                                          ?>
+                                              <input required type="" disabled="true" name ="trans" class="form-control" value="<?php echo $valores['nombre_transaccion'];?>">
+
+                                          <?php
                                        }
                                       ?>
-                                  </select>
-                                </p>
                               </div>
                           </div>
                         </td>
                       </tr>
-                      
+
                     </table>
                      <table class="table table-bordered table-striped table-condensed">
                       <hr>
                       <tr>
                           <h4><i class="fa fa-angle-right"></i> Registrar Personal </h4>
-                              
+
                               <td colspan="2">
                                 <div class="form-group">
                                   <center>
@@ -241,7 +238,7 @@ $_SESSION["usuario"];
                                   <div class="col-sm-9">
                                       <input   type="text" name="pag_nom" class="form-control">
                                   </div>
-                                   
+
                                 </div>
                               </td>
                             </tr>
@@ -265,84 +262,84 @@ $_SESSION["usuario"];
                                 <div class="form-group">
                                   <center>
                                   <label style="font-size: 15px;">Elaborado por...</label></center>
-                                  
-                                  
+
+
                                   <div class="col-sm-9">
-                                      
+
                                        <?php
                                        $user= $_SESSION["usuario"];
-                                        $con = mysqli_connect('localhost', 'root', '', 'contabilidad'); 
+                                        $con = mysqli_connect('localhost', 'root', '', 'contabilidad');
                                            $cod=mysqli_query($con,"SELECT   ci_usuario FROM usuario WHERE nombre_usuario='$user' LIMIT 1");
 
-                                          if ($row = mysqli_fetch_row($cod)) 
+                                          if ($row = mysqli_fetch_row($cod))
                                             {
                                               $iden = trim($row[0]);
-                                            }  
-                                             
+                                            }
+
                                               echo '<p class="col-sm-2 col-sm-2 control-label">Nombre:&emsp; </p>
                                               <div class="col-sm-9">
                                               <input type="text" step="any" class="form-control"  readonly="readonly" name="el_nomm" value="'.$user.'"> </input> </div>';
                                                echo '<p class="col-sm-2 col-sm-2 control-label">Ci:&emsp; </p>
                                               <div class="col-sm-9">
                                               <input required  type="number" step="any" class="form-control" name="el_ci"   readonly="readonly" value="'.$iden.'"> </input> </div>';
-                                              
+
                                           ?>
                                   </div>
-                                   
+
                                 </div>
                               </td>
                               <td>
                             </tr>
                     </table>
                     <tr>
-                      
+
                           <td colspan="4">
                                 <hr>
                                 <center>
-                           <input type="submit"  class="btn btn-danger"  onClick="document.location.reload();"  name="cancelar" value="CANCELAR"> 
+                           <input type="submit"  class="btn btn-danger"  onClick="document.location.reload();"  name="cancelar" value="CANCELAR">
                          <input type="submit"  class="btn btn-theme" name="registrar_datos"  value="AGREGAR ">
-                           
+
                                </center></td>
                         </tr>
 
     <?php
     function nom_e($id) {
-   $con = mysqli_connect('localhost', 'root', '', 'contabilidad'); 
+   $con = mysqli_connect('localhost', 'root', '', 'contabilidad');
    $cod_1=mysqli_query($con,"SELECT     nombre_usuario FROM usuario WHERE iid_usuario='$id' LIMIT 1");
-  if ($row_1 = mysqli_fetch_row($cod_1)) 
+  if ($row_1 = mysqli_fetch_row($cod_1))
    {
-       $ing = trim($row_1[0]); 
-    } 
+       $ing = trim($row_1[0]);
+    }
   }
      function add_ela($f,$emp,$text) {
-   $con = mysqli_connect('localhost', 'root', '', 'contabilidad'); 
+   $con = mysqli_connect('localhost', 'root', '', 'contabilidad');
      $cod_1=mysqli_query($con,"SELECT     MAX(id_empleado_ficha) FROM empleado_ficha  ");
-  if ($row_1 = mysqli_fetch_row($cod_1)) 
+  if ($row_1 = mysqli_fetch_row($cod_1))
    {
-    $id = trim($row_1[0])+1; 
-    $sq_c= "INSERT INTO empleado_ficha( id_empleado_ficha ,descripcion_empleado,id_ficha, id_empleado_usuario) 
+    $id = trim($row_1[0])+1;
+    $sq_c= "INSERT INTO empleado_ficha( id_empleado_ficha ,descripcion_empleado,id_ficha, id_empleado_usuario)
      VALUES ('$id','$text','$f','$emp');";
       mysqli_query($con,$sq_c)  ;
        }
-        else {$sq_c= "INSERT INTO empleado_ficha( id_empleado_ficha ,descripcion_empleado,id_ficha, id_empleado_usuario) 
+        else {$sq_c= "INSERT INTO empleado_ficha( id_empleado_ficha ,descripcion_empleado,id_ficha, id_empleado_usuario)
      VALUES ('1','$text','$f','$emp');";
       mysqli_query($con,$sq_c)  ;
-                   }    
+                   }
                    return true;
 }
-                           if(isset($_POST['registrar_datos'])) 
-                        { 
-                          
+                           if(isset($_POST['registrar_datos']))
+                        {
+
                          include('conexion.php');
-                          
+
                             if($_POST['fecha'] == '' or  $_POST['pago'] == ''or $_POST['trans'] == '' or $_POST['cambio']== ''  or $_POST['numero_partida_ficha']=='' )
-                            { 
-                                echo 'Por favor llene todos los campos.'; 
-                            } 
-                            else 
-                            { 
+                            {
+                                echo 'Por favor llene todos los campos.';
+                            }
+                            else
+                            {
                              $rs=mysqli_query($con,"SELECT MAX(id_ficha) AS iden FROM ficha");
-                                    if ($row = mysqli_fetch_row($rs)) 
+                                    if ($row = mysqli_fetch_row($rs))
                                       {
                                         $iden = trim($row[0]);
                                       }
@@ -363,7 +360,7 @@ $_SESSION["usuario"];
                           {
                             $tot=1;
                           }
-                              //pagado a 
+                              //pagado a
                                $pag_nom=$_POST["pag_nom"];
                                //Autorizado por
                                $aut_nom=$_POST["aut_nom"];
@@ -371,63 +368,63 @@ $_SESSION["usuario"];
                               //Elaborado
                                $el_nom=$_POST["el_nom"];
                               $el_ci=$_POST["el_ci"];
-                              //empleado autorizo  
+                              //empleado autorizo
                          $cod_p=mysqli_query($con,"SELECT   e.id_empleado_usuario FROM usuario u, empleado_usuario e WHERE   ci_usuario='$aut_ci' AND u.id_usuario=e.id_usuario LIMIT 1");
-                                           if ($row_p = mysqli_fetch_row($cod_p)) 
+                                           if ($row_p = mysqli_fetch_row($cod_p))
                                             {
                                               $id_empleado_aut = trim($row_p[0]);
                                             }
                                             else {
                                                $msg = 'No existe empleado con el número de carnet ingresado en  autorizado por ... ';
-                                               print "<script>alert('$msg'); window.location='registrar_egreso.php';</script>"; 
+                                               print "<script>alert('$msg'); window.location='registrar_egreso.php';</script>";
                                             }
-                           //empleado elaborado 
+                           //empleado elaborado
                           $cod_p=mysqli_query($con,"SELECT   e.id_empleado_usuario FROM usuario u, empleado_usuario e WHERE   ci_usuario='$el_ci' AND u.id_usuario=e.id_usuario LIMIT 1");
 
-                                          if ($row_p = mysqli_fetch_row($cod_p)) 
+                                          if ($row_p = mysqli_fetch_row($cod_p))
                                             {
                                               $id_empleado_el = trim($row_p[0]);
                                             }
                                             else {
                                                $msg = 'No existe empleado con el número de carnet ingresado en elaborado ';
                                                print "<script>alert('$msg'); window.location='registrar_egreso.php';</script>";
-                             
+
                                             }
-                          //persona pagado por 
+                          //persona pagado por
                            $cod_p=mysqli_query($con,"SELECT   id_persona FROM persona WHERE nombre_persona='$pag_nom' LIMIT 1");
 
-                                          if ($row_p = mysqli_fetch_row($cod_p)) 
+                                          if ($row_p = mysqli_fetch_row($cod_p))
                                             {
                                               $id_persona = trim($row_p[0]);
                                             }
                                             else {
                                               $cod_p=mysqli_query($con,"SELECT   MAX(id_persona) FROM persona");
-                                              if ($row_p = mysqli_fetch_row($cod_p)) 
+                                              if ($row_p = mysqli_fetch_row($cod_p))
                                                 {
                                                   $id = trim($row_p[0]);
                                                 }
                                                 $id_persona = $id+1;
-                                              $sq_p= "INSERT INTO persona(id_persona,nombre_persona,ci_persona,descripcion_persona) 
+                                              $sq_p= "INSERT INTO persona(id_persona,nombre_persona,ci_persona,descripcion_persona)
                                                     VALUES ('$id_persona','$pag_nom',' ','Pagado');";
-                                              mysqli_query($con,$sq_p)  ;   
+                                              mysqli_query($con,$sq_p)  ;
                                             }
-            //tipo de cambio 
+            //tipo de cambio
                            $cod_c=mysqli_query($con,"SELECT   id_tipo_cambio FROM tipo_cambio WHERE monto='$cambio' LIMIT 1");
 
-                                          if ($row_c = mysqli_fetch_row($cod_c)) 
+                                          if ($row_c = mysqli_fetch_row($cod_c))
                                             {
                                               $id_cambio = trim($row_c[0]);
-                                            } 
+                                            }
                                           else {
                                               $cod_c=mysqli_query($con,"SELECT   MAX(id_tipo_cambio) FROM tipo_cambio");
-                                              if ($row_c = mysqli_fetch_row($cod_c)) 
+                                              if ($row_c = mysqli_fetch_row($cod_c))
                                                 {
                                                   $id_c = trim($row_c[0]);
                                                 }
                                                 $id_cambio = $id_c+1;
-                                              $sq_c= "INSERT INTO tipo_cambio( id_tipo_cambio,monto,fecha) 
+                                              $sq_c= "INSERT INTO tipo_cambio( id_tipo_cambio,monto,fecha)
                                                     VALUES ('$id_cambio','$cambio','$fechai');";
-                                              mysqli_query($con,$sq_c)  ;   
+                                              mysqli_query($con,$sq_c)  ;
                                             }
                            //tiempo  y hora
                            $time = time();
@@ -436,8 +433,8 @@ $_SESSION["usuario"];
                            $sq= "INSERT INTO ficha(id_ficha, numero_partida_ficha, fecha_ficha, tiempo_ficha, total_ficha, total_debe_ficha, total_haber_ficha, id_tipo_transaccion, id_tipo_cambio, id_tipo_pago, id_persona)
 
                               VALUES ('$id_entidad','$partida','$fechai','$hora','$tot','0','0','$trans','$id_cambio','$pago','$id_persona');";
-                         
-                            mysqli_query($con,$sq)  ;       
+
+                            mysqli_query($con,$sq)  ;
                              //agregar personal
                             //elaborado
                             $func1 = 'add_ela';
@@ -447,18 +444,18 @@ $_SESSION["usuario"];
                             echo  $func2($id_entidad,$id_empleado_aut,'Autorizado');
                             $msg = 'Cargo agregado correctamente';
                             print "<script>alert('$msg'); window.location='emergente_inversion.php';</script>";
-                              
-                         } } 
+
+                         } }
 
                          ?>
-                   
+
                             </form>
-                          </table>    
+                          </table>
     </section><!--/wrapper -->
 </section><!-- /MAIN CONTENT -->
 
       <!--main content end-->
-  
+
 
 
     <!-- js placed at the end of the document so the pages load faster -->
@@ -473,15 +470,15 @@ $_SESSION["usuario"];
 
     <!--common script for all pages-->
     <script src="assets/js/common-scripts.js"></script>
-    
+
     <script type="text/javascript" src="assets/js/gritter/js/jquery.gritter.js"></script>
     <script type="text/javascript" src="assets/js/gritter-conf.js"></script>
 
     <!--script for this page-->
-    <script src="assets/js/sparkline-chart.js"></script>    
-  <script src="assets/js/zabuto_calendar.js"></script>  
-  
-  
+    <script src="assets/js/sparkline-chart.js"></script>
+  <script src="assets/js/zabuto_calendar.js"></script>
+
+
   <script type="application/javascript">
         $(document).ready(function () {
             $("#date-popover").popover({html: true, trigger: "manual"});
@@ -489,7 +486,7 @@ $_SESSION["usuario"];
             $("#date-popover").click(function (e) {
                 $(this).hide();
             });
-        
+
             $("#my-calendar").zabuto_calendar({
                 action: function () {
                     return myDateFunction(this.id, false);
@@ -507,8 +504,8 @@ $_SESSION["usuario"];
                 ]
             });
         });
-        
-        
+
+
         function myNavFunction(id) {
             $("#date-popover").hide();
             var nav = $("#" + id).data("navigation");
@@ -516,7 +513,7 @@ $_SESSION["usuario"];
             console.log('nav ' + nav + ' to: ' + to.month + '/' + to.year);
         }
     </script>
-  
+
 
   </body>
 </html>

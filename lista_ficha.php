@@ -6,7 +6,6 @@ if (!isset($_SESSION["usuario"])){
 
 }
 $_SESSION["usuario"];
-require('conexion.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -104,7 +103,7 @@ require('conexion.php');
           <div class="col-md-12">
               <div class="content-panel">
                   <table class="table table-bordered table-striped table-condensed">
-                    <h3><i class="fa fa-angle-right"></i> Busqueda de fichas</h3>
+                    <h4><i class="fa fa-angle-right"></i> Busqueda de fichas</h4>
                     &emsp;
 
 
@@ -122,10 +121,12 @@ require('conexion.php');
                       <input type="submit"  class="btn btn-theme" name="buscar_fecha" value="Buscar">    <br>
                     </tr>
                     <br>
-
+                    <tr>
+                      <p>&emsp;&emsp;&emsp;Click aqui para mostrar todos (solo se mostrara este boton para el proceso de desarrollo del sistema) : </p>
+                      <input type="submit"  class="btn btn-theme" name="buscar1" value="Mostrar todos">
+                    </tr>
                     </form>
                     <hr>
-                    <h3><i class="fa fa-angle-right"></i> Tabla de fichas </h3>
                       <thead >
                       <tr>
                           <td>Nro</th>
@@ -137,7 +138,6 @@ require('conexion.php');
                           <td> Autorizado por...</th>
                           <td> Elaborado por...</th>
                           <td> Recibido por...</th>
-                          <td> Opciones</th>
                       </tr>
                       </thead>
                       <tbody>
@@ -145,6 +145,7 @@ require('conexion.php');
                       <tr>
                         <?php
 function pago1($id) {
+   $con = mysqli_connect('localhost', 'root', '', 'contabilidad');
    $cod_1=mysqli_query($con,"SELECT   tipo FROM tipo_pago WHERE id_tipo_pago='$id' LIMIT 1");
   if ($row_1 = mysqli_fetch_row($cod_1))
    {
@@ -153,6 +154,7 @@ function pago1($id) {
     return $ing;
 }
 function pago2($id) {
+   $con = mysqli_connect('localhost', 'root', '', 'contabilidad');
    $cod_1=mysqli_query($con,"SELECT     descripcion_tipo_pago FROM tipo_pago WHERE id_tipo_pago='$id' LIMIT 1");
   if ($row_1 = mysqli_fetch_row($cod_1))
    {
@@ -161,6 +163,7 @@ function pago2($id) {
     return $ing;
 }
 function trans($id) {
+   $con = mysqli_connect('localhost', 'root', '', 'contabilidad');
    $cod_1=mysqli_query($con,"SELECT     nombre_transaccion FROM tipo_transaccion WHERE id_tipo_transaccion='$id' LIMIT 1");
   if ($row_1 = mysqli_fetch_row($cod_1))
    {
@@ -169,7 +172,8 @@ function trans($id) {
     return $ing;
 }
 function elab($id) {
-   $cod_1=mysqli_query($con,"SELECT     nombre_persona FROM persona WHERE id_persona='$id' LIMIT 1");
+   $con = mysqli_connect('localhost', 'root', '', 'contabilidad');
+   $cod_1=mysqli_query($con,"SELECT nombre_persona FROM persona WHERE id_persona='$id' LIMIT 1");
   if ($row_1 = mysqli_fetch_row($cod_1))
    {
        $ing = trim($row_1[0]);
@@ -178,6 +182,7 @@ function elab($id) {
 }
 function aut($id) {
   $ing =' ';
+   $con = mysqli_connect('localhost', 'root', '', 'contabilidad');
    $cod_1=mysqli_query($con,"SELECT    u.nombre_usuario FROM usuario u, empleado_ficha em,empleado_usuario eu  WHERE em.id_ficha='$id' AND em.descripcion_empleado='Autorizado' AND em.id_empleado_usuario=eu.id_empleado_usuario AND eu.id_usuario=u.id_usuario LIMIT 1");
   if ($row_1 = mysqli_fetch_row($cod_1))
    {
@@ -187,6 +192,7 @@ function aut($id) {
 }
 function ent($id) {
   $ing =' ';
+   $con = mysqli_connect('localhost', 'root', '', 'contabilidad');
    $cod_1=mysqli_query($con,"SELECT    u.nombre_usuario FROM usuario u, empleado_ficha em,empleado_usuario eu  WHERE em.id_ficha='$id' AND em.descripcion_empleado='Elaborado' AND em.id_empleado_usuario=eu.id_empleado_usuario AND eu.id_usuario=u.id_usuario LIMIT 1");
   if ($row_1 = mysqli_fetch_row($cod_1))
    {
@@ -197,6 +203,7 @@ function ent($id) {
 
                             if(isset($_POST['buscar1']))
                         {
+                         $con = mysqli_connect('localhost', 'root', '', 'contabilidad') or die(mysql_error());
                           $cod=mysqli_query($con,"SELECT * FROM ficha");
                            while ($valores = mysqli_fetch_array($cod)) { ?>
                               <tr>
@@ -214,19 +221,15 @@ function ent($id) {
                                             echo $func5($valores['id_ficha'])  ?></td>
                                   <td><?php $func4 = 'elab';
                                             echo $func4($valores['id_persona']) ?></td>
-                          <td><button class="btn btn-primary btn-xs"><i class="fa fa-pencil"> Editar</i>
-                            </button>
-
-                          </td>
                               </tr>
                          <?php } }   ?>
                        <?php
-                       $a='';
                             if(isset($_POST['buscar_id']))
                         {
+                         $con = mysqli_connect('localhost', 'root', '', 'contabilidad') or die(mysql_error());
                                $a =$_POST["b_id"] ;
 
-                          $cod=mysqli_query($con,"SELECT * FROM ficha WHERE id_ficha='$a'");
+                          $cod=mysqli_query($con,"SELECT * FROM ficha WHERE id_ficha=$a");
                           while ($valores = mysqli_fetch_array($cod)) { ?>
                               <tr>
                                   <td><?php echo $valores['id_ficha'] ?></td>
@@ -243,16 +246,12 @@ function ent($id) {
                                             echo $func5($valores['id_ficha'])  ?></td>
                                   <td><?php $func4 = 'elab';
                                             echo $func4($valores['id_persona']) ?></td>
-                          <td><button class="btn btn-primary btn-xs"><i class="fa fa-pencil"> Editar</i>
-                            </button>
-
-                          </td>
                               </tr>
                          <?php } }   ?>
                             <?php
-                            $a='';
                             if(isset($_POST['buscar_fecha']))
                         {
+                         $con = mysqli_connect('localhost', 'root', '', 'contabilidad') or die(mysql_error());
                                $a =$_POST["b_fecha"] ;
 
                           $cod=mysqli_query($con,"SELECT * FROM ficha WHERE fecha_ficha='$a'");
@@ -272,10 +271,7 @@ function ent($id) {
                                             echo $func5($valores['id_ficha'])  ?></td>
                                   <td><?php $func4 = 'elab';
                                             echo $func4($valores['id_persona']) ?></td>
-                          <td><button class="btn btn-primary btn-xs"><i class="fa fa-pencil"> Editar</i>
-                            </button>
 
-                          </td>
                               </tr>
                          <?php } }   ?>
                       </tbody>

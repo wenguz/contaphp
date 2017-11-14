@@ -204,7 +204,7 @@ require('conexion.php');
                         </td>
                         <td>
                           <div class="form-group">
-                            <label class="col-sm-10">Tipo de ingreso:&emsp; </label>
+                            <label class="col-sm-10">Tipo de Transaccion:&emsp; </label>
                             <div class="col-sm-10">
                                       <?php
                                            $cod=mysqli_query($con,"SELECT * FROM tipo_transaccion WHERE id_tipo_transaccion='1'");
@@ -230,7 +230,7 @@ require('conexion.php');
                               <td>
                                 <div class="form-group">
                                   <center>
-                                  <label style="font-size: 15px;">Recibido por...</label></center>
+                                  <label style="font-size: 15px;">Recibido de...</label></center>
 
                                   <label class="col-sm-2 col-sm-2 control-label">Nombre:&emsp; </label>
                                   <div class="col-sm-9">
@@ -304,7 +304,6 @@ require('conexion.php');
                           $id_entidad=$iden+1;
                           $fechai =$_POST["fecha"] ;
                           $pago =$_POST["pago"] ;
-
                           $trans ='1';
                           $cambio =$_POST["cambio"] ;
                           $moneda =$_POST["moneda"] ;
@@ -374,7 +373,7 @@ require('conexion.php');
                             mysqli_query($con,$sq) or die(mysqli_error($con))  ;
 
                             $msg = 'Cargo agregado correctamente';
-                            print "<script>alert('$msg'); window.location='emergente_ingreso.php';</script>";
+                            print "<script> window.location='emergente_ingreso.php';</script>";
                              }
                         }else{
                         if(isset($_POST['cancelar']))

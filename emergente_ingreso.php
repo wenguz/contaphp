@@ -121,9 +121,9 @@ require('conexion.php');
                     <div class="form-group">
                               <table class="col-md-12">
                                       <tr>  <td> <div  >
-                                     <p class="col-sm-3 col-sm-3 control-label">Cuenta:  </p>
+                                     <p class="col-sm-3 col-sm-3 control-label">Cuenta origen:  </p>
                                      <div class="col-sm-10"> <p>
-                                  <select class="form-control placeholder-no-fix" name="ri_cuenta" >
+                                  <select class="form-control placeholder-no-fix" name="ri_cuenta_o" >
                                 <?php
                                             $cod_cuenta=mysqli_query($con,"SELECT * FROM subcuenta");
                                             while ($valores_cuenta = mysqli_fetch_array($cod_cuenta)) {
@@ -134,7 +134,22 @@ require('conexion.php');
                                  ?>
                                        </select>
                              </p></div>
-                                     </div> </td> </tr>
+                                     </div> </td>
+                                     <td> <div  >
+                                    <p class="col-sm-3 col-sm-3 control-label">Cuenta destino:  </p>
+                                    <div class="col-sm-10"> <p>
+                                 <select class="form-control placeholder-no-fix" name="ri_cuenta" >
+                               <?php
+                                           $cod_cuenta=mysqli_query($con,"SELECT * FROM subcuenta");
+                                           while ($valores_cuenta = mysqli_fetch_array($cod_cuenta)) {
+                                           echo '<option value="'.$valores_cuenta[id_subcuenta].'">'.$valores_cuenta[nombre_subcuenta].'</option>'; }
+                                           echo "<br>";
+                                      ?>
+                                     echo "<br>";
+                                ?>
+                                      </select>
+                            </p></div>
+                                    </div> </td> </tr>
                                    <tr>  <td  colspan="2"  >
                                     <div class="form-group">
                                     <p class="col-sm-3 col-sm-3 control-label">Concepto</p>
@@ -142,12 +157,13 @@ require('conexion.php');
                               <input type="text" name="ri_concepto" placeholder=" " autocomplete="off" class="form-control placeholder-no-fix">
                               </div></div></td> </tr>
                                     <tr  >
-                                           <td>
+                                        <!--   <td>
                                            <div class="form-group">
                                             <p class="col-sm-4 col-sm-4 control-label">Cantidad: </p>
                                             <div class="col-sm-10">
                               <input type="number" name="ri_cantidad" placeholder=" " autocomplete="off" class="form-control placeholder-no-fix"></div> </div>
-                                          </td><td   >
+                            </td>-->
+                                          <td   >
                                             <div class="form-group">
                                               <p class="col-sm-4 col-sm-4 control-label" >Precio
                                               <?php
@@ -189,7 +205,7 @@ require('conexion.php');
                                    if(isset($_POST['registrar_asientos']))
                                    {
                                     include('conexion.php');
-                                  if($_POST['ri_cuenta'] == '' or  $_POST['ri_monto'] == ''or $_POST['ri_concepto'] == '' or $_POST['ri_cantidad'] == ''  )
+                                  if($_POST['ri_cuenta'] == '' or  $_POST['ri_monto'] == ''or $_POST['ri_concepto'] == ''  or $_POST['ri_cuenta_o'] == '' ) /*or $_POST['ri_cantidad'] == ''*/
                                     {
                                         echo 'Por favor llene todos los campos.';
                                     }
@@ -203,12 +219,16 @@ require('conexion.php');
                                               }
                                       $id_entidad0=$iden0+1;
                                       $ri_cuenta =$_POST["ri_cuenta"] ;
+                                      $ri_cuenta_o =$_POST["ri_cuenta_o"] ;
                                      $ri_monto =$_POST["ri_monto"] ;
                                      $ri_concepto=$_POST["ri_concepto"] ;
-                                     $ri_cantidad=$_POST["ri_cantidad"] ;
+                                     $ri_cantidad= 1;/*$_POST["ri_cantidad"]*/
                                       $sq2= "INSERT INTO temp_as (id_as,glosa_asiento,monto_asiento,subcuenta_id_subcuenta,cantidad   )
                                                             VALUES ( '$id_entidad0','$ri_concepto','$ri_monto','$ri_cuenta','$ri_cantidad');";
                                                       mysqli_query($con,$sq2) or die(mysqli_error($con))  ;
+                                      $sq2= "INSERT INTO temp_as (id_as,glosa_asiento,monto_asiento,subcuenta_id_subcuenta,cantidad   )
+                                                                            VALUES ( '$id_entidad0'+1,'$ri_concepto','0','$ri_cuenta_o','$ri_cantidad');";
+                                                                      mysqli_query($con,$sq2) or die(mysqli_error($con))  ;
                                     }}
                                   ?>
                                   </center><hr></td></tr>
@@ -224,7 +244,7 @@ require('conexion.php');
                               <thead >
                               <tr>
                                   <td>Codigo</td>
-                                  <td class="hidden-phone"> Cuenta</td>
+                                    <td class="hidden-phone"> Cuenta destino</td>
                                   <td width="350px"> Concepto</td>
                                   <td> Cantidad</th>
                                     <td> Monto</th>
@@ -241,7 +261,7 @@ require('conexion.php');
                                                 {
                                                   $xa = $valores8a['c'];
                                                   $x1a = $valores8a['mo'];
-                                                  $totala= $totala +( $xa *$x1a);
+                                                  $totala= ($totala +( $xa *$x1a));
                                                 }
 
                                           echo  $totala;
@@ -326,7 +346,7 @@ require('conexion.php');
                                                 }
                                                 $id_asiento = $ida+1;
                           $result0 = mysqli_query($con,"SELECT * from temp_as");
-                            $s=1;
+                            $s=1;$cont=0;
                               while ($row0 = mysqli_fetch_array($result0)) {
                                   $id=$row0['id_as']+$ida;
                                   $campo1=$row0['glosa_asiento'];
@@ -338,9 +358,17 @@ require('conexion.php');
                                   $campo5=$campo5*$moneda;
                                   $campo6=$iden;
                                   $campo7=$row0['subcuenta_id_subcuenta'];
+                                  $cont++;
+                                  if ($cont%2==0) {
+                                    $insercion="INSERT INTO asiento values ('$id', '$campo1', '$campo2', '$campo3', '$campo5', '$campo4', '$campo6', '$campo7');";
+                                  mysqli_query($con,$insercion) or die (mysqli_error($con))  ;
+                                  }
+                                  else {
+                                    $insercion="INSERT INTO asiento values ('$id', '$campo1', '$campo2', '$campo3', '$campo4', '$campo5', '$campo6', '$campo7');";
+                                  mysqli_query($con,$insercion) or die (mysqli_error($con))  ;
+                                  }
 
-                                  $insercion="INSERT INTO asiento values ('$id', '$campo1', '$campo2', '$campo3', '$campo4', '$campo5', '$campo6', '$campo7');";
-                                mysqli_query($con,$insercion) or die (mysqli_error($con))  ;
+
                             }
                             //actualizar el monot total de ficha
                             $total=0;
@@ -351,8 +379,8 @@ require('conexion.php');
                                                   $x1 = $v8g['mo'];
                                                   $total= $total +( $x *$x1);
                                                 }
-                                                $total= $total*$moneda;
-                             $update_ficha="UPDATE ficha SET `total_ficha`='$total',`total_debe_ficha`='$total' WHERE id_ficha='$iden';";
+                                                $total= ($total*$moneda);
+                             $update_ficha="UPDATE ficha SET `total_ficha`='$total',`total_debe_ficha`='$total',`total_haber_ficha`='$total' WHERE id_ficha='$iden';";
                                 mysqli_query($con,$update_ficha)  ;
                              //borrar tabla temporal
                             $sq_delete= "DELETE FROM temp_as";
