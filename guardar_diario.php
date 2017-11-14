@@ -9,7 +9,12 @@ if ($exist)
 		echo "Se borro exitosamente el txt";
 	}
 }
-$asiento ='SELECT Distinct(asiento.id_asiento),ficha.total_debe_ficha,ficha.total_haber_ficha,ficha.fecha_ficha,subcuenta.nombre_subcuenta,asiento.glosa_asiento,asiento.debe_asiento,asiento.haber_asiento FROM asiento,ficha,subcuenta';
+$asiento ='SELECT a.id_asiento,f.total_debe_ficha,f.total_haber_ficha,
+f.fecha_ficha,s.nombre_subcuenta,a.glosa_asiento,a.debe_asiento,a.haber_asiento
+FROM asiento a,ficha f,subcuenta s, cuenta c
+WHERE c.id_cuenta = s.id_cuenta
+AND s.id_subcuenta = a.id_subcuenta
+AND a.ficha_id_ficha = f.id_ficha';
 
 
  $resultado=mysqli_query($con,$asiento);
