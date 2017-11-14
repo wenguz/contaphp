@@ -1,4 +1,4 @@
-<?php
+<?php $cuota_a=0;
 session_start();
 //manejamos en sesion el nombre del usuario que se ha logeado
 if (!isset($_SESSION["usuario"])){
@@ -72,7 +72,7 @@ $_SESSION["usuario"];
       <aside>
           <div id="sidebar"  class="nav-collapse ">
     <ul class="sidebar-menu" id="nav-accordion"><br>
-        <h5 class="centered">Usuario: <?php echo $_SESSION["usuario"]; ?></h5>
+        <h5 class="centered">Usuario: <?php  echo $_SESSION["usuario"]; ?></h5>
         <li class="mt">
             <a  href="principal_secretaria.php">
                 <i class="fa fa-home">    </i>
@@ -146,7 +146,7 @@ $_SESSION["usuario"];
                                           </td><td   > 
                                             <div class="form-group">
                                           <p class="col-sm-4 col-sm-4 control-label" >Precio 
-                                           <?php 
+                                           <?php  
                                               $con = mysqli_connect('localhost', 'root', '', 'contabilidad'); 
                                               //obtener id de la ultima ficha
                          $rs=mysqli_query($con,"SELECT MAX(id_ficha) AS iden FROM ficha");
@@ -191,54 +191,15 @@ $_SESSION["usuario"];
                                   </div>   </div></td>
                              </tr>
                                 <tr>  <td colspan="2"> <div class="form-group">
-                                    <p class="col-sm-3 col-sm-3 control-label" >Descripcion del  Amortizacion</p>
+                                    <p class="col-sm-3 col-sm-3 control-label" >Descripcion del  Amortizacion (intangible o diferido )</p>
                                      <div class="col-sm-11"> <input required type="text" name="ri_det" placeholder=" "  class="form-control placeholder-no-fix">
                                 </div></div></td></tr>
-                          
-                          <tr><td colspan="2">
-                                      <h3><i class="fa fa-angle-right"></i>Informacion Detallada de Amortizacion </h3>
-                                
-                                    </td></tr>
-                                <tr>  
-                                  <td> <div class="form-group">
-                                  <p class="col-sm-3 col-sm-3 control-label" >periodo</p>
-                                   <div class="col-sm-10"> <input required type="number" name="aa_per" placeholder=" "  class="form-control placeholder-no-fix">
-                                    </div></div> </td>
-                                    <td>
-                                     <div class="form-group"> <p lass="col-sm-4 col-sm-4 control-label" >capital inicial</p>
-                                    <div class="col-sm-10"> <input required type="number" step="any" name="aa_cap" placeholder=" "  class="form-control placeholder-no-fix">
-                                  </div>   </div></td>
-                                  <td>
-                                     <div class="form-group"> <p lass="col-sm-4 col-sm-4 control-label" >pago interes</p>
-                                    <div class="col-sm-10"> <input required type="number" step="any" name="aa_pago" placeholder=" "  class="form-control placeholder-no-fix">
-                                  </div>   </div></td>
-                             </tr>
-                                <tr>  
-                                  <td> <div class="form-group">
-                                  <p class="col-sm-3 col-sm-3 control-label" >amortizacion</p>
-                                   <div class="col-sm-10"> <input required type="number" name="aa_per" placeholder=" "  class="form-control placeholder-no-fix">
-                                    </div></div> </td>
-                                    <td>
-                                     <div class="form-group"> <p lass="col-sm-4 col-sm-4 control-label" >cuota</p>
-                                    <div class="col-sm-10"> <input required type="number" step="any" name="aa_cap" placeholder=" "  class="form-control placeholder-no-fix">
-                                  </div>   </div></td>
-                                  <td>
-                                     <div class="form-group"> <p lass="col-sm-4 col-sm-4 control-label" >Fecha</p>
-                                    <div class="col-sm-10">  <input required type="date" name="fecha" placeholder="YYYY-MM-DD" min="2017-01-01" class="form-input"/>
-                                  </div>   </div></td>
-                             </tr>
-                        </div>
-                             <div class="form-group">
-                              <tr><td colspan="2"> <center>
-                               <br>
-                              <input type="submit"  class="btn btn-theme" href="registrar_egreso.php" name="registrar_asientos" value="AGREGAR">
-                               
-                       
-                                  <?php
+                          <tr><td colspan="3" ><center> <br> <hr><input type="submit"   class="btn btn-theme"   name="registrar_asientos" value="AGREGAR "></center>   <?php
+                                  
                                    if(isset($_POST['registrar_asientos'])) 
                                    {
                                     include('conexion.php');
-                                  if($_POST['ri_cuenta'] == '' or  $_POST['ri_monto'] == ''or $_POST['ri_concepto'] == '' or $_POST['ri_cantidad'] == ''  )
+                                  if($_POST['ri_t'] == ''   )
                                     { 
                                         echo 'Por favor llene todos los campos.'; 
                                     } 
@@ -255,35 +216,159 @@ $_SESSION["usuario"];
                                      $ri_monto =$_POST["ri_monto"] ;
                                      $ri_concepto=$_POST["ri_concepto"] ;
                                      $ri_cantidad=$_POST["ri_cantidad"] ;
-                                     $ri_tipo=$_POST["ri_tipo"] ;
-                                     $ri_doc=$_POST["ri_doc"] ;
-                                     $ri_doc_des=$_POST["ri_doc_des"] ;
+                                    
+                                    //datos de tabla amort
+                                     $ri_mon =$_POST["ri_mon"] ;
+                                     $ri_int =$_POST["ri_int"] ;
+                                     $ri_t =$_POST["ri_t"] ;
+                                     $ri_det =$_POST["ri_det"] ;
+
+                                      /*datos de tabla amort_asiento
+                                     $aa_per =$_POST["aa_per"] ;
+                                     $aa_cap =$_POST["aa_cap"] ;
+                                     $aa_pago =$_POST["aa_pago"] ;
+                                     $aa_amo=$_POST["aa_amo"] ;
+                                      $aa_cuo =$_POST["aa_cuo"] ;
+                                     $aa_saldo_final =$_POST["aa_saldo_final"] ;
+                                     $fecha =$_POST["fecha"] ;
+                                     */
+                                     //a agregar asiento temporal 
                                       $sq2= "INSERT INTO temp_as (id_as,glosa_asiento,monto_asiento,id_subcuenta,cantidad   ) 
                                                             VALUES ( '$id_entidad0','$ri_concepto','$ri_monto','$ri_cuenta','$ri_cantidad');";
                                                       mysqli_query($con,$sq2)  ; 
-                                                      //agragar documento
+                                    //agragar amort
                                     $rsd=mysqli_query($con,"SELECT MAX(id_ficha) AS iden FROM ficha");
                                     if ($rowd = mysqli_fetch_row($rsd)) 
                                       {
                                         $iden = trim($rowd[0]);
                                       } 
                                        $iden2 =0;
-                                      $rsd2=mysqli_query($con,"SELECT MAX(id_documento_extra)  FROM documento_extra");
+                                      $rsd2=mysqli_query($con,"SELECT MAX(id_amortizacion)  FROM amortizacion");
                                     if ($rowd2 = mysqli_fetch_row($rsd2)) 
                                       {
                                         $iden2 = trim($rowd2[0]);
+                                        $id_doc_new= $iden2 +1;
                                       } 
-                                      $id_doc_new= $iden2 +1;
-                                    $sq3= "INSERT INTO documento_extra (  id_documento_extra,codigo_documento,tipo,descripcion, id_ficha   ) 
-                                                            VALUES ( '$id_doc_new','$ri_doc','$ri_tipo','$ri_doc_des','$iden');";
+                                      if ($iden2==null){ $iden2 =1;}
+                                      
+                                    $sq3= "INSERT INTO amortizacion (  id_amortizacion,detalle_amortizacion, monto_amortizacion, interes_amortizacion,tiempo_amortizacion) 
+                                                            VALUES ( '$id_doc_new','$ri_det','$ri_mon','$ri_int','$ri_t');";
                                                       mysqli_query($con,$sq3)  ;  
+                                    
+                                   $cod=mysqli_query($con,"SELECT     interes_amortizacion FROM amortizacion WHERE id_amortizacion='$id_doc_new' LIMIT 1 " );
+
+                                          if ($row = mysqli_fetch_row($cod))
+                                            {
+                                              $iden = trim($row[0]);
+                                            }
+                                            $cuota_a=$iden;
+                                        //  echo '<input required type="number" step="any" class="form-control" name="cambio" value="'.$iden.'"> </input> ';                   
                                     }}
                                   ?>
+<hr></td></tr></table>
+                        </form>
+                        <form action="" name="amor" method="post"> 
+                        <table> 
+                          <tr><td colspan="2">
+                                      <h3><i class="fa fa-angle-right"></i>Informacion Detallada de Amortizacion </h3>
+                            
+                                    </td></tr>
+                                <tr>  
+                                  <td> <div class="form-group">
+                                  <p class="col-sm-3 col-sm-3 control-label" >periodo</p>
+                                   <div class="col-sm-10"> <input   type="number" name="aa_per" placeholder=" "  class="form-control placeholder-no-fix">
+                                    </div></div> </td>
+                                    <td>
+                                     <div class="form-group"> <p lass="col-sm-4 col-sm-4 control-label" >capital inicial</p>
+                                    <div class="col-sm-10"> <input   type="number" step="any" name="aa_cap" placeholder=" "  class="form-control placeholder-no-fix">
+                                  </div>   </div></td>
+                                  <td>
+                                     <div class="form-group"> <p lass="col-sm-4 col-sm-4 control-label" >pago interes</p>
+                                    <div class="col-sm-10"> <input   type="number" step="any" name="aa_pago" placeholder=" "  class="form-control placeholder-no-fix">
+                                  </div>   </div></td>
+                             </tr>
+                                <tr>  
+                                  <td> <div class="form-group">
+                                  <p class="col-sm-3 col-sm-3 control-label" >amortizacion</p>
+                                   <div class="col-sm-10"> <input   type="number" name="aa_amo" placeholder=" "  class="form-control placeholder-no-fix">
+                                    </div></div> </td>
+                                    <td>
+                                     <div class="form-group"> <p lass="col-sm-4 col-sm-4 control-label" >cuota</p>
+                                    <div class="col-sm-10"> <input   type="number" step="any" name="aa_cuo" placeholder="<?PHP echo  $cuota_a; ?>"  class="form-control placeholder-no-fix">
+                                  </div>   </div></td>
+                                  
+                                  <td>
+                                     <div class="form-group"> <p lass="col-sm-4 col-sm-4 control-label" >Fecha</p>
+                                    <div class="col-sm-10">  <input   type="date" name="fecha" placeholder="YYYY-MM-DD" min="2017-01-01" class="form-input"/>
+                                  </div>   </div></td>
+                             </tr>
+                             <tr><td> <div class="form-group">
+                                  <p class="col-sm-3 col-sm-3 control-label" >Saldo Final</p>
+                                   <div class="col-sm-10"> <input required type="number" name="aa_saldo_final" placeholder=" "  class="form-control placeholder-no-fix">
+                                    </div></div> </td></tr>
 
+                              
+                             <div class="form-group">
+                              <tr><td colspan="3"> <center>
+                                <hr>
+                              <input type="submit"  class="btn btn-theme" href="registrar_egreso.php"  name="registrar_asientos_amor" value="AGREGAR">
+                       
+                       
+                              </div>  
                                   </center> <hr></td></tr>
+                                   <?php
+                                  
+                                   if(isset($_POST['registrar_asientos_amor'])) 
+                                   {
+                                    include('conexion.php');
+                                  if($_POST['aa_per'] == ''   )
+                                    { 
+                                        echo 'Por favor llene todos los campos.'; 
+                                    } 
+                                    else {
+                                               $con = mysqli_connect('localhost', 'root', '', 'contabilidad'); 
+                                    $id_entidad0=1;
+                                      $rs0=mysqli_query($con,"SELECT count(id_as) AS iden FROM temp_as");
+                                            if ($row0 = mysqli_fetch_row($rs0)) 
+                                              {
+                                                $iden0 = trim($row0[0]);
+                                              }
+                                        //datos de tabla amort_asiento
+                                     $aa_per =$_POST["aa_per"] ;
+                                     $aa_cap =$_POST["aa_cap"] ;
+                                     $aa_pago =$_POST["aa_pago"] ;
+                                     $aa_amo=$_POST["aa_amo"] ;
+                                      $aa_cuo =$_POST["aa_cuo"] ;
+                                     $aa_saldo_final =$_POST["aa_saldo_final"] ;
+                                     $fecha =$_POST["fecha"] ;
+                                      
+                                    
+                                    //id asiento
+                                    $rsd=mysqli_query($con,"SELECT MAX(id_asiento) AS asa FROM asiento");
+                                    if ($rowd = mysqli_fetch_row($rsd)) 
+                                      {
+                                        $iden = trim($rowd[0]);
+                                      } 
+                                        
+                                      $rsd2=mysqli_query($con,"SELECT MAX(id_amortizacion)  FROM amortizacion");
+                                      //id amortizacion id
+                                    if ($rowd2 = mysqli_fetch_row($rsd2)) 
+                                      {
+                                        $iden2 = trim($rowd2[0]);
+                                        $id_doc_new= $iden2 +1;
+                                      } 
+                                      if ($iden2==null){ $iden2 =1;$id_doc_new=1;}
+                                      
+                                    $sq3= "INSERT INTO asiento_amortizacion (   id_asiento_amortizacion,periodo_amortizacion,capital_inicial, pago_interes,amortizacion,cuota,saldo_final,fecha_amortizacion,id_amortizacion, id_asiento) 
+                                                            VALUES ( '$id_doc_new','$aa_per','$aa_cap','0','$aa_amo','$aa_cuo','$aa_saldo_final','$fecha','$iden','$iden2');";
+                                                      mysqli_query($con,$sq3)  ;  
+                                    
+                                                   
+                                    }}
+                                  ?>
                          </table> 
-                          </div>
-                  </form>
+                           </form>
+                  
   
                     <!--Fin de ventana emergente-->
                      <form action="" name="tablas" method="post">  
