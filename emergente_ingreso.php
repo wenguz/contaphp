@@ -227,7 +227,7 @@ require('conexion.php');
                                                             VALUES ( '$id_entidad0','$ri_concepto','$ri_monto','$ri_cuenta','$ri_cantidad');";
                                                       mysqli_query($con,$sq2) or die(mysqli_error($con))  ;
                                       $sq2= "INSERT INTO temp_as (id_as,glosa_asiento,monto_asiento,subcuenta_id_subcuenta,cantidad   )
-                                                                            VALUES ( '$id_entidad0'+1,'$ri_concepto','0','$ri_cuenta_o','$ri_cantidad');";
+                                                                            VALUES ( '$id_entidad0'+1,'$ri_concepto','$ri_monto','$ri_cuenta_o','$ri_cantidad');";
                                                                       mysqli_query($con,$sq2) or die(mysqli_error($con))  ;
                                     }}
                                   ?>
@@ -354,13 +354,13 @@ require('conexion.php');
                                   $campo3=$row0['monto_asiento'];
                                   $campo3=$campo3*$moneda;
                                   $campo4=$row0['monto_asiento'];
-                                  $campo5=0;
+                                  $campo8=0;
                                   $campo5=$campo5*$moneda;
                                   $campo6=$iden;
                                   $campo7=$row0['subcuenta_id_subcuenta'];
                                   $cont++;
                                   if ($cont%2==0) {
-                                    $insercion="INSERT INTO asiento values ('$id', '$campo1', '$campo2', '$campo3', '$campo5', '$campo4', '$campo6', '$campo7');";
+                                    $insercion="INSERT INTO asiento values ('$id', '$campo1', '$campo2', '$campo8', '$campo5', '$campo4', '$campo6', '$campo7');";
                                   mysqli_query($con,$insercion) or die (mysqli_error($con))  ;
                                   }
                                   else {
@@ -379,8 +379,8 @@ require('conexion.php');
                                                   $x1 = $v8g['mo'];
                                                   $total= $total +( $x *$x1);
                                                 }
-                                                $total= ($total*$moneda);
-                             $update_ficha="UPDATE ficha SET `total_ficha`='$total',`total_debe_ficha`='$total',`total_haber_ficha`='$total' WHERE id_ficha='$iden';";
+                                                $total= ($total*$moneda)/2;
+                             $update_ficha="UPDATE ficha SET `total_ficha`='$total',`total_debe_ficha`='$total',`total_haber_ficha`='0' WHERE id_ficha='$iden';";
                                 mysqli_query($con,$update_ficha)  ;
                              //borrar tabla temporal
                             $sq_delete= "DELETE FROM temp_as";
