@@ -86,9 +86,9 @@ $_SESSION["usuario"];
                   <span>Reportes Diarios</span>
               </a>
               <ul class="sub">
-                  <li class="active"><a  href="informe_ingresos.php"><i class="fa fa-list-alt"></i>Informe Ingresos</a></li>
-                  <li ><a  href="informe_egresos.php"><i class="fa fa-list-alt"></i>Informe Egresos</a></li>
-                  <li ><a  href="libro_diario.php"><i class="fa fa-list-alt"></i>Libro Diario</a></li>
+                  <li ><a  href="informe_ingresos.php"><i class="fa fa-list-alt"></i>Informe Ingresos</a></li>
+                  <li class="active"><a  href="informe_egresos.php"><i class="fa fa-list-alt"></i>Informe Egresos</a></li>
+                  <li ><a  href="guardar_diario.php"><i class="fa fa-list-alt"></i>Libro Diario</a></li>
               </ul>
           </li>
           <li class="sub-menu">
@@ -97,7 +97,7 @@ $_SESSION["usuario"];
                   <span>Reportes Mensuales</span>
               </a>
               <ul class="sub">
-                  <li ><a  href="libro_mayor.php"><i class="fa fa-list-alt"></i>Libro Mayor</a></li>
+                  <li ><a  href="guardar_mayor.php"><i class="fa fa-list-alt"></i>Libro Mayor</a></li>
               </ul>
           </li>
           <li class="sub-menu">
@@ -140,15 +140,11 @@ $_SESSION["usuario"];
                           <td>Concepto</th>
                           <td>Entregado a</th>
                           <td>Monto</th>
-                          <td>Nro Amortizacion</th>
-                          <td>Monto Amortizacion</th>
                       </tr>
                       </thead>
                       <tfoot>
                          <tr>
-                          <td colspan="6">Total Egresos del Dìa</td>
-                          <td></td>
-                          <td></td>
+                          <td colspan="5">Total Egresos del Dìa</td>
                           <td></td>
                         </tr>
                       </tfoot>
@@ -160,22 +156,16 @@ $_SESSION["usuario"];
                              $con = mysqli_connect('localhost', 'root', '', 'contabilidad') or die(mysql_error());
                             $a =$_POST["b_fecha"] ;
 //falta relacion con amortizacion y depreciacion
-                              $cod=mysqli_query($con,"SELECT b.id_ficha, b.fecha_ficha,
-                                      e.nombre_cuenta, x.glosa_asiento, p.nombre_persona,
-                                      x.monto_asiento, amr.tiempo_amortizacion, amr.monto_amortizacion
-                                      FROM tipo_transaccion a, ficha b, asiento x, subcuenta d, cuenta e, persona p,
-                                      asiento_amortizacion amrs , amortizacion amr
-                                      WHERE
-                                      p.id_persona=b.id_persona AND
-                                      a.id_tipo_transaccion=b.id_tipo_transaccion AND
-                                      b.id_ficha=x.ficha_id_ficha AND
-                                      x.id_subcuenta=d.id_subcuenta AND
-                                      d.id_cuenta=e.id_cuenta AND
-                                      x.id_asiento = amrs.id_asiento AND
-                                      amr.id_amortizacion = amrs.id_amortizacion AND
-                                      b.fecha_ficha='$a'AND
-                                      a.nombre_transaccion='Egreso' OR
-                                      a.nombre_transaccion='Inversion'");
+                              $cod=mysqli_query($con,"SELECT b.id_ficha, b.fecha_ficha,e.nombre_cuenta, x.glosa_asiento, p.nombre_persona,x.monto_asiento
+FROM tipo_transaccion a, ficha b, asiento x, subcuenta d, cuenta e, persona p
+WHERE p.id_persona=b.id_persona
+AND a.id_tipo_transaccion=b.id_tipo_transaccion
+AND b.id_ficha=x.ficha_id_ficha
+AND x.id_subcuenta=d.id_subcuenta
+and x.debe_asiento = '0'
+AND d.id_cuenta=e.id_cuenta
+AND b.fecha_ficha='$a'
+AND a.nombre_transaccion='Egreso' ");
                                while ($valores = mysqli_fetch_array($cod)) { ?>
                                   <tr>
                                       <td><?php echo $valores['id_ficha'] ?></td>
@@ -184,8 +174,6 @@ $_SESSION["usuario"];
                                       <td><?php echo $valores['glosa_asiento'] ?></td>
                                       <td><?php echo $valores['nombre_persona'] ?></td>
                                       <td><?php echo $valores['monto_asiento'] ?></td>
-                                      <td><?php echo $valores['tiempo_amortizacion'] ?></td>
-                                      <td><?php echo $valores['monto_amortizacion'] ?></td>
                                   </tr>
                                 <?php }
                           }?>
