@@ -161,7 +161,7 @@ for ($ii=0; $ii <$numclases ; $ii++) {
         $this->Cell($w[3],6,$row[3],'LR',0,'L',$fill);
         $this->Cell($w[4],6,$row[4],'LR',0,'R',$fill);
         $this->Cell($w[5],6,$row[5],'LR',0,'R',$fill);
-        $d+=$row[2];
+        $d+=$row[3];
         $h+=$row[4];
         $s+=$row[5];
         $this->Ln();
