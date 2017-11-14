@@ -6,6 +6,7 @@ if (!isset($_SESSION["usuario"])){
 
 }
 $_SESSION["usuario"];
+require('conexion.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -189,7 +190,6 @@ $_SESSION["usuario"];
                                 <p>
                                   <select  required class="form-control" name="pago">
                                       <?php
-                                           $con = mysqli_connect('localhost', 'root', '', 'contabilidad');
                                            $cod=mysqli_query($con,"SELECT * FROM tipo_pago WHERE descripcion_tipo_pago='Egreso' or descripcion_tipo_pago='Retiro' ");
 
                                         while ($valores = mysqli_fetch_array($cod)) {
@@ -205,18 +205,21 @@ $_SESSION["usuario"];
                         </td>
                         <td>
                           <div class="form-group">
-                            <label class="col-sm-10">Tipo de Transaccion:&emsp; </label>
+                            <label class="col-sm-10">Tipo de ingreso:&emsp; </label>
                             <div class="col-sm-10">
+                                <p>
+                                   <select  readonly="readonly" class="form-control" name="trans" >
                                       <?php
                                            $cod=mysqli_query($con,"SELECT * FROM tipo_transaccion WHERE id_tipo_transaccion='2'");
 
                                         while ($valores = mysqli_fetch_array($cod)) {
-                                          ?>
-                                              <input required type="" disabled="true" name ="trans" class="form-control" value="<?php echo $valores['nombre_transaccion'];?>">
 
-                                          <?php
+                                          echo '<option value="'.$valores[id_tipo_transaccion].'">'.$valores[nombre_transaccion].'</option>';
+
                                        }
                                       ?>
+                                  </select>
+                                </p>
                               </div>
                           </div>
                         </td>
@@ -268,24 +271,20 @@ $_SESSION["usuario"];
 
                                   <div class="col-sm-9">
 
-                                       <?php
-                                       $user= $_SESSION["usuario"];
-                                        $con = mysqli_connect('localhost', 'root', '', 'contabilidad');
-                                           $cod=mysqli_query($con,"SELECT   ci_usuario FROM usuario WHERE nombre_usuario='$user' LIMIT 1");
+                                    <?php
+                                    $user= $_SESSION["usuario"];
+                                    $datos=mysqli_query($con,"SELECT a.* FROM usuario a, empleado_usuario b where b.user = '$user' LIMIT 1");
+                                    $row=mysqli_fetch_assoc($datos);
+                                       ?>
+                                          <p class="col-sm-2 col-sm-2 control-label">Nombre:&emsp; </p>
+                                           <div class="col-sm-9">
+                                           <input type="text" class="form-control" disabled="true" name="el_nom" value="<?php echo $user; ?>"> </input> </div>
+                                            <p class="col-sm-2 col-sm-2 control-label">CI:&emsp; </p>
+                                           <div class="col-sm-9">
+                                           <input type=""  class="form-control" disabled="true" name="el_ci"  value="<?php echo $row['ci_usuario']; ?>"> </input> </div>
+                                           <?php
+                                       ?>
 
-                                          if ($row = mysqli_fetch_row($cod))
-                                            {
-                                              $iden = trim($row[0]);
-                                            }
-
-                                              echo '<p class="col-sm-2 col-sm-2 control-label">Nombre:&emsp; </p>
-                                              <div class="col-sm-9">
-                                              <input type="text" step="any" class="form-control"  readonly="readonly" name="el_nomm" value="'.$user.'"> </input> </div>';
-                                               echo '<p class="col-sm-2 col-sm-2 control-label">Ci:&emsp; </p>
-                                              <div class="col-sm-9">
-                                              <input required  type="number" step="any" class="form-control" name="el_ci"   readonly="readonly" value="'.$iden.'"> </input> </div>';
-
-                                          ?>
                                   </div>
 
                                 </div>
@@ -334,7 +333,7 @@ $_SESSION["usuario"];
 
                          include('conexion.php');
 
-                            if($_POST['fecha'] == '' or  $_POST['pago'] == ''or $_POST['trans'] == '' or $_POST['cambio']== ''  or $_POST['numero_partida_ficha']=='' )
+                            if($_POST['fecha'] == '' or  $_POST['pago'] == '' or $_POST['cambio']== ''  or $_POST['numero_partida_ficha']=='' )
                             {
                                 echo 'Por favor llene todos los campos.';
                             }
@@ -349,7 +348,7 @@ $_SESSION["usuario"];
                               $id_entidad=$iden+1;
                               $fechai =$_POST["fecha"] ;
                               $pago =$_POST["pago"] ;
-                              $trans =$_POST["trans"] ;
+                              $trans =2 ;
                               $cambio =$_POST["cambio"] ;
                               $moneda =$_POST["moneda"] ;
                               $partida=$_POST["numero_partida_ficha"];
@@ -377,19 +376,22 @@ $_SESSION["usuario"];
                                               $id_empleado_aut = trim($row_p[0]);
                                             }
                                             else {
-                                               $msg = 'No existe empleado con el número de carnet ingresado en  autorizado por ... ';
-                                               print "<script>alert('$msg'); window.location='registrar_egreso.php';</script>";
+                                               //$msg = 'No existe empleado con el número de carnet ingresado en  autorizado por ... ';
+                                              // print "<script>alert('$msg'); window.location='registrar_egreso.php';</script>";
+                                              $id_empleado_aut = '3';
                                             }
                            //empleado elaborado
-                          $cod_p=mysqli_query($con,"SELECT   e.id_empleado_usuario FROM usuario u, empleado_usuario e WHERE   ci_usuario='$el_ci' AND u.id_usuario=e.id_usuario LIMIT 1");
+                          $cod_p=mysqli_query($con,"SELECT   e.id_empleado_usuario FROM usuario u, empleado_usuario e WHERE    u.id_usuario=e.id_usuario and ci_usuario='$el_ci' LIMIT 1") or die (mysqli_error($con));
 
                                           if ($row_p = mysqli_fetch_row($cod_p))
                                             {
                                               $id_empleado_el = trim($row_p[0]);
                                             }
                                             else {
-                                               $msg = 'No existe empleado con el número de carnet ingresado en elaborado ';
-                                               print "<script>alert('$msg'); window.location='registrar_egreso.php';</script>";
+                                               //$msg = 'No existe empleado con el número de carnet ingresado en elaborado ';
+                                               //print "<script> window.location='registrar_egreso.php';</script>";
+                                              //  print "<script>alert('$msg'); window.location='registrar_egreso.php';</script>";
+                                                $id_empleado_el = '3';
 
                                             }
                           //persona pagado por
@@ -434,7 +436,7 @@ $_SESSION["usuario"];
                            //insertar ficha
                            $sq= "INSERT INTO ficha(id_ficha, numero_partida_ficha, fecha_ficha, tiempo_ficha, total_ficha, total_debe_ficha, total_haber_ficha, id_tipo_transaccion, id_tipo_cambio, id_tipo_pago, id_persona)
 
-                              VALUES ('$id_entidad','$partida','$fechai','$hora','$tot','0','0','$trans','$id_cambio','$pago','$id_persona');";
+                              VALUES ('$id_entidad','$partida','$fechai','$hora','$tot','0','0','2','$id_cambio','$pago','$id_persona');";
 
                             mysqli_query($con,$sq)  ;
                              //agregar personal
