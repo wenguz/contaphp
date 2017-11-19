@@ -123,12 +123,13 @@ require('conexion.php');
                                        <p class="col-sm-3 col-sm-3 control-label">Cuenta origen:  </p>
                                        <div class="col-sm-10"> <p>
                                     <select class="form-control placeholder-no-fix" name="ri_cuenta_o" >
-                                  <?php
-                                              $cod_cuenta=mysqli_query($con,"SELECT * FROM subcuenta");
-                                              while ($valores_cuenta = mysqli_fetch_array($cod_cuenta)) {
-                                              echo '<option value="'.$valores_cuenta[id_subcuenta].'">'.$valores_cuenta[nombre_subcuenta].'</option>'; }
-                                              echo "<br>";
-                                         ?>
+                                      <?php
+                                                  $cod_subcuenta=mysqli_query($con,"SELECT * FROM subcuenta s,cuenta c where s.id_cuenta=c.id_cuenta");
+                                                  while ($valores_cuenta = mysqli_fetch_array($cod_subcuenta)) {
+                                                    echo '<option value="'.$valores_cuenta[id_cuenta].'">'.$valores_cuenta[id_cuenta]."  ".$valores_cuenta[nombre_cuenta].'</option>';
+                                                  echo '<option value="'.$valores_cuenta[id_subcuenta].'">'.$valores_cuenta[id_subcuenta]."  ".$valores_cuenta[nombre_subcuenta].'</option>'; }
+                                                  echo "<br>";
+                                             ?>
                                         echo "<br>";
                                    ?>
                                          </select>
@@ -138,12 +139,13 @@ require('conexion.php');
                                       <p class="col-sm-3 col-sm-3 control-label">Cuenta destino:  </p>
                                       <div class="col-sm-10"> <p>
                                    <select class="form-control placeholder-no-fix" name="ri_cuenta" >
-                                 <?php
-                                             $cod_cuenta=mysqli_query($con,"SELECT * FROM subcuenta");
-                                             while ($valores_cuenta = mysqli_fetch_array($cod_cuenta)) {
-                                             echo '<option value="'.$valores_cuenta[id_subcuenta].'">'.$valores_cuenta[nombre_subcuenta].'</option>'; }
-                                             echo "<br>";
-                                        ?>
+                                     <?php
+                                                 $cod_subcuenta=mysqli_query($con,"SELECT * FROM subcuenta s,cuenta c where s.id_cuenta=c.id_cuenta");
+                                                 while ($valores_cuenta = mysqli_fetch_array($cod_subcuenta)) {
+                                                   echo '<option value="'.$valores_cuenta[id_cuenta].'">'.$valores_cuenta[id_cuenta]."  ".$valores_cuenta[nombre_cuenta].'</option>';
+                                                 echo '<option value="'.$valores_cuenta[id_subcuenta].'">'.$valores_cuenta[id_subcuenta]."  ".$valores_cuenta[nombre_subcuenta].'</option>'; }
+                                                 echo "<br>";
+                                            ?>
                                        echo "<br>";
                                         ?>
                                         </select>
@@ -171,7 +173,7 @@ require('conexion.php');
                            $rs=mysqli_query($con,"SELECT MAX(id_ficha) AS iden FROM ficha");
                                       if ($row = mysqli_fetch_row($rs))
                                         {
-                                          $iden = trim($row[0]);
+                                          $iden = ($row[0]);
                                         }
 
                             //obtener moneda
