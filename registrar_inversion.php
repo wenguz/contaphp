@@ -6,6 +6,7 @@ if (!isset($_SESSION["usuario"])){
 
 }
 $_SESSION["usuario"];
+require('conexion.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -155,14 +156,13 @@ $_SESSION["usuario"];
                                 <p>
 
                                       <?php
-                                           $con = mysqli_connect('localhost', 'root', '', 'contabilidad');
-                                           $cod=mysqli_query($con,"SELECT   monto FROM tipo_cambio ORDER BY id_tipo_cambio DESC LIMIT 1 " );
+                                           $cod_cambio=mysqli_query($con,"SELECT   monto FROM tipo_cambio ORDER BY id_tipo_cambio DESC LIMIT 1 " );
 
-                                          if ($row = mysqli_fetch_row($cod))
+                                          if ($row_cambio = mysqli_fetch_row($cod_cambio))
                                             {
-                                              $iden = trim($row[0]);
+                                              $iden_cambio = trim($row_cambio[0]);
                                             }
-                                          echo '<input type="number"  step="any" class="form-control" name="cambio" value="'.$iden.'"> </input> ';
+                                          echo '<input type="number"  step="any" class="form-control" name="cambio" value="'.$iden_cambio.'"> </input> ';
                                       ?>
 
                                 </p>
@@ -190,7 +190,6 @@ $_SESSION["usuario"];
                                 <p>
                                   <select  required class="form-control" name="pago">
                                       <?php
-                                           $con = mysqli_connect('localhost', 'root', '', 'contabilidad');
                                            $cod=mysqli_query($con,"SELECT * FROM tipo_pago WHERE descripcion_tipo_pago='Egreso' or descripcion_tipo_pago='Retiro' ");
 
                                         while ($valores = mysqli_fetch_array($cod)) {
@@ -213,7 +212,7 @@ $_SESSION["usuario"];
 
                                         while ($valores = mysqli_fetch_array($cod)) {
                                           ?>
-                                              <input required type="" disabled="true" name ="trans" class="form-control" value="<?php echo $valores['nombre_transaccion'];?>">
+                                              <input required type="" disabled="true" name ="name_trans" class="form-control" value="<?php echo $valores['nombre_transaccion'];?>"></input>
 
                                           <?php
                                        }
@@ -268,12 +267,11 @@ $_SESSION["usuario"];
 
                                        <?php
                                        $user= $_SESSION["usuario"];
-                                        $con = mysqli_connect('localhost', 'root', '', 'contabilidad');
-                                           $cod=mysqli_query($con,"SELECT   ci_usuario FROM usuario WHERE nombre_usuario='$user' LIMIT 1");
+                                           $cod_ci=mysqli_query($con,"SELECT   u.ci_usuario FROM usuario u, empleado_usuario e WHERE e.user='$user' and e.id_usuario=u.id_usuario LIMIT 1");
 
-                                          if ($row = mysqli_fetch_row($cod))
+                                          if ($row_ci = mysqli_fetch_row($cod_ci))
                                             {
-                                              $iden = trim($row[0]);
+                                              $iden_ci = trim($row_ci[0]);
                                             }
 
                                               echo '<p class="col-sm-2 col-sm-2 control-label">Nombre:&emsp; </p>
@@ -281,7 +279,7 @@ $_SESSION["usuario"];
                                               <input type="text" step="any" class="form-control"  readonly="readonly" name="el_nomm" value="'.$user.'"> </input> </div>';
                                                echo '<p class="col-sm-2 col-sm-2 control-label">Ci:&emsp; </p>
                                               <div class="col-sm-9">
-                                              <input required  type="number" step="any" class="form-control" name="el_ci"   readonly="readonly" value="'.$iden.'"> </input> </div>';
+                                              <input required  type="number" step="any" class="form-control" name="el_ci"   readonly="readonly" value="'.$iden_ci.'"> </input> </div>';
 
                                           ?>
                                   </div>
@@ -304,7 +302,6 @@ $_SESSION["usuario"];
 
     <?php
     function nom_e($id) {
-   $con = mysqli_connect('localhost', 'root', '', 'contabilidad');
    $cod_1=mysqli_query($con,"SELECT     nombre_usuario FROM usuario WHERE iid_usuario='$id' LIMIT 1");
   if ($row_1 = mysqli_fetch_row($cod_1))
    {
@@ -312,8 +309,7 @@ $_SESSION["usuario"];
     }
   }
      function add_ela($f,$emp,$text) {
-   $con = mysqli_connect('localhost', 'root', '', 'contabilidad');
-     $cod_1=mysqli_query($con,"SELECT     MAX(id_empleado_ficha) FROM empleado_ficha  ");
+   $cod_1=mysqli_query($con,"SELECT     MAX(id_empleado_ficha) FROM empleado_ficha  ");
   if ($row_1 = mysqli_fetch_row($cod_1))
    {
     $id = trim($row_1[0])+1;
@@ -332,7 +328,7 @@ $_SESSION["usuario"];
 
                          include('conexion.php');
 
-                            if($_POST['fecha'] == '' or  $_POST['pago'] == ''or $_POST['trans'] == '' or $_POST['cambio']== ''  or $_POST['numero_partida_ficha']=='' )
+                            if($_POST['fecha'] == '' or  $_POST['pago'] == ''or  $_POST['cambio']== ''  or $_POST['numero_partida_ficha']=='' )
                             {
                                 echo 'Por favor llene todos los campos.';
                             }
@@ -347,7 +343,7 @@ $_SESSION["usuario"];
                               $id_entidad=$iden+1;
                               $fechai =$_POST["fecha"] ;
                               $pago =$_POST["pago"] ;
-                              $trans =$_POST["trans"] ;
+                              $trans =3 ;
                               $cambio =$_POST["cambio"] ;
                                $moneda =$_POST["moneda"] ;
                               $partida=$_POST["numero_partida_ficha"];
