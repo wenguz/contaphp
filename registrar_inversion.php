@@ -426,8 +426,8 @@ error_reporting(E_ALL ^ E_NOTICE);
                               $sq_cc= "INSERT INTO empleado_ficha VALUES ('$id','elaborado','$id_entidad','$id_empleado_aut');"; mysqli_query($con,$sq_cc)  ;
      
                           // final ________agregar personal
-                      //     $msg = 'Cargo agregado correctamente';
-                     //       print "<script>alert('$msg'); window.location='emergente_inversion.php';</script>";
+                           $msg = 'Cargo agregado correctamente';
+                            print "<script>alert('$msg'); window.location='emergente_inversion.php';</script>";
 
                          } }
 

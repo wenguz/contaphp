@@ -1,12 +1,20 @@
 <?php $cuota_a=0;
 session_start();
-//manejamos en sesion el nombre del usuario que se ha logeado
+/*manejamos en sesion el nombre del usuario que se ha logeado
+ALTER TABLE `temp_as` ADD `amort` BOOLEAN NOT NULL AFTER `cantidad`;
+ALTER TABLE `temp_as` ADD `deprep` BOOLEAN NOT NULL AFTER `amort`;
+ALTER TABLE `asiento` ADD `amort` BOOLEAN NOT NULL AFTER `id_subcuenta`;
+ALTER TABLE `asiento` ADD `deprep` BOOLEAN NOT NULL AFTER `amort`;
+ALTER TABLE `temp_as` CHANGE `amort` `amort` INT(11) NOT NULL;
+ALTER TABLE `temp_as` CHANGE `deprep` `deprep` INT(11) NOT NULL;
+*/
 if (!isset($_SESSION["usuario"])){
     header("location:index.php?nologin=false");
     
 }
 $_SESSION["usuario"];
 require('conexion.php');
+error_reporting(E_ALL ^ E_NOTICE);
 ?>
 <!DOCTYPE html>
 <html lang="en"   >
@@ -193,10 +201,28 @@ require('conexion.php');
                                           <input  required type="number"  step="any"  name="ri_monto" placeholder=" "  class="form-control placeholder-no-fix"></div> </div>
                                           </td>  
                                     </tr>
+                                      <tr >
+                                       <td colspan="3">
+                          <div class="form-group"  >
+                            <br>
+                              <label class="col-sm-10">Escoger si tiene amortizacion o depreciacion   &emsp; </label>
+                              <div class="col-sm-10">
+                                <p>
+                                  <select required class="form-control" name="opcion">
+                                        <option value="1">Amortizacion</option>
+                                       <option value="0">Depreciacion</option>
+                                  </select>
+                                </p>
+                              </div>
+                          </div>
+                        </td>
+                                    </tr>
+
                                     <tr><td colspan="2">
                                       <h3><i class="fa fa-angle-right"></i>Amortizacion </h3>
                                 
                                     </td></tr>
+                                  
                                 <tr>  
                                   <td> <div class="form-group" >
                                   <p class="col-sm-3 col-sm-3 control-label" >Monto de Amortizacion</p>
@@ -242,12 +268,18 @@ require('conexion.php');
                                               {
                                                 $iden0 = trim($row0[0]);
                                               }
-                                      $id_entidad0=$iden0+1;
+                                      if (is_numeric($id_entidad0) && is_numeric($iden0)) {
+                                        $id_entidad0=$iden0+1;
+                                        } else {
+                                            // no son numerocios
+                                          }
                                       $ri_cuenta =$_POST["ri_cuenta"] ;
+
                                       $ri_cuenta_o =$_POST["ri_cuenta_o"] ;
                                      $ri_monto =$_POST["ri_monto"] ;
                                      $ri_concepto=$_POST["ri_concepto"] ;
                                      $ri_cantidad=$_POST["ri_cantidad"] ;
+                                     $ri_opcion =$_POST["opcion"] ;
                                     
                                     //datos de tabla amort
 
@@ -265,38 +297,28 @@ require('conexion.php');
                                      $ri_vida_util =NULL;//vida util
                                      $ri_bien =$_POST["ri_bien"] ;
                                      $ri_vida_util =$_POST["ri_vida_util"] ;
-
-                                     //ingresa a temporal
-                                     $sq2= "INSERT INTO temp_as (id_as,glosa_asiento,monto_asiento,subcuenta_id_subcuenta,cantidad   )
-                                                            VALUES ( '$id_entidad0','$ri_concepto','$ri_monto','$ri_cuenta','$ri_cantidad');";
-                                                      mysqli_query($con,$sq2) or die(mysqli_error($con))  ;
-                                      $sq2= "INSERT INTO temp_as (id_as,glosa_asiento,monto_asiento,subcuenta_id_subcuenta,cantidad   )
-                                                                            VALUES ( '$id_entidad0'+1,'$ri_concepto','$ri_monto','$ri_cuenta_o','$ri_cantidad');";
-                                                                      mysqli_query($con,$sq2) or die(mysqli_error($con))  ;
-                                    
-
-                                    //agragar amort
-
-                                      // obtener id de la ficha nueva
-                                    $rsd=mysqli_query($con,"SELECT MAX(id_ficha) AS iden FROM ficha");
-
-                                      $id_doc_new=1;
-                                       $iden2 =0;
-                                    if ($rowd = mysqli_fetch_row($rsd)) 
-                                      {
-                                        $iden = trim($rowd[0]);
-                                      } 
+                                     // opciones
+                                       //&&&&&&&&&&&&&&&&&&& 
+                                      //agregar a tabla amort y deprep
                                        // obtenern el ultimo id amortizacion
-                                      $rsd2=mysqli_query($con,"SELECT MAX(id_amortizacion)  FROM amortizacion");
-                                    if ($rowd2 = mysqli_fetch_row($rsd2)) 
+                                      if ($ri_opcion==1) // es amortizacion
                                       {
-                                        $iden2 = trim($rowd2[0]);
-                                        $id_doc_new= $iden2 +1;
+                                      $rsd2_am=mysqli_query($con,"SELECT MAX(id_amortizacion)  FROM amortizacion");
+                                    if ($rowd2_am = mysqli_fetch_row($rsd2_am)) 
+                                      {
+                                        $iden2_am = trim($rowd2_am[0]);
+                                        $id_am= $iden2_am +1;
                                       } 
-                                      if ($iden2==null){ $id_doc_new=1;}
+                                      if ($iden2_am==null){ $id_am=1;}
+                                      $sq3= "INSERT INTO amortizacion (  id_amortizacion,detalle_amortizacion, monto_amortizacion, tiempo_amortizacion) 
+                                      VALUES ( '$id_am','$ri_det','$ri_mon','$ri_t');";
+                                      mysqli_query($con,$sq3)  ; 
+                                      $opcion_a=  $id_am; $opcion_d=null;
+                                    }
+
                                    //id de    depreciacion
-                                      $id_dep=1;
-                                       $iden2_dep =0;
+                                      if ($ri_opcion==0) // es depreciacion
+                                      { 
                                       $rsd2_dep=mysqli_query($con,"SELECT MAX(id_depreciacion)  FROM depreciacion");
                                     if ($rowd2_dep = mysqli_fetch_row($rsd2_dep)) 
                                       {
@@ -304,14 +326,23 @@ require('conexion.php');
                                         $id_dep= $iden2_dep +1;
                                       } 
                                       if ($iden2_dep==null){ $id_dep=1;}
-                                   
-                                    $sq3= "INSERT INTO amortizacion (  id_amortizacion,detalle_amortizacion, monto_amortizacion, tiempo_amortizacion) 
-                                      VALUES ( '$id_doc_new','$ri_det','$ri_mon','$ri_t');";
-                                      mysqli_query($con,$sq3)  ;  
-                                   //ingresar depresacion   
+                                      //ingresar depresacion   
                                     $sq4= "INSERT INTO depreciacion(id_depreciacion, bien, vida_util) 
                                       VALUES ( '$id_dep','$ri_bien','$ri_vida_util');";
-                                      mysqli_query($con,$sq4)  ;  
+                                      mysqli_query($con,$sq4)  ; 
+                                      $opcion_d=  $id_dep; $opcion_a=null;
+                                   }
+                                    
+                                   
+                                      //&&&&&&&&&&&&&&&&&&& 
+
+                                     //ingresa a temporal
+                                     $sq2= "INSERT INTO temp_as  VALUES ( '$id_entidad0','$ri_concepto','$ri_monto','$ri_cuenta','$ri_cantidad','$opcion_a','$opcion_d');";
+                                                      mysqli_query($con,$sq2) or die(mysqli_error($con))  ;
+                                      $sq2= "INSERT INTO temp_as    VALUES ( '$id_entidad0'+1,'$ri_concepto','$ri_monto','$ri_cuenta_o','$ri_cantidad','$opcion_a','$opcion_d');";
+                                                                      mysqli_query($con,$sq2) or die(mysqli_error($con))  ;
+                                    
+
                                      }}
                                   ?>
 <hr></td></tr></table>
@@ -343,10 +374,10 @@ require('conexion.php');
                                                 {
                                                   $xa = $valores8a['c'];
                                                   $x1a = $valores8a['mo'];
-                                                  $totala= ($totala +($x1a));
+                                                  $totala= $totala+($xa*($x1a));
                                                 }
 
-                                          echo  $totala/2;
+                                          echo  $totala;
                                       ?></th>
                                     <td colspan="2"> </center> </th>
                                 </tr>  </tfoot> <tbody>  <tr>
@@ -383,11 +414,7 @@ require('conexion.php');
                             mysqli_query($con,$sq_delete)  ;
                             echo '<meta http-equiv="refresh" content="0" />';       }
 }
-                                      else{ ?>
-                                         <td><?php echo 'Vacio' ?></td>
-                                  <td><?php echo 'Vacio' ?></td>
-                                  <td><?php echo 'Vacio' ?></td>
-                                  <?php
+                                      else{//
                                       }
                                       ?>
                               </tr>
@@ -427,6 +454,24 @@ require('conexion.php');
                                                   $ida = trim($rowb[0]);
                                                 }
                                                 $id_asiento = $ida+1;
+                                                // obtener el ultimo id de asiemto amortizacin
+                                                $id_asien_amort=0;
+                               $cod_asi_amort=mysqli_query($con,"SELECT   MAX(id_asiento_amortizacion) FROM asiento_amortizacion");
+                                              if ($row_asi_amort = mysqli_fetch_row($cod_asi_amort))
+                                                {
+                                                  $idaa = trim($row_asi_amort[0]);
+                                                }
+                                                else{ $idaa =0;}
+                                                 $id_asien_amort=$idaa+1;
+                                                }
+                              // obtener el ultimo id de asiemto depercioacion
+                                                $id_asien_depre=0;
+                              $cod_asi_depre=mysqli_query($con,"SELECT   MAX(id_asiento_depreciacion) FROM asiento_depreciacion");
+                                              if ($row_asi_depre = mysqli_fetch_row($cod_asi_depre))
+                                                {
+                                                  $idad = trim($row_asi_depre[0]);
+                                                }
+                                                 $id_asien_depre=$idad+1;
                           $result0 = mysqli_query($con,"SELECT * from temp_as");
                             $s=1;$cont=0;
                               while ($row0 = mysqli_fetch_array($result0)) {
@@ -440,16 +485,52 @@ require('conexion.php');
                                   $campo5=$campo5*$moneda;
                                   $campo6=$iden;
                                   $campo7=$row0['subcuenta_id_subcuenta'];
+                                   $campo8=$row0['amort'];
+                                    $campo9=$row0['deprep'];
                                   $cont++;
                                   if ($cont%2==0) {
                                     $insercion="INSERT INTO asiento values ('$id', '$campo1', '$campo2', '$campo8', '$campo5', '$campo4', '$campo6', '$campo7');";
                                   mysqli_query($con,$insercion) or die (mysqli_error($con))  ;
+                                  //????????????????????????????
+
                                   }
                                   else {
                                     $insercion="INSERT INTO asiento values ('$id', '$campo1', '$campo2', '$campo3', '$campo4', '$campo5', '$campo6', '$campo7');";
                                   mysqli_query($con,$insercion) or die (mysqli_error($con))  ;
                                   }
-
+                                   $time = time(); //fecha de ahora del registro 
+                                  $fecha_a= date("Y-m-d", $time);
+                                  //*****inicio insert a asiento_amortizacion
+                                  if ($campo8=!null) // tiene amortizaicion
+                                  {
+                                     $cod_id_amor=mysqli_query($con,"SELECT * FROM amortizacion WHERE id_amortizacion='$campo8'");
+                                               while ($v_id_amor = mysqli_fetch_array($cod_id_amor))
+                                                {
+                                                  $x = $v_id_amor['monto_amortizacion'];
+                                                  $x1 = $v_id_amor['tiempo_amortizacion'];
+                                                  $cuota= $x/$x1;
+                                                }
+                                      $sq5= "INSERT INTO asiento_amortizacion
+                                      VALUES ( '$id_asien_amort','$x1','$cuota','$fecha_a','$campo8','$id');";
+                                      mysqli_query($con,$sq5)  ;
+                                      
+                                  }
+                                  //*****fin insert a asiento_amortizacion
+                              //*****inicio insert a asiento_depreciacion
+                                   if ($campo9=!null) // tiene depreciacion
+                                  {
+                                     $cod_id_depre=mysqli_query($con,"SELECT * FROM depreciacion WHERE id_depreciacion='$campo9'");
+                                               while ($v_id_depre = mysqli_fetch_array($cod_id_depre))
+                                                {
+                                                  $x = $v_id_depre['bien'];
+                                                  $x1 = $v_id_depre['vida_util']; 
+                                                }
+                                      $sq5= "INSERT INTO asiento_depreciacion
+                                      VALUES ( '$id_asien_depre','$x1', '1','1','1','1','$fecha_a','$campo9','$id');";
+                                      mysqli_query($con,$sq5)  ;
+                                      
+                                  }
+                              //*****fin insert a asiento_depreciacion  
 
                             }
                             //actualizar el monot total de ficha
@@ -468,9 +549,9 @@ require('conexion.php');
                             $sq_delete= "DELETE FROM temp_as";
                              mysqli_query($con,$sq_delete)  ;
 
-                         $msg = 'Agregado correctamente ' ;
-                            print "<script>alert('$msg'); window.location='lista_ficha.php';</script>";
-                            }
+                      //   $msg = 'Agregado correctamente ' ;
+                     //       print "<script>alert('$msg'); window.location='lista_ficha.php';</script>";
+                          
                             if(isset($_POST['borrar_ficha']))
                         {
                           //obtener id de la ultima ficha
