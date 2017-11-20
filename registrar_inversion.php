@@ -90,7 +90,7 @@ error_reporting(E_ALL ^ E_NOTICE);
               <ul class="sub">
                   <li><a  href="registrar_ingreso.php"><i class="fa fa-list-alt"></i>Registrar Ingreso</a></li>
                   <li ><a  href="registrar_egreso.php"><i class="fa fa-list-alt"></i>Registrar Egreso</a></li>
-                  <li  class="active"><a  href="registrar_inversion.php"><i class="fa fa-list-alt"></i>Registrar Inversion</a></li>
+                  <li  class="active"><a  href="registrar_egreso.php"><i class="fa fa-list-alt"></i>Registrar Inversion</a></li>
               </ul>
           </li>
 
@@ -415,17 +415,7 @@ error_reporting(E_ALL ^ E_NOTICE);
                               VALUES ('$id_entidad','$partida','$fechai','$hora','$tot','0','0','$trans','$id_cambio','$pago','$id_persona');";
 
                             mysqli_query($con,$sq)  ;
-                               // inicio ________agregar personal
-                            //elaborado
-                             $cod_1c=mysqli_query($con,"SELECT MAX(id_empleado_ficha) FROM empleado_ficha  LIMIT 1 ");
-                           
-                              if ($row_p1 = mysqli_fetch_row($cod_1c))
-                                                {  $id = trim($row_p1[0])+1;  }
-                                                    
-                              $sq_cc= "INSERT INTO empleado_ficha VALUES ('$id','autorizado','$id_entidad','$id_empleado_aut');"; mysqli_query($con,$sq_cc)  ; $id =$id +1;
-                              $sq_cc= "INSERT INTO empleado_ficha VALUES ('$id','elaborado','$id_entidad','$id_empleado_aut');"; mysqli_query($con,$sq_cc)  ;
-     
-                          // final ________agregar personal
+                          
                            $msg = 'Cargo agregado correctamente';
                             print "<script>alert('$msg'); window.location='emergente_inversion.php';</script>";
 

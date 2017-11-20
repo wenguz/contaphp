@@ -303,32 +303,7 @@ require('conexion.php');
                   </tr>
 
 <?php
-function nom_e($id)
-{
-  $cod_1=mysqli_query($con,"SELECT nombre_usuario FROM usuario WHERE iid_usuario='$id' LIMIT 1");
-  if ($row_1 = mysqli_fetch_row($cod_1))
-  {
-    $ing = trim($row_1[0]);
-  }
-}
-function add_ela($f,$emp,$text)
-{
-  $cod_1=mysqli_query($con,"SELECT MAX(id_empleado_ficha) FROM empleado_ficha");
-  if ($row_1 = mysqli_fetch_row($cod_1))
-  {
-    $id = trim($row_1[0])+1;
-    $sq_c= "INSERT INTO empleado_ficha( id_empleado_ficha ,descripcion_empleado,id_ficha, id_empleado_usuario)
-    VALUES ('$id','$text','$f','$emp');";
-    mysqli_query($con,$sq_c)  ;
-  }
-  else
-  {
-    $sq_c= "INSERT INTO empleado_ficha( id_empleado_ficha ,descripcion_empleado,id_ficha, id_empleado_usuario)
-    VALUES ('1','$text','$f','$emp');";
-    mysqli_query($con,$sq_c)  ;
-  }
-  return true;
-}
+ 
 /*********************************************************/
 /*********************************************************/
 if(isset($_POST['registrar_datos']))
@@ -362,59 +337,61 @@ if(isset($_POST['registrar_datos']))
     {
       $tot=1;
     }
-    //pagado a
-    $pag_nom=$_POST["pag_nom"];
-    //Autorizado por
-    $aut_nom=$_POST["aut_nom"];
-    $aut_ci=$_POST["aut_ci"];
-    //Elaborado
-    $el_nom=$_POST["el_nom"];
-    $el_ci=$_POST["el_ci"];
-    //empleado autorizo
-    $cod_p=mysqli_query($con,"SELECT e.id_empleado_usuario FROM usuario u, empleado_usuario e WHERE ci_usuario='$aut_ci' AND u.id_usuario=e.id_usuario LIMIT 1");
-    if ($row_p = mysqli_fetch_row($cod_p))
-    {
-      $id_empleado_aut = trim($row_p[0]);
-    }
-    else
-    {
-    //$msg = 'No existe empleado con el número de carnet ingresado en  autorizado por ... ';
-    // print "<script>alert('$msg'); window.location='registrar_egreso.php';</script>";
-    $id_empleado_aut = '3';
-    }
-    //empleado elaborado
-    $cod_p=mysqli_query($con,"SELECT e.id_empleado_usuario FROM usuario u, empleado_usuario e WHERE u.id_usuario=e.id_usuario and ci_usuario='$el_ci' LIMIT 1") or die (mysqli_error($con));
+    $user= $_SESSION["usuario"];
+                              //pagado a
+                               $pag_nom=$_POST["pag_nom"];
+                               //Autorizado por
+                               $aut_nom=$_POST["aut_nom"];
+                              $aut_ci=$_POST["aut_ci"];
+                              //Elaborado
+                                 $datos=mysqli_query($con,"SELECT a.* FROM usuario a, empleado_usuario b where b.user = '$user' LIMIT 1");
+                                    $row=mysqli_fetch_assoc($datos);
+                                      $el_ci=$row['nombre_usuario']." ".$row['ap_paterno_usuario'];  
+                                       $el_nom=  $row['ci_usuario']; 
 
-    if ($row_p = mysqli_fetch_row($cod_p))
-    {
-      $id_empleado_el = trim($row_p[0]);
-    }
-    else {
-    //$msg = 'No existe empleado con el número de carnet ingresado en elaborado ';
-    //print "<script> window.location='registrar_egreso.php';</script>";
-    //  print "<script>alert('$msg'); window.location='registrar_egreso.php';</script>";
-      $id_empleado_el = '3';
-    }
-    //persona pagado por
-    $cod_p=mysqli_query($con,"SELECT   id_persona FROM persona WHERE nombre_persona='$pag_nom' LIMIT 1");
+                                           
 
-    if ($row_p = mysqli_fetch_row($cod_p))
-    {
-      $id_persona = trim($row_p[0]);
-    }
-    else
-    {
-      $cod_p=mysqli_query($con,"SELECT   MAX(id_persona) FROM persona");
-      if ($row_p = mysqli_fetch_row($cod_p))
-      {
-        $id = trim($row_p[0]);
-      }
+                              //empleado elaborado
+                         $cod_p=mysqli_query($con,"SELECT   e.id_empleado_usuario FROM   empleado_usuario e WHERE  e.user='$user'   LIMIT 1");
+                                           if ($row_p = mysqli_fetch_row($cod_p))
+                                            {
+                                              $id_empleado_el = trim($row_p[0]);
+                                            }
+                                            else {
+                                               $msg = 'No existe empleado con el número de carnet ingresado en  elaborado';
+                                               print "<script>alert('$msg'); window.location='registrar_inversion.php';</script>";
+                                            }
+                           //empleado autorizado
+                          $cod_p=mysqli_query($con,"SELECT   e.id_empleado_usuario FROM usuario u, empleado_usuario e WHERE   u.ci_usuario='$aut_ci' AND u.id_usuario=e.id_usuario LIMIT 1");
 
-      $id_persona = $id+1;
-      $sq_p= "INSERT INTO persona(id_persona,nombre_persona,ci_persona,descripcion_persona)
-      VALUES ('$id_persona','$pag_nom',' ','Pagado');";
-      mysqli_query($con,$sq_p)  ;
-    }
+                                          if ($row_p = mysqli_fetch_row($cod_p))
+                                            {
+                                              $id_empleado_aut = trim($row_p[0]);
+                                            }
+                                            else {
+                                               $msg = 'No existe empleado con el número de carnet ingresado en autorizado ... ' ;
+                                               print "<script>alert('$msg'); window.location='registrar_inversion.php';</script>";
+
+                                            }
+                          //persona pagado por
+                           $cod_p=mysqli_query($con,"SELECT   id_persona FROM persona WHERE nombre_persona='$pag_nom' LIMIT 1");
+
+                                          if ($row_p = mysqli_fetch_row($cod_p))
+                                            {
+                                              $id_persona = trim($row_p[0]);
+                                            }
+                                            else {
+                                              $cod_p=mysqli_query($con,"SELECT   MAX(id_persona) FROM persona");
+                                              if ($row_p = mysqli_fetch_row($cod_p))
+                                                {
+                                                  $id = trim($row_p[0]);
+                                                }
+                                                $id_persona = $id+1;
+                                              $sq_p= "INSERT INTO persona(id_persona,nombre_persona,ci_persona,descripcion_persona)
+                                                    VALUES ('$id_persona','$pag_nom',' ','Pagado');";
+                                              mysqli_query($con,$sq_p)  ;
+                                            }
+                      
     //tipo de cambio
     $cod_c=mysqli_query($con,"SELECT   id_tipo_cambio FROM tipo_cambio WHERE monto='$cambio' LIMIT 1");
 
@@ -442,13 +419,7 @@ if(isset($_POST['registrar_datos']))
     $sq= "INSERT INTO ficha(id_ficha, numero_partida_ficha, fecha_ficha, tiempo_ficha, total_ficha, total_debe_ficha, total_haber_ficha, id_tipo_transaccion, id_tipo_cambio, id_tipo_pago, id_persona)
     VALUES ('$id_entidad','$partida','$fechai','$hora','$tot','0','0','2','$id_cambio','$pago','$id_persona');";
     mysqli_query($con,$sq)  ;
-    //agregar personal
-    //elaborado
-    $func1 = 'add_ela';
-    echo  $func1($id_entidad,$id_empleado_el,'Elaborado');
-    //autorizado
-    $func2 = 'add_ela';
-    echo  $func2($id_entidad,$id_empleado_aut,'Autorizado');
+     
     $msg = 'Cargo agregado correctamente';
     print "<script>alert('$msg'); window.location='emergente_egreso.php';</script>";
   }
