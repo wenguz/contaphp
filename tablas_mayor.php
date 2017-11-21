@@ -89,63 +89,6 @@ function FancyTable($header, $data)
 //para cambiar color segun clase
   $this->SetFont('', '');
     $this->SetTextColor(0);
-/*
-    $codc=mysqli_query($con,"SELECT clase.nombre_clase FROM clase");
-    $numclases = mysqli_num_rows($codc);
-
-  $strConsulta = "SELECT c.id_cuenta, c.nombre_cuenta, b.fecha_ficha, SUM(b.total_ficha) + SUM(a.debe_asiento) as debe,
-     SUM(a.haber_asiento) as haber, SUM(a.debe_asiento)- SUM(a.haber_asiento) as Saldo
-    FROM asiento a, ficha b, tipo_transaccion tt, subcuenta sub, cuenta c, grupo g, clase cl
-    WHERE
-    cl.id_clase =g.id_grupo
-    AND g.id_grupo = c.id_grupo
-    AND c.id_cuenta=sub.id_cuenta
-     AND sub.id_subcuenta = a.id_subcuenta
-     AND a.ficha_id_ficha = b.id_ficha
-     AND tt.id_tipo_transaccion = b.id_tipo_transaccion";
-  $libm = mysqli_num_rows($listamay);
-
-for ($ii=0; $ii <$numclases ; $ii++) {
-    $clas = mysqli_fetch_array($codc);
-     $my = mysqli_fetch_array($libm);
-    // Restauración de colores y fuentes
-
-    if($clas['nombre_clase']=$my['nombre_clase']){
-            $pdf->SetFillColor(153,255,153);
-            $pdf->SetFillColor(173,255, 47);
-        }
-        elseif ($ii=1 && $clas['nombre_clase']=$my['nombre_clase']) {
-            $pdf->SetFillColor(255, 215, 0);
-            $pdf->Row(array($clas['c.id_cuenta'], $clas['c.nombre_cuenta'] ,
-            $clas['b.fecha_ficha'], $clas['debe'], $clas[' haber'], $clas['Saldo']));
-        }
-        elseif ($ii=2 && $clas['nombre_clase']=$my['nombre_clase']) {
-            $pdf->SetFillColor(0, 191, 255);
-            $pdf->Row(array($clas['c.id_cuenta'], $clas['c.nombre_cuenta'] ,
-            $clas['b.fecha_ficha'], $clas['debe'], $clas[' haber'], $clas['Saldo']));
-        }
-         elseif ($ii=3 && $clas['nombre_clase']=$my['nombre_clase']) {
-            $pdf->SetFillColor(160 ,82, 40);
-            $pdf->Row(array($clas['c.id_cuenta'], $clas['c.nombre_cuenta'] ,
-            $clas['b.fecha_ficha'], $clas['debe'], $clas[' haber'], $clas['Saldo']));
-        }
-        elseif ($ii=4 && $clas['nombre_clase']=$my['nombre_clase']) {
-            $pdf->SetFillColor(255, 99, 71);
-            $pdf->Row(array($clas['c.id_cuenta'], $clas['c.nombre_cuenta'] ,
-            $clas['b.fecha_ficha'], $clas['debe'], $clas[' haber'], $clas['Saldo']));
-        }
-        elseif ($ii=5 && $clas['nombre_clase']=$my['nombre_clase']) {
-            $pdf->SetFillColor(255, 80, 71);
-            $pdf->Row(array($clas['c.id_cuenta'], $clas['c.nombre_cuenta'] ,
-            $clas['b.fecha_ficha'], $clas['debe'], $clas[' haber'], $clas['Saldo']));
-        }
-        elseif ($ii=6 && $clas['nombre_clase']=$my['nombre_clase']) {
-            $pdf->SetFillColor(224,235,255);
-            $pdf->Row(array($clas['c.id_cuenta'], $clas['c.nombre_cuenta'] ,
-            $clas['b.fecha_ficha'], $clas['debe'], $clas[' haber'], $clas['Saldo']));
-        }
-
-}*/
 
     // Datos
     $d=0;

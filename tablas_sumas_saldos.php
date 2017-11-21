@@ -34,7 +34,7 @@ function ChapterTitle($label)
     // Arial 12
     $this->SetFont('Times','B',12);
     // Color de fondo
-    $this->SetFillColor(255, 255, 224);//
+    $this->SetFillColor(247,247,247);
     // Título
     $this->Cell(0,6,"BALANCE DE COMPROBACION DE SUMAS Y SALDOS",0,1,'C');
     $this->Cell(0,6,"Practicado al 31 de Diciembre de ".$fecha,0,1,'C');
@@ -132,7 +132,7 @@ function FancyTable($header, $data)
     }
     // Línea de cierre
    $fill = !$fill;
-     $this->SetFillColor(188, 143, 143);
+     $this->SetFillColor(0,204,204);
      $pie = array('TOTAL',number_format($a),number_format($d),number_format($h), number_format($s));
       $p = array(95,30,30,30,30);
     for($i=0;$i<count($pie);$i++)

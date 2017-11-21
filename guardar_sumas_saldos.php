@@ -19,7 +19,44 @@ FROM asiento a, ficha f, tipo_transaccion tt, subcuenta sc, cuenta c
 WHERE tt.id_tipo_transaccion = f.id_tipo_transaccion
 and f.id_ficha = a.ficha_id_ficha
 and a.id_subcuenta = sc.id_subcuenta
-and sc.id_cuenta = c.id_cuenta;';
+and sc.id_cuenta = c.id_cuenta';
+$resultado=mysqli_query($con,$ing);
+
+while ($row = mysqli_fetch_assoc($resultado)) {
+	if($row['debe']<$row['haber'])
+	{
+		$deudor=$row['haber']-$row['haber'];
+	 $acreedr=$row['haber']-$row['debe'];
+	}
+	else {
+	 if($row['debe']>$row['haber'])
+	 {
+			$acreedr=$row['debe']-$row['debe'];
+		 $deudor=$row['debe']-$row['haber'];
+	 }
+	}
+
+	$cod_cuenta=$row['id_cuenta'];
+	$nom_cuenta=$row['nombre_cuenta'];
+	$debe=$row['debe'];
+	$haber=$row['haber'];
+	$fecha = date('Y');
+
+
+		 // se necesita cambiar el query a un update a la tabla comprobacion ya que con el trigger se aumentaron todas las cuentas
+	$agregar =mysqli_query($con, "UPDATE comprobacion set debe='$debe', haber='$haber', acreedor='$acreedr', anio='$fecha'
+		where cod_cuenta = $cod_cuenta") or die(mysqli_error($con)) ;
+
+}
+
+$ing ='SELECT c.id_cuenta, c.nombre_cuenta,
+(SELECT SUM(f.total_debe_ficha) FROM tipo_transaccion tt WHERE tt.id_tipo_transaccion =1) as debe,
+(SELECT SUM(f.total_haber_ficha) FROM tipo_transaccion tt WHERE tt.id_tipo_transaccion =2)as haber
+FROM asiento a, ficha f, tipo_transaccion tt, subcuenta sc, cuenta c
+WHERE tt.id_tipo_transaccion = f.id_tipo_transaccion
+and f.id_ficha = a.ficha_id_ficha
+and a.id_subcuenta = sc.id_subcuenta
+and sc.id_cuenta = c.id_cuenta';
 $resultado=mysqli_query($con,$ing);
 
 while ($row = mysqli_fetch_assoc($resultado)) {
@@ -46,6 +83,9 @@ else {
  fwrite($fi, "".chr(113).chr(110));
  }
 fclose($fi);
+
+
+
 $mensaje = "Los Datos Se Han Exportado Correctamente";
     print "<script>alert('$mensaje'); window.location='tablas_sumas_saldos.php';</script>";
 ?>
