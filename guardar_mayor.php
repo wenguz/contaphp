@@ -43,7 +43,19 @@ else {
 	}
 }
 
+$cod_cuenta=$row['id_cuenta'];
+$nom_cuenta=$row['nombre_cuenta'];
+$debe=$row['debe'];
+$haber=$row['haber'];
+$fecha = date('Y');
+//query encargado de actualizar datos de la tabla resultados
+$agregar =mysqli_query($con, "UPDATE resultados set monto_debe='$debe', monto_haber='$haber', anio='$fecha'
+ where cod_cuenta = $cod_cuenta") or die(mysqli_error($con)) ;
+
  fwrite($fi, "".chr(13).chr(10));
+
+
+
  }
 fclose($fi);
 $mensaje = "Los Datos Se Han Exportado Correctamente";
