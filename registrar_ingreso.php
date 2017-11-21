@@ -162,7 +162,7 @@ require('conexion.php');
                             <label class="col-sm-10">Tipo de Cambio:&emsp; </label>
                             <div class="col-sm-10">
                                 <p>
-<<<<<<< HEAD
+
                                 <?php
                                 $cod=mysqli_query($con,"SELECT monto FROM tipo_cambio ORDER BY id_tipo_cambio DESC LIMIT 1 " );
                                 if ($row = mysqli_fetch_row($cod))
@@ -171,7 +171,7 @@ require('conexion.php');
                                 }
                                 echo '<input required type="number" step="any" class="form-control" name="cambio" value="'.$iden.'"> </input> ';
                                 ?>
-=======
+
 
                                       <?php
                                            $cod=mysqli_query($con,"SELECT   monto FROM tipo_cambio ORDER BY id_tipo_cambio DESC LIMIT 1 " );
@@ -183,7 +183,7 @@ require('conexion.php');
                                           echo '<input required type="number" step="any" class="form-control" name="cambio" value="'.$iden.'"> </input> ';
                                       ?>
 
->>>>>>> 151fa0de3f698a7273b80e7fb95572e19a2a0cc8
+
                                 </p>
                               </div>
                             </div>
@@ -293,7 +293,7 @@ require('conexion.php');
                           </center></td>
                         </tr>
 
-<<<<<<< HEAD
+
 <?php
 if(isset($_POST['registrar_datos']))
 {
@@ -405,7 +405,7 @@ else
 ?>
                   </form>
                 </table>
-=======
+
   <?php
                            if(isset($_POST['registrar_datos']))
                         {
@@ -509,7 +509,7 @@ else
                          ?>
                             </form>
                           </table>
->>>>>>> 151fa0de3f698a7273b80e7fb95572e19a2a0cc8
+
               </div><!-- /content-panel -->
           </div><!-- /col-md-12 -->
     </section><!--/wrapper -->
