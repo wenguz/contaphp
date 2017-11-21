@@ -146,10 +146,6 @@ require('conexion.php');
                         <?php
                             if(isset($_POST['buscar1']))
                         {
-<<<<<<< HEAD
-=======
-                         $con = mysqli_connect('localhost', 'root', '', 'contabilidad') or die(mysql_error());
->>>>>>> daed439c886d026fe0d540784fd49a36aed25e0f
                           $cod=mysqli_query($con,"SELECT * FROM ficha");
                            while ($valores = mysqli_fetch_array($cod)) { ?>
                               <tr>
@@ -167,10 +163,6 @@ require('conexion.php');
                        <?php
                             if(isset($_POST['buscar_id']))
                         {
-<<<<<<< HEAD
-=======
-                         $con = mysqli_connect('localhost', 'root', '', 'contabilidad') or die(mysql_error());
->>>>>>> daed439c886d026fe0d540784fd49a36aed25e0f
                                $a =$_POST["b_id"] ;
                           $cod=mysqli_query($con,"SELECT * FROM ficha WHERE id_ficha='$a'");
                            while ($valores = mysqli_fetch_array($cod)) { ?>
@@ -191,10 +183,6 @@ require('conexion.php');
                             <?php
                             if(isset($_POST['buscar_fecha']))
                         {
-<<<<<<< HEAD
-=======
-                         $con = mysqli_connect('localhost', 'root', '', 'contabilidad') or die(mysql_error());
->>>>>>> daed439c886d026fe0d540784fd49a36aed25e0f
                                $a =$_POST["b_fecha"] ;
                           $cod=mysqli_query($con,"SELECT * FROM ficha WHERE fecha_ficha='$a'");
                            while ($valores = mysqli_fetch_array($cod)) { ?>
