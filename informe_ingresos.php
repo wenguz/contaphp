@@ -106,9 +106,9 @@ $_SESSION["usuario"];
                   <span>Reportes Anuales</span>
               </a>
               <ul class="sub">
-                  <li ><a  href="reporte_sumas_y_resultados.php"><i class="fa fa-list-alt"></i>Reporte Sumas y resultados</a></li>
-                  <li ><a  href="balance_general.php"><i class="fa fa-list-alt"></i>Balance General</a></li>
-                  <li ><a  href="estado_de_resultados.php"><i class="fa fa-list-alt"></i>Estado de resultados</a></li>
+                  <li ><a  href="guardar_sumas_saldos.php"><i class="fa fa-list-alt"></i>Reporte Sumas y resultados</a></li>
+                  <li ><a  href="guardar_balance_general.php"><i class="fa fa-list-alt"></i>Balance General</a></li>
+                  <li ><a  href=""><i class="fa fa-list-alt"></i>Estado de resultados</a></li>
               </ul>
           </li>
 

@@ -233,7 +233,6 @@ require('conexion.php');
                                         echo 'Por favor llene todos los campos.';
                                     }
                                     else {
-                                               $con = mysqli_connect('localhost', 'root', '', 'contabilidad');
                                     $id_entidad0=1;
                                       $rs0=mysqli_query($con,"SELECT count(id_as) AS iden FROM temp_as");
                                             if ($row0 = mysqli_fetch_row($rs0))
@@ -248,9 +247,9 @@ require('conexion.php');
                                      $ri_tipo=$_POST["ri_tipo"] ;
                                      $ri_doc=$_POST["ri_doc"] ;
                                      $ri_doc_des=$_POST["ri_doc_des"] ;
-                                      $sq2= "INSERT INTO temp_as (id_as,glosa_asiento,monto_asiento,id_subcuenta,cantidad   )
-                                                            VALUES ( '$id_entidad0','$ri_concepto','$ri_monto','$ri_cuenta','$ri_cantidad');";
-                                                      mysqli_query($con,$sq2)  ;
+                                      $sq2= "INSERT INTO temp_as (id_as,glosa_asiento,monto_asiento,subcuenta_id_subcuenta,cantidad  )
+                                                            VALUES ( '$id_entidad0','$ri_concepto','$ri_monto','$ri_cuenta','$ri_cantidad')";
+                                                      mysqli_query($con,$sq2)  or die(mysqli_error($con));
                                                       //agragar documento
                                     $rsd=mysqli_query($con,"SELECT MAX(id_ficha) AS iden FROM ficha");
                                     if ($rowd = mysqli_fetch_row($rsd))
@@ -266,7 +265,7 @@ require('conexion.php');
                                       $id_doc_new= $iden2 +1;
                                     $sq3= "INSERT INTO documento_extra (  id_documento_extra,codigo_documento,tipo,descripcion, id_ficha   )
                                                             VALUES ( '$id_doc_new','$ri_doc','$ri_tipo','$ri_doc_des','$iden');";
-                                                      mysqli_query($con,$sq3)  ;
+                                                      mysqli_query($con,$sq3)  or die(mysqli_error($con));
                                     }}
                                   ?>
 
@@ -325,7 +324,7 @@ require('conexion.php');
                            ?>
                               <tr class="identificador" data-id="id" >
                                   <td><?php echo $valores8['id_as']; ?></td>
-                                  <td><?php echo $valores8['id_subcuenta']; ?></td>
+                                  <td><?php echo $valores8['subcuenta_id_subcuenta']; ?></td>
                                   <td><?php echo $valores8['glosa_asiento']; ?></td>
                                   <td><?php echo $valores8['cantidad']; ?></td>
                                   <td><?php echo $valores8['monto_asiento']; ?></td>
@@ -344,7 +343,6 @@ require('conexion.php');
                                      <?php
                           if (isset($_POST['eliminar_item'])){
                           $s='es ';
-                           $con = mysqli_connect('localhost', 'root', '', 'contabilidad');
                             //borrar tabla temporal
                             $sq_delete= "DELETE FROM temp_as WHERE  id_as= '$id_1'";
                             mysqli_query($con,$sq_delete)  ;
@@ -406,7 +404,7 @@ require('conexion.php');
                                   $campo4=$campo4*$moneda;
                                   $campo5=0;
                                   $campo6=$iden;
-                                  $campo7=$row0['id_subcuenta'];
+                                  $campo7=$row0['subcuenta_id_subcuenta'];
 
                                   $insercion="INSERT INTO asiento values ('$id', '$campo1', '$campo2', '$campo3', '$campo4', '$campo5', '$campo6', '$campo7');";
                                 mysqli_query($con,$insercion)  ;
@@ -462,8 +460,8 @@ require('conexion.php');
                       </section><!--    -->
 <?php
   function item_elim($f) {
+    require('conexion.php');
     $s='es ';
-   $con = mysqli_connect('localhost', 'root', '', 'contabilidad');
         //borrar tabla temporal
         $sq_delete= "DELETE FROM temp_as WHERE  id_as=$f ";
         mysqli_query($con,$sq_delete)  ;
@@ -471,8 +469,8 @@ require('conexion.php');
 }
 
   function ver_doc_t($f) {
+    require('conexion.php');
     $iden='  ';
-   $con = mysqli_connect('localhost', 'root', '', 'contabilidad');
      $cod_1=mysqli_query($con,"SELECT  tipo FROM documento_extra WHERE  id_ficha='$f' LIMIT 1 ");
 
     if ($row = mysqli_fetch_row($cod_1))

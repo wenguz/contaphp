@@ -208,7 +208,6 @@ require('conexion.php');
                                         echo 'Por favor llene todos los campos.';
                                     }
                                     else {
-                                               $con = mysqli_connect('localhost', 'root', '', 'contabilidad');
                                     $id_entidad0=1;
                                       $rs0=mysqli_query($con,"SELECT count(id_as) AS iden FROM temp_as");
                                             if ($row0 = mysqli_fetch_row($rs0))
@@ -293,7 +292,6 @@ require('conexion.php');
  <?php
                           if (isset($_POST['eliminar_item'])){
                           $s='es ';
-                           $con = mysqli_connect('localhost', 'root', '', 'contabilidad');
                             //borrar tabla temporal id
                             $sq_delete= "DELETE FROM temp_as WHERE  id_as= '$id_1'";
                             mysqli_query($con,$sq_delete)  ;

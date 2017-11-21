@@ -12,41 +12,34 @@ if ($exist)
 /*$mensaje = "ENTRA";
 print "<script>alert('$mensaje');</script>";*/
 
-$ing ='SELECT c.id_cuenta, c.nombre_cuenta, f.fecha_ficha,
-(SELECT SUM(f.total_debe_ficha) FROM tipo_transaccion tt WHERE tt.id_tipo_transaccion =1) as debe,
-(SELECT SUM(f.total_haber_ficha) FROM tipo_transaccion tt WHERE tt.id_tipo_transaccion =2)as haber
-FROM asiento a, ficha f, tipo_transaccion tt, subcuenta sc, cuenta c
-WHERE tt.id_tipo_transaccion = f.id_tipo_transaccion
-and f.id_ficha = a.ficha_id_ficha
-and a.id_subcuenta = sc.id_subcuenta
-and sc.id_cuenta = c.id_cuenta;';
+$ing ='SELECT a.id_subcuenta,sum(a.debe_asiento) as da ,sum(a.haber_asiento)as ha, f.fecha_ficha FROM asiento a,ficha f,subcuenta s, cuenta c WHERE c.id_cuenta = s.id_cuenta AND s.id_subcuenta = a.id_subcuenta or c.id_cuenta = a.id_subcuenta AND a.ficha_id_ficha = f.id_ficha group by a.id_subcuenta';
 $resultado=mysqli_query($con,$ing);
 
 
 while ($row = mysqli_fetch_assoc($resultado)) {
 $fi=fopen('Mayor.txt','a') or die ("No se pudo Crear el archivo");
-fwrite($fi,$row['id_cuenta'].';');
+fwrite($fi,$row['id_subcuenta'].';');
 fwrite($fi,$row['fecha_ficha'].';');
-fwrite($fi,$row['nombre_cuenta'].';');
-fwrite($fi,$row['debe'].';');
-fwrite($fi,$row['haber'].';');
-if($row['debe']<$row['haber'])
+
+fwrite($fi,$row['da'].';');
+fwrite($fi,$row['ha'].';');
+if($row['da']<$row['ha'])
 {
-	$saldo=$row['haber']-$row['debe'];
+	$saldo=$row['ha']-$row['da'];
 	fwrite($fi,$saldo.';');
 }
 else {
-	if($row['debe']>$row['haber'])
+	if($row['da']>$row['ha'])
 	{
-		$saldo=$row['debe']-$row['haber'];
+		$saldo=$row['da']-$row['ha'];
 		fwrite($fi,$saldo.';');
 	}
 }
 
-$cod_cuenta=$row['id_cuenta'];
+$cod_cuenta=$row['id_subcuenta'];
 $nom_cuenta=$row['nombre_cuenta'];
-$debe=$row['debe'];
-$haber=$row['haber'];
+$debe=$row['da'];
+$haber=$row['ha'];
 $fecha = date('Y');
 //query encargado de actualizar datos de la tabla resultados
 $agregar =mysqli_query($con, "UPDATE resultados set monto_debe='$debe', monto_haber='$haber', anio='$fecha'

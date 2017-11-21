@@ -83,7 +83,7 @@ function FancyTable($header, $data)
     $this->SetLineWidth(.3);
     $this->SetFont('','B');
     // Cabecera
-    $w = array(20,35,55,55,30,30);
+    $w = array(20,35,110,30,30);
     for($i=0;$i<count($header);$i++)
         $this->Cell($w[$i],7,$header[$i],1,0,'C',true);
     $this->Ln();
@@ -141,9 +141,9 @@ for ($ii=0; $ii <$numclases ; $ii++) {
         $this->Cell($w[2],6,$row[2],'LR',0,'L',$fill);
         $this->Cell($w[3],6,$row[3],'LR',0,'L',$fill);
         $this->Cell($w[4],6,$row[4],'LR',0,'R',$fill);
-        $this->Cell($w[5],6,$row[5],'LR',0,'R',$fill);
-        $d+=$row[4];
-        $h+=$row[5];
+
+        $d+=$row[3];
+        $h+=$row[4];
         $this->Ln();
         $fill = !$fill;
     }
@@ -170,7 +170,7 @@ $pdf->SetTitle($title,$direccion,$fono1,$fono2,$ciudad);
 $pdf->PrintChapter(date(" m "));
 
 // Títulos de las columnas
-$header = array('NRO','FECHA','CUENTA', 'CONCEPTO','DEBE','HABER');
+$header = array('NRO','FECHA','CONCEPTO','DEBE','HABER');
 
 // Carga de datos
 $data = $pdf->LoadData('Diario.txt');

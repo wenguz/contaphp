@@ -81,7 +81,7 @@ function FancyTable($header, $data)
     $this->SetLineWidth(.3);
     $this->SetFont('','B');
     // Cabecera
-    $w = array(20,35,60,30,30,30);
+    $w = array(40,60,41,41,41);
     for($i=0;$i<count($header);$i++)
         $this->Cell($w[$i],7,$header[$i],1,0,'C',true);
     $this->Ln();
@@ -103,10 +103,10 @@ function FancyTable($header, $data)
         $this->Cell($w[2],6,$row[2],'LR',0,'L',$fill);
         $this->Cell($w[3],6,$row[3],'LR',0,'L',$fill);
         $this->Cell($w[4],6,$row[4],'LR',0,'R',$fill);
-        $this->Cell($w[5],6,$row[5],'LR',0,'R',$fill);
-        $d+=$row[3];
-        $h+=$row[4];
-        $s+=$row[5];
+
+        $d+=$row[2];
+        $h+=$row[3];
+        $s+=$row[4];
         $this->Ln();
         $fill = !$fill;
     }
@@ -114,7 +114,7 @@ function FancyTable($header, $data)
    $fill = !$fill;
      $this->SetFillColor(188, 143, 143);
      $pie = array('TOTAL',number_format($d),number_format($h), number_format($s));
-      $p = array(115,30,30,30);
+      $p = array(100,41,41,41);
     for($i=0;$i<count($pie);$i++)
         $this->Cell($p[$i],7,$pie[$i],1,0,'C',true);
 }
@@ -134,7 +134,7 @@ $pdf->SetTitle($title,$direccion,$fono1,$fono2,$ciudad);
 $pdf->PrintChapter('Libro Mayor');
 
 // Títulos de las columnas
-$header = array('NRO','FECHA','CUENTA','DEBE','HABER','SALDO');
+$header = array('CODIGO CUENTA','FECHA','DEBE','HABER','SALDO');
 
 // Carga de datos
 $data = $pdf->LoadData('Mayor.txt');
