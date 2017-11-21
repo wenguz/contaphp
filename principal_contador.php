@@ -6,6 +6,7 @@ if (!isset($_SESSION["usuario"])){
 
 }
 $_SESSION["usuario"];
+require('conexion.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -87,7 +88,7 @@ $_SESSION["usuario"];
                   <span>Reportes Mensuales</span>
               </a>
               <ul class="sub">
-                  <li ><a  href="libro_mayor.php"><i class="fa fa-list-alt"></i>Libro Mayor</a></li>
+                  <li ><a  href="guardar_mayor.php"><i class="fa fa-list-alt"></i>Libro Mayor</a></li>
               </ul>
           </li>
           <li class="sub-menu">
@@ -96,7 +97,7 @@ $_SESSION["usuario"];
                   <span>Reportes Anuales</span>
               </a>
               <ul class="sub">
-                  <li ><a  href="reporte_sumas_y_resultados.php"><i class="fa fa-list-alt"></i>Reporte Sumas y resultados</a></li>
+                  <li ><a  href="guardar_sumas_saldos.php"><i class="fa fa-list-alt"></i>Reporte Sumas y Saldos</a></li>
                   <li ><a  href="balance_general.php"><i class="fa fa-list-alt"></i>Balance General</a></li>
                   <li ><a  href="estado_de_resultados.php"><i class="fa fa-list-alt"></i>Estado de resultados</a></li>
               </ul>
@@ -111,6 +112,7 @@ $_SESSION["usuario"];
 
 <section id="main-content">
     <section class="wrapper">
+<<<<<<< HEAD
       <h3><i class="fa fa-angle-right"></i>Inicio</h3>
           <div class="col-md-12">
               <div class="content-panel">
@@ -119,6 +121,170 @@ $_SESSION["usuario"];
 
               </div><!-- /content-panel -->
           </div><!-- /col-md-12 -->
+=======
+      <h3><i class="fa fa-angle-right"></i> Cuentas</h3>
+                  <div class="col-md-12">
+                      <div class="content-panel">
+                        <form action="eecuenta.php" method="post">
+                          <table class="table table-bordered table-striped table-condensed">
+                            <h4><i class="fa fa-angle-right"></i> Lista de Cuentas</h4>
+                            &emsp;<label>Buscar cuentas por nombre:  </label> &emsp;
+                            <form action="" method="post">
+                              <input style="padding: 5px" type="text" value="Buscar..." onfocus="if (this.value == 'Buscar...') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Buscar...';}" />
+                              <input class="btn btn-primary" type="button" value="Buscar" />
+                            </form>
+                            <hr>
+                              <thead >
+                              <tr>
+                                  <td class="numeric"> Codigo</td>
+                                  <td> Nombre de Cuenta</td>
+                                  <td> Nivel</td>
+                                  <td style="background:#b8dbb5;"> Estado</td>
+                                  <td width="150px"> Opciones</td>
+                              </tr>
+                              </thead>
+                              <tbody>
+                              <?php
+
+
+                              $consul="SELECT * FROM clase";
+                              $rrr=mysqli_query($con,$consul);
+                              if(mysqli_num_rows($rrr)==0)
+                              {
+
+
+                                }
+                                else
+                                {
+                                  $resultado=mysqli_query($con,"SELECT * FROM clase");
+                                  while ($row = mysqli_fetch_assoc($resultado))
+                                    {
+                                      $cl=$row['id_clase'];
+                                      ?>
+                                  <tr>
+                                      <td><a href=""><?php echo $row['id_clase'];?></a></td>
+
+                                      <td><?php echo $row['nombre_clase'];?></td>
+                                      <td><?php echo 'CLASE'?></td>
+                                      <td style="background:#b8dbb5;"> <?php echo $row['estado_clase'];?></td>
+                                      <td>
+
+                                          <?php
+                                            if($row['estado_clase']=='ACTIVO')
+                                            {
+                                                ?>
+                                                <a class="btn btn-danger btn-xs" type="submit"  name="eliminar_clase" href="eliminar_clase.php?cl=<?=$cl?>"><i class="fa fa-ban"> Deshabilitar</i></a>
+                                                <?php
+                                            }
+                                            else
+                                            {
+                                                ?>
+                                                <a class="btn btn-danger btn-xs" type="submit"  name="eliminar_clase" href="eliminar_clase.php?cl=<?=$cl?>"><i class="fa fa-ban"> Habilitar</i></a>
+                                                <?php
+                                            }
+                                          ?>
+                                      </td>
+                                  </tr>
+                                  <?php
+
+                                      $resultados=mysqli_query($con,"SELECT * FROM grupo where id_clase='$cl'");
+                                  while ($rows = mysqli_fetch_assoc($resultados))
+                                    {
+                                      $gr=$rows['id_grupo'];
+                                      ?>
+                                  <tr>
+                                      <td><a href=""><?php echo $rows['id_grupo'];?></a></td>
+                                      <td><?php echo $rows['nombre_grupo'];?></td>
+                                      <td><?php echo 'GRUPO'?></td>
+                                      <td style="background:#b8dbb5;"> <?php echo $rows['estado_grupo'];?></td>
+                                      <td>
+
+                                          <?php
+                                            if($rows['estado_grupo']=='ACTIVO')
+                                            {
+                                                ?>
+                                                <a class="btn btn-danger btn-xs" type="submit"  name="eliminar_grupo" href="eliminar_grupo.php?gr=<?=$gr?>"><i class="fa fa-ban"> Deshabilitar</i></a>
+                                                <?php
+                                            }
+                                            else
+                                            {
+                                                ?>
+                                                <a class="btn btn-danger btn-xs" type="submit"  name="eliminar_grupo" href="eliminar_grupo.php?gr=<?=$gr?>"><i class="fa fa-ban"> Habilitar</i></a>
+                                                <?php
+                                            }
+                                          ?>
+                                      </td>
+                                  </tr>
+                                  <?php
+                                  $resultadoss=mysqli_query($con,"SELECT * FROM cuenta where id_grupo='$gr'");
+                                  while ($rowss = mysqli_fetch_assoc($resultadoss))
+                                    {
+                                      $cu=$rowss['id_cuenta'];
+                                      ?>
+                                  <tr>
+                                      <td><a href=""><?php echo $rowss['id_cuenta'];?></a></td>
+                                      <td><?php echo $rowss['nombre_cuenta'];?></td>
+                                      <td><?php echo 'CUENTA'?></td>
+                                      <td style="background:#b8dbb5;"> <?php echo $rowss['estado_cuenta'];?></td>
+                                      <td>
+
+                                          <?php
+                                            if($rowss['estado_cuenta']=='ACTIVO')
+                                            {
+                                                ?>
+                                                <a class="btn btn-danger btn-xs" type="submit"  name="eliminar_cuenta" href="eliminar_cuenta.php?cu=<?=$cu?>"><i class="fa fa-ban"> Deshabilitar</i></a>
+                                                <?php
+                                            }
+                                            else
+                                            {
+                                                ?>
+                                                <a class="btn btn-danger btn-xs" type="submit"  name="eliminar_cuenta" href="eliminar_cuenta.php?cu=<?=$cu?>"><i class="fa fa-ban"> Habilitar</i></a>
+                                                <?php
+                                            }
+                                          ?>
+                                      </td>
+                                  </tr>
+                                  <?php
+                                  $resultadosss=mysqli_query($con,"SELECT * FROM subcuenta where id_cuenta='$cu'");
+                                  while ($rowsss = mysqli_fetch_assoc($resultadosss))
+                                    { $sub=$rowsss['id_subcuenta'];
+                                      ?>
+                                  <tr>
+                                      <td><a href=""><?php echo $rowsss['id_subcuenta'];?></a></td>
+                                      <td><?php echo $rowsss['nombre_subcuenta'];?></td>
+                                      <td><?php echo 'SUBCUENTA'?></td>
+                                      <td style="background:#b8dbb5;"> <?php echo $rowsss['estado_subcuenta'];?></td>
+                                      <td>
+                                          <?php
+                                            if($rowsss['estado_subcuenta']=='ACTIVO')
+                                            {
+                                                ?>
+                                                <a class="btn btn-danger btn-xs" type="submit"  name="eliminar_subcuenta" href="eliminar_subcuenta.php?sub=<?=$sub?>"><i class="fa fa-ban"> Deshabilitar</i></a>
+                                                <?php
+                                            }
+                                            else
+                                            {
+                                                ?>
+                                                <a class="btn btn-danger btn-xs" type="submit"  name="eliminar_subcuenta" href="eliminar_subcuenta.php?sub=<?=$sub?>"><i class="fa fa-ban"> Habilitar</i></a>
+                                                <?php
+                                            }
+                                          ?>
+                                      </td>
+                                  </tr>
+                                  <?php
+                                }
+                                }
+                                }
+                                }
+                                }
+                                ?>
+                              </tbody>
+                          </table>
+                        </form>
+                      </div><!-- /content-panel -->
+                  </div><!-- /col-md-12 -->
+              </div><!-- /row -->
+>>>>>>> daed439c886d026fe0d540784fd49a36aed25e0f
     </section><!--/wrapper -->
 </section><!-- /MAIN CONTENT -->
 

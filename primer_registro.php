@@ -19,7 +19,7 @@ require('conexion.php');
     <link href="assets/css/bootstrap.css" rel="stylesheet">
     <!--external css-->
     <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
-        
+
     <!-- Custom styles for this template -->
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="assets/css/style-responsive.css" rel="stylesheet">
@@ -37,11 +37,11 @@ require('conexion.php');
       MAIN CONTENT
       *********************************************************************************************************************************************************** -->
 
-	  <div id="login-page">
-	  	<div class="container">
-	  	
-		      <form class="form-horizontal style-form" action="" method="post">
-		        <div>
+    <div id="login-page">
+      <div class="container">
+
+          <form class="form-horizontal style-form" action="" method="post">
+            <div>
                     <br><br>
                     <div>
                         <div class="modal-content">
@@ -94,17 +94,17 @@ require('conexion.php');
                                             <tr>
                                               <td></td>
                                               <td width="50%">
-                                          
+
                                               <div class="form-group">
                                                   <label class="col-sm-2 col-sm-2 control-label">Codigo:&emsp; </label>
                                                   <div class="col-sm-10">
                                                       <input type="text" class="form-control" name="codigo_usuario" disabled="true" value=
-                                                      <?php 
-                                                      
+                                                      <?php
+
                                                       $rs=mysqli_query($con,"SELECT MAX(id_usuario) AS id FROM usuario");
-                                                      if ($row = mysqli_fetch_row($rs)) 
+                                                      if ($row = mysqli_fetch_row($rs))
                                                         {
-                                                          $id = trim($row[0]);
+                                                          $id = ($row[0]);
                                                         }
                                                       $id=$id+1;
                                                       echo "$id"; ?>>
@@ -128,11 +128,11 @@ require('conexion.php');
                                                       <input type="text" class="form-control" name="apmaterno_usuario">
                                                   </div>
                                               </div>
-                                              
-                                              </td> 
+
+                                              </td>
                                               <td>
                                               </td>
-                                              <td width="40%"> 
+                                              <td width="40%">
                                                 &emsp;
                                                 <div class="form-group">
                                                   <label class="col-sm-2 col-sm-2 control-label">CI:&emsp; </label>
@@ -218,19 +218,19 @@ require('conexion.php');
 
                 <?php
                         //include('conexion.php');
-                        if(isset($_POST['registrar_datos'])) 
-                        { 
+                        if(isset($_POST['registrar_datos']))
+                        {
                             if($_POST['nombre_entidad'] == '' or $_POST['nombre_usuario'] == '' or $_POST['año'] == '')
-                            { 
-                                echo 'Por favor llene todos los campos.'; 
-                            } 
-                            else 
-                            { 
+                            {
+                                echo 'Por favor llene todos los campos.';
+                            }
+                            else
+                            {
 
-                                    
+
 
                                     $rs=mysqli_query($con,"SELECT MAX(id_entidad) AS iden FROM entidad");
-                                    if ($row = mysqli_fetch_row($rs)) 
+                                    if ($row = mysqli_fetch_row($rs))
                                       {
                                         $iden = trim($row[0]);
                                       }
@@ -246,7 +246,7 @@ require('conexion.php');
                                     //print "<script>alert('$mensaje');</script>";
 
                                     $sqenti = "INSERT INTO entidad(id_entidad, nombre_entidad, direccion_entidad, fono1_entidad, fono2_entidad, ciudad_entidad) VALUES ('$id_entidad','$nombre_entidad' , '$direccion_entidad', '$fono1', '$fono2', '$ciudad_entidad');";
-                                    mysqli_query($con,$sqenti); 
+                                    mysqli_query($con,$sqenti);
 
                                     $mensaje = "ENTRO ENTIDAD".$sqenti."-------";
                                     print "<script>alert('$mensaje');</script>";
@@ -264,7 +264,7 @@ require('conexion.php');
 
 
                                     $rspp=mysqli_query($con,"SELECT MAX(id_periodo) AS idpa FROM periodo");
-                                    if ($rowpp = mysqli_fetch_row($rspp)) 
+                                    if ($rowpp = mysqli_fetch_row($rspp))
                                       {
                                         $idpa = trim($rowpp[0]);
                                       }
@@ -274,79 +274,177 @@ require('conexion.php');
                                     $fecha_cierre_periodo=$_POST['fecha_final'];
 
                                     $sper = "INSERT INTO periodo (id_periodo, anio_periodo, fecha_inicio_periodo, fecha_cierre_periodo, entidad_id_entidad) VALUES ('$id_periodo','$año_periodo','$fecha_inicio_periodo','$fecha_cierre_periodo','$id_entidad')";
-                                    mysqli_query($con,$sper)or die(mysql_error()); 
+                                    mysqli_query($con,$sper)or die(mysql_error());
 
 
                                     //$mensaje = "ENTRO PERIODO AÑO  ".$id_empleado."----------".$año_periodo."----------".$fecha_inicio_periodo."---------".$fecha_cierre_periodo."-------".$id_entidad."--------";
                                     //print "<script>alert('$mensaje');</script>";
 
 
-                                  $sql = 'SELECT * FROM usuario'; 
-                                  $rec = mysqli_query($con,$sql); 
-                                  $verificar_usuario = 0; 
-                            
-                                  while($result = mysqli_fetch_object($rec)) 
-                                  { 
-                                      if($result->user == $_POST['ci_usuario']) 
-                                      { 
-                                          $verificar_usuario = 1; 
-                                      } 
-                                  } 
-                            
-                                  if($verificar_usuario == 0) 
-                                  { 
-                                    
+                                  $sql = 'SELECT * FROM usuario';
+                                  $rec = mysqli_query($con,$sql);
+                                  $verificar_usuario = 0;
+
+                                  while($result = mysqli_fetch_object($rec))
+                                  {
+                                      if($result->user == $_POST['ci_usuario'])
+                                      {
+                                          $verificar_usuario = 1;
+                                      }
+                                  }
+
+                                  if($verificar_usuario == 0)
+                                  {
+
                                     $nombre_usuario = $_POST['nombre_usuario'];
                                     $ap_paterno_usuario = $_POST['appaterno_usuario'];
                                     $ap_materno_usuario = $_POST['apmaterno_usuario'];
                                     $ci_usuario = $_POST['ci_usuario'];
                                     $user = $_POST['nuevo_usuario'];
                                     $password = $_POST['nueva_contraseña'];
-                                    $cargo = $_POST['cargo']; 
+                                    $cargo = $_POST['cargo'];
 
 
                                     $rs=mysqli_query($con,"SELECT MAX(id_usuario) AS id FROM usuario");
-                                    if ($row = mysqli_fetch_row($rs)) 
+                                    if ($row = mysqli_fetch_row($rs))
                                       {
                                         $id = trim($row[0]);
                                       }
                                     $id_usuario=$id+1;
 
 
-                                    
+
                                     $sql = "INSERT INTO usuario(id_usuario, nombre_usuario, ap_paterno_usuario, ap_materno_usuario, ci_usuario) VALUES ('$id_usuario','$nombre_usuario' , '$ap_paterno_usuario', '$ap_materno_usuario', '$ci_usuario');";
-                                    mysqli_query($con,$sql); 
+                                    mysqli_query($con,$sql);
 
                                     $rs=mysqli_query($con,"SELECT MAX(id_empleado_usuario) AS id FROM empleado_usuario");
-                                    if ($row = mysqli_fetch_row($rs)) 
+                                    if ($row = mysqli_fetch_row($rs))
                                       {
                                         $id_empleado_usuario = trim($row[0]);
                                       }
                                     $id_empleado_usuario=$id_empleado_usuario+1;
                                     $r=mysqli_query($con,"SELECT id_empleado FROM empleado where cargo='$cargo'");
-                                    if ($row = mysqli_fetch_row($r)) 
+                                    if ($row = mysqli_fetch_row($r))
                                       {
                                         $id_empleado = trim($row[0]);
                                       }
 
+                                    $sq="INSERT INTO empleado_usuario (id_empleado_usuario, id_empleado, id_usuario, estado, user, password) VALUES ('$id_empleado_usuario', '$id_empleado','$id_usuario','ACTIVO' , '$user', '$password')";
+                                    mysqli_query($con,$sq);
+                                    $sq="INSERT INTO tipo_transaccion (id_tipo_transaccion,nombre_transaccion)values(1,'Ingreso')";
+                                    mysqli_query($con,$sq);
+                                    $sq="INSERT INTO tipo_transaccion (id_tipo_transaccion,nombre_transaccion)values(2,'Egreso')";
+                                    mysqli_query($con,$sq);
+                                    $sq="INSERT INTO tipo_transaccion (id_tipo_transaccion,nombre_transaccion)values(3,'Inversion');";
+                                    mysqli_query($con,$sq);
+                                    $sq="INSERT INTO tipo_transaccion (id_tipo_transaccion,nombre_transaccion)values(4,'Transferencia')";
+                                    mysqli_query($con,$sq);
+                                    $sq="INSERT INTO tipo_pago (id_tipo_pago,tipo,descripcion_tipo_pago)values(1,'Caja', 'Ingreso')";
+                                    mysqli_query($con,$sq);
+                                    $sq="INSERT INTO tipo_pago (id_tipo_pago,tipo,descripcion_tipo_pago)values(2,'Caja','Egreso')";
+                                    mysqli_query($con,$sq);
+                                    $sq="INSERT INTO tipo_pago (id_tipo_pago,tipo,descripcion_tipo_pago)values(3,'Banco','Deposito')";
+                                    mysqli_query($con,$sq);
+                                    $sq="INSERT INTO tipo_pago (id_tipo_pago,tipo,descripcion_tipo_pago)values(4, 'Banco','Retiro')";
+                                    mysqli_query($con,$sq);
+                                    $sq="INSERT INTO depreciacion (bien,vida_util)values('Terrenos',40)";
+                                    mysqli_query($con,$sq);
+                                    $sq="INSERT INTO depreciacion (bien,vida_util)values('Edificaciones',40)";
+                                    mysqli_query($con,$sq);
+                                    $sq="INSERT INTO depreciacion (bien,vida_util)values('Muebles y enseres de oficina',10)";
+                                    mysqli_query($con,$sq);
+                                    $sq="INSERT INTO depreciacion (bien,vida_util)values('Maquinaria en General',8)";
+                                    mysqli_query($con,$sq);
+                                    $sq="INSERT INTO depreciacion (bien,vida_util)values('Equipos e  Instalaciones',8)";
+                                    mysqli_query($con,$sq);
+                                    $sq="INSERT INTO depreciacion (bien,vida_util)values('Vehículos',5)";
+                                    mysqli_query($con,$sq);
+                                    $sq="INSERT INTO depreciacion (bien,vida_util)values('Maquinaria para construccion',5)";
+                                    mysqli_query($con,$sq);
+                                    $sq="INSERT INTO depreciacion (bien,vida_util)values('Herramientas en general',4)";
+                                    mysqli_query($con,$sq);
+                                    $sq="INSERT INTO depreciacion (bien,vida_util)values('Equipos de Computacion',4)";
+                                    mysqli_query($con,$sq);
+                                    $hoy = date('Y-m-d');
+                                    $sq="INSERT INTO clase (id_clase,nombre_clase,estado_clase,fecha_registro_clase)values(1,'Activo','ACTIVO','$hoy')";
+                                    mysqli_query($con,$sq);
+                                    $sq="INSERT INTO clase (id_clase,nombre_clase,estado_clase,fecha_registro_clase)values(2,'Pasivo','ACTIVO','$hoy')";
+                                    mysqli_query($con,$sq);
+                                    $sq="INSERT INTO clase (id_clase,nombre_clase,estado_clase,fecha_registro_clase)values(3,'Patrimonio','ACTIVO','$hoy')";
+                                    mysqli_query($con,$sq);
 
+                                    $sq="INSERT INTO clase (id_clase,nombre_clase,estado_clase,fecha_registro_clase)values(6,'Egreso','ACTIVO','$hoy')";
+                                    mysqli_query($con,$sq);
+                                    $sq="INSERT INTO clase (id_clase,nombre_clase,estado_clase,fecha_registro_clase)values(7,'Ingresos','ACTIVO','$hoy')";
+                                    mysqli_query($con,$sq);
 
-                                    $sq="INSERT INTO empleado_usuario (id_empleado_usuario, id_empleado, id_usuario, estado, user, password) VALUES ('$id_empleado_usuario', '$id_empleado','$id_usuario','ACTIVO' , '$user', '$password')"; 
-                                    mysqli_query($con,$sq); 
+                                    $sq="INSERT INTO grupo (id_grupo,nombre_grupo,estado_grupo,fecha_registro_grupo,id_clase)values(11,'Activo Circulante','ACTIVO','$hoy',1)";
+                                    mysqli_query($con,$sq);
+                                    $sq="INSERT INTO grupo (id_grupo,nombre_grupo,estado_grupo,fecha_registro_grupo,id_clase)values(12,'Activo Fijo','ACTIVO','$hoy',1)";
+                                    mysqli_query($con,$sq);
 
-                      
+                                    $sq="INSERT INTO cuenta (id_cuenta,nombre_cuenta,estado_cuenta,fecha_registro_cuenta,id_grupo)values(111,'Caja','ACTIVO','$hoy',11)";
+                                    mysqli_query($con,$sq);
+                                    $sq="INSERT INTO cuenta (id_cuenta,nombre_cuenta,estado_cuenta,fecha_registro_cuenta,id_grupo)values(112,'Banco','ACTIVO','$hoy',11)";
+                                    mysqli_query($con,$sq);
+
+                                    $sq="INSERT INTO cuenta (id_cuenta,nombre_cuenta,estado_cuenta,fecha_registro_cuenta,id_grupo)values(121,'Terrenos','ACTIVO','$hoy',12)";
+                                    mysqli_query($con,$sq);
+                                    $sq="INSERT INTO cuenta (id_cuenta,nombre_cuenta,estado_cuenta,fecha_registro_cuenta,id_grupo)values(122,'Edificaciones','ACTIVO','$hoy',12)";
+                                    mysqli_query($con,$sq);
+                                    $sq="INSERT INTO subcuenta (id_subcuenta,nombre_subcuenta,estado_subcuenta,fecha_registro_subcuenta,id_cuenta)values(1220,'Depreciacion Acumulada Edificios','ACTIVO','$hoy',122)";
+                                    mysqli_query($con,$sq);
+
+                                    $sq="INSERT INTO cuenta (id_cuenta,nombre_cuenta,estado_cuenta,fecha_registro_cuenta,id_grupo)values(123,'Muebles y enseres de oficinas','ACTIVO','$hoy',12)";
+                                    mysqli_query($con,$sq);
+                                    $sq="INSERT INTO subcuenta (id_subcuenta,nombre_subcuenta,estado_subcuenta,fecha_registro_subcuenta,id_cuenta)values(1230,'Depreciacion Acumulada Muebles y enseres de oficinas','ACTIVO','$hoy',123)";
+                                    mysqli_query($con,$sq);
+
+                                    $sq="INSERT INTO cuenta (id_cuenta,nombre_cuenta,estado_cuenta,fecha_registro_cuenta,id_grupo)values(124,'Maquinaria en General','ACTIVO','$hoy',12)";
+                                    mysqli_query($con,$sq);
+                                    $sq="INSERT INTO subcuenta (id_subcuenta,nombre_subcuenta,estado_subcuenta,fecha_registro_subcuenta,id_cuenta)values(1240,'Depreciacion Acumulada Maquinaria en General','ACTIVO','$hoy',124)";
+                                    mysqli_query($con,$sq);
+
+                                    $sq="INSERT INTO cuenta (id_cuenta,nombre_cuenta,estado_cuenta,fecha_registro_cuenta,id_grupo)values(125,'Equipos e  Instalaciones','ACTIVO','$hoy',12)";
+                                    mysqli_query($con,$sq);
+                                    $sq="INSERT INTO subcuenta (id_subcuenta,nombre_subcuenta,estado_subcuenta,fecha_registro_subcuenta,id_cuenta)values(1250,'Depreciacion Acumulada Equipos e  Instalaciones','ACTIVO','$hoy',125)";
+                                    mysqli_query($con,$sq);
+
+                                    $sq="INSERT INTO cuenta (id_cuenta,nombre_cuenta,estado_cuenta,fecha_registro_cuenta,id_grupo)values(126,'Vehículos','ACTIVO','$hoy',12)";
+                                    mysqli_query($con,$sq);
+                                    $sq="INSERT INTO subcuenta (id_subcuenta,nombre_subcuenta,estado_subcuenta,fecha_registro_subcuenta,id_cuenta)values(1260,'Depreciacion Acumulada Vehículos','ACTIVO','$hoy',126)";
+                                    mysqli_query($con,$sq);
+
+                                    $sq="INSERT INTO cuenta (id_cuenta,nombre_cuenta,estado_cuenta,fecha_registro_cuenta,id_grupo)values(127,'Maquinaria para construccion','ACTIVO','$hoy',12)";
+                                    mysqli_query($con,$sq);
+                                    $sq="INSERT INTO subcuenta (id_subcuenta,nombre_subcuenta,estado_subcuenta,fecha_registro_subcuenta,id_cuenta)values(1270,'Depreciacion Acumulada Maquinaria para construccions','ACTIVO','$hoy',127)";
+                                    mysqli_query($con,$sq);
+
+                                    $sq="INSERT INTO cuenta (id_cuenta,nombre_cuenta,estado_cuenta,fecha_registro_cuenta,id_grupo)values(128,'Herramientas en general','ACTIVO','$hoy',12)";
+                                    mysqli_query($con,$sq);
+                                    $sq="INSERT INTO subcuenta (id_subcuenta,nombre_subcuenta,estado_subcuenta,fecha_registro_subcuenta,id_cuenta)values(1280,'Depreciacion Acumulada Herramientas en general','ACTIVO','$hoy',128)";
+                                    mysqli_query($con,$sq);
+                                    $sq="INSERT INTO cuenta (id_cuenta,nombre_cuenta,estado_cuenta,fecha_registro_cuenta,id_grupo)values(129,'Equipos de Computacio','ACTIVO','$hoy',12)";
+                                    mysqli_query($con,$sq);
+                                    $sq="INSERT INTO subcuenta (id_subcuenta,nombre_subcuenta,estado_subcuenta,fecha_registro_subcuenta,id_cuenta)values(1290,'Depreciacion Acumulada Equipos de Computacio','ACTIVO','$hoy',129)";
+                                    mysqli_query($con,$sq);
+
+                                    $sq="INSERT INTO `tipo_cambio` (`id_tipo_cambio`, `monto`, `fecha`) VALUES
+                                    (1,6.91,'2017-11-18')";
+                                    mysqli_query($con,$sq);
+
                                     $mensaje = "Usted se ha registrado correctamente.";
                                     print "<script>alert('$mensaje'); window.location='lista_usuario.php';</script>";
-                                  } 
+                                  }
 
 
-                                  else 
-                                  { 
+                                  else
+                                  {
                                       $mensaje = "Este usuario se ha registrado anteriormente.";
                                       print "<script>alert('$mensaje'); window.location='index.php';</script>";
-                                  } 
-                            } 
-                        } 
+                                  }
+                            }
+                        }
                       ?>
 
 
@@ -355,10 +453,10 @@ require('conexion.php');
 
 
 
-		      </form>	  	
-	  	
-	  	</div>
-	  </div>
+          </form>
+
+      </div>
+    </div>
 <br><br>
     <script>
     function valida(e){
@@ -368,7 +466,7 @@ require('conexion.php');
         if (tecla==8){
             return true;
         }
-            
+
         // Patron de entrada, en este caso solo acepta numeros
         patron =/[0-9]/;
         tecla_final = String.fromCharCode(tecla);

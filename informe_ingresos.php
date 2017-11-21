@@ -155,7 +155,11 @@ require('conexion.php');
                         <?php
                         if(isset($_POST['fecha']))
                           {
+<<<<<<< HEAD
 
+=======
+                             $con = mysqli_connect('localhost', 'root', '', 'contabilidad') or die(mysql_error());
+>>>>>>> daed439c886d026fe0d540784fd49a36aed25e0f
                             $a =$_POST["b_fecha"] ;
 
                               $cod=mysqli_query($con,"SELECT b.id_ficha, b.fecha_ficha, e.nombre_cuenta, x.glosa_asiento, tp.tipo, p.nombre_persona, x.monto_asiento

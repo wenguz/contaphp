@@ -3,7 +3,7 @@ session_start();
 //manejamos en sesion el nombre del usuario que se ha logeado
 if (!isset($_SESSION["usuario"])){
     header("location:index.php?nologin=false");
-    
+
 }
 $_SESSION["usuario"];
 require('conexion.php');
@@ -26,15 +26,15 @@ require('conexion.php');
     <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="assets/css/zabuto_calendar.css">
     <link rel="stylesheet" type="text/css" href="assets/js/gritter/css/jquery.gritter.css" />
-    <link rel="stylesheet" type="text/css" href="assets/lineicons/style.css">    
-    
+    <link rel="stylesheet" type="text/css" href="assets/lineicons/style.css">
+
     <!-- Custom styles for this template -->
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="assets/css/style-responsive.css" rel="stylesheet">
 
     <script src="assets/js/chart-master/Chart.js"></script>
   </head>
- 
+
   <body>
 
   <section id="container" >
@@ -48,7 +48,7 @@ require('conexion.php');
               </div>
             <!--logo start-->
             <a href="index.php" class="logo"><b>SISTEMA CONTABLE</b></a>
-            
+
             <div class="top-menu">
               <ul class="nav pull-right top-menu">
                     <li><a class="logout" href="index.php">Cerrar Sesion</a></li>
@@ -56,7 +56,7 @@ require('conexion.php');
             </div>
         </header>
       <!--header end-->
-      
+
       <!-- **********************************************************************************************************************************************************
       MAIN SIDEBAR MENU
       *********************************************************************************************************************************************************** -->
@@ -102,154 +102,263 @@ require('conexion.php');
           <li class="sub-menu">
               <a class="active" href="anadir_gestion.php" >
                   <i class="fa fa-th"></i>
-                  <span>Añadir Gestion</span>
+                  <span>Saldo Anterior</span>
               </a>
           </li>
     </ul>
-</div>  
+</div>
       </aside>
-     
+
 
 </section>
 
 
 <!--main content start-->
 <section id="main-content">
-  <section class="wrapper">
-    <h3><i class="fa fa-angle-right"></i> Añadir Gestión</h3>
-      <!-- page start-->
-              <section class="panel">
-                  <div class="panel-body">
-                            
-                      <center>
-                      <form class="form-horizontal style-form" method="get">
-                      
-                      <table width="80%" >
+    <section class="wrapper">
+      <h3><i class="fa fa-angle-right"></i>Saldo Anterior</h3>
+          <div class="col-md-12">
+              <div class="content-panel">
+
+                    <h4><i class="fa fa-angle-right"></i>Nueva Gestion</h4>
+
+                    <table class="">
+                      <form>
+                      <tr>
+                        <td>
+                          <div class="form-group">
+                            <label class="col-sm-3 col-sm-3 control-label">Año:&emsp; </label>
+                            <div class="col-sm-10">
+                              <?php
+                              $rs=mysqli_query($con,"SELECT MAX(id_periodo) as id FROM periodo");
+                              if ($row = mysqli_fetch_row($rs))
+                                {
+                                  $id = ($row[0]);
+                                }
+                              $periodo=mysqli_query($con, "SELECT * FROM periodo WHERE id_periodo='$id'");
+                              $per=mysqli_fetch_assoc($periodo);
+                              ?>
+                                <input type="text" class="form-control" value="<?php echo $per['anio_periodo'];?>">
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="form-group">
+                            <label class="col-sm-3 col-sm-3 control-label">Fecha_inicio:&emsp; </label>
+                            <div class="col-sm-10">
+
+                                <input type="date" class="form-control" value="<?php echo $per['fecha_inicio_periodo'];?>">
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="form-group">
+                            <label class="col-sm-4 col-sm-4 control-label">Fecha_fin:&emsp; </label>
+                            <div class="col-sm-10">
+                                <input type="date" class="form-control" value="<?php echo $per['fecha_cierre_periodo'];?>">
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                    </table>
+<br><br>
+
+<form action="" name="tablas" method="post">
+<table class="table table-bordered table-striped table-condensed">
+       <h3><i class="fa fa-angle-right"></i> Saldo anterior</h3>
+       <tr>
+         <p>&emsp;&emsp;&emsp;Saldos</p>
+         <input type="submit"  class="btn btn-theme" name="buscar1" value="Mostrar todos">
+       </tr>
+       <thead >
+         <tr>
+             <td>Codigo</td>
+               <td class="hidden-phone"> Cuenta</td>
+             <td width="350px">Monto</td>
+         </tr>
+         </thead>
+         <tfoot >
+
+         </tfoot>
+         <tbody>
+
+              <center>   <?php
+             $cod_fichaa=mysqli_query($con,"SELECT cod_cuenta,nom_cuenta,monto FROM balance_general where cod_cuenta like '1%'");
+                          while ($valores8a = mysqli_fetch_array($cod_fichaa))
+                           {?>
+                             <tr>
+                               <td><?php echo $valores8a['cod_cuenta'] ?></td>
+                              <td><?php echo $valores8a['nom_cuenta'] ?></td>
+                              <td><?php echo $valores8a['monto'] ?></td>
+                            </tr>
+                          <?php  }?>
+                          <tr>
+                            <td colspan="2" ><center>TOTAL</center> </td>
+                            <td> <center><?php $totala=0;
+                            $cod_fichaa=mysqli_query($con,"SELECT monto AS mo FROM balance_general where cod_cuenta like '1%'");
+                                         while ($valores8a = mysqli_fetch_array($cod_fichaa))
+                                          {
+                                            $x1a = $valores8a['mo'];
+                                            $totala=$totala+ ($x1a);
+                                          }
+                                    echo  $totala;
+                           ?></td>
+                          </tr>
+
+                          <?php
+            $cod_fichaa=mysqli_query($con,"SELECT cod_cuenta,nom_cuenta,monto FROM balance_general where cod_cuenta like '2%' OR cod_cuenta like '3%'");
+                         while ($valores8a = mysqli_fetch_array($cod_fichaa))
+                         {?>
+                             <tr>
+                             <td><?php echo $valores8a['cod_cuenta'] ?></td>
+                            <td><?php echo $valores8a['nom_cuenta'] ?></td>
+                            <td><?php echo $valores8a['monto'] ?></td>
+                            </tr>
+                        <?php  }?>
                         <tr>
-                          <td>
-                            <h4 class="mb"><i class="fa fa-angle-right"></i> Datos de la entidad</h4>
-                            <div class="form-group">
-                              <label class="col-sm-2 col-sm-2 control-label">Nombre: </label>
-                              <div class="col-sm-10">
+                          <td colspan="2" ><center>TOTAL</center> </td>
+                          <td> <center><?php $totala=0;
+                          $cod_fichaa=mysqli_query($con,"SELECT monto AS mo FROM balance_general where cod_cuenta like '2%' OR cod_cuenta like '3%'");
+                                       while ($valores8a = mysqli_fetch_array($cod_fichaa))
+                                        {
+                                          $x1a = $valores8a['mo'];
+                                          $totala= $totala+($x1a);
+                                        }
+                                  echo  $totala;
+                         ?></td>
 
-                                <?php
-                                $datos=mysqli_query($con,"SELECT * FROM entidad LIMIT 1");
-                                $row=mysqli_fetch_assoc($datos);
+                         </tr>
+       </center></tbody>
 
-                                ?>
+     </table>
+     </form>
+                          <table>
+                            <tr>
+                              <td width="92%"></td>
 
-                                  <input type="text" class="form-control" name="nombre_entidad" disabled="true" value="<?=$row['nombre_entidad']?>">
-                              </div>
-                            </div>
-                            <div class="form-group">
-                              <label class="col-sm-2 col-sm-2 control-label">Direccion: </label>
-                              <div class="col-sm-10">
-                                  <input type="text" class="form-control" name="direccion_entidad" disabled="true" value="<?=$row['direccion_entidad'];?>">
-                              </div>
-                            </div>
-                            <div class="form-group">
-                              <label class="col-sm-2 col-sm-2 control-label">Telefono: </label>
-                              <table>
-                                <tr>
                                   <td>
-                                    <div class="col-sm-10">
-                                      <input type="text" placeholder="fono1" class="form-control" name="fono1" disabled="true" value="<?=$row['fono1_entidad'];?>">
-                                    </div>
+                                    <input type="submit"  class="btn btn-theme" name="registrar_saldos"  value="AGREGAR">
                                   </td>
-                                  <td>
-                                    <div class="col-sm-10">
-                                      <input type="text" placeholder="fono2" class="form-control" name="fono2" disabled="true" value="<?=$row['fono2_entidad'];?>">
-                                    </div>
-                                  </td>
-                                </tr>
-                              </table>
-                            </div>
-                            <div class="form-group">
-                              <label class="col-sm-2 col-sm-2 control-label">Ciudad: </label>
-                              <div class="col-sm-10">
-                                  <input type="text" class="form-control" name="ciudad_entidad" disabled="true" value="<?=$row['ciudad_entidad'];?>">
-                              </div>
-                            </div>
-                            <h4 class="mb"><i class="fa fa-angle-right"></i> Datos del responsable</h4>
-                            <div class="form-group">
-                              <label class="col-sm-2 col-sm-2 control-label">Nombre completo: </label>
-                              <div class="col-sm-10">
+                            </tr>
+                              <?php
+                            if(isset($_POST['registrar_saldos']))
+                         {
 
-                                <?php
-                                $responsable=mysqli_query($con, "SELECT * FROM usuario where id_usuario='1'");
-                                $res=mysqli_fetch_assoc($responsable);
-                                ?>
 
-                                  <input type="text" class="form-control" disabled="true" value="<?=$res['nombre_usuario']." ".$res['ap_paterno_usuario']." ".$res['ap_materno_usuario'];?>">
-                              </div>
-                            </div>
-                            <div class="form-group">
-                              <label class="col-sm-2 col-sm-2 control-label">CI: </label>
-                              <div class="col-sm-10">
-                                  <input type="text" class="form-control" disabled="true" value="<?=$res['ci_usuario']?>">
-                              </div>
-                            </div>
-                            <center>
-                          <!--<button type="button" class="btn btn-success">Registrar Datos</button>
-                          &emsp;&emsp;
-                          <button type="button" class="btn btn-danger">Cancelar</button>-->
-                          </center>
-                            <h4 class="mb"><i class="fa fa-angle-right"></i> Año y Periodo</h4>
-                            <?php
-                            $rs=mysqli_query($con,"SELECT MAX(id_periodo) as id FROM periodo");
-                            if ($row = mysqli_fetch_row($rs)) 
-                              {
-                                $id = ($row[0]);
+
+                             if($_POST['fecha'] == '' or  $_POST['pago'] == '' or $_POST['cambio']== ''  or $_POST['numero_partida_ficha']=='' )
+                             {
+                                 echo 'Por favor llene todos los campos.';
+                             }
+                             else
+                             {
+                              $rs=mysqli_query($con,"SELECT MAX(id_ficha) AS iden FROM ficha");
+                                     if ($row = mysqli_fetch_row($rs))
+                                       {
+                                         $iden = trim($row[0]);
+                                       }
+                                       $tot=0;
+                           $id_entidad=$iden+1;
+                           $fechai =$_POST["fecha"] ;
+                           $pago =$_POST["pago"] ;
+                           $trans ='1';
+                           $cambio =$_POST["cambio"] ;
+                           $moneda =$_POST["moneda"] ;
+                           $partida=$_POST["numero_partida_ficha"];
+                           $p_nom=$_POST["p_nom"];
+                           $p_ci=$_POST["p_ci"];
+                           //modena
+                           if ($moneda==0)
+                           {
+                             $tot=$cambio;
+                           }
+                           else
+                           {
+                             $tot=1;
+                           }
+                           //persona recibido por
+                           $cod_p=mysqli_query($con,"SELECT id_persona FROM persona WHERE ci_persona='$p_ci' LIMIT 1");
+                                          if ($row_p = mysqli_fetch_row($cod_p))
+                                            {
+                                              $id_persona = trim($row_p[0]);
+                                            }
+                                            else {
+                                              $cod_p=mysqli_query($con,"SELECT MAX(id_persona) as id FROM persona");
+                                              if ($row_p = mysqli_fetch_row($cod_p))
+                                                {
+                                                  $id = trim($row_p[0]);
+                                                }
+                                                $id_persona = $id+1;
+                                              $sq_p= "INSERT INTO persona(id_persona,nombre_persona,ci_persona,descripcion_persona) VALUES ('$id_persona','$p_nom','$p_ci','Recibio');";
+                                              mysqli_query($con,$sq_p);
+                                            }
+             //tipo de cambio
+                            $cod_c=mysqli_query($con,"SELECT id_tipo_cambio FROM tipo_cambio WHERE monto='$cambio' LIMIT 1");
+
+                                           if ($row_c = mysqli_fetch_row($cod_c))
+                                             {
+                                               $id_cambio = trim($row_c[0]);
+                                             }
+                                           else {
+                                               $cod_c=mysqli_query($con,"SELECT   MAX(id_tipo_cambio) FROM tipo_cambio");
+                                               if ($row_c = mysqli_fetch_row($cod_c))
+                                                 {
+                                                   $id_c = trim($row_c[0]);
+                                                 }
+                                                 $id_cambio = $id_c+1;
+                                               $sq_c= "INSERT INTO tipo_cambio( id_tipo_cambio,monto,fecha)
+                                                     VALUES ('$id_cambio','$cambio','$fechai');";
+                                               mysqli_query($con,$sq_c)  ;
+                                             }
+                            //tiempo  y hora
+                            $time = time();
+                            $hora= date("H:i:s", $time);
+                            //insertar ficha
+                            $sq= "INSERT INTO ficha(id_ficha, numero_partida_ficha, fecha_ficha, tiempo_ficha, total_ficha, total_debe_ficha, total_haber_ficha, id_tipo_transaccion, id_tipo_cambio, id_tipo_pago, id_persona)
+                             VALUES ('$id_entidad',
+                               '$partida',
+                               '$fechai',
+                               '$hora',
+                               '$tot',
+                               '0',
+                               '0',
+                               '$trans',
+                               '$id_cambio',
+                               '$pago',
+                               '$id_persona')";
+
+                             mysqli_query($con,$sq) or die(mysqli_error($con))  ;
+
+                             $msg = 'Cargo agregado correctamente';
+                             print "<script> window.location='emergente_ingreso.php';</script>";
                               }
-                            $periodo=mysqli_query($con, "SELECT * FROM periodo WHERE id_periodo='$id'");
-                            $per=mysqli_fetch_assoc($periodo);
-                            ?>
-                            <table>
-                              <tr>
-                                <td>
-                                  <div class="form-group">
-                                    <label class="col-sm-2 col-sm-2 control-label">Año: </label>
-                                    <div class="col-sm-10">
-                                     <input type="text" class="form-control" name="año" disabled="true" value="<?=$per['anio_periodo']+1?>">
-                                    </div>
-                                  </div>
-                                </td>
-                                <td width="5%"></td>
-                                <td>
-                                  <div class="form-group">
-                                    <label class="col-sm-4 col-sm-4 control-label">Fecha_Inicio: </label>
-                                    <div class="col-sm-8">
-                                     <input type="date" class="form-control" name="fecha_inicio" value="<?=$per['fecha_inicio_periodo']?>">
-                                    </div>
-                                  </div>
-                                </td>
-                                <td width="5%">  </td>
-                                <td>
-                                  <div class="form-group">
-                                    <label class="col-sm-3 col-sm-3 control-label">Fecha_fin: </label>
-                                    <div class="col-sm-8">
-                                     <input type="date" class="form-control" name="fecha_final" value="<?=$per['fecha_cierre_periodo']?>">
-                                    </div>
-                                  </div>
-                                </td>
-                              </tr>
-                            </table>
-                          </td>
+                         }
+                          ?>
+
+
+
+
+
+                          </table>
+                          <table class="table table-bordered table-striped table-condensed">
+                            <hr>
+
+                                <center>
+                            &emsp;<button type="button" class="btn btn-success">Registrar Datos</button>
+                          &emsp;&emsp;
+                          <button type="button" class="btn btn-danger">Cancelar</button></center></td>
                         </tr>
-                      </table>
-                      &emsp;
-                      <input type="submit" class="btn btn-success" name="guardar_datos" value="Guardar Datos">
-                      &emsp;&emsp;
-                      <input type="submit"  class="btn btn-danger"  name="cancelar" value="Cancelar">
-                      </form></center>    
-                  </div>
-              </section>
-          </aside>
-      </div>
-  </section>
-</section>
+
+
+                            </form>
+                          </table>
+              </div><!-- /content-panel -->
+          </div><!-- /col-md-12 -->
+    </section><!--/wrapper -->
+</section><!-- /MAIN CONTENT -->
       <!--main content end-->
-  
+
 
 
     <!-- js placed at the end of the document so the pages load faster -->
@@ -264,15 +373,15 @@ require('conexion.php');
 
     <!--common script for all pages-->
     <script src="assets/js/common-scripts.js"></script>
-    
+
     <script type="text/javascript" src="assets/js/gritter/js/jquery.gritter.js"></script>
     <script type="text/javascript" src="assets/js/gritter-conf.js"></script>
 
     <!--script for this page-->
-    <script src="assets/js/sparkline-chart.js"></script>    
-  <script src="assets/js/zabuto_calendar.js"></script>  
-  
-  
+    <script src="assets/js/sparkline-chart.js"></script>
+  <script src="assets/js/zabuto_calendar.js"></script>
+
+
   <script type="application/javascript">
         $(document).ready(function () {
             $("#date-popover").popover({html: true, trigger: "manual"});
@@ -280,7 +389,7 @@ require('conexion.php');
             $("#date-popover").click(function (e) {
                 $(this).hide();
             });
-        
+
             $("#my-calendar").zabuto_calendar({
                 action: function () {
                     return myDateFunction(this.id, false);
@@ -298,8 +407,8 @@ require('conexion.php');
                 ]
             });
         });
-        
-        
+
+
         function myNavFunction(id) {
             $("#date-popover").hide();
             var nav = $("#" + id).data("navigation");
@@ -307,7 +416,5 @@ require('conexion.php');
             console.log('nav ' + nav + ' to: ' + to.month + '/' + to.year);
         }
     </script>
-  
-
   </body>
 </html>

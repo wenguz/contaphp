@@ -155,7 +155,11 @@ require('conexion.php');
                                 <p>
 
                                       <?php
+<<<<<<< HEAD
                                            $cod=mysqli_query($con,"SELECT monto FROM tipo_cambio ORDER BY id_tipo_cambio DESC LIMIT 1 " );
+=======
+                                           $cod=mysqli_query($con,"SELECT   monto FROM tipo_cambio ORDER BY id_tipo_cambio DESC LIMIT 1 " );
+>>>>>>> daed439c886d026fe0d540784fd49a36aed25e0f
 
                                           if ($row = mysqli_fetch_row($cod))
                                             {
@@ -334,6 +338,7 @@ require('conexion.php');
                                                $id_persona = $id+1;
                                              $sq_p= "INSERT INTO persona(id_persona,nombre_persona,ci_persona,descripcion_persona) VALUES ('$id_persona','$p_nom','$p_ci','Recibio');";
                                              mysqli_query($con,$sq_p);
+<<<<<<< HEAD
 
                                            }
                         //empelado
@@ -363,6 +368,12 @@ require('conexion.php');
             <?php
                            $cod_c=mysqli_query($con,"SELECT id_tipo_cambio FROM tipo_cambio WHERE monto='$cambio' LIMIT 1");
 
+=======
+                                           }
+            //tipo de cambio
+                           $cod_c=mysqli_query($con,"SELECT id_tipo_cambio FROM tipo_cambio WHERE monto='$cambio' LIMIT 1");
+
+>>>>>>> daed439c886d026fe0d540784fd49a36aed25e0f
                                           if ($row_c = mysqli_fetch_row($cod_c))
                                             {
                                               $id_cambio = trim($row_c[0]);

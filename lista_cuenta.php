@@ -3,7 +3,7 @@ session_start();
 //manejamos en sesion el nombre del usuario que se ha logeado
 if (!isset($_SESSION["usuario"])){
     header("location:index.php?nologin=false");
-    
+
 }
 $_SESSION["usuario"];
 require('conexion.php');
@@ -25,15 +25,15 @@ require('conexion.php');
     <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="assets/css/zabuto_calendar.css">
     <link rel="stylesheet" type="text/css" href="assets/js/gritter/css/jquery.gritter.css" />
-    <link rel="stylesheet" type="text/css" href="assets/lineicons/style.css">    
-    
+    <link rel="stylesheet" type="text/css" href="assets/lineicons/style.css">
+
     <!-- Custom styles for this template -->
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="assets/css/style-responsive.css" rel="stylesheet">
 
     <script src="assets/js/chart-master/Chart.js"></script>
   </head>
- 
+
   <body>
 
   <section id="container" >
@@ -47,15 +47,15 @@ require('conexion.php');
               </div>
             <!--logo start-->
             <a href="index.php" class="logo"><b>SISTEMA CONTABLE</b></a>
-            
+
             <div class="top-menu">
               <ul class="nav pull-right top-menu">
                     <li><a class="logout" href="index.php">Cerrar Sesion</a></li>
-              </ul> 
+              </ul>
             </div>
         </header>
       <!--header end-->
-      
+
       <!-- **********************************************************************************************************************************************************
       MAIN SIDEBAR MENU
       *********************************************************************************************************************************************************** -->
@@ -101,13 +101,13 @@ require('conexion.php');
           <li class="sub-menu">
               <a href="anadir_gestion.php" >
                   <i class="fa fa-th"></i>
-                  <span>Añadir Gestion</span>
+                  <span>Saldo Anterior</span>
               </a>
           </li>
     </ul>
-</div>  
+</div>
       </aside>
-     
+
 
 </section>
 
@@ -135,15 +135,15 @@ require('conexion.php');
                               </tr>
                               </thead>
                               <tbody>
-                              <?php 
+                              <?php
 
                               $consul="SELECT * FROM clase";
                               $rrr=mysqli_query($con,$consul);
-                              if(mysqli_num_rows($rrr)==1)
+                              if(mysqli_num_rows($rrr)==0)
                               {
 
-                                  $resultado=mysqli_query($con,"SELECT * FROM clase");
-                                  while ($row = mysqli_fetch_assoc($resultado)) 
+                                  /*$resultado=mysqli_query($con,"SELECT * FROM clase");
+                                  while ($row = mysqli_fetch_assoc($resultado))
                                     {
                                       $cl=$row['id_clase'];
                                       ?>
@@ -153,50 +153,49 @@ require('conexion.php');
                                       <td><?php echo 'CLASE'?></td>
                                       <td style="background:#b8dbb5;"> <?php echo $row['estado_clase'];?></td>
                                       <td>
-                                          <a class="btn btn-primary btn-xs" type="submit" name="editar_usuario" href="editar_usuario.php?id_usuario=<?=$id_usuario?>"><i class="fa fa-pencil"> Editar</i></a>
-                                          
 
                                           <?php
-                                            if($row['estado_clase']=='ACTIVO') 
-                                            { 
+                                            if($row['estado_clase']=='ACTIVO')
+                                            {
                                                 ?>
-                                                <a class="btn btn-danger btn-xs" type="submit"  name="eliminar_usuario" href="eliminar_usuario.php?cl=<?=$cl?>"><i class="fa fa-ban"> Desactivar</i></a>
+                                                <a class="btn btn-danger btn-xs" type="submit"  name="eliminar_clase" href="eliminar_clase.php?cl=<?=$cl?>"><i class="fa fa-ban"> Deshabilitar</i></a>
                                                 <?php
-                                            } 
+                                            }
                                             else
                                             {
                                                 ?>
-                                                <a class="btn btn-danger btn-xs" type="submit"  name="eliminar_usuario" href="eliminar_usuario.php?cl=<?=$cl?>"><i class="fa fa-ban"> Activar</i></a>
+                                                <a class="btn btn-danger btn-xs" type="submit"  name="eliminar_clase" href="eliminar_clase.php?cl=<?=$cl?>"><i class="fa fa-ban"> Habilitar</i></a>
                                                 <?php
                                             }
+                                          ?>
                                           ?>
                                       </td>
                                   </tr>
                                   <?php
-                                    }
+                                    }*/
                                 }
                                 else
                                 {
                                   $resultado=mysqli_query($con,"SELECT * FROM clase");
-                                  while ($row = mysqli_fetch_assoc($resultado)) 
+                                  while ($row = mysqli_fetch_assoc($resultado))
                                     {
                                       $cl=$row['id_clase'];
                                       ?>
                                   <tr>
                                       <td><a href=""><?php echo $row['id_clase'];?></a></td>
-                                      
+
                                       <td><?php echo $row['nombre_clase'];?></td>
                                       <td><?php echo 'CLASE'?></td>
                                       <td style="background:#b8dbb5;"> <?php echo $row['estado_clase'];?></td>
-                                      <td>                                          
+                                      <td>
 
                                           <?php
-                                            if($row['estado_clase']=='ACTIVO') 
-                                            { 
+                                            if($row['estado_clase']=='ACTIVO')
+                                            {
                                                 ?>
                                                 <a class="btn btn-danger btn-xs" type="submit"  name="eliminar_clase" href="eliminar_clase.php?cl=<?=$cl?>"><i class="fa fa-ban"> Deshabilitar</i></a>
                                                 <?php
-                                            } 
+                                            }
                                             else
                                             {
                                                 ?>
@@ -209,7 +208,7 @@ require('conexion.php');
                                   <?php
 
                                       $resultados=mysqli_query($con,"SELECT * FROM grupo where id_clase='$cl'");
-                                  while ($rows = mysqli_fetch_assoc($resultados)) 
+                                  while ($rows = mysqli_fetch_assoc($resultados))
                                     {
                                       $gr=$rows['id_grupo'];
                                       ?>
@@ -218,15 +217,15 @@ require('conexion.php');
                                       <td><?php echo $rows['nombre_grupo'];?></td>
                                       <td><?php echo 'GRUPO'?></td>
                                       <td style="background:#b8dbb5;"> <?php echo $rows['estado_grupo'];?></td>
-                                      <td>                                          
+                                      <td>
 
                                           <?php
-                                            if($rows['estado_grupo']=='ACTIVO') 
-                                            { 
+                                            if($rows['estado_grupo']=='ACTIVO')
+                                            {
                                                 ?>
                                                 <a class="btn btn-danger btn-xs" type="submit"  name="eliminar_grupo" href="eliminar_grupo.php?gr=<?=$gr?>"><i class="fa fa-ban"> Deshabilitar</i></a>
                                                 <?php
-                                            } 
+                                            }
                                             else
                                             {
                                                 ?>
@@ -238,7 +237,7 @@ require('conexion.php');
                                   </tr>
                                   <?php
                                   $resultadoss=mysqli_query($con,"SELECT * FROM cuenta where id_grupo='$gr'");
-                                  while ($rowss = mysqli_fetch_assoc($resultadoss)) 
+                                  while ($rowss = mysqli_fetch_assoc($resultadoss))
                                     {
                                       $cu=$rowss['id_cuenta'];
                                       ?>
@@ -250,12 +249,12 @@ require('conexion.php');
                                       <td>
 
                                           <?php
-                                            if($rowss['estado_cuenta']=='ACTIVO') 
-                                            { 
+                                            if($rowss['estado_cuenta']=='ACTIVO')
+                                            {
                                                 ?>
                                                 <a class="btn btn-danger btn-xs" type="submit"  name="eliminar_cuenta" href="eliminar_cuenta.php?cu=<?=$cu?>"><i class="fa fa-ban"> Deshabilitar</i></a>
                                                 <?php
-                                            } 
+                                            }
                                             else
                                             {
                                                 ?>
@@ -267,7 +266,7 @@ require('conexion.php');
                                   </tr>
                                   <?php
                                   $resultadosss=mysqli_query($con,"SELECT * FROM subcuenta where id_cuenta='$cu'");
-                                  while ($rowsss = mysqli_fetch_assoc($resultadosss)) 
+                                  while ($rowsss = mysqli_fetch_assoc($resultadosss))
                                     { $sub=$rowsss['id_subcuenta'];
                                       ?>
                                   <tr>
@@ -277,12 +276,12 @@ require('conexion.php');
                                       <td style="background:#b8dbb5;"> <?php echo $rowsss['estado_subcuenta'];?></td>
                                       <td>
                                           <?php
-                                            if($rowsss['estado_subcuenta']=='ACTIVO') 
-                                            { 
+                                            if($rowsss['estado_subcuenta']=='ACTIVO')
+                                            {
                                                 ?>
                                                 <a class="btn btn-danger btn-xs" type="submit"  name="eliminar_subcuenta" href="eliminar_subcuenta.php?sub=<?=$sub?>"><i class="fa fa-ban"> Deshabilitar</i></a>
                                                 <?php
-                                            } 
+                                            }
                                             else
                                             {
                                                 ?>
@@ -309,7 +308,7 @@ require('conexion.php');
 </section><!-- /MAIN CONTENT -->
 
       <!--main content end-->
-  
+
 
 
     <!-- js placed at the end of the document so the pages load faster -->
@@ -324,15 +323,15 @@ require('conexion.php');
 
     <!--common script for all pages-->
     <script src="assets/js/common-scripts.js"></script>
-    
+
     <script type="text/javascript" src="assets/js/gritter/js/jquery.gritter.js"></script>
     <script type="text/javascript" src="assets/js/gritter-conf.js"></script>
 
     <!--script for this page-->
-    <script src="assets/js/sparkline-chart.js"></script>    
-  <script src="assets/js/zabuto_calendar.js"></script>  
-  
-  
+    <script src="assets/js/sparkline-chart.js"></script>
+  <script src="assets/js/zabuto_calendar.js"></script>
+
+
   <script type="application/javascript">
         $(document).ready(function () {
             $("#date-popover").popover({html: true, trigger: "manual"});
@@ -340,7 +339,7 @@ require('conexion.php');
             $("#date-popover").click(function (e) {
                 $(this).hide();
             });
-        
+
             $("#my-calendar").zabuto_calendar({
                 action: function () {
                     return myDateFunction(this.id, false);
@@ -358,8 +357,8 @@ require('conexion.php');
                 ]
             });
         });
-        
-        
+
+
         function myNavFunction(id) {
             $("#date-popover").hide();
             var nav = $("#" + id).data("navigation");
@@ -367,7 +366,7 @@ require('conexion.php');
             console.log('nav ' + nav + ' to: ' + to.month + '/' + to.year);
         }
     </script>
-  
+
 
   </body>
 </html>

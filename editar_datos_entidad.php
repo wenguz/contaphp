@@ -2,7 +2,7 @@
 session_start();
 //manejamos en sesion el nombre del usuario que se ha logeado
 if (!isset($_SESSION["usuario"])){
-    header("location:index.php?nologin=false");  
+    header("location:index.php?nologin=false");
 }
 $_SESSION["usuario"];
 
@@ -25,15 +25,15 @@ require('conexion.php');
     <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="assets/css/zabuto_calendar.css">
     <link rel="stylesheet" type="text/css" href="assets/js/gritter/css/jquery.gritter.css" />
-    <link rel="stylesheet" type="text/css" href="assets/lineicons/style.css">    
-    
+    <link rel="stylesheet" type="text/css" href="assets/lineicons/style.css">
+
     <!-- Custom styles for this template -->
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="assets/css/style-responsive.css" rel="stylesheet">
 
     <script src="assets/js/chart-master/Chart.js"></script>
   </head>
- 
+
   <body>
 
   <section id="container" >
@@ -47,7 +47,7 @@ require('conexion.php');
               </div>
             <!--logo start-->
             <a href="index.php" class="logo"><b>SISTEMA CONTABLE</b></a>
-            
+
             <div class="top-menu">
               <ul class="nav pull-right top-menu">
                     <li><a class="logout" href="index.php">Cerrar Sesion</a></li>
@@ -55,7 +55,7 @@ require('conexion.php');
             </div>
         </header>
       <!--header end-->
-      
+
       <!-- **********************************************************************************************************************************************************
       MAIN SIDEBAR MENU
       *********************************************************************************************************************************************************** -->
@@ -105,12 +105,11 @@ require('conexion.php');
               </a>
           </li>
     </ul>
-</div>  
+</div>
       </aside>
-     
+
 
 </section>
-
 
 <!--main content start-->
 <section id="main-content">
@@ -119,16 +118,16 @@ require('conexion.php');
       <!-- page start-->
               <section class="panel">
                   <div class="panel-body">
-                            
+
                       <center>
                       <form class="form-horizontal style-form" method="post">
-                      
+
                       <table width="80%" >
                         <tr>
                           <td>
-                            <h4 class="mb"><i class="fa fa-angle-right"></i> Datos de la entidad</h4>
+                            <h4 class="mb"><i class="fa fa-angle-right"></i><a href="datos_entidad.php"> Datos Entidad</a> &emsp;<i class="fa fa-angle-right"></i>  Editar Datos Entidad </h4>
                             <div class="form-group">
-                              <label class="col-sm-2 col-sm-2 control-label">Nombre: </label>
+                              <label class="col-sm-2 col-sm-2 control-label">Nombre Entidad: </label>
                               <div class="col-sm-10">
 
                                 <?php
@@ -137,13 +136,13 @@ require('conexion.php');
 
                                 ?>
 
-                                  <input type="text" class="form-control" name="nombre_entidad" disabled="true" value="<?=$row['nombre_entidad']?>">
+                                  <input type="text" class="form-control" name="nombre_entidad" value="<?=$row['nombre_entidad']?>">
                               </div>
                             </div>
                             <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">Direccion: </label>
                               <div class="col-sm-10">
-                                  <input type="text" class="form-control" name="direccion_entidad" disabled="true" value="<?=$row['direccion_entidad'];?>">
+                                  <input type="text" class="form-control" name="direccion_entidad" value="<?=$row['direccion_entidad'];?>">
                               </div>
                             </div>
                             <div class="form-group">
@@ -152,12 +151,12 @@ require('conexion.php');
                                 <tr>
                                   <td>
                                     <div class="col-sm-10">
-                                      <input type="text" placeholder="fono1" class="form-control" name="fono1" disabled="true" value="<?=$row['fono1_entidad'];?>">
+                                      <input type="text" placeholder="fono1" class="form-control" name="fono1" value="<?=$row['fono1_entidad'];?>">
                                     </div>
                                   </td>
                                   <td>
                                     <div class="col-sm-10">
-                                      <input type="text" placeholder="fono2" class="form-control" name="fono2" disabled="true" value="<?=$row['fono2_entidad'];?>">
+                                      <input type="text" placeholder="fono2" class="form-control" name="fono2" value="<?=$row['fono2_entidad'];?>">
                                     </div>
                                   </td>
                                 </tr>
@@ -166,7 +165,7 @@ require('conexion.php');
                             <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">Ciudad: </label>
                               <div class="col-sm-10">
-                                  <input type="text" class="form-control" name="ciudad_entidad" disabled="true" value="<?=$row['ciudad_entidad'];?>">
+                                  <input type="text" class="form-control" name="ciudad_entidad" value="<?=$row['ciudad_entidad'];?>">
                               </div>
                             </div>
                             <h4 class="mb"><i class="fa fa-angle-right"></i> Datos del responsable</h4>
@@ -179,13 +178,13 @@ require('conexion.php');
                                 $res=mysqli_fetch_assoc($responsable);
                                 ?>
 
-                                  <input type="text" class="form-control" disabled="true" value="<?=$res['nombre_usuario']." ".$res['ap_paterno_usuario']." ".$res['ap_materno_usuario'];?>">
+                                  <input type="text" disabled="true" class="form-control" value="<?=$res['nombre_usuario']." ".$res['ap_paterno_usuario']." ".$res['ap_materno_usuario'];?>">
                               </div>
                             </div>
                             <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">CI: </label>
                               <div class="col-sm-10">
-                                  <input type="text" class="form-control" disabled="true" value="<?=$res['ci_usuario']?>">
+                                  <input type="text" class="form-control" value="<?=$res['ci_usuario']?>" disabled="true">
                               </div>
                             </div>
                             <center>
@@ -193,10 +192,10 @@ require('conexion.php');
                           &emsp;&emsp;
                           <button type="button" class="btn btn-danger">Cancelar</button>-->
                           </center>
-                            <h4 class="mb"><i class="fa fa-angle-right"></i> Año y Periodo</h4>
+                            <h4 class="mb"><i class="fa fa-angle-right"></i> Año y Periodo de inicio de sistema</h4>
                             <?php
                             $rs=mysqli_query($con,"SELECT MAX(id_periodo) as id FROM periodo");
-                            if ($row = mysqli_fetch_row($rs)) 
+                            if ($row = mysqli_fetch_row($rs))
                               {
                                 $id = ($row[0]);
                               }
@@ -209,7 +208,7 @@ require('conexion.php');
                                   <div class="form-group">
                                     <label class="col-sm-2 col-sm-2 control-label">Año: </label>
                                     <div class="col-sm-10">
-                                     <input type="text" class="form-control" name="año" disabled="true" value="<?=$per['anio_periodo']?>">
+                                     <input type="text" class="form-control" name="anio" disabled="true" value="<?=$per['anio_periodo']?>">
                                     </div>
                                   </div>
                                 </td>
@@ -237,22 +236,29 @@ require('conexion.php');
                         </tr>
                       </table>
                       &emsp;
-                      <input type="submit" class="btn btn-success" name="mod" value="Editar Datos de Entidad">
+                      <input type="submit" class="btn btn-success" name="modificar_datos" value="Editar Datos de Entidad">
                       &emsp;&emsp;
                       <input type="submit"  class="btn btn-danger"  name="cancelar" value="Cancelar">
                       <?php
-                        if(isset($_POST['mod'])) 
-                        { 
+                      if(isset($_POST['modificar_datos']))
+                      {
+                        $nombre_entidad=$_POST['nombre_entidad'];
+                        $direccion_entidad=$_POST['direccion_entidad'];
+                        $fono1=$_POST['fono1'];
+                        $fono2=$_POST['fono2'];
+                        $ciudad_entidad=$_POST['ciudad_entidad'];
+                          $sql =("UPDATE entidad SET nombre_entidad='$nombre_entidad', direccion_entidad='$direccion_entidad', fono1_entidad='$fono1', fono2_entidad='$fono2', ciudad_entidad='$ciudad_entidad' WHERE id_entidad='1'");
+                          mysqli_query($con,$sql) or die(mysqli_error());
 
-                            print "<script> window.location='editar_datos_entidad.php';</script>";
+                          $msg = "Entidad editada correctamente";
+                          print "<script>alert('$msg'); window.location='lista_usuario.php';</script>";
 
-                        }
-                        
-                        if(isset($_POST['cancelar'])) 
-                        { 
-                          print "<script> window.location='datos_entidad.php';</script>";
-                        }
-                      ?>
+                      }
+                      if(isset($_POST['cancelar']))
+                      {
+                        print "<script> window.location='lista_usuario.php';</script>";
+                      }
+                    ?>
                       </form></center>
                   </div>
               </section>
@@ -261,7 +267,7 @@ require('conexion.php');
   </section>
 </section>
       <!--main content end-->
-  
+
 
 
     <!-- js placed at the end of the document so the pages load faster -->
@@ -276,15 +282,15 @@ require('conexion.php');
 
     <!--common script for all pages-->
     <script src="assets/js/common-scripts.js"></script>
-    
+
     <script type="text/javascript" src="assets/js/gritter/js/jquery.gritter.js"></script>
     <script type="text/javascript" src="assets/js/gritter-conf.js"></script>
 
     <!--script for this page-->
-    <script src="assets/js/sparkline-chart.js"></script>    
-  <script src="assets/js/zabuto_calendar.js"></script>  
-  
-  
+    <script src="assets/js/sparkline-chart.js"></script>
+  <script src="assets/js/zabuto_calendar.js"></script>
+
+
   <script type="application/javascript">
         $(document).ready(function () {
             $("#date-popover").popover({html: true, trigger: "manual"});
@@ -292,7 +298,7 @@ require('conexion.php');
             $("#date-popover").click(function (e) {
                 $(this).hide();
             });
-        
+
             $("#my-calendar").zabuto_calendar({
                 action: function () {
                     return myDateFunction(this.id, false);
@@ -310,8 +316,8 @@ require('conexion.php');
                 ]
             });
         });
-        
-        
+
+
         function myNavFunction(id) {
             $("#date-popover").hide();
             var nav = $("#" + id).data("navigation");
@@ -319,7 +325,7 @@ require('conexion.php');
             console.log('nav ' + nav + ' to: ' + to.month + '/' + to.year);
         }
     </script>
-  
+
 
   </body>
 </html>

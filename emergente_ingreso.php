@@ -208,7 +208,11 @@ require('conexion.php');
                                         echo 'Por favor llene todos los campos.';
                                     }
                                     else {
+<<<<<<< HEAD
                                              
+=======
+                                               $con = mysqli_connect('localhost', 'root', '', 'contabilidad');
+>>>>>>> daed439c886d026fe0d540784fd49a36aed25e0f
                                     $id_entidad0=1;
                                       $rs0=mysqli_query($con,"SELECT count(id_as) AS iden FROM temp_as");
                                             if ($row0 = mysqli_fetch_row($rs0))

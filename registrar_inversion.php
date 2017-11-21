@@ -7,6 +7,10 @@ if (!isset($_SESSION["usuario"])){
 }
 $_SESSION["usuario"];
 require('conexion.php');
+<<<<<<< HEAD
+=======
+error_reporting(E_ALL ^ E_NOTICE);
+>>>>>>> daed439c886d026fe0d540784fd49a36aed25e0f
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -89,7 +93,7 @@ require('conexion.php');
               <ul class="sub">
                   <li><a  href="registrar_ingreso.php"><i class="fa fa-list-alt"></i>Registrar Ingreso</a></li>
                   <li ><a  href="registrar_egreso.php"><i class="fa fa-list-alt"></i>Registrar Egreso</a></li>
-                  <li  class="active"><a  href="registrar_inversion.php"><i class="fa fa-list-alt"></i>Registrar Inversion</a></li>
+                  <li  class="active"><a  href="registrar_egreso.php"><i class="fa fa-list-alt"></i>Registrar Inversion</a></li>
               </ul>
           </li>
 
@@ -245,6 +249,7 @@ require('conexion.php');
                               <td>
                                 <div class="form-group">
                                   <center>
+<<<<<<< HEAD
                                   <label style="font-size: 15px;">Autorizo...</label></center>
                                   <div class="col-sm-9">
                                   <?php
@@ -260,25 +265,54 @@ require('conexion.php');
                                          <input type=""  class="form-control" disabled="true" name="p_ci"  value="<?php echo $row['ci_usuario']; ?>"> </input> </div>
                                          <?php
                                      ?>
+=======
+                                  <label style="font-size: 15px;">Autorizado por...</label></center>
+
+                                  <label class="col-sm-2 col-sm-2 control-label">Nombre:&emsp; </label>
+                                  <div class="col-sm-9">
+                                      <input type="text" name="aut_nom"  class="form-control">
+                                  </div>
+                                  <label class="col-sm-2 col-sm-2 control-label">Ci:&emsp; </label>
+                                  <div class="col-sm-9">
+                                      <input required type="number" name="aut_ci" class="form-control">
+                                  </div>
+>>>>>>> daed439c886d026fe0d540784fd49a36aed25e0f
                                 </div>
                               </td>
                                <td>
                                 <div class="form-group">
                                   <center>
                                   <label style="font-size: 15px;">Elaborado por...</label></center>
+<<<<<<< HEAD
                                   <div class="col-sm-9">
 
                                     <?php
                                     $user= $_SESSION["usuario"];
                                     $datos=mysqli_query($con,"SELECT a.* FROM usuario a, empleado_usuario b where b.user = '$user' and b.id_usuario=a.id_usuario LIMIT 1");
+=======
+
+
+                                  <div class="col-sm-9">
+
+                                         <?php
+                                    $user= $_SESSION["usuario"];
+                                    $datos=mysqli_query($con,"SELECT a.* FROM usuario a, empleado_usuario b where b.user = '$user' LIMIT 1");
+>>>>>>> daed439c886d026fe0d540784fd49a36aed25e0f
                                     $row=mysqli_fetch_assoc($datos);
                                        ?>
                                           <p class="col-sm-2 col-sm-2 control-label">Nombre:&emsp; </p>
                                            <div class="col-sm-9">
+<<<<<<< HEAD
                                            <input type="text" class="form-control" disabled="true" name="p_nom" value="<?php echo $row['nombre_usuario']." ".$row['ap_paterno_usuario']; ?>"> </input> </div>
                                             <p class="col-sm-2 col-sm-2 control-label">CI:&emsp; </p>
                                            <div class="col-sm-9">
                                            <input type=""  class="form-control" disabled="true" name="p_ci"  value="<?php echo $row['ci_usuario']; ?>"> </input> </div>
+=======
+                                           <input type="text" class="form-control" disabled  name="el_nom" value="<?php echo $row['nombre_usuario']." ".$row['ap_paterno_usuario']; ?>"> </input> </div>
+                                            <p class="col-sm-2 col-sm-2 control-label">CI:&emsp; </p>
+                                           <div class="col-sm-9">
+                                           <input type=""  class="form-control" disabled  name="el_ci"  value="<?php echo $row['ci_usuario']; ?>"> </input> </div>
+>>>>>>> daed439c886d026fe0d540784fd49a36aed25e0f
                                            <?php
                                        ?>
                                   </div>
@@ -300,6 +334,7 @@ require('conexion.php');
                         </tr>
 
     <?php
+<<<<<<< HEAD
     function nom_e($id) {
    $cod_1=mysqli_query($con,"SELECT     nombre_usuario FROM usuario WHERE iid_usuario='$id' LIMIT 1");
   if ($row_1 = mysqli_fetch_row($cod_1))
@@ -322,12 +357,21 @@ require('conexion.php');
                    }
                    return true;
 }
+=======
+    
+     
+    
+>>>>>>> daed439c886d026fe0d540784fd49a36aed25e0f
                            if(isset($_POST['registrar_datos']))
                         {
 
                          include('conexion.php');
 
+<<<<<<< HEAD
                             if($_POST['fecha'] == '' or  $_POST['pago'] == ''or  $_POST['cambio']== ''  or $_POST['numero_partida_ficha']=='' )
+=======
+                            if($_POST['fecha'] == '' or  $_POST['pago'] == ''or  $_POST['cambio']== ''  or $_POST['numero_partida_ficha']=='' or $_POST['pag_nom']=='' or $_POST['aut_nom']=='' or $_POST['aut_ci']==''  )
+>>>>>>> daed439c886d026fe0d540784fd49a36aed25e0f
                             {
                                 echo 'Por favor llene todos los campos.';
                             }
@@ -354,13 +398,18 @@ require('conexion.php');
                           else
                           {
                             $tot=1;
+<<<<<<< HEAD
                           }
+=======
+                          }$user= $_SESSION["usuario"];
+>>>>>>> daed439c886d026fe0d540784fd49a36aed25e0f
                               //pagado a
                                $pag_nom=$_POST["pag_nom"];
                                //Autorizado por
                                $aut_nom=$_POST["aut_nom"];
                               $aut_ci=$_POST["aut_ci"];
                               //Elaborado
+<<<<<<< HEAD
                                $el_nom=$_POST["el_nom"];
                               $el_ci=$_POST["el_ci"];
                               //empleado autorizo
@@ -383,6 +432,35 @@ require('conexion.php');
                                             else {
                                                $msg = 'No existe empleado con el número de carnet ingresado en elaborado ';
                                                print "<script>alert('$msg'); window.location='registrar_egreso.php';</script>";
+=======
+                                 $datos=mysqli_query($con,"SELECT a.* FROM usuario a, empleado_usuario b where b.user = '$user' LIMIT 1");
+                                    $row=mysqli_fetch_assoc($datos);
+                                      $el_ci=$row['nombre_usuario']." ".$row['ap_paterno_usuario'];  
+                                       $el_nom=  $row['ci_usuario']; 
+
+                                           
+
+                              //empleado elaborado
+                         $cod_p=mysqli_query($con,"SELECT   e.id_empleado_usuario FROM   empleado_usuario e WHERE  e.user='$user'   LIMIT 1");
+                                           if ($row_p = mysqli_fetch_row($cod_p))
+                                            {
+                                              $id_empleado_el = trim($row_p[0]);
+                                            }
+                                            else {
+                                               $msg = 'No existe empleado con el número de carnet ingresado en  elaborado';
+                                               print "<script>alert('$msg'); window.location='registrar_inversion.php';</script>";
+                                            }
+                           //empleado autorizado
+                          $cod_p=mysqli_query($con,"SELECT   e.id_empleado_usuario FROM usuario u, empleado_usuario e WHERE   u.ci_usuario='$aut_ci' AND u.id_usuario=e.id_usuario LIMIT 1");
+
+                                          if ($row_p = mysqli_fetch_row($cod_p))
+                                            {
+                                              $id_empleado_aut = trim($row_p[0]);
+                                            }
+                                            else {
+                                               $msg = 'No existe empleado con el número de carnet ingresado en autorizado ... ' ;
+                                               print "<script>alert('$msg'); window.location='registrar_inversion.php';</script>";
+>>>>>>> daed439c886d026fe0d540784fd49a36aed25e0f
 
                                             }
                           //persona pagado por
@@ -403,6 +481,10 @@ require('conexion.php');
                                                     VALUES ('$id_persona','$pag_nom',' ','Pagado');";
                                               mysqli_query($con,$sq_p)  ;
                                             }
+<<<<<<< HEAD
+=======
+                      
+>>>>>>> daed439c886d026fe0d540784fd49a36aed25e0f
             //tipo de cambio
                            $cod_c=mysqli_query($con,"SELECT   id_tipo_cambio FROM tipo_cambio WHERE monto='$cambio' LIMIT 1");
 
@@ -430,6 +512,7 @@ require('conexion.php');
                               VALUES ('$id_entidad','$partida','$fechai','$hora','$tot','0','0','$trans','$id_cambio','$pago','$id_persona');";
 
                             mysqli_query($con,$sq)  ;
+<<<<<<< HEAD
                              //agregar personal
                             //elaborado
                             $func1 = 'add_ela';
@@ -438,6 +521,10 @@ require('conexion.php');
                             $func2 = 'add_ela';
                             echo  $func2($id_entidad,$id_empleado_aut,'Autorizado');
                             $msg = 'Cargo agregado correctamente';
+=======
+                          
+                           $msg = 'Cargo agregado correctamente';
+>>>>>>> daed439c886d026fe0d540784fd49a36aed25e0f
                             print "<script>alert('$msg'); window.location='emergente_inversion.php';</script>";
 
                          } }
