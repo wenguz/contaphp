@@ -3,9 +3,10 @@ session_start();
 //manejamos en sesion el nombre del usuario que se ha logeado
 if (!isset($_SESSION["usuario"])){
     header("location:index.php?nologin=false");
-    
+
 }
 $_SESSION["usuario"];
+require('conexion.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -24,15 +25,15 @@ $_SESSION["usuario"];
     <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="assets/css/zabuto_calendar.css">
     <link rel="stylesheet" type="text/css" href="assets/js/gritter/css/jquery.gritter.css" />
-    <link rel="stylesheet" type="text/css" href="assets/lineicons/style.css">    
-    
+    <link rel="stylesheet" type="text/css" href="assets/lineicons/style.css">
+
     <!-- Custom styles for this template -->
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="assets/css/style-responsive.css" rel="stylesheet">
 
     <script src="assets/js/chart-master/Chart.js"></script>
   </head>
- 
+
   <body>
 
   <section id="container" >
@@ -46,7 +47,7 @@ $_SESSION["usuario"];
               </div>
             <!--logo start-->
             <a href="index.php" class="logo"><b>SISTEMA CONTABLE</b></a>
-            
+
             <div class="top-menu">
               <ul class="nav pull-right top-menu">
                     <li><a class="logout" href="index.php">Cerrar Sesion</a></li>
@@ -54,7 +55,7 @@ $_SESSION["usuario"];
             </div>
         </header>
       <!--header end-->
-      
+
       <!-- **********************************************************************************************************************************************************
       MAIN SIDEBAR MENU
       *********************************************************************************************************************************************************** -->
@@ -69,7 +70,7 @@ $_SESSION["usuario"];
                 <span>Inicio  </span>
             </a>
         </li>
-        
+
         <li class="sub-menu">
             <a  href="javascript:;" >
                   <i class="fa fa-list-alt"></i>
@@ -82,19 +83,19 @@ $_SESSION["usuario"];
               </ul>
           </li>
 
-          
+
           <li class="sub-menu">
               <a href="lista_ficha.php" >
                   <i class="fa fa-th"></i>
                   <span>Lista de Fichas</span>
               </a>
           </li>
-        
-         
+
+
     </ul>
-</div>  
+</div>
       </aside>
-     
+
 
 </section>
 
@@ -106,13 +107,13 @@ $_SESSION["usuario"];
                   <table class="table table-bordered table-striped table-condensed">
                     <h4><i class="fa fa-angle-right"></i> Busqueda de fichas</h4>
                     &emsp;
-                   
+
 
                    <form action="" method="post">
 <tr>
                        <p>Ingrese codigo de ficha:  </p> &emsp;
                       <input style="padding: 5px" type="number" name ="b_id" value="Buscar..." onfocus="if (this.value == 'Buscar...') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Buscar...';}" />
-                      <input type="submit"  class="btn btn-theme" name="buscar_id" value="Buscar"> 
+                      <input type="submit"  class="btn btn-theme" name="buscar_id" value="Buscar">
                       <br>
                     </tr>
                     <tr>
@@ -121,7 +122,7 @@ $_SESSION["usuario"];
                       <input type="submit"  class="btn btn-theme" name="buscar_fecha" value="Buscar">
                     </tr>
                     <tr>
-                      <p>    Click aqui para mostrar todos (solo se mostrara este boton para el proceso de desarrollo del sistema) : </p>  
+                      <p>    Click aqui para mostrar todos (solo se mostrara este boton para el proceso de desarrollo del sistema) : </p>
                       <input type="submit"  class="btn btn-theme" name="buscar1" value="Mostrar todos">
                     </tr>
                     </form>
@@ -137,16 +138,14 @@ $_SESSION["usuario"];
                           <td> Autorizado por...</th>
                           <td> Entregado por...</th>
                           <td> Recibido por...</th>
-                          <td> Opciones</th>
                       </tr>
                       </thead>
                       <tbody>
-                      
+
                       <tr>
                         <?php
-                            if(isset($_POST['buscar1'])) 
-                        { 
-                         $con = mysqli_connect('localhost', 'root', '', 'contabilidad') or die(mysql_error()); 
+                            if(isset($_POST['buscar1']))
+                        {
                           $cod=mysqli_query($con,"SELECT * FROM ficha");
                            while ($valores = mysqli_fetch_array($cod)) { ?>
                               <tr>
@@ -158,20 +157,14 @@ $_SESSION["usuario"];
                                   <td><?php echo 'aut' ?></td>
                                   <td><?php echo 'entre' ?></td>
                                   <td><?php echo 'rec' ?></td>
-                                  <td><?php echo $valores['id_persona'] ?></td> 
-                          <td><button class="btn btn-primary btn-xs"><i class="fa fa-pencil"> Editar</i>
-                            </button>
-                            
-                          </td>
+                                  <td><?php echo $valores['id_persona'] ?></td>
                               </tr>
                          <?php } }   ?>
                        <?php
-                            if(isset($_POST['buscar_id'])) 
-                        { 
-                         $con = mysqli_connect('localhost', 'root', '', 'contabilidad') or die(mysql_error());
+                            if(isset($_POST['buscar_id']))
+                        {
                                $a =$_POST["b_id"] ;
-
-                          $cod=mysqli_query($con,"SELECT * FROM ficha WHERE id_ficha=$a");
+                          $cod=mysqli_query($con,"SELECT * FROM ficha WHERE id_ficha='$a'");
                            while ($valores = mysqli_fetch_array($cod)) { ?>
                               <tr>
                                   <td><?php echo $valores['id_ficha'] ?></td>
@@ -182,20 +175,15 @@ $_SESSION["usuario"];
                                   <td><?php echo 'aut' ?></td>
                                   <td><?php echo 'entre' ?></td>
                                   <td><?php echo 'rec' ?></td>
-                                  <td><?php echo $valores['id_persona'] ?></td> 
-                          <td><button class="btn btn-primary btn-xs"><i class="fa fa-pencil"> Editar</i>
-                            </button>
-                            
-                          </td>
+                                  <td><?php echo $valores['id_persona'] ?></td>
+
                               </tr>
-                          <?php } } 
+                          <?php } }
                             ?>
                             <?php
-                            if(isset($_POST['buscar_fecha'])) 
-                        { 
-                         $con = mysqli_connect('localhost', 'root', '', 'contabilidad') or die(mysql_error());
+                            if(isset($_POST['buscar_fecha']))
+                        {
                                $a =$_POST["b_fecha"] ;
-
                           $cod=mysqli_query($con,"SELECT * FROM ficha WHERE fecha_ficha='$a'");
                            while ($valores = mysqli_fetch_array($cod)) { ?>
                               <tr>
@@ -207,13 +195,10 @@ $_SESSION["usuario"];
                                   <td><?php echo 'aut' ?></td>
                                   <td><?php echo 'entre' ?></td>
                                   <td><?php echo 'rec' ?></td>
-                                  <td><?php echo $valores['id_persona'] ?></td> 
-                          <td><button class="btn btn-primary btn-xs"><i class="fa fa-pencil"> Editar</i>
-                            </button>
-                            
-                          </td>
+                                  <td><?php echo $valores['id_persona'] ?></td>
+
                               </tr>
-                          <?php } } 
+                          <?php } }
                             ?>
                       </tbody>
                   </table>
@@ -237,15 +222,15 @@ $_SESSION["usuario"];
 
     <!--common script for all pages-->
     <script src="assets/js/common-scripts.js"></script>
-    
+
     <script type="text/javascript" src="assets/js/gritter/js/jquery.gritter.js"></script>
     <script type="text/javascript" src="assets/js/gritter-conf.js"></script>
 
     <!--script for this page-->
-    <script src="assets/js/sparkline-chart.js"></script>    
-  <script src="assets/js/zabuto_calendar.js"></script>  
-  
-  
+    <script src="assets/js/sparkline-chart.js"></script>
+  <script src="assets/js/zabuto_calendar.js"></script>
+
+
   <script type="application/javascript">
         $(document).ready(function () {
             $("#date-popover").popover({html: true, trigger: "manual"});
@@ -253,7 +238,7 @@ $_SESSION["usuario"];
             $("#date-popover").click(function (e) {
                 $(this).hide();
             });
-        
+
             $("#my-calendar").zabuto_calendar({
                 action: function () {
                     return myDateFunction(this.id, false);
@@ -271,8 +256,8 @@ $_SESSION["usuario"];
                 ]
             });
         });
-        
-        
+
+
         function myNavFunction(id) {
             $("#date-popover").hide();
             var nav = $("#" + id).data("navigation");
@@ -280,7 +265,7 @@ $_SESSION["usuario"];
             console.log('nav ' + nav + ' to: ' + to.month + '/' + to.year);
         }
     </script>
-  
+
 
   </body>
 </html>

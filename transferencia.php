@@ -6,6 +6,7 @@ if (!isset($_SESSION["usuario"])){
     
 }
 $_SESSION["usuario"];
+require('conexion.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -237,7 +238,6 @@ $_SESSION["usuario"];
                                   
                                        <?php
                                        $user= $_SESSION["usuario"];
-                                        $con = mysqli_connect('localhost', 'root', '', 'contabilidad'); 
                                            $cod=mysqli_query($con,"SELECT   ci_usuario FROM usuario WHERE nombre_usuario='$user' LIMIT 1");
 
                                           if ($row = mysqli_fetch_row($cod)) 

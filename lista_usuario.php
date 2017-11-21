@@ -3,16 +3,17 @@ session_start();
 //manejamos en sesion el nombre del usuario que se ha logeado
 if (!isset($_SESSION["usuario"])){
     header("location:index.php?nologin=false");
-    
+
 }
 $_SESSION["usuario"];
+require('conexion.php');
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="Dashboard">
     <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
@@ -25,15 +26,15 @@ $_SESSION["usuario"];
     <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="assets/css/zabuto_calendar.css">
     <link rel="stylesheet" type="text/css" href="assets/js/gritter/css/jquery.gritter.css" />
-    <link rel="stylesheet" type="text/css" href="assets/lineicons/style.css">    
-    
+    <link rel="stylesheet" type="text/css" href="assets/lineicons/style.css">
+
     <!-- Custom styles for this template -->
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="assets/css/style-responsive.css" rel="stylesheet">
 
     <script src="assets/js/chart-master/Chart.js"></script>
   </head>
- 
+
   <body>
 
   <section id="container" >
@@ -47,7 +48,7 @@ $_SESSION["usuario"];
               </div>
             <!--logo start-->
             <a href="index.php" class="logo"><b>SISTEMA CONTABLE</b></a>
-            
+
             <div class="top-menu">
               <ul class="nav pull-right top-menu">
                     <li><a class="logout" href="index.php">Cerrar Sesion</a></li>
@@ -55,7 +56,7 @@ $_SESSION["usuario"];
             </div>
         </header>
       <!--header end-->
-      
+
       <!-- **********************************************************************************************************************************************************
       MAIN SIDEBAR MENU
       *********************************************************************************************************************************************************** -->
@@ -105,9 +106,9 @@ $_SESSION["usuario"];
               </a>
           </li>
     </ul>
-</div>  
+</div>
       </aside>
-     
+
 
 </section>
 <section id="main-content">
@@ -138,13 +139,13 @@ $_SESSION["usuario"];
                               </tr>
                               </thead>
                               <tbody>
-                                <?php 
+                                <?php
                                   require('conexion.php');
                                   $resultado=mysqli_query($con,"SELECT * FROM empleado_usuario");
                                   while ($row = mysqli_fetch_assoc($resultado)) {?>
                                   <tr>
                                       <td><a href=""><?php echo $row['id_empleado_usuario'];?></a></td>
-                                      <?php 
+                                      <?php
                                       $idemp=$row['id_empleado_usuario'];
                                       $polo=mysqli_query($con,"SELECT a.* FROM usuario a, empleado_usuario b where b.id_usuario=a.id_usuario and b.id_empleado_usuario='$idemp'");
                                       $rowo = mysqli_fetch_assoc($polo)
@@ -154,7 +155,7 @@ $_SESSION["usuario"];
                                       <td><?php echo $rowo['ap_materno_usuario'];?></td>
                                       <td><?php echo $rowo['ci_usuario'];?></td>
                                       <td width="8%">
-                                      <?php 
+                                      <?php
                                         $id_usuario=$row['id_usuario'];
                                         $id_empleado_usuario=$row['id_empleado_usuario'];
                                         $r=mysqli_query($con,"SELECT a.* from empleado a, empleado_usuario b, usuario c where a.id_empleado=b.id_empleado and b.id_usuario=c.id_usuario and b.id_empleado_usuario='$id_empleado_usuario'");
@@ -168,15 +169,15 @@ $_SESSION["usuario"];
                                       <td><?php echo $row['user'];?></td>
                                       <td>
                                           <a class="btn btn-primary btn-xs" type="submit" name="editar_usuario" href="editar_usuario.php?id_usuario=<?=$id_usuario?>"><i class="fa fa-pencil"> Editar</i></a>
-                                          
+
 
                                           <?php
-                                            if($row['estado']=='ACTIVO') 
-                                            { 
+                                            if($row['estado']=='ACTIVO')
+                                            {
                                                 ?>
                                                 <a class="btn btn-danger btn-xs" type="submit"  name="eliminar_usuario" href="eliminar_usuario.php?id_empleado_usuario=<?=$id_empleado_usuario?>"><i class="fa fa-ban"> Desactivar</i></a>
                                                 <?php
-                                            } 
+                                            }
                                             else
                                             {
                                                 ?>
@@ -185,13 +186,13 @@ $_SESSION["usuario"];
                                             }
                                           ?>
 
-                                          
+
 
                                       </td>
                                   </tr>
                                 <?php
 
-                        
+
 
                                   }
                                 ?>
@@ -200,7 +201,7 @@ $_SESSION["usuario"];
 
 
 
-                          
+
 
 
                           </form>
@@ -211,7 +212,7 @@ $_SESSION["usuario"];
 </section><!-- /MAIN CONTENT -->
 
       <!--main content end-->
-  
+
 
 
     <!-- js placed at the end of the document so the pages load faster -->
@@ -226,15 +227,15 @@ $_SESSION["usuario"];
 
     <!--common script for all pages-->
     <script src="assets/js/common-scripts.js"></script>
-    
+
     <script type="text/javascript" src="assets/js/gritter/js/jquery.gritter.js"></script>
     <script type="text/javascript" src="assets/js/gritter-conf.js"></script>
 
     <!--script for this page-->
-    <script src="assets/js/sparkline-chart.js"></script>    
-	<script src="assets/js/zabuto_calendar.js"></script>	
-	
-	
+    <script src="assets/js/sparkline-chart.js"></script>
+	<script src="assets/js/zabuto_calendar.js"></script>
+
+
 	<script type="application/javascript">
         $(document).ready(function () {
             $("#date-popover").popover({html: true, trigger: "manual"});
@@ -242,7 +243,7 @@ $_SESSION["usuario"];
             $("#date-popover").click(function (e) {
                 $(this).hide();
             });
-        
+
             $("#my-calendar").zabuto_calendar({
                 action: function () {
                     return myDateFunction(this.id, false);
@@ -260,8 +261,8 @@ $_SESSION["usuario"];
                 ]
             });
         });
-        
-        
+
+
         function myNavFunction(id) {
             $("#date-popover").hide();
             var nav = $("#" + id).data("navigation");
@@ -269,7 +270,7 @@ $_SESSION["usuario"];
             console.log('nav ' + nav + ' to: ' + to.month + '/' + to.year);
         }
     </script>
-  
+
 
   </body>
 </html>

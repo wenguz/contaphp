@@ -6,6 +6,7 @@ if (!isset($_SESSION["usuario"])){
     
 }
 $_SESSION["usuario"];
+require('conexion.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
