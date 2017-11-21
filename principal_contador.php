@@ -118,7 +118,11 @@ require('conexion.php');
                         <form action="eecuenta.php" method="post">
                           <table class="table table-bordered table-striped table-condensed">
                             <h4><i class="fa fa-angle-right"></i> Lista de Cuentas</h4>
+<<<<<<< HEAD
                             &emsp;<label>Buscar Usuario por nombre:  </label> &emsp;
+=======
+                            &emsp;<label>Buscar cuentas por nombre:  </label> &emsp;
+>>>>>>> 151fa0de3f698a7273b80e7fb95572e19a2a0cc8
                             <form action="" method="post">
                               <input style="padding: 5px" type="text" value="Buscar..." onfocus="if (this.value == 'Buscar...') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Buscar...';}" />
                               <input class="btn btn-primary" type="button" value="Buscar" />
@@ -136,11 +140,16 @@ require('conexion.php');
                               <tbody>
                               <?php
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 151fa0de3f698a7273b80e7fb95572e19a2a0cc8
                               $consul="SELECT * FROM clase";
                               $rrr=mysqli_query($con,$consul);
                               if(mysqli_num_rows($rrr)==0)
                               {
 
+<<<<<<< HEAD
                                   /*$resultado=mysqli_query($con,"SELECT * FROM clase");
                                   while ($row = mysqli_fetch_assoc($resultado))
                                     {
@@ -172,6 +181,9 @@ require('conexion.php');
                                   </tr>
                                   <?php
                                     }*/
+=======
+
+>>>>>>> 151fa0de3f698a7273b80e7fb95572e19a2a0cc8
                                 }
                                 else
                                 {

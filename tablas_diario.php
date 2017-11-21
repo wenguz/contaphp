@@ -32,11 +32,12 @@ function Footer()
 function ChapterTitle($label)
 {
     // Arial 12
-    $this->SetFont('Times','B',14);
+    $this->SetFont('Times','B',12);
     // Color de fondo
     $this->SetFillColor(200,220,255);//
     // Título
-    $this->Cell(0,6,"Transacciones del día",0,1,'C');
+$fecha=date('d-m-y');
+    $this->Cell(0,6,"LIBRO DIARIO ".$fecha,0,1,'C');
     // Salto de línea
     $this->Ln(4);
 }
@@ -91,6 +92,7 @@ function FancyTable($header, $data)
   $this->SetFont('', '');
     $this->SetTextColor(0);
     $codc=mysqli_query($con,"SELECT clase.nombre_clase FROM clase");
+    $codcu=mysqli_query($con,"SELECT cuenta.nombre_cuenta FROM cuenta");
     $numclases = mysqli_num_rows($codc);
 
 
@@ -100,36 +102,29 @@ function FancyTable($header, $data)
 for ($ii=0; $ii <$numclases ; $ii++) {
     $clas = mysqli_fetch_array($codc);
      $sc = mysqli_fetch_array($cods);
-    // Restauración de colores y fuentes -> arrelgar
+    // Restauración de colores y fuentes
 
     if($ii=$sc['id_clase'] && $clas['nombre_clase']=$sc['nombre_clase']){
             $this->SetFillColor(173, 255, 47);
-            $fill = true;
 
         }
         elseif ($ii=1 && $clas['nombre_clase']=$sc['nombre_clase']) {
             $this->SetFillColor(255, 215, 0);
-            $fill = true;
         }
         elseif ($ii=2 && $clas['nombre_clase']=$sc['nombre_clase']) {
             $this->SetFillColor(0, 191, 255);
-            $fill = true;
         }
          elseif ($ii=3 && $clas['nombre_clase']=$sc['nombre_clase']) {
             $this->SetFillColor(160 ,82, 40);
-            $fill = true;
         }
         elseif ($ii=4 && $clas['nombre_clase']=$sc['nombre_clase']) {
             $this->SetFillColor(255, 99, 71);
-            $fill = true;
         }
         elseif ($ii=5 && $clas['nombre_clase']=$sc['nombre_clase']) {
             $this->SetFillColor(255, 80, 71);
-            $fill = true;
         }
         elseif ($ii=6 && $clas['nombre_clase']=$sc['nombre_clase']) {
             $this->SetFillColor(224,235,255);
-            $fill = true;
         }
 
 }
@@ -137,7 +132,7 @@ for ($ii=0; $ii <$numclases ; $ii++) {
     // Datos
     $d=0;
     $h=0;
-    $fill = false;
+    $fill = true;
     foreach($data as $row)
     {
 
@@ -154,7 +149,7 @@ for ($ii=0; $ii <$numclases ; $ii++) {
     }
     // Línea de cierre
    $fill = !$fill;
-     $this->SetFillColor(255,255,255);
+     $this->SetFillColor(220,100,100);
      $pie = array('TOTAL',number_format($d),number_format($h));
       $p = array(165,30,30);
     for($i=0;$i<count($pie);$i++)
