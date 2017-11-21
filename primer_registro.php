@@ -104,7 +104,7 @@ require('conexion.php');
                                                       $rs=mysqli_query($con,"SELECT MAX(id_usuario) AS id FROM usuario");
                                                       if ($row = mysqli_fetch_row($rs))
                                                         {
-                                                          $id = ($row[0]);
+                                                          $id = trim($row[0]);
                                                         }
                                                       $id=$id+1;
                                                       echo "$id"; ?>>
@@ -365,73 +365,32 @@ require('conexion.php');
                                     mysqli_query($con,$sq);
                                     $sq="INSERT INTO depreciacion (bien,vida_util)values('Equipos de Computacion',4)";
                                     mysqli_query($con,$sq);
-                                    $hoy = date('Y-m-d');
-                                    $sq="INSERT INTO clase (id_clase,nombre_clase,estado_clase,fecha_registro_clase)values(1,'Activo','ACTIVO','$hoy')";
-                                    mysqli_query($con,$sq);
-                                    $sq="INSERT INTO clase (id_clase,nombre_clase,estado_clase,fecha_registro_clase)values(2,'Pasivo','ACTIVO','$hoy')";
-                                    mysqli_query($con,$sq);
-                                    $sq="INSERT INTO clase (id_clase,nombre_clase,estado_clase,fecha_registro_clase)values(3,'Patrimonio','ACTIVO','$hoy')";
-                                    mysqli_query($con,$sq);
-
-                                    $sq="INSERT INTO clase (id_clase,nombre_clase,estado_clase,fecha_registro_clase)values(6,'Egreso','ACTIVO','$hoy')";
-                                    mysqli_query($con,$sq);
-                                    $sq="INSERT INTO clase (id_clase,nombre_clase,estado_clase,fecha_registro_clase)values(7,'Ingresos','ACTIVO','$hoy')";
-                                    mysqli_query($con,$sq);
-
-                                    $sq="INSERT INTO grupo (id_grupo,nombre_grupo,estado_grupo,fecha_registro_grupo,id_clase)values(11,'Activo Circulante','ACTIVO','$hoy',1)";
-                                    mysqli_query($con,$sq);
-                                    $sq="INSERT INTO grupo (id_grupo,nombre_grupo,estado_grupo,fecha_registro_grupo,id_clase)values(12,'Activo Fijo','ACTIVO','$hoy',1)";
-                                    mysqli_query($con,$sq);
-
-                                    $sq="INSERT INTO cuenta (id_cuenta,nombre_cuenta,estado_cuenta,fecha_registro_cuenta,id_grupo)values(111,'Caja','ACTIVO','$hoy',11)";
-                                    mysqli_query($con,$sq);
-                                    $sq="INSERT INTO cuenta (id_cuenta,nombre_cuenta,estado_cuenta,fecha_registro_cuenta,id_grupo)values(112,'Banco','ACTIVO','$hoy',11)";
-                                    mysqli_query($con,$sq);
-
-                                    $sq="INSERT INTO cuenta (id_cuenta,nombre_cuenta,estado_cuenta,fecha_registro_cuenta,id_grupo)values(121,'Terrenos','ACTIVO','$hoy',12)";
-                                    mysqli_query($con,$sq);
-                                    $sq="INSERT INTO cuenta (id_cuenta,nombre_cuenta,estado_cuenta,fecha_registro_cuenta,id_grupo)values(122,'Edificaciones','ACTIVO','$hoy',12)";
-                                    mysqli_query($con,$sq);
-                                    $sq="INSERT INTO subcuenta (id_subcuenta,nombre_subcuenta,estado_subcuenta,fecha_registro_subcuenta,id_cuenta)values(1220,'Depreciacion Acumulada Edificios','ACTIVO','$hoy',122)";
-                                    mysqli_query($con,$sq);
-
-                                    $sq="INSERT INTO cuenta (id_cuenta,nombre_cuenta,estado_cuenta,fecha_registro_cuenta,id_grupo)values(123,'Muebles y enseres de oficinas','ACTIVO','$hoy',12)";
-                                    mysqli_query($con,$sq);
-                                    $sq="INSERT INTO subcuenta (id_subcuenta,nombre_subcuenta,estado_subcuenta,fecha_registro_subcuenta,id_cuenta)values(1230,'Depreciacion Acumulada Muebles y enseres de oficinas','ACTIVO','$hoy',123)";
-                                    mysqli_query($con,$sq);
-
-                                    $sq="INSERT INTO cuenta (id_cuenta,nombre_cuenta,estado_cuenta,fecha_registro_cuenta,id_grupo)values(124,'Maquinaria en General','ACTIVO','$hoy',12)";
-                                    mysqli_query($con,$sq);
-                                    $sq="INSERT INTO subcuenta (id_subcuenta,nombre_subcuenta,estado_subcuenta,fecha_registro_subcuenta,id_cuenta)values(1240,'Depreciacion Acumulada Maquinaria en General','ACTIVO','$hoy',124)";
-                                    mysqli_query($con,$sq);
-
-                                    $sq="INSERT INTO cuenta (id_cuenta,nombre_cuenta,estado_cuenta,fecha_registro_cuenta,id_grupo)values(125,'Equipos e  Instalaciones','ACTIVO','$hoy',12)";
-                                    mysqli_query($con,$sq);
-                                    $sq="INSERT INTO subcuenta (id_subcuenta,nombre_subcuenta,estado_subcuenta,fecha_registro_subcuenta,id_cuenta)values(1250,'Depreciacion Acumulada Equipos e  Instalaciones','ACTIVO','$hoy',125)";
-                                    mysqli_query($con,$sq);
-
-                                    $sq="INSERT INTO cuenta (id_cuenta,nombre_cuenta,estado_cuenta,fecha_registro_cuenta,id_grupo)values(126,'Vehículos','ACTIVO','$hoy',12)";
-                                    mysqli_query($con,$sq);
-                                    $sq="INSERT INTO subcuenta (id_subcuenta,nombre_subcuenta,estado_subcuenta,fecha_registro_subcuenta,id_cuenta)values(1260,'Depreciacion Acumulada Vehículos','ACTIVO','$hoy',126)";
-                                    mysqli_query($con,$sq);
-
-                                    $sq="INSERT INTO cuenta (id_cuenta,nombre_cuenta,estado_cuenta,fecha_registro_cuenta,id_grupo)values(127,'Maquinaria para construccion','ACTIVO','$hoy',12)";
-                                    mysqli_query($con,$sq);
-                                    $sq="INSERT INTO subcuenta (id_subcuenta,nombre_subcuenta,estado_subcuenta,fecha_registro_subcuenta,id_cuenta)values(1270,'Depreciacion Acumulada Maquinaria para construccions','ACTIVO','$hoy',127)";
-                                    mysqli_query($con,$sq);
-
-                                    $sq="INSERT INTO cuenta (id_cuenta,nombre_cuenta,estado_cuenta,fecha_registro_cuenta,id_grupo)values(128,'Herramientas en general','ACTIVO','$hoy',12)";
-                                    mysqli_query($con,$sq);
-                                    $sq="INSERT INTO subcuenta (id_subcuenta,nombre_subcuenta,estado_subcuenta,fecha_registro_subcuenta,id_cuenta)values(1280,'Depreciacion Acumulada Herramientas en general','ACTIVO','$hoy',128)";
-                                    mysqli_query($con,$sq);
-                                    $sq="INSERT INTO cuenta (id_cuenta,nombre_cuenta,estado_cuenta,fecha_registro_cuenta,id_grupo)values(129,'Equipos de Computacio','ACTIVO','$hoy',12)";
-                                    mysqli_query($con,$sq);
-                                    $sq="INSERT INTO subcuenta (id_subcuenta,nombre_subcuenta,estado_subcuenta,fecha_registro_subcuenta,id_cuenta)values(1290,'Depreciacion Acumulada Equipos de Computacio','ACTIVO','$hoy',129)";
-                                    mysqli_query($con,$sq);
 
                                     $sq="INSERT INTO `tipo_cambio` (`id_tipo_cambio`, `monto`, `fecha`) VALUES
-                                    (1,6.91,'2017-11-18')";
+                                    (103, 1000, '2017-11-09'),
+                                    (104, 6.97, '2017-11-10'),
+                                    (105, 1234342, '2017-11-30'),
+                                    (106, 8.12, '2017-11-02')";
                                     mysqli_query($con,$sq);
+
+                                    $trigger1= "create trigger tabla_comprobacion
+                                                after insert on cuenta
+                                                for each row
+                                                begin
+	                                               insert into comprobacion (cod_cuenta, nom_cuenta,debe,haber,deudor,acreedor,anio) values
+                                                 (new.id_cuenta, new.nombre_cuenta,0,0,0,0,0);
+                                                 end;"
+                                    mysqli_query($con,$trigger1);
+
+                                    $trigger2= "create trigger tabla_resultados
+                                                after insert on cuenta
+                                                for each row
+                                                begin
+	                                               insert into resultados (cod_cuenta, nom_cuenta ,monto_debe, monto_haber, anio) values
+                                                 (new.id_cuenta, new.nombre_cuenta,0,0,0,0,0);
+                                                 end;"
+                                    mysqli_query($con,$trigger2);
+
 
                                     $mensaje = "Usted se ha registrado correctamente.";
                                     print "<script>alert('$mensaje'); window.location='lista_usuario.php';</script>";
