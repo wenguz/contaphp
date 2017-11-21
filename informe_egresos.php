@@ -6,7 +6,6 @@ if (!isset($_SESSION["usuario"])){
 
 }
 $_SESSION["usuario"];
-require('conexion.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -154,6 +153,7 @@ require('conexion.php');
                         <?php
                         if(isset($_POST['fecha']))
                           {
+                             $con = mysqli_connect('localhost', 'root', '', 'contabilidad') or die(mysql_error());
                             $a =$_POST["b_fecha"] ;
 //falta relacion con amortizacion y depreciacion
                               $cod=mysqli_query($con,"SELECT b.id_ficha, b.fecha_ficha,e.nombre_cuenta, x.glosa_asiento, p.nombre_persona,x.monto_asiento

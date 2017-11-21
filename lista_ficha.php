@@ -6,7 +6,6 @@ if (!isset($_SESSION["usuario"])){
 
 }
 $_SESSION["usuario"];
-require('conexion.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -146,7 +145,8 @@ require('conexion.php');
                       <tr>
                         <?php
 function pago1($id) {
-   $cod_1=mysqli_query($con,"SELECT tipo FROM tipo_pago WHERE id_tipo_pago='$id' LIMIT 1");
+   $con = mysqli_connect('localhost', 'root', '', 'contabilidad');
+   $cod_1=mysqli_query($con,"SELECT   tipo FROM tipo_pago WHERE id_tipo_pago='$id' LIMIT 1");
   if ($row_1 = mysqli_fetch_row($cod_1))
    {
        $ing = trim($row_1[0]);
@@ -154,6 +154,7 @@ function pago1($id) {
     return $ing;
 }
 function pago2($id) {
+   $con = mysqli_connect('localhost', 'root', '', 'contabilidad');
    $cod_1=mysqli_query($con,"SELECT     descripcion_tipo_pago FROM tipo_pago WHERE id_tipo_pago='$id' LIMIT 1");
   if ($row_1 = mysqli_fetch_row($cod_1))
    {
@@ -162,6 +163,7 @@ function pago2($id) {
     return $ing;
 }
 function trans($id) {
+   $con = mysqli_connect('localhost', 'root', '', 'contabilidad');
    $cod_1=mysqli_query($con,"SELECT     nombre_transaccion FROM tipo_transaccion WHERE id_tipo_transaccion='$id' LIMIT 1");
   if ($row_1 = mysqli_fetch_row($cod_1))
    {
@@ -170,6 +172,7 @@ function trans($id) {
     return $ing;
 }
 function elab($id) {
+   $con = mysqli_connect('localhost', 'root', '', 'contabilidad');
    $cod_1=mysqli_query($con,"SELECT nombre_persona FROM persona WHERE id_persona='$id' LIMIT 1");
   if ($row_1 = mysqli_fetch_row($cod_1))
    {
@@ -179,6 +182,7 @@ function elab($id) {
 }
 function aut($id) {
   $ing =' ';
+   $con = mysqli_connect('localhost', 'root', '', 'contabilidad');
    $cod_1=mysqli_query($con,"SELECT    u.nombre_usuario FROM usuario u, empleado_ficha em,empleado_usuario eu  WHERE em.id_ficha='$id' AND em.descripcion_empleado='Autorizado' AND em.id_empleado_usuario=eu.id_empleado_usuario AND eu.id_usuario=u.id_usuario LIMIT 1");
   if ($row_1 = mysqli_fetch_row($cod_1))
    {
@@ -188,6 +192,7 @@ function aut($id) {
 }
 function ent($id) {
   $ing =' ';
+   $con = mysqli_connect('localhost', 'root', '', 'contabilidad');
    $cod_1=mysqli_query($con,"SELECT    u.nombre_usuario FROM usuario u, empleado_ficha em,empleado_usuario eu  WHERE em.id_ficha='$id' AND em.descripcion_empleado='Elaborado' AND em.id_empleado_usuario=eu.id_empleado_usuario AND eu.id_usuario=u.id_usuario LIMIT 1");
   if ($row_1 = mysqli_fetch_row($cod_1))
    {
@@ -198,6 +203,7 @@ function ent($id) {
 
                             if(isset($_POST['buscar1']))
                         {
+                         $con = mysqli_connect('localhost', 'root', '', 'contabilidad') or die(mysql_error());
                           $cod=mysqli_query($con,"SELECT * FROM ficha");
                            while ($valores = mysqli_fetch_array($cod)) { ?>
                               <tr>
@@ -220,6 +226,7 @@ function ent($id) {
                        <?php
                             if(isset($_POST['buscar_id']))
                         {
+                         $con = mysqli_connect('localhost', 'root', '', 'contabilidad') or die(mysql_error());
                                $a =$_POST["b_id"] ;
 
                           $cod=mysqli_query($con,"SELECT * FROM ficha WHERE id_ficha=$a");
@@ -244,6 +251,7 @@ function ent($id) {
                             <?php
                             if(isset($_POST['buscar_fecha']))
                         {
+                         $con = mysqli_connect('localhost', 'root', '', 'contabilidad') or die(mysql_error());
                                $a =$_POST["b_fecha"] ;
 
                           $cod=mysqli_query($con,"SELECT * FROM ficha WHERE fecha_ficha='$a'");

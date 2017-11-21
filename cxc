@@ -1,0 +1,504 @@
+[33mcommit 330ccc1b90bfe3d7551c0ebdea10e736015def62[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: KateringCFH <kcristalfh@gmail.com>
+Date:   Mon Nov 20 20:18:46 2017 -0400
+
+    wen_bd1
+
+[33mcommit 861000df5ed4164f97baa7ae47953fd5631afac9[m
+Merge: d593874 daed439
+Author: KateringCFH <kcristalfh@gmail.com>
+Date:   Mon Nov 20 20:18:02 2017 -0400
+
+    wen_bd
+
+[33mcommit d593874220b6925e8bd0bd05832a64c355d03a46[m
+Author: KateringCFH <kcristalfh@gmail.com>
+Date:   Mon Nov 20 20:12:14 2017 -0400
+
+    bd_wen
+
+[33mcommit daed439c886d026fe0d540784fd49a36aed25e0f[m
+Author: Fabiola Acarapi <fabiola29298@gmail.com>
+Date:   Sun Nov 19 22:33:41 2017 -0400
+
+    encargados en egreso listo
+
+[33mcommit db6502c98e13179ac288f61a7f8910d1a0d98917[m
+Author: Fabiola Acarapi <fabiola29298@gmail.com>
+Date:   Sun Nov 19 22:24:57 2017 -0400
+
+    inversion prueba
+
+[33mcommit 74d2d60bd989e763875d6a86278537aa6f4d8278[m
+Author: Fabiola Acarapi <fabiola29298@gmail.com>
+Date:   Sun Nov 19 20:48:21 2017 -0400
+
+    inversion elaborado y autorizado funciona otra vez
+
+[33mcommit 2f6c2ad8ea319f069818bf281874eb8c1734c841[m
+Merge: 53a90bc c1f1784
+Author: Fabiola Acarapi <fabiola29298@gmail.com>
+Date:   Sun Nov 19 19:23:41 2017 -0400
+
+    prueba 3
+
+[33mcommit 53a90bc96d4fdbf58425dba41b279f16a505b345[m
+Author: Fabiola Acarapi <fabiola29298@gmail.com>
+Date:   Sun Nov 19 19:18:08 2017 -0400
+
+    prueba2
+
+[33mcommit fc0c5f38dc3441a64e6026847ff02ad52a6bf794[m
+Author: Fabiola Acarapi <fabiola29298@gmail.com>
+Date:   Sun Nov 19 19:06:59 2017 -0400
+
+     prueba
+
+[33mcommit c1f17849962ad8e040aedd6f48275ebd24843517[m
+Author: wenguz <wenguz1518@gmail.com>
+Date:   Sun Nov 19 11:40:27 2017 -0300
+
+    mostrar saldo anterior. falta regitrar.
+
+[33mcommit 652c69495d62ee37852393fef089fa1ba6dd6d72[m
+Author: wenguz <wenguz1518@gmail.com>
+Date:   Sat Nov 18 21:42:46 2017 -0300
+
+    jalar cuenta y sub cuenta en fichas
+
+[33mcommit 1b46fa35926998082e026bb5cdadd3eb82e484e6[m
+Merge: 3c6d27b 740ad1c
+Author: wenguz <wenguz1518@gmail.com>
+Date:   Sat Nov 18 21:39:34 2017 -0300
+
+    Merge branch 'master' of https://github.com/wenguz/contaphp
+
+[33mcommit 3c6d27bc95c8ad0794844299f9a9b24d815aa320[m
+Author: KateringCFH <kcristalfh@gmail.com>
+Date:   Sat Nov 18 16:58:49 2017 -0400
+
+    asdfg
+
+[33mcommit b5f4b022082991b151b04e30a73d2ced44027a77[m
+Author: KateringCFH <kcristalfh@gmail.com>
+Date:   Sat Nov 18 16:08:17 2017 -0400
+
+    ehgreso
+
+[33mcommit 740ad1c3440f9acf1d464082f8f75df314b4b05f[m
+Author: Cinthia <cinthia.alvarezs3@gmail.com>
+Date:   Sat Nov 18 19:44:01 2017 +0100
+
+    principal contador solo se agrego el la direccion a guardar sumas y saldos
+    El reporte de sumas y saldos completado
+
+[33mcommit c89c3d32220ad34343ef1f969da88013e9405685[m
+Author: wenguz <wenguz1518@gmail.com>
+Date:   Tue Nov 14 15:46:04 2017 -0400
+
+    regsitrar ficha egres_falta item
+
+[33mcommit a8491e5b46efcec0f2a532e6ca06dd19be133284[m
+Merge: 56b9c9e 3ef629d
+Author: wenguz <wenguz1518@gmail.com>
+Date:   Tue Nov 14 15:45:17 2017 -0400
+
+    Merge branch 'master' of https://github.com/wenguz/contaphp
+
+[33mcommit 56b9c9ea7541bd345fdb05edd6c25a9e15cc6922[m
+Author: wenguz <wenguz1518@gmail.com>
+Date:   Tue Nov 14 13:11:03 2017 -0400
+
+    registrar ingresos final_debe_haber
+
+[33mcommit 3ef629d0edfa03220a10870cb8b628627583b816[m
+Author: Cinthia <cinthia.alvarezs3@gmail.com>
+Date:   Tue Nov 14 14:56:15 2017 +0100
+
+    Base de datos final prototipo. Con esta Base de datos se generan los reportes correctamente aunque faltan fichas de egresos
+
+[33mcommit 39c3026eab77b337637ad5f8521e8a6c01f8f95b[m
+Author: Cinthia <cinthia.alvarezs3@gmail.com>
+Date:   Tue Nov 14 14:52:48 2017 +0100
+
+    Modificacion del query de libro diario
+
+[33mcommit d8b615c345429d88e6198ebd6294c323220ab530[m
+Author: Cinthia <cinthia.alvarezs3@gmail.com>
+Date:   Tue Nov 14 13:49:51 2017 +0100
+
+    pdf terminado libro mayor
+
+[33mcommit 761560c5bb32cd3ffa19025e3cc2a52e6c9b2731[m
+Author: Cinthia <cinthia.alvarezs3@gmail.com>
+Date:   Tue Nov 14 13:49:20 2017 +0100
+
+    arreglo rutas del menu contador
+
+[33mcommit c7a44c6369559e98c9d5aa1f880b7bcc436507d6[m
+Author: Cinthia <cinthia.alvarezs3@gmail.com>
+Date:   Tue Nov 14 13:48:49 2017 +0100
+
+    arreglo rutas del menu
+
+[33mcommit 9314a7d7ee660dddadab7e5c3404e6fd105b31ff[m
+Author: Cinthia <cinthia.alvarezs3@gmail.com>
+Date:   Tue Nov 14 13:48:28 2017 +0100
+
+    arreglo rutas del menu contador
+
+[33mcommit 54ed65c03e6204b4d60b97065fe7a01da7e59a77[m
+Author: Cinthia <cinthia.alvarezs3@gmail.com>
+Date:   Tue Nov 14 13:47:59 2017 +0100
+
+    arreglo pdf libro mayor
+
+[33mcommit 4a6ff8b91bc6aa821a619d56109ed437c16a33ec[m
+Author: Cinthia <cinthia.alvarezs3@gmail.com>
+Date:   Tue Nov 14 13:05:49 2017 +0100
+
+    libro_mayor , y txt
+
+[33mcommit 59eb213e9cbefca4375fac9f02d682cb0d09fd75[m
+Author: wenguz <wenguz1518@gmail.com>
+Date:   Tue Nov 14 13:02:43 2017 -0400
+
+    ingreso_asiento y ficha al debe
+
+[33mcommit 822e5653265b35f49fa1d960e9d85113cb9d80dc[m
+Author: wenguz <wenguz1518@gmail.com>
+Date:   Tue Nov 14 12:28:16 2017 -0400
+
+    regsitrar ingresos con debe haber
+
+[33mcommit 0170f441643ac1a21b8be7adadb5d73b23ba09e0[m
+Author: KateringCFH <kcristalfh@gmail.com>
+Date:   Tue Nov 14 09:30:47 2017 -0400
+
+    listados
+
+[33mcommit 214a9e2e67584ddbe4d40b78b51f14dfa87d2546[m
+Author: KateringCFH <kcristalfh@gmail.com>
+Date:   Tue Nov 14 09:00:37 2017 -0400
+
+    lu
+
+[33mcommit bdb0bcf766a4fcb1763d448b4c46d87c8073563f[m
+Author: KateringCFH <kcristalfh@gmail.com>
+Date:   Tue Nov 14 08:39:42 2017 -0400
+
+    ingreso_r
+
+[33mcommit 7b9f1a05d52ff5c61092035633a1daf5b6f42d24[m
+Author: KateringCFH <kcristalfh@gmail.com>
+Date:   Tue Nov 14 01:56:00 2017 -0400
+
+    bd_repor
+
+[33mcommit bca900c90951afd10607fadba9626719d636cae4[m
+Author: KateringCFH <kcristalfh@gmail.com>
+Date:   Tue Nov 14 01:45:07 2017 -0400
+
+    p_mostrar
+
+[33mcommit afe27baa7ab78394f4cf45d837d2504182681472[m
+Author: Fabiola Acarapi <fabiola29298@gmail.com>
+Date:   Tue Nov 14 01:02:42 2017 -0400
+
+    inventario emergente view validacion
+
+[33mcommit 2caea1dbc3a1d4270f7ca1508c0b8d60983a80ac[m
+Author: Fabiola Acarapi <fabiola29298@gmail.com>
+Date:   Tue Nov 14 00:47:34 2017 -0400
+
+    inventario emergente view
+
+[33mcommit 8274bbaf7dc32c8634d82fa3dab386d995752691[m
+Merge: b63dcaa d15c441
+Author: Fabiola Acarapi <fabiola29298@gmail.com>
+Date:   Mon Nov 13 22:54:05 2017 -0400
+
+    pantalla principal de secretaria  y lista ficha terminado
+
+[33mcommit b63dcaa99d55083edec1d94e0a7ba191ae5db908[m
+Author: Fabiola Acarapi <fabiola29298@gmail.com>
+Date:   Mon Nov 13 22:51:07 2017 -0400
+
+    pantalla principal de secretaria terminado
+
+[33mcommit d15c441b9a76d1d2c8c30e3793baf7f8bfc77c9f[m
+Author: wenguz <wenguz1518@gmail.com>
+Date:   Mon Nov 13 22:47:17 2017 -0400
+
+    modificado_amortizacion
+
+[33mcommit f11d4406ed7d4a85c286af668da5414311464ce7[m
+Author: KateringCFH <kcristalfh@gmail.com>
+Date:   Mon Nov 13 19:21:18 2017 -0400
+
+    +query
+
+[33mcommit b037a3278fc420190790bf3a4e412a276174b5fd[m
+Merge: e0b7b3d f2a3a49
+Author: KateringCFH <kcristalfh@gmail.com>
+Date:   Mon Nov 13 19:05:44 2017 -0400
+
+    Merge branch 'master' of https://github.com/wenguz/contaphp
+
+[33mcommit e0b7b3de6d9a5e437ecfcd010a57578a80a99b0f[m
+Author: KateringCFH <kcristalfh@gmail.com>
+Date:   Mon Nov 13 19:05:36 2017 -0400
+
+    plan_contable
+
+[33mcommit f2a3a49d8d15136fc3a8ef835c158b1c0e4c822e[m
+Merge: 81b331b 86e23ce
+Author: Fabiola Acarapi <fabiola29298@gmail.com>
+Date:   Mon Nov 13 18:52:14 2017 -0400
+
+    view emergente inversion y ficha y bdd
+
+[33mcommit 81b331b81fed5e28188205f6158d5e69cfea0881[m
+Author: Fabiola Acarapi <fabiola29298@gmail.com>
+Date:   Mon Nov 13 18:46:30 2017 -0400
+
+    view emergente inversion y ficha
+
+[33mcommit 675b92d7f51007b5802c361133f12af0ebffc62f[m
+Author: Fabiola Acarapi <fabiola29298@gmail.com>
+Date:   Mon Nov 13 18:41:43 2017 -0400
+
+    view emergente inversion
+
+[33mcommit 1b3ac59592e852999ddfd1622b531a60ff9088f7[m
+Author: Fabiola Acarapi <fabiola29298@gmail.com>
+Date:   Mon Nov 13 18:07:46 2017 -0400
+
+    ficha egreso y ingreso terminado
+
+[33mcommit 3a931c7bf2f14d6342714384d6c8f8293d265e5c[m
+Author: wenguz <wenguz1518@gmail.com>
+Date:   Mon Nov 13 17:50:53 2017 -0400
+
+    diario_textos
+
+[33mcommit b80cbd14d806b60deabe402064fae327efd9f796[m
+Author: KateringCFH <kcristalfh@gmail.com>
+Date:   Mon Nov 13 17:47:39 2017 -0400
+
+    queries_li
+
+[33mcommit 71ec68d929e969d1aaf9d987036a4461656803b1[m
+Author: KateringCFH <kcristalfh@gmail.com>
+Date:   Mon Nov 13 16:44:33 2017 -0400
+
+    registro_p
+
+[33mcommit 43f4f0b174b54cdb4c2be868c4d92b248aaa773d[m
+Author: wenguz <wenguz1518@gmail.com>
+Date:   Mon Nov 13 15:48:21 2017 -0400
+
+    pdf, listado ingresos
+
+[33mcommit 86e23ce6947241f5f8fb30f1d58b54668a2d3006[m
+Merge: 0f166ae 1b3ac59
+Author: Cinthia <cinthia.alvarezs3@gmail.com>
+Date:   Mon Nov 13 18:13:06 2017 +0100
+
+    Merge branch 'master' of https://github.com/wenguz/contaphp
+
+[33mcommit 0f166ae755705a1fb6452cf0c5b7941e517299a3[m
+Author: Cinthia <cinthia.alvarezs3@gmail.com>
+Date:   Mon Nov 13 17:59:37 2017 +0100
+
+    listado egresos
+
+[33mcommit 390a4968ac94598cb9017a71cfc2cace3537ab4c[m
+Merge: d31aae3 1cce93a
+Author: Fabiola Acarapi <fabiola29298@gmail.com>
+Date:   Mon Nov 13 03:28:44 2017 -0400
+
+    personal en ficha egreso listo
+
+[33mcommit d31aae31bd535e56188072b26c7f860182503850[m
+Author: Fabiola Acarapi <fabiola29298@gmail.com>
+Date:   Mon Nov 13 03:19:24 2017 -0400
+
+    bdd de fiche egreso listo
+
+[33mcommit c10bbce4c593a8e682b4399721421d96fb37a2b8[m
+Author: Fabiola Acarapi <fabiola29298@gmail.com>
+Date:   Mon Nov 13 00:40:29 2017 -0400
+
+    bdd de transacciones listo
+
+[33mcommit 71f5e3a7598817c4f9996ac4c67a681ce8b179ca[m
+Author: Fabiola Acarapi <fabiola29298@gmail.com>
+Date:   Mon Nov 13 00:37:56 2017 -0400
+
+    Ficha ingreso-haber funcional
+
+[33mcommit 16ca21c9f1dc7864eb6acdb06725eb018d458601[m
+Author: Fabiola Acarapi <fabiola29298@gmail.com>
+Date:   Sun Nov 12 23:35:56 2017 -0400
+
+    Ficha ingreso funcional
+
+[33mcommit 3cb32656cd5672e1883bc1b51ece362e9e0b36a1[m
+Author: Fabiola Acarapi <fabiola29298@gmail.com>
+Date:   Sun Nov 12 20:40:52 2017 -0400
+
+    corregido la hora de transacciones
+
+[33mcommit 4bc35e66e13b1d2ec370e1384326c44553db7a2c[m
+Author: Fabiola Acarapi <fabiola29298@gmail.com>
+Date:   Sun Nov 12 20:32:17 2017 -0400
+
+    asientos en ficha ingreso
+
+[33mcommit 1cce93ab21d5c62ddbf663fd1dac9c47ca4cae4e[m
+Merge: eafca8e 6dd533f
+Author: KateringCFH <kcristalfh@gmail.com>
+Date:   Sun Nov 12 17:05:49 2017 -0400
+
+    Merge branch 'master' of https://github.com/wenguz/contaphp
+
+[33mcommit eafca8e6c7b1d1c9defad9d36d1ddcdb663fdb53[m
+Author: KateringCFH <kcristalfh@gmail.com>
+Date:   Sun Nov 12 17:05:37 2017 -0400
+
+    cuenta_f
+
+[33mcommit 6dd533f71d9b7ea064af4225bb0c256b95682bb7[m
+Author: Fabiola Acarapi <fabiola29298@gmail.com>
+Date:   Sun Nov 12 16:22:18 2017 -0400
+
+    BDD carpeta llenado
+
+[33mcommit 337e9bc588f46d2234fa90f16649b8258a006adb[m
+Author: Fabiola Acarapi <fabiola29298@gmail.com>
+Date:   Sun Nov 12 01:28:46 2017 -0400
+
+    BDD con asiento en Ficha ingreso
+
+[33mcommit b7388397d6faf6133e7d252cca67403cb8f182eb[m
+Author: Fabiola Acarapi <fabiola29298@gmail.com>
+Date:   Sat Nov 11 22:11:15 2017 -0400
+
+    Lista de fichas terminado, transferencia por coneccion BDD para elaborado
+
+[33mcommit ac661d644ffad4b0c2ab656381ea00ea85a67cc8[m
+Author: Fabiola Acarapi <fabiola29298@gmail.com>
+Date:   Sat Nov 11 21:52:37 2017 -0400
+
+    Coneccion BDD Tabla Ficha con lista fecha .
+
+[33mcommit 05748458a1f72e3fc4a9b422e53adcf3667ab3e0[m
+Author: Fabiola Acarapi <fabiola29298@gmail.com>
+Date:   Sat Nov 11 21:25:39 2017 -0400
+
+    Coneccion BDD Tabla Ficha con Ficha egreso y ficha inversion .
+
+[33mcommit 83aa7cea084b300b261678de7368c534d62dc891[m
+Merge: f6e5075 9c672ec
+Author: Fabiola Acarapi <fabiola29298@gmail.com>
+Date:   Sat Nov 11 19:44:57 2017 -0400
+
+    Coneccion BDD Tabla Ficha con Ficha ingreso .
+
+[33mcommit f6e5075deb528152ad3f58cb47dd8bac44d1df82[m
+Author: Fabiola Acarapi <fabiola29298@gmail.com>
+Date:   Sat Nov 11 19:38:35 2017 -0400
+
+    Coneccion BDD Tabla Ficha con Ficha ingreso
+
+[33mcommit 9c672ec4d632c4ef359524fee2a2741690eeab59[m
+Merge: 9e1684c b0bbd3f
+Author: KateringCFH <kcristalfh@gmail.com>
+Date:   Sat Nov 11 16:30:02 2017 -0400
+
+    Merge branch 'master' of https://github.com/wenguz/contaphp
+
+[33mcommit 9e1684c66d87580d6eca81b47c4d7720e1acba18[m
+Author: KateringCFH <kcristalfh@gmail.com>
+Date:   Sat Nov 11 16:26:57 2017 -0400
+
+    registro_cuenta
+
+[33mcommit b0bbd3f5dc24d288417ce3a3ee0f8af2ff06b384[m
+Author: Fabiola Acarapi <fabiola29298@gmail.com>
+Date:   Fri Nov 10 20:25:47 2017 -0400
+
+    borre la BDD nueva y edite las vistas de secretaria
+
+[33mcommit 9a35fd03ba4291a3c302f3215b1718df7db59050[m
+Author: Fabiola Acarapi <fabiola29298@gmail.com>
+Date:   Fri Nov 10 20:08:37 2017 -0400
+
+    nueva carpeta bdd 10nov donde esta la base de datos sin la tabla repetida tipocmabio
+
+[33mcommit d97fdc1eb6a2eb7956e12969ef261cdc1b64cdb2[m
+Author: Fabiola Acarapi <fabiola29298@gmail.com>
+Date:   Wed Nov 8 23:08:21 2017 -0400
+
+    funcionalidad de registrar ingreso con bdd
+
+[33mcommit d483ce64a4584789c56fdef6f7e3ee5a0639c155[m
+Author: Fabiola Acarapi <fabiola29298@gmail.com>
+Date:   Wed Nov 8 19:23:42 2017 -0400
+
+    view fichas
+
+[33mcommit 9be2344df99745e604ea0947511c62f197f77ba0[m
+Author: Fabiola <fabiola29298@gmail.com>
+Date:   Tue Nov 7 16:51:29 2017 -0400
+
+    crear readme del proyecto
+
+[33mcommit c4e7ce9d02d15e42c0626939c9f14d7cd800edee[m
+Author: KateringCFH <kcristalfh@gmail.com>
+Date:   Tue Nov 7 15:30:40 2017 -0500
+
+    emergente
+
+[33mcommit f245fe785514e35a74c6c50e95b6b3009d02cb84[m
+Author: KateringCFH <kcristalfh@gmail.com>
+Date:   Tue Nov 7 12:48:06 2017 -0500
+
+    arreglo_3
+
+[33mcommit 3b623437bbb623dd4944f9924a05311fdcdde5aa[m
+Author: KateringCFH <kcristalfh@gmail.com>
+Date:   Mon Nov 6 17:41:23 2017 -0500
+
+    arreglo_2
+
+[33mcommit 54b97b8860a3c141c61a783022436ce1a042a768[m
+Author: KateringCFH <kcristalfh@gmail.com>
+Date:   Fri Nov 3 22:56:05 2017 -0400
+
+    arreglo_1
+
+[33mcommit 2dbb152198b289a31db3ca54475b408e7dff01c7[m
+Author: KateringCFH <kcristalfh@gmail.com>
+Date:   Fri Nov 3 20:18:21 2017 -0400
+
+    arreglo
+
+[33mcommit d673dde8720a240041f696662e03594fdaa1f9a0[m
+Author: Cinthia <cinthia.alvarezs3@gmail.com>
+Date:   Fri Nov 3 16:25:19 2017 +0100
+
+    prueba
+
+[33mcommit c864881ee7335a0e4f0461cfb5174fa48c31ff1e[m
+Author: Wendy <wenguz1518@gmail.com>
+Date:   Fri Nov 3 16:14:56 2017 -0400
+
+    inicio
+
+[33mcommit 4d210010c6e90cd1c9fef5ea0bfc77ab467f5a5e[m
+Author: Wendy <wenguz1518@gmail.com>
+Date:   Fri Nov 3 15:22:28 2017 -0400
+
+    inicio

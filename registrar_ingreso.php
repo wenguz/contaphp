@@ -155,7 +155,7 @@ require('conexion.php');
                                 <p>
 
                                       <?php
-                                           $cod=mysqli_query($con,"SELECT monto FROM tipo_cambio ORDER BY id_tipo_cambio DESC LIMIT 1 " );
+                                           $cod=mysqli_query($con,"SELECT   monto FROM tipo_cambio ORDER BY id_tipo_cambio DESC LIMIT 1 " );
 
                                           if ($row = mysqli_fetch_row($cod))
                                             {
@@ -334,33 +334,8 @@ require('conexion.php');
                                                $id_persona = $id+1;
                                              $sq_p= "INSERT INTO persona(id_persona,nombre_persona,ci_persona,descripcion_persona) VALUES ('$id_persona','$p_nom','$p_ci','Recibio');";
                                              mysqli_query($con,$sq_p);
-
                                            }
-                        //empelado
-
-                        $user= $_SESSION["usuario"];
-                        $cod_p=mysqli_query($con,"SELECT ef.id_empleado_ficha,ef.id_empleado_usuario FROM empleado_ficha ef,empleado_usuario eu
-                           WHERE eu.user='$user'
-                           and ef.id_empleado_usuario=eu.id_empleado_usuario");
-                                       if ($row_p = mysqli_fetch_row($cod_p))
-                                         {
-                                           $id_empleado = ($row_p['id_empleado_ficha']);
-                                            $id_empu = ($row_p['id_empleado_usuario']);
-                                         }
-                                         else {
-                                           $cod_p=mysqli_query($con,"SELECT MAX(id_empleado_ficha ) as id FROM empleado_ficha");
-                                           if ($row_p = mysqli_fetch_row($cod_p))
-                                             {
-                                               $id = ($row_p['id_empleado_ficha']);
-                                             }
-                                             $id_empleado = $id+1;
-                                           $sq_p= "INSERT INTO empleado_ficha(id_empleado_ficha,descripcion_empleado,id_ficha,id_empleado_usuario) VALUES ('$id_empleado','Elaborado','$id_entidad','$id_empu');";
-                                           mysqli_query($con,$sq_p);
-
-                                         }
-                          ?>
             //tipo de cambio
-            <?php
                            $cod_c=mysqli_query($con,"SELECT id_tipo_cambio FROM tipo_cambio WHERE monto='$cambio' LIMIT 1");
 
                                           if ($row_c = mysqli_fetch_row($cod_c))
