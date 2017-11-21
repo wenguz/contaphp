@@ -104,17 +104,13 @@ require('conexion.php');
 
     </ul>
 </div>
-      </aside>
-
-
+</aside>
 </section>
-
 <section id="main-content">
     <section class="wrapper">
       <h3><i class="fa fa-angle-right"></i>Ficha Ingreso</h3>
           <div class="col-md-12">
               <div class="content-panel">
-
                     <h4><i class="fa fa-angle-right"></i> Registrar Ingreso</h4>
                         <h6>  * Llenar todos los espacios vacios obligatoriamente</h6>
                     <table class="">
@@ -122,27 +118,40 @@ require('conexion.php');
                       <tr>
                         <td>
                           <div class="form-group">
-                            <label class="col-sm-3 col-sm-3 control-label"  >Fecha:&emsp;
-                                <input required type="date" name="fecha" placeholder="YYYY-MM-DD" min="2017-01-01" class="form-input"/>
-                            </label>
-
+                            <label class="col-sm-4 col-sm-4 control-label">Fecha:&emsp; </label>
+                            <div class="col-sm-10">
+                              <?php
+                              $hoy = date('Y-m-d');
+                              ?>
+                                <input required type="date" name ="fecha" class="form-control" value=<?php echo $hoy;?>>
+                            </div>
                           </div>
                         </td>
-                        <td colspan="2">
-                          <div class="col-sm-3 col-sm-3 control-label">
-                              Hora:
-                                <p  readonly="readonly" type="time" class="form-control"   ><a><?php
-                                  $time = time();
-                                  echo date("H:i:s", $time);
-                                    ?></a></p>
-
+                        <td>
+                          <div class="form-group">
+                            <label class="col-sm-4 col-sm-4 control-label">Hora:&emsp; </label>
+                            <div class="col-sm-10">
+                              <?php
+                              $time = time();
+                              ?>
+                                <input required type="time" disabled="true" name ="hora" class="form-control" value=<?php echo date("H:i:s", $time);?>>
                             </div>
+                          </div>
                         </td>
+                        <td></td>
                         <td>
                           <div class="form-group">
                             <label class="col-sm-4 col-sm-4 control-label">Nro. de comprobante:&emsp; </label>
                             <div class="col-sm-10">
-                                <input required type="number" name ="numero_partida_ficha" class="form-control">
+                                <?php
+                                $ficha=mysqli_query($con,"SELECT MAX(id_ficha) AS id FROM ficha");
+                                if ($row_f = mysqli_fetch_row($ficha))
+                                {
+                                  $id = ($row_f[0]);
+                                }
+                                $id=$id+1;
+                                ?>
+                                <input required type="number" name ="numero_partida_ficha" class="form-control" value=<?php echo "$id";?>>
                             </div>
                           </div>
                         </td>
@@ -153,17 +162,14 @@ require('conexion.php');
                             <label class="col-sm-10">Tipo de Cambio:&emsp; </label>
                             <div class="col-sm-10">
                                 <p>
-
-                                      <?php
-                                           $cod=mysqli_query($con,"SELECT monto FROM tipo_cambio ORDER BY id_tipo_cambio DESC LIMIT 1 " );
-
-                                          if ($row = mysqli_fetch_row($cod))
-                                            {
-                                              $iden = trim($row[0]);
-                                            }
-                                          echo '<input required type="number" step="any" class="form-control" name="cambio" value="'.$iden.'"> </input> ';
-                                      ?>
-
+                                <?php
+                                $cod=mysqli_query($con,"SELECT monto FROM tipo_cambio ORDER BY id_tipo_cambio DESC LIMIT 1 " );
+                                if ($row = mysqli_fetch_row($cod))
+                                {
+                                $iden = trim($row[0]);
+                                }
+                                echo '<input required type="number" step="any" class="form-control" name="cambio" value="'.$iden.'"> </input> ';
+                                ?>
                                 </p>
                               </div>
                             </div>
@@ -183,19 +189,15 @@ require('conexion.php');
                         </td>
                         <td>
                           <div class="form-group">
-                              <label class="col-sm-10" >Destino de Pago :&emsp; </label>
-
+                            <label class="col-sm-10" >Destino de Pago :&emsp; </label>
                               <div class="col-sm-10">
                                 <p>
                                   <select  required class="form-control" name="pago">
                                       <?php
-                                           $cod=mysqli_query($con,"SELECT * FROM tipo_pago WHERE descripcion_tipo_pago='Ingreso' or descripcion_tipo_pago='Deposito' ");
-
-                                        while ($valores = mysqli_fetch_array($cod)) {
-
-                                          echo '<option value="'.$valores[id_tipo_pago].'">'.$valores[tipo].'</option>';
-
-                                       }
+                                      $cod=mysqli_query($con,"SELECT * FROM tipo_pago WHERE descripcion_tipo_pago='Ingreso' or descripcion_tipo_pago='Deposito' ");
+                                      while ($valores = mysqli_fetch_array($cod)) {
+                                      echo '<option value="'.$valores[id_tipo_pago].'">'.$valores[tipo].'</option>';
+                                      }
                                       ?>
                                   </select>
                                 </p>
@@ -206,16 +208,14 @@ require('conexion.php');
                           <div class="form-group">
                             <label class="col-sm-10">Tipo de Transaccion:&emsp; </label>
                             <div class="col-sm-10">
-                                      <?php
-                                           $cod=mysqli_query($con,"SELECT * FROM tipo_transaccion WHERE id_tipo_transaccion='1'");
-
-                                        while ($valores = mysqli_fetch_array($cod)) {
-                                          ?>
-                                              <input required type="" disabled="true" name ="trans" class="form-control" value="<?php echo $valores['nombre_transaccion'];?>">
-
-                                          <?php
-                                       }
-                                      ?>
+                                <?php
+                                $cod=mysqli_query($con,"SELECT * FROM tipo_transaccion WHERE id_tipo_transaccion='1'");
+                                while ($valores = mysqli_fetch_array($cod)) {
+                                ?>
+                                <input required type="" disabled="true" name ="trans" class="form-control" value="<?php echo $valores['nombre_transaccion'];?>">
+                                <?php
+                                 }
+                                ?>
                               </div>
                           </div>
                         </td>
@@ -248,13 +248,10 @@ require('conexion.php');
                                 <div class="form-group">
                                   <center>
                                   <label style="font-size: 15px;">Elaborado por...</label></center>
-
-
                                   <div class="col-sm-9">
-
                                     <?php
                                     $user= $_SESSION["usuario"];
-                                    $datos=mysqli_query($con,"SELECT a.* FROM usuario a, empleado_usuario b where b.user = '$user' LIMIT 1");
+                                    $datos=mysqli_query($con,"SELECT a.* FROM usuario a, empleado_usuario b where b.user = '$user' and b.id_usuario = a.id_usuario LIMIT 1");
                                     $row=mysqli_fetch_assoc($datos);
                                        ?>
                                           <p class="col-sm-2 col-sm-2 control-label">Nombre:&emsp; </p>
@@ -279,138 +276,120 @@ require('conexion.php');
                                 <center>
                              <input type="submit"  class="btn btn-danger"  onClick="document.location.reload();"  name="cancelar" value="CANCELAR">
                          <input type="submit"  class="btn btn-theme" name="registrar_datos"  value="AGREGAR CUENTAS">
-
                           </center></td>
                         </tr>
 
-  <?php
-                           if(isset($_POST['registrar_datos']))
-                        {
+<?php
+if(isset($_POST['registrar_datos']))
+{
+  if($_POST['fecha'] == '' or  $_POST['pago'] == '' or $_POST['cambio']== ''  or $_POST['numero_partida_ficha']=='' )
+  {
+    echo 'Por favor llene todos los campos.';
+  }
+  else
+  {
+    $rs=mysqli_query($con,"SELECT MAX(id_ficha) AS iden FROM ficha");
+    if ($row = mysqli_fetch_row($rs))
+    {
+      $iden = trim($row[0]);
+    }
+    $tot=0;
+    $id_entidad=$iden+1;
+    $fechai =$_POST["fecha"] ;
+    $pago =$_POST["pago"] ;
+    $trans ='1';
+    $cambio =$_POST["cambio"] ;
+    $moneda =$_POST["moneda"] ;
+    $partida=$_POST["numero_partida_ficha"];
+    $p_nom=$_POST["p_nom"];
+    $p_ci=$_POST["p_ci"];
+    //modena
+    if ($moneda==0)
+    {
+      $tot=$cambio;
+    }
+    else
+    {
+      $tot=1;
+    }
+    //persona recibido por
+    $cod_p=mysqli_query($con,"SELECT id_persona FROM persona WHERE ci_persona='$p_ci' LIMIT 1");
+    if ($row_p = mysqli_fetch_row($cod_p))
+     {
+       $id_persona = trim($row_p[0]);
+     }
+     else
+     {
+       $cod_p=mysqli_query($con,"SELECT MAX(id_persona) as id FROM persona");
+       if ($row_p = mysqli_fetch_row($cod_p))
+         {
+           $id = trim($row_p[0]);
+         }
+       $id_persona = $id+1;
+       $sq_p= "INSERT INTO persona(id_persona,nombre_persona,ci_persona,descripcion_persona) VALUES ('$id_persona','$p_nom','$p_ci','Recibio');";
+       mysqli_query($con,$sq_p);
 
-                         include('conexion.php');
+     }
 
-                            if($_POST['fecha'] == '' or  $_POST['pago'] == '' or $_POST['cambio']== ''  or $_POST['numero_partida_ficha']=='' )
-                            {
-                                echo 'Por favor llene todos los campos.';
-                            }
-                            else
-                            {
-                             $rs=mysqli_query($con,"SELECT MAX(id_ficha) AS iden FROM ficha");
-                                    if ($row = mysqli_fetch_row($rs))
-                                      {
-                                        $iden = trim($row[0]);
-                                      }
-                                      $tot=0;
-                          $id_entidad=$iden+1;
-                          $fechai =$_POST["fecha"] ;
-                          $pago =$_POST["pago"] ;
-                          $trans ='1';
-                          $cambio =$_POST["cambio"] ;
-                          $moneda =$_POST["moneda"] ;
-                          $partida=$_POST["numero_partida_ficha"];
-                          $p_nom=$_POST["p_nom"];
-                          $p_ci=$_POST["p_ci"];
-                          //modena
-                          if ($moneda==0)
-                          {
-                            $tot=$cambio;
-                          }
-                          else
-                          {
-                            $tot=1;
-                          }
-                          //persona recibido por
-                          $cod_p=mysqli_query($con,"SELECT id_persona FROM persona WHERE ci_persona='$p_ci' LIMIT 1");
-                                         if ($row_p = mysqli_fetch_row($cod_p))
-                                           {
-                                             $id_persona = trim($row_p[0]);
-                                           }
-                                           else {
-                                             $cod_p=mysqli_query($con,"SELECT MAX(id_persona) as id FROM persona");
-                                             if ($row_p = mysqli_fetch_row($cod_p))
-                                               {
-                                                 $id = trim($row_p[0]);
-                                               }
-                                               $id_persona = $id+1;
-                                             $sq_p= "INSERT INTO persona(id_persona,nombre_persona,ci_persona,descripcion_persona) VALUES ('$id_persona','$p_nom','$p_ci','Recibio');";
-                                             mysqli_query($con,$sq_p);
+    //tipo de cambio
 
-                                           }
-                        //empelado
+    $cod_c=mysqli_query($con,"SELECT id_tipo_cambio FROM tipo_cambio WHERE monto='$cambio' LIMIT 1");
 
-                        $user= $_SESSION["usuario"];
-                        $cod_p=mysqli_query($con,"SELECT ef.id_empleado_ficha,ef.id_empleado_usuario FROM empleado_ficha ef,empleado_usuario eu
-                           WHERE eu.user='$user'
-                           and ef.id_empleado_usuario=eu.id_empleado_usuario");
-                                       if ($row_p = mysqli_fetch_row($cod_p))
-                                         {
-                                           $id_empleado = ($row_p['id_empleado_ficha']);
-                                            $id_empu = ($row_p['id_empleado_usuario']);
-                                         }
-                                         else {
-                                           $cod_p=mysqli_query($con,"SELECT MAX(id_empleado_ficha ) as id FROM empleado_ficha");
-                                           if ($row_p = mysqli_fetch_row($cod_p))
-                                             {
-                                               $id = ($row_p['id_empleado_ficha']);
-                                             }
-                                             $id_empleado = $id+1;
-                                           $sq_p= "INSERT INTO empleado_ficha(id_empleado_ficha,descripcion_empleado,id_ficha,id_empleado_usuario) VALUES ('$id_empleado','Elaborado','$id_entidad','$id_empu');";
-                                           mysqli_query($con,$sq_p);
+    if ($row_c = mysqli_fetch_row($cod_c))
+      {
+        $id_cambio = trim($row_c[0]);
+      }
+    else {
+        $cod_c=mysqli_query($con,"SELECT   MAX(id_tipo_cambio) FROM tipo_cambio");
+        if ($row_c = mysqli_fetch_row($cod_c))
+          {
+            $id_c = trim($row_c[0]);
+          }
+          $id_cambio = $id_c+1;
+        $sq_c= "INSERT INTO tipo_cambio( id_tipo_cambio,monto,fecha)
+              VALUES ('$id_cambio','$cambio','$fechai');";
+        mysqli_query($con,$sq_c)  ;
+      }
+    //tiempo  y hora
+    $time = time();
+    $hora= date("H:i:s", $time);
+    //insertar ficha
+    $sq= "INSERT INTO ficha(id_ficha, numero_partida_ficha, fecha_ficha, tiempo_ficha, total_ficha, total_debe_ficha, total_haber_ficha, id_tipo_transaccion, id_tipo_cambio, id_tipo_pago, id_persona) VALUES ('$id_entidad','$partida','$fechai','$hora','$tot','0','0','$trans','$id_cambio','$pago','$id_persona')";
+    mysqli_query($con,$sq) or die(mysqli_error($con));
 
-                                         }
-                          ?>
-            //tipo de cambio
-            <?php
-                           $cod_c=mysqli_query($con,"SELECT id_tipo_cambio FROM tipo_cambio WHERE monto='$cambio' LIMIT 1");
+    //empelado
+    $user= $_SESSION["usuario"];
+    {
+       $cod_pp=mysqli_query($con,"SELECT MAX(id_empleado_ficha) as id FROM empleado_ficha") or die(mysqli_error($con));
+       if ($row_pp = mysqli_fetch_row($cod_pp))
+         {
+           $idy = ($row_pp[0]);
+         }
+         $id_empleado = $idy+1;
+         $datos=mysqli_query($con,"SELECT id_empleado_usuario FROM empleado_usuario where user = '$user'") or die(mysqli_error($con));
+         $row_eusu=mysqli_fetch_assoc($datos);
+         $abc=$row_eusu['id_empleado_usuario'];
 
-                                          if ($row_c = mysqli_fetch_row($cod_c))
-                                            {
-                                              $id_cambio = trim($row_c[0]);
-                                            }
-                                          else {
-                                              $cod_c=mysqli_query($con,"SELECT   MAX(id_tipo_cambio) FROM tipo_cambio");
-                                              if ($row_c = mysqli_fetch_row($cod_c))
-                                                {
-                                                  $id_c = trim($row_c[0]);
-                                                }
-                                                $id_cambio = $id_c+1;
-                                              $sq_c= "INSERT INTO tipo_cambio( id_tipo_cambio,monto,fecha)
-                                                    VALUES ('$id_cambio','$cambio','$fechai');";
-                                              mysqli_query($con,$sq_c)  ;
-                                            }
-                           //tiempo  y hora
-                           $time = time();
-                           $hora= date("H:i:s", $time);
-                           //insertar ficha
-                           $sq= "INSERT INTO ficha(id_ficha, numero_partida_ficha, fecha_ficha, tiempo_ficha, total_ficha, total_debe_ficha, total_haber_ficha, id_tipo_transaccion, id_tipo_cambio, id_tipo_pago, id_persona)
-                            VALUES ('$id_entidad',
-                              '$partida',
-                              '$fechai',
-                              '$hora',
-                              '$tot',
-                              '0',
-                              '0',
-                              '$trans',
-                              '$id_cambio',
-                              '$pago',
-                              '$id_persona')";
+       $sq_p= "INSERT INTO empleado_ficha(id_empleado_ficha,descripcion_empleado,id_ficha,id_empleado_usuario)
+       VALUES('$id_empleado','Elaborado','$id_entidad','$abc')";
+       mysqli_query($con,$sq_p) or die(mysqli_error($con));
+    }
 
-                            mysqli_query($con,$sq) or die(mysqli_error($con))  ;
+    $msg = 'Cargo agregado correctamente';
+    print "<script> window.location='emergente_ingreso.php';</script>";
+  }
+}
+else
+{
+  if(isset($_POST['cancelar']))
+  {
+    print "<script> window.location='registrar_ingreso.php';</script>";
+  }
+}
 
-                            $msg = 'Cargo agregado correctamente';
-                            print "<script> window.location='emergente_ingreso.php';</script>";
-                             }
-                        }else{
-                        if(isset($_POST['cancelar']))
-                        {
-
-                          print "<script> window.location='registrar_ingreso.php';</script>";
-                        }
-                        }
-
-                         ?>
-                            </form>
-                          </table>
+?>
+                  </form>
+                </table>
               </div><!-- /content-panel -->
           </div><!-- /col-md-12 -->
     </section><!--/wrapper -->
