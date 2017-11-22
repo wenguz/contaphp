@@ -87,8 +87,8 @@ require('conexion.php');
                   <span>Registrar Fichas</span>
               </a>
               <ul class="sub">
-                  <li class="active"><a  href="registrar_ingreso.php"><i class="fa fa-list-alt"></i>Registrar Ingreso</a></li>
-                  <li ><a  href="registrar_egreso.php"><i class="fa fa-list-alt"></i>Registrar Egreso</a></li>
+                  <li ><a  href="registrar_ingreso.php"><i class="fa fa-list-alt"></i>Registrar Ingreso</a></li>
+                  <li class="active" ><a  href="registrar_egreso.php"><i class="fa fa-list-alt"></i>Registrar Egreso</a></li>
                   <li ><a  href="registrar_inversion.php"><i class="fa fa-list-alt"></i>Registrar Inversion</a></li>
               </ul>
           </li>
@@ -198,23 +198,7 @@ require('conexion.php');
                                       </tr>
                             </div>
 
-                                    <tr><td colspan="2">
-                                      <h3><i class="fa fa-angle-right"></i>Informacion de Documento </h3>
 
-                                    </td></tr>
-                                <tr>
-                                  <td> <div class="form-group">
-                                  <p class="col-sm-3 col-sm-3 control-label" >Tipo de Documento</p>
-                                   <div class="col-sm-10"> <input required type="text" name="ri_tipo" placeholder=" "  class="form-control placeholder-no-fix">
-                                    </div></div> </td><td>
-                                     <div class="form-group"> <p lass="col-sm-4 col-sm-4 control-label" >Num. Documento</p>
-                                    <div class="col-sm-10"> <input required type="number" name="ri_doc" placeholder=" "  class="form-control placeholder-no-fix">
-                                  </div>   </div></td>
-                             </tr>
-                                <tr>  <td colspan="2"> <div class="form-group">
-                                    <p class="col-sm-3 col-sm-3 control-label" >Descripcion del Documento</p>
-                                     <div class="col-sm-11"> <input required type="text" name="ri_doc_des" placeholder=" "  class="form-control placeholder-no-fix">
-                                </div></div></td></tr>
 
 
                         </div>
@@ -228,7 +212,7 @@ require('conexion.php');
                                    if(isset($_POST['registrar_asientos']))
                                    {
                                     include('conexion.php');
-                                  if($_POST['ri_cuenta'] == '' or  $_POST['ri_monto'] == ''or $_POST['ri_concepto'] == '' or $_POST['ri_cantidad'] == ''  )
+                                  if($_POST['ri_cuenta'] == '' or $_POST['ri_cuenta_o'] == ''or  $_POST['ri_monto'] == ''or $_POST['ri_concepto'] == '' or $_POST['ri_cantidad'] == ''  )
                                     {
                                         echo 'Por favor llene todos los campos.';
                                     }
@@ -244,28 +228,17 @@ require('conexion.php');
                                      $ri_monto =$_POST["ri_monto"] ;
                                      $ri_concepto=$_POST["ri_concepto"] ;
                                      $ri_cantidad=$_POST["ri_cantidad"] ;
-                                     $ri_tipo=$_POST["ri_tipo"] ;
-                                     $ri_doc=$_POST["ri_doc"] ;
-                                     $ri_doc_des=$_POST["ri_doc_des"] ;
+                                     $ri_cuenta_origen = $_POST["ri_cuenta_o"];
+
                                       $sq2= "INSERT INTO temp_as (id_as,glosa_asiento,monto_asiento,subcuenta_id_subcuenta,cantidad  )
                                                             VALUES ( '$id_entidad0','$ri_concepto','$ri_monto','$ri_cuenta','$ri_cantidad')";
                                                       mysqli_query($con,$sq2)  or die(mysqli_error($con));
+
+                                      $sq2= "INSERT INTO temp_as (id_as,glosa_asiento,monto_asiento,subcuenta_id_subcuenta,cantidad   )
+                                                              VALUES ( '$id_entidad0'+1,'$ri_concepto','$ri_monto','$ri_cuenta_origen','$ri_cantidad');";
+                                                        mysqli_query($con,$sq2) or die(mysqli_error($con))  ;
                                                       //agragar documento
-                                    $rsd=mysqli_query($con,"SELECT MAX(id_ficha) AS iden FROM ficha");
-                                    if ($rowd = mysqli_fetch_row($rsd))
-                                      {
-                                        $iden = trim($rowd[0]);
-                                      }
-                                       $iden2 =0;
-                                      $rsd2=mysqli_query($con,"SELECT MAX(id_documento_extra)  FROM documento_extra");
-                                    if ($rowd2 = mysqli_fetch_row($rsd2))
-                                      {
-                                        $iden2 = $rowd2[0];
-                                      }
-                                      $id_doc_new= $iden2 +1;
-                                    $sq3= "INSERT INTO documento_extra (  id_documento_extra,codigo_documento,tipo,descripcion, id_ficha   )
-                                                            VALUES ( '$id_doc_new','$ri_doc','$ri_tipo','$ri_doc_des','$iden');";
-                                                      mysqli_query($con,$sq3)  or die(mysqli_error($con));
+
                                     }}
                                   ?>
 
@@ -287,9 +260,7 @@ require('conexion.php');
                                   <td width="350px"> Concepto</td>
                                   <td> Cantidad</th>
                                     <td> Monto</th>
-                                      <td width="150px">Tipo de documento</td>
-                                      <td width="150px"> Num. Doc </td>
-                                      <td width="150px"> Descrip. Doc </td>
+
                                   <td width="150px"> Opciones</td>
                               </tr>
                               </thead>
@@ -328,11 +299,6 @@ require('conexion.php');
                                   <td><?php echo $valores8['glosa_asiento']; ?></td>
                                   <td><?php echo $valores8['cantidad']; ?></td>
                                   <td><?php echo $valores8['monto_asiento']; ?></td>
-                                <td><?php $func3 = 'ver_doc_t';
-                                            echo $func3($valores8['id_as']);?></td>
-                              <td><?php echo $valores8['cantidad']; ?></td>
-                                  <td><?php echo $valores8['monto_asiento'];  ?></td>
-
 
                           <?php }  ?>
                           <td>
@@ -384,31 +350,62 @@ require('conexion.php');
                                         $moneda = trim($row_m[0]);
                                       }
                          /*agregrar asienteos
+                         $codb=mysqli_query($con,"SELECT   MAX(id_asiento) FROM asiento");
+                                          if ($rowb = mysqli_fetch_row($codb))
+                                            {
+                                              $ida = trim($rowb[0]);
+                                            }
+                                            $id_asiento = $ida+1;
+                      $result0 = mysqli_query($con,"SELECT * from temp_as");
+                        $s=1;
+                          while ($row0 = mysqli_fetch_array($result0)) {
+                              $id=$row0['id_as']+$ida;
+                              $campo1=$row0['glosa_asiento'];
+                              $campo2=$row0['cantidad'];
+                              $campo3=$row0['monto_asiento'];
+                              $campo3=$campo3*$moneda;
+                              $campo4=$row0['monto_asiento'];
+                              $campo4=$campo4*$moneda;
+                              $campo5=0;
+                              $campo6=$iden;
+                              $campo7=$row0['subcuenta_id_subcuenta'];
 
+                              $insercion="INSERT INTO asiento values ('$id', '$campo1', '$campo2', '$campo3', '$campo4', '$campo5', '$campo6', '$campo7');";
+                            mysqli_query($con,$insercion)  ;
+                        }
                             */
-                             $codb=mysqli_query($con,"SELECT   MAX(id_asiento) FROM asiento");
-                                              if ($rowb = mysqli_fetch_row($codb))
-                                                {
-                                                  $ida = trim($rowb[0]);
-                                                }
-                                                $id_asiento = $ida+1;
-                          $result0 = mysqli_query($con,"SELECT * from temp_as");
-                            $s=1;
-                              while ($row0 = mysqli_fetch_array($result0)) {
-                                  $id=$row0['id_as']+$ida;
-                                  $campo1=$row0['glosa_asiento'];
-                                  $campo2=$row0['cantidad'];
-                                  $campo3=$row0['monto_asiento'];
-                                  $campo3=$campo3*$moneda;
-                                  $campo4=$row0['monto_asiento'];
-                                  $campo4=$campo4*$moneda;
-                                  $campo5=0;
-                                  $campo6=$iden;
-                                  $campo7=$row0['subcuenta_id_subcuenta'];
+                            $codb=mysqli_query($con,"SELECT   MAX(id_asiento) FROM asiento");
+                                             if ($rowb = mysqli_fetch_row($codb))
+                                               {
+                                                 $ida = trim($rowb[0]);
+                                               }
+                                               $id_asiento = $ida+1;
+                           $result0 = mysqli_query($con,"SELECT * from temp_as");
+                           $s=1;$cont=0;
+                             while ($row0 = mysqli_fetch_array($result0)) {
+                                 $id=$row0['id_as']+$ida;
+                                 $campo1=$row0['glosa_asiento'];
+                                 $campo2=$row0['cantidad'];
+                                 $campo3=$row0['monto_asiento'];
+                                 $campo3=$campo3*$moneda;
+                                 $campo4=$row0['monto_asiento'];
+                                 $campo8=0;
+                                 $campo5=$campo5*$moneda;
+                                 $campo6=$iden;
+                                 $campo7=$row0['subcuenta_id_subcuenta'];
+                                 $cont++;
+                                 if ($cont%2==0) {
 
-                                  $insercion="INSERT INTO asiento values ('$id', '$campo1', '$campo2', '$campo3', '$campo4', '$campo5', '$campo6', '$campo7');";
-                                mysqli_query($con,$insercion)  ;
-                            }
+                                 $insercion="INSERT INTO asiento values ('$id', '$campo1', '$campo2', '$campo3', '$campo4', '$campo5', '$campo6', '$campo7');";
+                               mysqli_query($con,$insercion) or die (mysqli_error($con))  ;
+                                 }
+                                 else {
+                                   $insercion="INSERT INTO asiento values ('$id', '$campo1', '$campo2', '$campo8', '$campo5', '$campo4', '$campo6', '$campo7');";
+                                 mysqli_query($con,$insercion) or die (mysqli_error($con))  ;
+                                 }
+
+                           }
+
                             //actualizar el monot total de ficha
                             $total=0;
                              $cod_ficha=mysqli_query($con,"SELECT   cantidad AS c, monto_asiento AS mo FROM temp_as");

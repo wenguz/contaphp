@@ -6,6 +6,7 @@ if (!isset($_SESSION["usuario"])){
 
 }
 $_SESSION["usuario"];
+require('conexion.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -64,7 +65,7 @@ $_SESSION["usuario"];
     <ul class="sidebar-menu" id="nav-accordion"><br>
         <h5 class="centered">Usuario: <?php echo $_SESSION["usuario"]; ?></h5>
         <li class="mt">
-            <a class="active" href="principal_secretaria.php">
+            <a href="principal_secretaria.php">
                 <i class="fa fa-home">    </i>
                 <span>Inicio  </span>
             </a>
@@ -84,16 +85,15 @@ $_SESSION["usuario"];
 
 
           <li class="sub-menu">
-              <a href="lista_ficha.php" >
+              <a class="active"  href="lista_ficha.php" >
                   <i class="fa fa-th"></i>
                   <span>Lista de Fichas</span>
               </a>
           </li>
 
-
     </ul>
 </div>
-      </aside>
+</aside>
 
 
 </section>
@@ -109,19 +109,20 @@ $_SESSION["usuario"];
 
 
                    <form action="" method="post">
-<tr>
-                       <p>Ingrese codigo de ficha:  </p> &emsp;
-                      <input style="padding: 5px" type="number" name ="b_id" value="Buscar..." onfocus="if (this.value == 'Buscar...') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Buscar...';}" />
-                      <input type="submit"  class="btn btn-theme" name="buscar_id" value="Buscar">
-                      <br>
+                     <tr>&emsp;
+                       <label>Ingrese codigo de ficha:  </label> &emsp;
+                      <input style="padding: 5px" type="number" name ="b_id" value="Buscar..." onfocus="if (this.value == 'Buscar...') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Buscar...';}" />&emsp;
+                      <input type="submit"  class="btn btn-theme" name="buscar_id" value="Buscar">    <br>
+
                     </tr>
+                    <br>
                     <tr>
-                      <p>    Ingrese Fecha:  </p> &emsp;
-                      <input type="date" name="b_fecha" placeholder="YYYY-MM-DD" class="form-input"/>
-                      <input type="submit"  class="btn btn-theme" name="buscar_fecha" value="Buscar">
+                      &emsp;&emsp;  <label>Ingrese Fecha:  </label> &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                      <input style="padding: 5px" type="date" name="b_fecha" placeholder="YYYY-MM-DD" class="form-input"/>&emsp;
+                      <input type="submit"  class="btn btn-theme" name="buscar_fecha" value="Buscar">    <br>
                     </tr>
+                    <br>
                     <tr>
-                      <p>    Click aqui para mostrar todos (solo se mostrara este boton para el proceso de desarrollo del sistema) : </p>
                       <input type="submit"  class="btn btn-theme" name="buscar1" value="Mostrar todos">
                     </tr>
                     </form>
@@ -129,79 +130,199 @@ $_SESSION["usuario"];
                       <thead >
                       <tr>
                           <td>Nro</th>
-                          <td class="hidden-phone"> Cuenta</th>
-                          <td> Concepto</th>
-                          <td> Tipo de Pago</th>
-                          <td> Monto</th>
-                             <td>Fecha</th>
+                          <td> Tipo de Ingreso</th>
+                          <td> Tipo de Trans.</th>
+                          <td> Monto Total</th>
+                          <td>Fecha</th>
                           <td> Autorizado por...</th>
-                          <td> Entregado por...</th>
+                          <td> Elaborado por...</th>
                           <td> Recibido por...</th>
                       </tr>
                       </thead>
                       <tbody>
-
                       <tr>
-                        <?php
-                            if(isset($_POST['buscar1']))
-                        {
-                         $con = mysqli_connect('localhost', 'root', '', 'contabilidad') or die(mysql_error());
-                          $cod=mysqli_query($con,"SELECT * FROM ficha");
-                           while ($valores = mysqli_fetch_array($cod)) { ?>
-                              <tr>
-                                  <td><?php echo $valores['id_ficha'] ?></td>
-                                  <td><?php echo $valores['id_tipo_pago'] ?></td>
-                                  <td><?php echo 'Concepto' ?></td>
-                                  <td><?php echo $valores['total_ficha'] ?></td>
-                                  <td><?php echo $valores['fecha_ficha'] ?></td>
-                                  <td><?php echo 'aut' ?></td>
-                                  <td><?php echo 'entre' ?></td>
-                                  <td><?php echo 'rec' ?></td>
-                                  <td><?php echo $valores['id_persona'] ?></td>
-                              </tr>
-                         <?php } }   ?>
-                       <?php
-                            if(isset($_POST['buscar_id']))
-                        {
-                         $con = mysqli_connect('localhost', 'root', '', 'contabilidad') or die(mysql_error());
-                               $a =$_POST["b_id"] ;
-                          $cod=mysqli_query($con,"SELECT * FROM ficha WHERE id_ficha='$a'");
-                           while ($valores = mysqli_fetch_array($cod)) { ?>
-                              <tr>
-                                  <td><?php echo $valores['id_ficha'] ?></td>
-                                  <td><?php echo $valores['id_tipo_pago'] ?></td>
-                                  <td><?php echo 'Concepto' ?></td>
-                                  <td><?php echo $valores['total_ficha'] ?></td>
-                                  <td><?php echo $valores['fecha_ficha'] ?></td>
-                                  <td><?php echo 'aut' ?></td>
-                                  <td><?php echo 'entre' ?></td>
-                                  <td><?php echo 'rec' ?></td>
-                                  <td><?php echo $valores['id_persona'] ?></td>
+<?php
+if(isset($_POST['buscar1']))
+{
+  $cod=mysqli_query($con,"SELECT * FROM ficha");
+  while ($valores = mysqli_fetch_assoc($cod)) { ?>
+  <tr>
+    <td>
+      <?php echo $valores['id_ficha'] ?>
+    </td>
+    <td>
+      <?php
+      $id_tp=$valores['id_tipo_pago'];
+      $cod_1=mysqli_query($con, "SELECT * FROM tipo_pago WHERE id_tipo_pago='$id_tp'") or die(mysql_error());
+      $row_1 = mysqli_fetch_assoc($cod_1);
+      echo $row_1['tipo'].' , '.$row_1['descripcion_tipo_pago'];
+      ?>
+    </td>
+    <td>
+      <?php
+      $id_tt=$valores['id_tipo_transaccion'];
+      $cod_11=mysqli_query($con,"SELECT nombre_transaccion FROM tipo_transaccion WHERE id_tipo_transaccion='$id_tt' LIMIT 1");
+      $row_11=mysqli_fetch_assoc($cod_11);
+      echo $row_11['nombre_transaccion'] ;
+      ?>
+    </td>
+    <td>
+      <?php echo $valores['total_ficha'] ?>
+    </td>
+    <td>
+      <?php echo $valores['fecha_ficha'] ?>
+    </td>
+    <td>
+      <?php
+      $id_nu=$valores['id_ficha'];
+      $cod_111=mysqli_query($con,"SELECT u.nombre_usuario as nu FROM usuario u, empleado_ficha em,empleado_usuario eu  WHERE em.id_ficha='$id_nu' AND em.descripcion_empleado='Autorizado' AND em.id_empleado_usuario=eu.id_empleado_usuario AND eu.id_usuario=u.id_usuario LIMIT 1");
+      $row_111=mysqli_fetch_assoc($cod_111);
+      echo $row_111['nu'];
+      ?>
+    </td>
+    <td>
+      <?php
+      $id_el=$valores['id_ficha'];
+      $cod_1111=mysqli_query($con,"SELECT u.nombre_usuario as eu FROM usuario u, empleado_ficha em,empleado_usuario eu  WHERE em.id_ficha='$id_el' AND em.descripcion_empleado='Elaborado' AND em.id_empleado_usuario=eu.id_empleado_usuario AND eu.id_usuario=u.id_usuario LIMIT 1");
+      $row_1111 = mysqli_fetch_assoc($cod_1111);
+      echo $row_1111['eu'];
+      ?>
+    </td>
+    <td>
+      <?php
+      $id_per=$valores['id_persona'];
+      $cod_11111=mysqli_query($con,"SELECT nombre_persona FROM persona WHERE id_persona='$id_per' LIMIT 1");
+      $row_11111 = mysqli_fetch_assoc($cod_11111);
+      echo $row_11111['nombre_persona'];
+      ?>
+    </td>
+  </tr>
+  <?php
+  }
+}
+?>
 
-                              </tr>
-                          <?php } }
-                            ?>
-                            <?php
-                            if(isset($_POST['buscar_fecha']))
-                        {
-                         $con = mysqli_connect('localhost', 'root', '', 'contabilidad') or die(mysql_error());
-                               $a =$_POST["b_fecha"] ;
-                          $cod=mysqli_query($con,"SELECT * FROM ficha WHERE fecha_ficha='$a'");
-                           while ($valores = mysqli_fetch_array($cod)) { ?>
-                              <tr>
-                                  <td><?php echo $valores['id_ficha'] ?></td>
-                                  <td><?php echo $valores['id_tipo_pago'] ?></td>
-                                  <td><?php echo 'Concepto' ?></td>
-                                  <td><?php echo $valores['total_ficha'] ?></td>
-                                  <td><?php echo $valores['fecha_ficha'] ?></td>
-                                  <td><?php echo 'aut' ?></td>
-                                  <td><?php echo 'entre' ?></td>
-                                  <td><?php echo 'rec' ?></td>
-                                  <td><?php echo $valores['id_persona'] ?></td>
 
-                              </tr>
-                          <?php } }
-                            ?>
+<?php
+if(isset($_POST['buscar_id']))
+{
+  $a =$_POST["b_id"] ;
+
+  $cod=mysqli_query($con,"SELECT * FROM ficha WHERE id_ficha=$a");
+  while ($valores = mysqli_fetch_array($cod)) { ?>
+  <tr>
+    <td>
+      <?php echo $valores['id_ficha'] ?></td>
+    <td>
+      <?php
+      $id_tp=$valores['id_tipo_pago'];
+      $cod_1=mysqli_query($con, "SELECT * FROM tipo_pago WHERE id_tipo_pago='$id_tp'") or die(mysql_error());
+      $row_1 = mysqli_fetch_assoc($cod_1);
+      echo $row_1['tipo'].' , '.$row_1['descripcion_tipo_pago'];
+      ?>
+    </td>
+    <td>
+      <?php
+      $id_tt=$valores['id_tipo_transaccion'];
+      $cod_11=mysqli_query($con,"SELECT nombre_transaccion FROM tipo_transaccion WHERE id_tipo_transaccion='$id_tt' LIMIT 1");
+      $row_11=mysqli_fetch_assoc($cod_11);
+      echo $row_11['nombre_transaccion'] ;
+      ?>
+    </td>
+    <td>
+      <?php echo $valores['total_ficha'] ?>
+    </td>
+    <td>
+      <?php echo $valores['fecha_ficha'] ?>
+    </td>
+    <td>
+      <?php
+      $id_nu=$valores['id_ficha'];
+      $cod_111=mysqli_query($con,"SELECT u.nombre_usuario as nu FROM usuario u, empleado_ficha em,empleado_usuario eu  WHERE em.id_ficha='$id_nu' AND em.descripcion_empleado='Autorizado' AND em.id_empleado_usuario=eu.id_empleado_usuario AND eu.id_usuario=u.id_usuario LIMIT 1");
+      $row_111=mysqli_fetch_assoc($cod_111);
+      echo $row_111['nu'];
+      ?>
+    </td>
+    <td>
+      <?php
+      $id_el=$valores['id_ficha'];
+      $cod_1111=mysqli_query($con,"SELECT u.nombre_usuario as eu FROM usuario u, empleado_ficha em,empleado_usuario eu  WHERE em.id_ficha='$id_el' AND em.descripcion_empleado='Elaborado' AND em.id_empleado_usuario=eu.id_empleado_usuario AND eu.id_usuario=u.id_usuario LIMIT 1");
+      $row_1111 = mysqli_fetch_assoc($cod_1111);
+      echo $row_1111['eu'];
+      ?>
+    </td>
+    <td>
+      <?php
+      $id_per=$valores['id_persona'];
+      $cod_11111=mysqli_query($con,"SELECT nombre_persona FROM persona WHERE id_persona='$id_per' LIMIT 1");
+      $row_11111 = mysqli_fetch_assoc($cod_11111);
+      echo $row_11111['nombre_persona'];
+      ?>
+    </td>
+  </tr>
+  <?php
+  }
+}
+
+if(isset($_POST['buscar_fecha']))
+{
+  $a =$_POST["b_fecha"] ;
+  $cod=mysqli_query($con,"SELECT * FROM ficha WHERE fecha_ficha='$a'");
+  while ($valores = mysqli_fetch_array($cod)) { ?>
+  <tr>
+    <td>
+      <?php echo $valores['id_ficha'] ?></td>
+    <td>
+      <?php
+      $id_tp=$valores['id_tipo_pago'];
+      $cod_1=mysqli_query($con, "SELECT * FROM tipo_pago WHERE id_tipo_pago='$id_tp'") or die(mysql_error());
+      $row_1 = mysqli_fetch_assoc($cod_1);
+      echo $row_1['tipo'].' , '.$row_1['descripcion_tipo_pago'];
+      ?>
+    </td>
+    <td>
+      <?php
+      $id_tt=$valores['id_tipo_transaccion'];
+      $cod_11=mysqli_query($con,"SELECT nombre_transaccion FROM tipo_transaccion WHERE id_tipo_transaccion='$id_tt' LIMIT 1");
+      $row_11=mysqli_fetch_assoc($cod_11);
+      echo $row_11['nombre_transaccion'] ;
+      ?>
+    </td>
+    <td>
+      <?php echo $valores['total_ficha'] ?>
+    </td>
+    <td>
+      <?php echo $valores['fecha_ficha'] ?>
+    </td>
+    <td>
+      <?php
+      $id_nu=$valores['id_ficha'];
+      $cod_111=mysqli_query($con,"SELECT u.nombre_usuario as nu FROM usuario u, empleado_ficha em,empleado_usuario eu  WHERE em.id_ficha='$id_nu' AND em.descripcion_empleado='Autorizado' AND em.id_empleado_usuario=eu.id_empleado_usuario AND eu.id_usuario=u.id_usuario LIMIT 1");
+      $row_111=mysqli_fetch_assoc($cod_111);
+      echo $row_111['nu'];
+      ?>
+    </td>
+    <td>
+      <?php
+      $id_el=$valores['id_ficha'];
+      $cod_1111=mysqli_query($con,"SELECT u.nombre_usuario as eu FROM usuario u, empleado_ficha em,empleado_usuario eu  WHERE em.id_ficha='$id_el' AND em.descripcion_empleado='Elaborado' AND em.id_empleado_usuario=eu.id_empleado_usuario AND eu.id_usuario=u.id_usuario LIMIT 1");
+      $row_1111 = mysqli_fetch_assoc($cod_1111);
+      echo $row_1111['eu'];
+      ?>
+    </td>
+    <td>
+      <?php
+      $id_per=$valores['id_persona'];
+      $cod_11111=mysqli_query($con,"SELECT nombre_persona FROM persona WHERE id_persona='$id_per' LIMIT 1");
+      $row_11111 = mysqli_fetch_assoc($cod_11111);
+      echo $row_11111['nombre_persona'];
+      ?>
+    </td>
+  </tr>
+  <?php
+  }
+}
+?>
                       </tbody>
                   </table>
               </div><!-- /content-panel -->
@@ -210,6 +331,7 @@ $_SESSION["usuario"];
 </section><!-- /MAIN CONTENT -->
 
       <!--main content end-->
+
 
 
     <!-- js placed at the end of the document so the pages load faster -->

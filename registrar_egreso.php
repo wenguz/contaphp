@@ -236,8 +236,28 @@ require('conexion.php');
                           </div>
                         </td>
                       </tr>
+                      <tr><td colspan="2">
+                        <h3><i class="fa fa-angle-right"></i>Informacion de Documento </h3>
+
+                      </td></tr>
+
 
                     </table>
+                    <table width="100%">
+                    <tr>
+                      <td> <div class="form-group">
+                      <p class="col-sm-3 col-sm-3 control-label" >Tipo de Documento</p>
+                       <div class="col-sm-10"> <input required type="text" name="ri_tipo" placeholder=" "  class="form-control placeholder-no-fix">
+                        </div></div> </td><td>
+                         <div class="form-group"> <p lass="col-sm-4 col-sm-4 control-label" >Num. Documento</p>
+                        <div class="col-sm-10"> <input required type="number" name="ri_doc" placeholder=" "  class="form-control placeholder-no-fix">
+                      </div>   </div></td>
+                 </tr>
+                    <tr>  <td colspan="2"> <div class="form-group">
+                        <p class="col-sm-3 col-sm-3 control-label" >Descripcion del Documento</p>
+                         <div class="col-sm-11"> <input required type="text" name="ri_doc_des" placeholder=" "  class="form-control placeholder-no-fix">
+                    </div></div></td></tr>
+                  </table>
                     <table class="table table-bordered table-striped table-condensed">
                       <hr>
                       <h4><i class="fa fa-angle-right"></i> Registrar Personal </h4>
@@ -373,7 +393,7 @@ if(isset($_POST['registrar_datos']))
       VALUES ('$id_persona','$pag_nom','$pag_ci','Pagado');";
       mysqli_query($con,$sq_p)  ;
     }
-    
+
     //tipo de cambio
     $cod_c=mysqli_query($con,"SELECT   id_tipo_cambio FROM tipo_cambio WHERE monto='$cambio' LIMIT 1");
     if ($row_c = mysqli_fetch_row($cod_c))
@@ -431,9 +451,30 @@ if(isset($_POST['registrar_datos']))
        mysqli_query($con,$sq_p) or die(mysqli_error($con));
     }
 
+    // realiza el ingreso a la tabla documento_extra
+    $ri_tipo=$_POST["ri_tipo"] ;
+    $ri_doc=$_POST["ri_doc"] ;
+    $ri_doc_des=$_POST["ri_doc_des"] ;
+    $rsd=mysqli_query($con,"SELECT MAX(id_ficha) AS iden FROM ficha");
+    if ($rowd = mysqli_fetch_row($rsd))
+      {
+        $iden = trim($rowd[0]);
+      }
+       $iden2 =0;
+      $rsd2=mysqli_query($con,"SELECT MAX(id_documento_extra)  FROM documento_extra");
+    if ($rowd2 = mysqli_fetch_row($rsd2))
+      {
+        $iden2 = $rowd2[0];
+      }
+      $id_doc_new= $iden2 +1;
+    $sq3= "INSERT INTO documento_extra (  id_documento_extra,codigo_documento,tipo,descripcion, id_ficha   )
+                            VALUES ( '$id_doc_new','$ri_doc','$ri_tipo','$ri_doc_des','$iden');";
+                      mysqli_query($con,$sq3)  or die(mysqli_error($con));
 
     $msg = 'Cargo agregado correctamente';
     print "<script>alert('$msg'); window.location='emergente_egreso.php';</script>";
+
+
   }
 }
 ?>
