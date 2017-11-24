@@ -118,35 +118,47 @@ error_reporting(E_ALL ^ E_NOTICE);
               <div class="content-panel">
 
                     <h4><i class="fa fa-angle-right"></i> Registrar Inversión</h4>
-                      <h6>  * Llenar todos los espacios vacios obligatoriamente</h6>
                     <table class="">
                       <form action="" method="post">
                       <tr>
                         <td>
                           <div class="form-group">
-                            <label class="col-sm-3 col-sm-3 control-label"  >Fecha:&emsp;
-                                <input required type="date" name="fecha" placeholder="YYYY-MM-DD" class="form-input"/>
-                            </label>
-
-                          </div>
-                        </td>
-                        <td colspan="2">
-                          <div class="col-sm-3 col-sm-3 control-label">
-                              Hora:
-                                <p  readonly="readonly"type="time" class="form-control"   ><a><?php
-                                  $time = time();
-                                  echo date("H:i:s", $time);
-                                    ?></a></p>
-
+                            <label class="col-sm-4 col-sm-4 control-label">Fecha:&emsp; </label>
+                            <div class="col-sm-10">
+                              <?php
+                              $hoy = date('Y-m-d');?>
+                                <input required type="date" name ="fecha" class="form-control" value=<?php echo $hoy;?>>
                             </div>
+                          </div>
                         </td>
                         <td>
                           <div class="form-group">
-                            <label class="col-sm-4 col-sm-4 control-label">Nro. de comprobante:&emsp; </label>
+                            <label class="col-sm-4 col-sm-4 control-label">Hora:&emsp; </label>
                             <div class="col-sm-10">
-                                <input required type="number" name ="numero_partida_ficha" class="form-control">
+                              <?php
+                              $time = time();?>
+                                <input required type="time" disabled="true" name ="hora" class="form-control" value=<?php echo date("H:i:s", $time);?>>
                             </div>
                           </div>
+
+                        </td>
+                        <td></td>
+                        <td>
+                          <div class="form-group">
+                            <div class="form-group">
+                              <label class="col-sm-4 col-sm-4 control-label">Nro. de comprobante:&emsp; </label>
+                              <div class="col-sm-10">
+                                  <?php
+                                  $ficha=mysqli_query($con,"SELECT MAX(id_ficha) AS id FROM ficha");
+                                  if ($row_f = mysqli_fetch_row($ficha))
+                                  {
+                                    $id = ($row_f[0]);
+                                  }
+                                  $id=$id+1;
+                                  ?>
+                                  <input required type="number" name ="numero_partida_ficha" class="form-control" value=<?php echo "$id";?>>
+                              </div>
+                            </div>
                         </td>
                       </tr>
                       <tr>
@@ -224,66 +236,88 @@ error_reporting(E_ALL ^ E_NOTICE);
                       </tr>
 
                     </table>
-                     <table class="table table-bordered table-striped table-condensed">
+                    <table width="100%">
+                    <tr>
+                      <td> <div class="form-group">
+                      <p class="col-sm-3 col-sm-3 control-label" >Tipo de Documento</p>
+                       <div class="col-sm-10"> <input required type="text" name="ri_tipo" placeholder=" "  class="form-control placeholder-no-fix">
+                        </div></div> </td><td>
+                         <div class="form-group"> <p lass="col-sm-4 col-sm-4 control-label" >Num. Documento</p>
+                        <div class="col-sm-10"> <input required type="number" name="ri_doc" placeholder=" "  class="form-control placeholder-no-fix">
+                      </div>   </div></td>
+                 </tr>
+                    <tr>  <td colspan="2"> <div class="form-group">
+                        <p class="col-sm-3 col-sm-3 control-label" >Descripcion del Documento</p>
+                         <div class="col-sm-11"> <input required type="text" name="ri_doc_des" placeholder=" "  class="form-control placeholder-no-fix">
+                    </div></div></td></tr>
+                  </table>
+                    <table class="table table-bordered table-striped table-condensed">
                       <hr>
+                      <h4><i class="fa fa-angle-right"></i> Registrar Personal </h4>
                       <tr>
-                          <h4><i class="fa fa-angle-right"></i> Registrar Personal </h4>
-
-                              <td colspan="2">
+                              <td>
                                 <div class="form-group">
                                   <center>
-                                  <label style="font-size: 15px;">Pagado a ...</label></center>
+                                  <label style="font-size: 15px;">Pagado a...</label></center>
 
-                                  <label class="col-sm-2 col-sm-2 control-label">Nombre:&emsp; </label>
+                                  <label class="col-sm-3 col-sm-3 control-label">Nombre:&emsp; </label>
                                   <div class="col-sm-9">
-                                      <input   type="text" name="pag_nom" class="form-control">
+                                      <input type="text" name="pag_nom"  class="form-control">
                                   </div>
-
+                                  <label class="col-sm-3 col-sm-3 control-label">Ci:&emsp; </label>
+                                  <div class="col-sm-9">
+                                      <input required type="number" name="pag_ci" class="form-control">
+                                  </div>
                                 </div>
                               </td>
-                            </tr>
-                             <tr>
                               <td>
                                 <div class="form-group">
                                   <center>
                                   <label style="font-size: 15px;">Autorizado por...</label></center>
 
-                                  <label class="col-sm-2 col-sm-2 control-label">Nombre:&emsp; </label>
+
                                   <div class="col-sm-9">
-                                      <input type="text" name="aut_nom"  class="form-control">
+
+                                    <?php
+                                    $datos=mysqli_query($con,"SELECT a.* FROM usuario a where id_usuario = '1' LIMIT 1");
+                                    $row=mysqli_fetch_assoc($datos);
+                                       ?>
+                                          <p class="col-sm-3 col-sm-3 control-label">Nombre:&emsp; </p>
+                                           <div class="col-sm-9">
+                                           <input type="text" class="form-control" disabled="true" name="aut_nom" value="<?php echo $row['nombre_usuario']." ".$row['ap_paterno_usuario']; ?>"> </input> </div>
+                                            <p class="col-sm-3 col-sm-3 control-label">CI:&emsp; </p>
+                                           <div class="col-sm-9">
+                                           <input type=""  class="form-control" disabled="true" name="aut_ci"  value="<?php echo $row['ci_usuario']; ?>"> </input> </div>
+                                           <?php
+                                       ?>
+
                                   </div>
-                                  <label class="col-sm-2 col-sm-2 control-label">Ci:&emsp; </label>
-                                  <div class="col-sm-9">
-                                      <input required type="number" name="aut_ci" class="form-control">
-                                  </div>
+
                                 </div>
+
                               </td>
                                <td>
                                 <div class="form-group">
                                   <center>
                                   <label style="font-size: 15px;">Elaborado por...</label></center>
-
-
                                   <div class="col-sm-9">
-
-                                         <?php
+                                    <?php
                                     $user= $_SESSION["usuario"];
-                                    $datos=mysqli_query($con,"SELECT a.* FROM usuario a, empleado_usuario b where b.user = '$user' LIMIT 1");
+                                    $datos=mysqli_query($con,"SELECT a.* FROM usuario a, empleado_usuario b where b.user = '$user' and b.id_usuario = a.id_usuario LIMIT 1");
                                     $row=mysqli_fetch_assoc($datos);
                                        ?>
-                                          <p class="col-sm-2 col-sm-2 control-label">Nombre:&emsp; </p>
+                                          <p class="col-sm-3 col-sm-3 control-label">Nombre:&emsp; </p>
                                            <div class="col-sm-9">
-                                           <input type="text" class="form-control" disabled  name="el_nom" value="<?php echo $row['nombre_usuario']." ".$row['ap_paterno_usuario']; ?>"> </input> </div>
-                                            <p class="col-sm-2 col-sm-2 control-label">CI:&emsp; </p>
+                                           <input type="text" class="form-control" disabled="true" name="p_nom" value="<?php echo $row['nombre_usuario']." ".$row['ap_paterno_usuario']; ?>"> </input> </div>
+                                            <p class="col-sm-3 col-sm-3 control-label">CI:&emsp; </p>
                                            <div class="col-sm-9">
-                                           <input type=""  class="form-control" disabled  name="el_ci"  value="<?php echo $row['ci_usuario']; ?>"> </input> </div>
+                                           <input type=""  class="form-control" disabled="true" name="p_ci"  value="<?php echo $row['ci_usuario']; ?>"> </input> </div>
                                            <?php
                                        ?>
                                   </div>
 
                                 </div>
                               </td>
-                              <td>
                             </tr>
                     </table>
                     <tr>
@@ -298,130 +332,153 @@ error_reporting(E_ALL ^ E_NOTICE);
                         </tr>
 
     <?php
-    
-     
-    
-                           if(isset($_POST['registrar_datos']))
-                        {
 
-                         include('conexion.php');
+/*********************************************************/
+/*********************************************************/
+if(isset($_POST['registrar_datos']))
+{
+  if($_POST['fecha'] == '' or  $_POST['pago'] == ''or  $_POST['cambio']== ''  or $_POST['numero_partida_ficha']=='' or $_POST['pag_nom']=='' )
+  {
+    echo 'Por favor llene todos los campos.';
+  }
+  else
+  {
+    $rs=mysqli_query($con,"SELECT MAX(id_ficha) AS iden FROM ficha");
+    if ($row = mysqli_fetch_row($rs))
+    {
+      $iden = trim($row[0]);
+    }
+    $tot=0;
+    $id_entidad=$iden+1;
+    $fechai =$_POST["fecha"] ;
+    $pago =$_POST["pago"] ;
+    $trans =3 ;
+    $cambio =$_POST["cambio"] ;
+    $moneda =$_POST["moneda"] ;
+    $partida=$_POST["numero_partida_ficha"];
+    //modena
+    if ($moneda==0)
+    {
+      $tot=$cambio;
+    }
+    else
+    {
+      $tot=1;
+    }
+    $user= $_SESSION["usuario"];
+    $pag_nom=$_POST["pag_nom"];
+    $pag_ci=$_POST["pag_ci"];
 
-                            if($_POST['fecha'] == '' or  $_POST['pago'] == ''or  $_POST['cambio']== ''  or $_POST['numero_partida_ficha']=='' or $_POST['pag_nom']=='' or $_POST['aut_nom']=='' or $_POST['aut_ci']==''  )
-                            {
-                                echo 'Por favor llene todos los campos.';
-                            }
-                            else
-                            {
-                             $rs=mysqli_query($con,"SELECT MAX(id_ficha) AS iden FROM ficha");
-                                    if ($row = mysqli_fetch_row($rs))
-                                      {
-                                        $iden = trim($row[0]);
-                                      }
-                                      $tot=0;
-                              $id_entidad=$iden+1;
-                              $fechai =$_POST["fecha"] ;
-                              $pago =$_POST["pago"] ;
-                              $trans =3 ;
-                              $cambio =$_POST["cambio"] ;
-                               $moneda =$_POST["moneda"] ;
-                              $partida=$_POST["numero_partida_ficha"];
-                                 //modena
-                          if ($moneda==0)
-                          {
-                            $tot=$cambio;
-                          }
-                          else
-                          {
-                            $tot=1;
-                          }$user= $_SESSION["usuario"];
-                              //pagado a
-                               $pag_nom=$_POST["pag_nom"];
-                               //Autorizado por
-                               $aut_nom=$_POST["aut_nom"];
-                              $aut_ci=$_POST["aut_ci"];
-                              //Elaborado
-                                 $datos=mysqli_query($con,"SELECT a.* FROM usuario a, empleado_usuario b where b.user = '$user' LIMIT 1");
-                                    $row=mysqli_fetch_assoc($datos);
-                                      $el_ci=$row['nombre_usuario']." ".$row['ap_paterno_usuario'];  
-                                       $el_nom=  $row['ci_usuario']; 
+    //persona pagado por
+    $cod_p=mysqli_query($con,"SELECT   id_persona FROM persona WHERE nombre_persona='$pag_nom' LIMIT 1");
+    if ($row_p = mysqli_fetch_row($cod_p))
+    {
+      $id_persona = trim($row_p[0]);
+    }
+    else
+    {
+      $cod_p=mysqli_query($con,"SELECT   MAX(id_persona) FROM persona");
+      if ($row_p = mysqli_fetch_row($cod_p))
+      {
+        $id = trim($row_p[0]);
+      }
+      $id_persona = $id+1;
+      $sq_p= "INSERT INTO persona(id_persona,nombre_persona,ci_persona,descripcion_persona)
+      VALUES ('$id_persona','$pag_nom','$pag_ci','Pagado');";
+      mysqli_query($con,$sq_p)  ;
+    }
 
-                                           
+    //tipo de cambio
+    $cod_c=mysqli_query($con,"SELECT   id_tipo_cambio FROM tipo_cambio WHERE monto='$cambio' LIMIT 1");
 
-                              //empleado elaborado
-                         $cod_p=mysqli_query($con,"SELECT   e.id_empleado_usuario FROM   empleado_usuario e WHERE  e.user='$user'   LIMIT 1");
-                                           if ($row_p = mysqli_fetch_row($cod_p))
-                                            {
-                                              $id_empleado_el = trim($row_p[0]);
-                                            }
-                                            else {
-                                               $msg = 'No existe empleado con el número de carnet ingresado en  elaborado';
-                                               print "<script>alert('$msg'); window.location='registrar_inversion.php';</script>";
-                                            }
-                           //empleado autorizado
-                          $cod_p=mysqli_query($con,"SELECT   e.id_empleado_usuario FROM usuario u, empleado_usuario e WHERE   u.ci_usuario='$aut_ci' AND u.id_usuario=e.id_usuario LIMIT 1");
+    if ($row_c = mysqli_fetch_row($cod_c))
+    {
+      $id_cambio = trim($row_c[0]);
+    }
+    else
+    {
+      $cod_c=mysqli_query($con,"SELECT   MAX(id_tipo_cambio) FROM tipo_cambio");
+      if ($row_c = mysqli_fetch_row($cod_c))
+      {
+        $id_c = trim($row_c[0]);
+      }
+      $id_cambio = $id_c+1;
+      $sq_c= "INSERT INTO tipo_cambio( id_tipo_cambio,monto,fecha)
+      VALUES ('$id_cambio','$cambio','$fechai');";
+      mysqli_query($con,$sq_c)  ;
+    }
+    //tiempo  y hora
+    $time = time();
+    $hora= date("H:i:s", $time);
+    //insertar ficha
+    $sq= "INSERT INTO ficha(id_ficha, numero_partida_ficha, fecha_ficha, tiempo_ficha, total_ficha, total_debe_ficha, total_haber_ficha, id_tipo_transaccion, id_tipo_cambio, id_tipo_pago, id_persona)
 
-                                          if ($row_p = mysqli_fetch_row($cod_p))
-                                            {
-                                              $id_empleado_aut = trim($row_p[0]);
-                                            }
-                                            else {
-                                               $msg = 'No existe empleado con el número de carnet ingresado en autorizado ... ' ;
-                                               print "<script>alert('$msg'); window.location='registrar_inversion.php';</script>";
+    VALUES ('$id_entidad','$partida','$fechai','$hora','$tot','0','0','$trans','$id_cambio','$pago','$id_persona');";
 
-                                            }
-                          //persona pagado por
-                           $cod_p=mysqli_query($con,"SELECT   id_persona FROM persona WHERE nombre_persona='$pag_nom' LIMIT 1");
+    mysqli_query($con,$sq)  ;
+    $id_cef2=0; $id_cef=0;
 
-                                          if ($row_p = mysqli_fetch_row($cod_p))
-                                            {
-                                              $id_persona = trim($row_p[0]);
-                                            }
-                                            else {
-                                              $cod_p=mysqli_query($con,"SELECT   MAX(id_persona) FROM persona");
-                                              if ($row_p = mysqli_fetch_row($cod_p))
-                                                {
-                                                  $id = trim($row_p[0]);
-                                                }
-                                                $id_persona = $id+1;
-                                              $sq_p= "INSERT INTO persona(id_persona,nombre_persona,ci_persona,descripcion_persona)
-                                                    VALUES ('$id_persona','$pag_nom',' ','Pagado');";
-                                              mysqli_query($con,$sq_p)  ;
-                                            }
-                      
-            //tipo de cambio
-                           $cod_c=mysqli_query($con,"SELECT   id_tipo_cambio FROM tipo_cambio WHERE monto='$cambio' LIMIT 1");
 
-                                          if ($row_c = mysqli_fetch_row($cod_c))
-                                            {
-                                              $id_cambio = trim($row_c[0]);
-                                            }
-                                          else {
-                                              $cod_c=mysqli_query($con,"SELECT   MAX(id_tipo_cambio) FROM tipo_cambio");
-                                              if ($row_c = mysqli_fetch_row($cod_c))
-                                                {
-                                                  $id_c = trim($row_c[0]);
-                                                }
-                                                $id_cambio = $id_c+1;
-                                              $sq_c= "INSERT INTO tipo_cambio( id_tipo_cambio,monto,fecha)
-                                                    VALUES ('$id_cambio','$cambio','$fechai');";
-                                              mysqli_query($con,$sq_c)  ;
-                                            }
-                           //tiempo  y hora
-                           $time = time();
-                           $hora= date("H:i:s", $time);
-                           //insertar ficha
-                           $sq= "INSERT INTO ficha(id_ficha, numero_partida_ficha, fecha_ficha, tiempo_ficha, total_ficha, total_debe_ficha, total_haber_ficha, id_tipo_transaccion, id_tipo_cambio, id_tipo_pago, id_persona)
+    //Elaborado
+    //empleado Elaborado
+    $user= $_SESSION["usuario"];
+    {
+       $cod_pp=mysqli_query($con,"SELECT MAX(id_empleado_ficha) as id FROM empleado_ficha") or die(mysqli_error($con));
+       if ($row_pp = mysqli_fetch_row($cod_pp))
+         {
+           $idy = ($row_pp[0]);
+         }
+         $id_empleado = $idy+1;
+         $datos=mysqli_query($con,"SELECT id_empleado_usuario FROM empleado_usuario where user = '$user'") or die(mysqli_error($con));
+         $row_eusu=mysqli_fetch_assoc($datos);
+         $abc=$row_eusu['id_empleado_usuario'];
 
-                              VALUES ('$id_entidad','$partida','$fechai','$hora','$tot','0','0','$trans','$id_cambio','$pago','$id_persona');";
+       $sq_p= "INSERT INTO empleado_ficha(id_empleado_ficha,descripcion_empleado,id_ficha,id_empleado_usuario)
+       VALUES('$id_empleado','Elaborado','$id_entidad','$abc')";
+       mysqli_query($con,$sq_p) or die(mysqli_error($con));
+    }
+    //empleado autorizado
+    {
+       $cod_pp=mysqli_query($con,"SELECT MAX(id_empleado_ficha) as id FROM empleado_ficha") or die(mysqli_error($con));
+       if ($row_pp = mysqli_fetch_row($cod_pp))
+         {
+           $idy = ($row_pp[0]);
+         }
+         $id_empleado = $idy+1;
 
-                            mysqli_query($con,$sq)  ;
-                          
-                           $msg = 'Cargo agregado correctamente';
-                            print "<script>alert('$msg'); window.location='emergente_inversion.php';</script>";
+       $sq_p= "INSERT INTO empleado_ficha(id_empleado_ficha,descripcion_empleado,id_ficha,id_empleado_usuario)
+       VALUES('$id_empleado','Autorizado','$id_entidad','1')";
+       mysqli_query($con,$sq_p) or die(mysqli_error($con));
+    }
 
-                         } }
+    // realiza el ingreso a la tabla documento_extra
+    $ri_tipo=$_POST["ri_tipo"] ;
+    $ri_doc=$_POST["ri_doc"] ;
+    $ri_doc_des=$_POST["ri_doc_des"] ;
+    $rsd=mysqli_query($con,"SELECT MAX(id_ficha) AS iden FROM ficha");
+    if ($rowd = mysqli_fetch_row($rsd))
+      {
+        $iden = trim($rowd[0]);
+      }
+       $iden2 =0;
+      $rsd2=mysqli_query($con,"SELECT MAX(id_documento_extra)  FROM documento_extra");
+    if ($rowd2 = mysqli_fetch_row($rsd2))
+      {
+        $iden2 = $rowd2[0];
+      }
+      $id_doc_new= $iden2 +1;
+    $sq3= "INSERT INTO documento_extra (  id_documento_extra,codigo_documento,tipo,descripcion, id_ficha   )
+                            VALUES ( '$id_doc_new','$ri_doc','$ri_tipo','$ri_doc_des','$iden');";
+                      mysqli_query($con,$sq3)  or die(mysqli_error($con));
 
-                         ?>
+
+
+    $msg = 'Inversion agregada correctamente';
+    print "<script>alert('$msg'); window.location='emergente_inversion.php';</script>";
+  }
+}
+
+?>
 
                             </form>
                           </table>
