@@ -1,16 +1,10 @@
 <?php $cuota_a=0;
 session_start();
 /*manejamos en sesion el nombre del usuario que se ha logeado
-ALTER TABLE `temp_as` ADD `amort` BOOLEAN NOT NULL AFTER `cantidad`;
-ALTER TABLE `temp_as` ADD `deprep` BOOLEAN NOT NULL AFTER `amort`;
-ALTER TABLE `asiento` ADD `amort` BOOLEAN NOT NULL AFTER `id_subcuenta`;
-ALTER TABLE `asiento` ADD `deprep` BOOLEAN NOT NULL AFTER `amort`;
-ALTER TABLE `temp_as` CHANGE `amort` `amort` INT(11) NOT NULL;
-ALTER TABLE `temp_as` CHANGE `deprep` `deprep` INT(11) NOT NULL;
 */
 if (!isset($_SESSION["usuario"])){
     header("location:index.php?nologin=false");
-    
+
 }
 $_SESSION["usuario"];
 require('conexion.php');
@@ -33,15 +27,15 @@ error_reporting(E_ALL ^ E_NOTICE);
     <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="assets/css/zabuto_calendar.css">
     <link rel="stylesheet" type="text/css" href="assets/js/gritter/css/jquery.gritter.css" />
-    <link rel="stylesheet" type="text/css" href="assets/lineicons/style.css">    
-    
+    <link rel="stylesheet" type="text/css" href="assets/lineicons/style.css">
+
     <!-- Custom styles for this template -->
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="assets/css/style-responsive.css" rel="stylesheet">
 
     <script src="assets/js/chart-master/Chart.js"></script>
     <style type="text/css">
-      
+
       tfoot {
         text-align: right;
         background: #4b5c4e;
@@ -51,7 +45,7 @@ error_reporting(E_ALL ^ E_NOTICE);
 
     </style>
   </head>
- 
+
   <body>
 
   <section id="container" >
@@ -65,7 +59,7 @@ error_reporting(E_ALL ^ E_NOTICE);
               </div>
             <!--logo start-->
             <a href="index.php" class="logo"><b>SISTEMA CONTABLE</b></a>
-            
+
             <div class="top-menu">
               <ul class="nav pull-right top-menu">
                     <li><a class="logout" href="index.php">Cerrar Sesion</a></li>
@@ -73,7 +67,7 @@ error_reporting(E_ALL ^ E_NOTICE);
             </div>
         </header>
       <!--header end-->
-      
+
       <!-- **********************************************************************************************************************************************************
       MAIN SIDEBAR MENU
       *********************************************************************************************************************************************************** -->
@@ -88,7 +82,7 @@ error_reporting(E_ALL ^ E_NOTICE);
                 <span>Inicio  </span>
             </a>
         </li>
-        
+
         <li class="sub-menu">
             <a  class="active" href="javascript:;" >
                   <i class="fa fa-list-alt"></i>
@@ -101,19 +95,19 @@ error_reporting(E_ALL ^ E_NOTICE);
               </ul>
           </li>
 
-          
+
           <li class="sub-menu">
               <a href="lista_ficha.php" >
                   <i class="fa fa-th"></i>
                   <span>Lista de Fichas</span>
               </a>
           </li>
-          
-           
+
+
     </ul>
-</div>  
+</div>
       </aside>
-     
+
 
 </section>
 
@@ -121,77 +115,76 @@ error_reporting(E_ALL ^ E_NOTICE);
     <section class="wrapper">
       <h3><i class="fa fa-angle-right"></i>Ficha Inversion <i class="fa fa-angle-right"></i> Detalle </h3>
           <div class="col-md-12">
-              <div class="content-panel"> 
+              <div class="content-panel">
       <h3><i class="fa fa-angle-right"></i>Agregar Detalle </h3>
-                                
-                    <form action="" name="ASIENTOS" method="post">  
-                      <div class="form-group"> 
+
+                    <form action="" name="ASIENTOS" method="post">
+                      <div class="form-group">
                               <table class="col-md-12">
                                       <tr>  <td> <div  >
-                                     <p class="col-sm-3 col-sm-3 control-label">Cuenta origen:  </p>
-                                     <div class="col-sm-10"> <p>
-                                  <select class="form-control placeholder-no-fix" name="ri_cuenta_o" >
-                                <?php
-                                            $cod_cuenta=mysqli_query($con,"SELECT * FROM subcuenta");
-                                            while ($valores_cuenta = mysqli_fetch_array($cod_cuenta)) {
-                                            echo '<option value="'.$valores_cuenta[id_subcuenta].'">'.$valores_cuenta[nombre_subcuenta].'</option>'; }
-                                            echo "<br>";
-                                       ?>
-                                      echo "<br>";
-                                 ?>
-                                       </select>
-                             </p></div>
-                                     </div> </td>
-                                     <td> <div  >
-                                    <p class="col-sm-3 col-sm-3 control-label">Cuenta destino:  </p>
-                                    <div class="col-sm-10"> <p>
-                                 <select class="form-control placeholder-no-fix" name="ri_cuenta" >
-                               <?php
+                                        <p class="col-sm-3 col-sm-3 control-label">Cuenta origen:  </p>
+                                        <div class="col-sm-10"> <p>
+                                     <select class="form-control placeholder-no-fix" name="ri_cuenta_o" >
+                                       <?php
+                                                   $cod_subcuenta=mysqli_query($con,"SELECT * FROM subcuenta s,cuenta c where s.id_cuenta=c.id_cuenta");
+                                                   while ($valores_cuenta = mysqli_fetch_array($cod_subcuenta)) {
+                                                     echo '<option value="'.$valores_cuenta[id_cuenta].'">'.$valores_cuenta[id_cuenta]."  ".$valores_cuenta[nombre_cuenta].'</option>';
+                                                   echo '<option value="'.$valores_cuenta[id_subcuenta].'">'.$valores_cuenta[id_subcuenta]."  ".$valores_cuenta[nombre_subcuenta].'</option>'; }
+                                                   echo "<br>";
+                                              ?>
+                                         echo "<br>";
+                                    ?>
+                                          </select>
+                                </p></div>
+                                        </div> </td>
+                                        <td> <div  >
+                                       <p class="col-sm-3 col-sm-3 control-label">Cuenta destino:  </p>
+                                       <div class="col-sm-10"> <p>
+                                    <select class="form-control placeholder-no-fix" name="ri_cuenta" >
+                                      <?php
+                                                  $cod_subcuenta=mysqli_query($con,"SELECT * FROM subcuenta s,cuenta c where s.id_cuenta=c.id_cuenta");
+                                                  while ($valores_cuenta = mysqli_fetch_array($cod_subcuenta)) {
+                                                    echo '<option value="'.$valores_cuenta[id_cuenta].'">'.$valores_cuenta[id_cuenta]."  ".$valores_cuenta[nombre_cuenta].'</option>';
+                                                  echo '<option value="'.$valores_cuenta[id_subcuenta].'">'.$valores_cuenta[id_subcuenta]."  ".$valores_cuenta[nombre_subcuenta].'</option>'; }
+                                                  echo "<br>";
+                                             ?>
+                                        echo "<br>";
+                                         ?>
+                                         </select>
+                                         </p></div>
+                                       </div> </td>
+                                     </tr>
 
-                                      $a_activo=false;
-                                      $d_activo=false;
-
-                                           $cod_cuenta=mysqli_query($con,"SELECT * FROM subcuenta");
-                                           while ($valores_cuenta = mysqli_fetch_array($cod_cuenta)) {
-                                           echo '<option value="'.$valores_cuenta[id_subcuenta].'">'.$valores_cuenta[nombre_subcuenta].'</option>'; }
-                                           echo "<br>";
-                                      ?>
-                                     echo "<br>";
-                                ?>
-                                      </select>
-                            </p></div>
-                                    </div> </td> </tr>
-                                                 
                                    <tr>  <td  colspan="2"  >
                                  <div class="form-group">
                                     <p class="col-sm-3 col-sm-3 control-label">Concepto</p>
-                                    <div class="col-sm-11"><input  required type="text" name="ri_concepto" placeholder=" " autocomplete="off" class="form-control placeholder-no-fix">
+                                    <div class="col-sm-11"><input  required type="text" name="ri_concepto" autocomplete="on" class="form-control">
                                     </div></div></td> </tr>
-                                    <tr  > 
+                                    <tr  >
                                            <td>
-                                           <div class="form-group"> 
+                                           <div class="form-group">
                                             <p class="col-sm-4 col-sm-4 control-label">Cantidad: </p>
                                             <div class="col-sm-10">
-                                          <input required type="number" name="ri_cantidad" placeholder=" " autocomplete="off" class="form-control placeholder-no-fix"></div> </div>
-                                          </td><td   > 
+                                          <input required type="number" name="ri_cantidad_1" class="form-control placeholder-no-fix"></div> </div>
+                                          </td><td   >
                                             <div class="form-group">
-                                          <p class="col-sm-4 col-sm-4 control-label" >Monto 
-                                           <?php  
+                                          <p class="col-sm-4 col-sm-4 control-label" >Monto
+                                           <?php
                                               //obtener id de la ultima ficha
                          $rs=mysqli_query($con,"SELECT MAX(id_ficha) AS iden FROM ficha");
-                                    if ($row = mysqli_fetch_row($rs)) 
+                                    if ($row = mysqli_fetch_row($rs))
                                       {
                                         $iden = trim($row[0]);
                                       }
-                          
-                          //obtener moneda 
-                                              
-                                        
+
+                          //obtener moneda
+
+
                          $rs_m=mysqli_query($con,"SELECT total_ficha AS iden FROM ficha WHERE id_ficha=$iden");
-                                    if ($row_m = mysqli_fetch_row($rs_m)) 
+                                    if ($row_m = mysqli_fetch_row($rs_m))
                                       {
                                         $moneda = trim($row_m[0]);
-                                     
+
                                       if ($moneda==1){
                                         echo ' (Bs)';
                                       }
@@ -199,72 +192,103 @@ error_reporting(E_ALL ^ E_NOTICE);
                                               ?></p>
                                           <div class="col-sm-10">
                                           <input  required type="number"  step="any"  name="ri_monto" placeholder=" "  class="form-control placeholder-no-fix"></div> </div>
-                                          </td>  
+                                          </td>
                                     </tr>
                                       <tr >
                                        <td colspan="3">
-                          <div class="form-group"  >
+
+
+                          <div class="form-group">
                             <br>
-                              <label class="col-sm-10">Escoger si tiene amortizacion o depreciacion   &emsp; </label>
-                              <div class="col-sm-10">
+                              <label class="col-sm-10">Tipo de inversion &emsp; </label>
+                              <div class="col-sm-10">  
                                 <p>
-                                  <select required class="form-control" name="opcion">
-                                        <option value="1">Amortizacion</option>
+                                  <select required disabled="true"  class="form-control" name="opcion">
                                        <option value="0">Depreciacion</option>
                                   </select>
                                 </p>
+
                               </div>
                           </div>
-                        </td>
-                                    </tr>
 
-                                    <tr><td colspan="2">
-                                      <h3><i class="fa fa-angle-right"></i>Amortizacion </h3>
-                                
-                                    </td></tr>
-                                  
-                                <tr>  
-                                  <td> <div class="form-group" >
-                                  <p class="col-sm-3 col-sm-3 control-label" >Monto de Amortizacion</p>
-                                   <div class="col-sm-10"> <input type="number" name="ri_mon" placeholder=" "  class="form-control placeholder-no-fix">
-                                    </div></div> </td>
-                                  <td>
-                                     <div class="form-group"> <p lass="col-sm-4 col-sm-4 control-label"  >Tiempo (en años)</p>
-                                    <div class="col-sm-10"> <input type="number" name="ri_t" placeholder=" "  class="form-control placeholder-no-fix">
-                                  </div>   </div></td>
-                             </tr>
-                                <tr>  <td colspan="2"> <div class="form-group">
-                                    <p class="col-sm-3 col-sm-3 control-label" >Descripcion del  Amortizacion (intangible o diferido )</p>
-                                     <div class="col-sm-11"> <input  type="text" name="ri_det" placeholder=" "  class="form-control placeholder-no-fix">
-                                </div></div></td></tr>
-                                <tr><td colspan="2">
-                                      <h3><i class="fa fa-angle-right"></i>Depreciacion </h3>
-                                
-                                    </td></tr>
-                                <tr>  
-                                  <td> <div class="form-group">
-                                  <p class="col-sm-3 col-sm-3 control-label" >Bien</p>
-                                   <div class="col-sm-10"> <input type="text" name="ri_bien" placeholder=" "  class="form-control placeholder-no-fix">
-                                    </div></div> </td>
-                                  <td>
-                                     <div class="form-group"> <p lass="col-sm-4 col-sm-4 control-label" >Vida util (años)</p>
-                                    <div class="col-sm-10"> <input type="number" name="ri_vida_util" placeholder=" "  class="form-control placeholder-no-fix">
-                                  </div>   </div></td>
-                             </tr>
+
+                        </td>
+                        </tr>
+          <!--
+
+            <option value="1">Amortizacion</option>
+
+                <tr>
+                  <td colspan="2">
+                  <h3><i class="fa fa-angle-right"></i>Amortizacion </h3>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>
+                    <div class="form-group" >
+                      <p class="col-sm-3 col-sm-3 control-label" >Monto de Amortizacion</p>
+                       <div class="col-sm-10"> <input type="number" name="ri_mon" placeholder=" "  class="form-control placeholder-no-fix">
+                        </div>
+                    </div>
+                  </td>
+
+                  <td>
+                    <div class="form-group"> <p lass="col-sm-4 col-sm-4 control-label"  >Tiempo (en años)</p>
+                          <div class="col-sm-10"> <input type="number" name="ri_t" placeholder=" "  class="form-control placeholder-no-fix">
+                          </div>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td colspan="2">
+                    <div class="form-group">
+                        <p class="col-sm-3 col-sm-3 control-label" >Descripcion del  Amortizacion (intangible o diferido )</p>
+                         <div class="col-sm-11"> <input  type="text" name="ri_det" placeholder=" "  class="form-control placeholder-no-fix">
+                         </div>
+                     </div>
+                  </td>
+              </tr>
+              <tr>
+              -->
+                <td colspan="2">
+                    <h3><i class="fa fa-angle-right"></i>Depreciacion </h3>
+
+                </td>
+              </tr>
+
+              <tr>
+                <td>
+                  <div class="form-group">
+                    <p class="col-sm-3 col-sm-3 control-label" >Bien</p>
+                     <div class="col-sm-10"> <input type="text" name="ri_bien" placeholder=" "  class="form-control placeholder-no-fix">
+                      </div>
+                  </div>
+                </td>
+
+                <td>
+                  <div class="form-group"> <p lass="col-sm-4 col-sm-4 control-label" >Vida util (años)</p>
+                    <div class="col-sm-10"> <input type="number" name="ri_vida_util" placeholder=" "  class="form-control placeholder-no-fix">
+                    </div>
+                  </div>
+                </td>
+
+              </tr>
 
                           <tr><td colspan="3" ><center> <br> <hr><input type="submit"   class="btn btn-theme"   name="registrar_asientos" value="AGREGAR "></center>   <?php
-                                  
-                                   if(isset($_POST['registrar_asientos'])) 
+
+                                   if(isset($_POST['registrar_asientos']))
                                    {
                                     $id_entidad0=1;
-                                  if($_POST['ri_cuenta'] == '' or $_POST['ri_monto'] == '' or $_POST['ri_concepto'] == '' or $_POST['ri_cantidad'] == '' or $_POST['ri_cuenta_o'] == ''   )
-                                    { 
-                                        echo 'Por favor llene todos los campos del detalle.'; 
-                                    } 
-                                    else {  
-                                    
+                                  if($_POST['ri_cuenta'] == '' or $_POST['ri_monto'] == '' or $_POST['ri_concepto'] == '' or $_POST['ri_cantidad_1'] == '' or $_POST['ri_cuenta_o'] == ''   )
+                                    {
+                                        echo 'Por favor llene todos los campos del detalle.';
+                                    }
+                                    else {
+
                                       $rs0=mysqli_query($con,"SELECT MAX(id_as) AS iden FROM temp_as");
-                                            if ($row0 = mysqli_fetch_row($rs0)) 
+                                            if ($row0 = mysqli_fetch_row($rs0))
                                               {
                                                 $iden0 = trim($row0[0]);
                                               }
@@ -278,9 +302,9 @@ error_reporting(E_ALL ^ E_NOTICE);
                                       $ri_cuenta_o =$_POST["ri_cuenta_o"] ;
                                      $ri_monto =$_POST["ri_monto"] ;
                                      $ri_concepto=$_POST["ri_concepto"] ;
-                                     $ri_cantidad=$_POST["ri_cantidad"] ;
+                                     $ri_cantidad_1=$_POST["ri_cantidad_1"] ;
                                      $ri_opcion =$_POST["opcion"] ;
-                                    
+
                                     //datos de tabla amort
 
                                      $ri_mon =NULL;//monto
@@ -298,59 +322,64 @@ error_reporting(E_ALL ^ E_NOTICE);
                                      $ri_bien =$_POST["ri_bien"] ;
                                      $ri_vida_util =$_POST["ri_vida_util"] ;
                                      // opciones
-                                       //&&&&&&&&&&&&&&&&&&& 
+                                       //&&&&&&&&&&&&&&&&&&&
                                       //agregar a tabla amort y deprep
                                        // obtenern el ultimo id amortizacion
+
                                       if ($ri_opcion==1) // es amortizacion
                                       {
                                       $rsd2_am=mysqli_query($con,"SELECT MAX(id_amortizacion)  FROM amortizacion");
-                                    if ($rowd2_am = mysqli_fetch_row($rsd2_am)) 
+                                    if ($rowd2_am = mysqli_fetch_row($rsd2_am))
                                       {
                                         $iden2_am = trim($rowd2_am[0]);
+                                          if (is_numeric($id_entidad0) && is_numeric($iden0)) {
                                         $id_am= $iden2_am +1;
-                                      } 
+                                        } else {
+                                            // no son numerocios
+                                          }
+                                      }
                                       if ($iden2_am==null){ $id_am=1;}
-                                      $sq3= "INSERT INTO amortizacion (  id_amortizacion,detalle_amortizacion, monto_amortizacion, tiempo_amortizacion) 
+                                      $sq3= "INSERT INTO amortizacion (  id_amortizacion,detalle_amortizacion, monto_amortizacion, tiempo_amortizacion)
                                       VALUES ( '$id_am','$ri_det','$ri_mon','$ri_t');";
-                                      mysqli_query($con,$sq3)  ; 
-                                      $opcion_a=  $id_am; $opcion_d=null;
+                                      mysqli_query($con,$sq3)  ;
+                                      $opcion_a=  $id_am; $opcion_d=0;
                                     }
 
                                    //id de    depreciacion
                                       if ($ri_opcion==0) // es depreciacion
-                                      { 
+                                      {
                                       $rsd2_dep=mysqli_query($con,"SELECT MAX(id_depreciacion)  FROM depreciacion");
-                                    if ($rowd2_dep = mysqli_fetch_row($rsd2_dep)) 
+                                    if ($rowd2_dep = mysqli_fetch_row($rsd2_dep))
                                       {
                                         $iden2_dep = trim($rowd2_dep[0]);
                                         $id_dep= $iden2_dep +1;
-                                      } 
+                                      }
                                       if ($iden2_dep==null){ $id_dep=1;}
-                                      //ingresar depresacion   
-                                    $sq4= "INSERT INTO depreciacion(id_depreciacion, bien, vida_util) 
+                                      //ingresar depresacion
+                                    $sq4= "INSERT INTO depreciacion(id_depreciacion, bien, vida_util)
                                       VALUES ( '$id_dep','$ri_bien','$ri_vida_util');";
-                                      mysqli_query($con,$sq4)  ; 
-                                      $opcion_d=  $id_dep; $opcion_a=null;
+                                      mysqli_query($con,$sq4)  ;
+                                      $opcion_d=  $id_dep; $opcion_a=0;
                                    }
-                                    
-                                   
-                                      //&&&&&&&&&&&&&&&&&&& 
+
+
+                                      //&&&&&&&&&&&&&&&&&&&
 
                                      //ingresa a temporal
-                                     $sq2= "INSERT INTO temp_as  VALUES ( '$id_entidad0','$ri_concepto','$ri_monto','$ri_cuenta','$ri_cantidad','$opcion_a','$opcion_d');";
+                                     $sq2= "INSERT INTO temp_as  VALUES ( '$id_entidad0','$ri_concepto','$ri_monto','$ri_cuenta','$ri_cantidad_1','$opcion_a','$opcion_d');";
                                                       mysqli_query($con,$sq2) or die(mysqli_error($con))  ;
-                                      $sq2= "INSERT INTO temp_as    VALUES ( '$id_entidad0'+1,'$ri_concepto','$ri_monto','$ri_cuenta_o','$ri_cantidad','$opcion_a','$opcion_d');";
+                                    $sq2= "INSERT INTO temp_as   VALUES ( '$id_entidad0'+1,'$ri_concepto','$ri_monto','$ri_cuenta_o','$ri_cantidad_1','$opcion_a','$opcion_d');";
                                                                       mysqli_query($con,$sq2) or die(mysqli_error($con))  ;
-                                    
+
 
                                      }}
                                   ?>
 <hr></td></tr></table>
                         </form>
-                        
+
                     <!--Fin de ventana emergente-->
-                     <form action="" name="tablas" method="post">  
-                      
+                     <form action="" name="tablas" method="post">
+
               <table class="table table-bordered table-striped table-condensed">
                             <h3><i class="fa fa-angle-right"></i> Detalle</h3>
                             <h5> Se muestra todos los asientos pertenecientes a la ficha </h5>
@@ -408,7 +437,6 @@ error_reporting(E_ALL ^ E_NOTICE);
  <?php
                           if (isset($_POST['eliminar_item'])){
                           $s='es ';
-                           $con = mysqli_connect('localhost', 'root', '', 'contabilidad');
                             //borrar tabla temporal id
                             $sq_delete= "DELETE FROM temp_as WHERE  id_as= '$id_1'";
                             mysqli_query($con,$sq_delete)  ;
@@ -422,12 +450,12 @@ error_reporting(E_ALL ^ E_NOTICE);
                               </tbody>
 
                           </table>
-                           </form>   
+                           </form>
                            <form action="" name="actualizar" method="post">
                            <hr>
                            <h3><i class="fa fa-angle-right"></i> Guardar</h3>
-                           <h5> Click en Registrar Datos para almacenar la ficha, o Click en Cancelar para Borrar ficha </h5>  
-                          <center><input type="submit"  class="btn btn-theme" name="registrar_datos1"  value="REGISTRAR DATOS"> 
+                           <h5> Click en Registrar Datos para almacenar la ficha, o Click en Cancelar para Borrar ficha </h5>
+                          <center><input type="submit"  class="btn btn-theme" name="registrar_datos1"  value="REGISTRAR DATOS">
                             <input type="submit" name="borrar_ficha" class="btn btn-danger" value="CANCELAR"> <br> <br> </center>
                               <?php
                           if(isset($_POST['registrar_datos1']))
@@ -460,18 +488,24 @@ error_reporting(E_ALL ^ E_NOTICE);
                                               if ($row_asi_amort = mysqli_fetch_row($cod_asi_amort))
                                                 {
                                                   $idaa = trim($row_asi_amort[0]);
+                                                  if ($idaa==NULL)
+                                                    {$idaa=0; }
                                                 }
-                                                else{ $idaa =0;}
+
                                                  $id_asien_amort=$idaa+1;
-                                                }
+
                               // obtener el ultimo id de asiemto depercioacion
                                                 $id_asien_depre=0;
                               $cod_asi_depre=mysqli_query($con,"SELECT   MAX(id_asiento_depreciacion) FROM asiento_depreciacion");
                                               if ($row_asi_depre = mysqli_fetch_row($cod_asi_depre))
                                                 {
                                                   $idad = trim($row_asi_depre[0]);
+                                                  if ($idad==NULL)
+                                                    {$idad=0; }
                                                 }
+
                                                  $id_asien_depre=$idad+1;
+
                           $result0 = mysqli_query($con,"SELECT * from temp_as");
                             $s=1;$cont=0;
                               while ($row0 = mysqli_fetch_array($result0)) {
@@ -488,8 +522,10 @@ error_reporting(E_ALL ^ E_NOTICE);
                                    $campo8=$row0['amort'];
                                     $campo9=$row0['deprep'];
                                   $cont++;
+                                   $id_asien_amort=$id_asien_amort+1;
+                                   $id_asien_depre=$id_asien_depre+1;
                                   if ($cont%2==0) {
-                                    $insercion="INSERT INTO asiento values ('$id', '$campo1', '$campo2', '$campo8', '$campo5', '$campo4', '$campo6', '$campo7');";
+                                    $insercion="INSERT INTO asiento values ('$id', '$campo1', '$campo2', '$campo3 ', '$campo5', '$campo4', '$campo6', '$campo7');";
                                   mysqli_query($con,$insercion) or die (mysqli_error($con))  ;
                                   //????????????????????????????
 
@@ -498,41 +534,47 @@ error_reporting(E_ALL ^ E_NOTICE);
                                     $insercion="INSERT INTO asiento values ('$id', '$campo1', '$campo2', '$campo3', '$campo4', '$campo5', '$campo6', '$campo7');";
                                   mysqli_query($con,$insercion) or die (mysqli_error($con))  ;
                                   }
-                                   $time = time(); //fecha de ahora del registro 
+                                   $time = time(); //fecha de ahora del registro
                                   $fecha_a= date("Y-m-d", $time);
                                   //*****inicio insert a asiento_amortizacion
-                                  if ($campo8=!null) // tiene amortizaicion
+                                  if ($campo8=!0) // tiene amortizaicion
                                   {
                                      $cod_id_amor=mysqli_query($con,"SELECT * FROM amortizacion WHERE id_amortizacion='$campo8'");
                                                while ($v_id_amor = mysqli_fetch_array($cod_id_amor))
                                                 {
                                                   $x = $v_id_amor['monto_amortizacion'];
-                                                  $x1 = $v_id_amor['tiempo_amortizacion'];
+                                                  $x1a = $v_id_amor['tiempo_amortizacion'];
                                                   $cuota= $x/$x1;
                                                 }
                                       $sq5= "INSERT INTO asiento_amortizacion
                                       VALUES ( '$id_asien_amort','$x1','$cuota','$fecha_a','$campo8','$id');";
                                       mysqli_query($con,$sq5)  ;
-                                      
+
+                    //          $msg = 'Amortizacion '.$id_asien_amort.'x'.$x1.'x'.$cuota.'x'.$fecha_a.'x'.'x'.$campo8.'x'.$id;
+                      //      print "<script>alert('$msg');  </script>";
+
                                   }
                                   //*****fin insert a asiento_amortizacion
                               //*****inicio insert a asiento_depreciacion
-                                   if ($campo9=!null) // tiene depreciacion
+                                   if ($campo9=!0) // tiene depreciacion
                                   {
                                      $cod_id_depre=mysqli_query($con,"SELECT * FROM depreciacion WHERE id_depreciacion='$campo9'");
                                                while ($v_id_depre = mysqli_fetch_array($cod_id_depre))
                                                 {
                                                   $x = $v_id_depre['bien'];
-                                                  $x1 = $v_id_depre['vida_util']; 
+                                                  $x1 = $v_id_depre['vida_util'];
                                                 }
                                       $sq5= "INSERT INTO asiento_depreciacion
-                                      VALUES ( '$id_asien_depre','$x1', '1','1','1','1','$fecha_a','$campo9','$id');";
+                                      VALUES ( '1','$x1', '1','1','1','1','$fecha_a','$campo9','$id');";
                                       mysqli_query($con,$sq5)  ;
-                                      
-                                  }
-                              //*****fin insert a asiento_depreciacion  
+                //                      $msg = ' depre '.$id_asien_amort ;
+                  //          print "<script>alert('$msg');  </script>";
 
-                            }
+
+                                  }
+                              //*****fin insert a asiento_depreciacion
+
+                            }//CIERRA WHILE
                             //actualizar el monot total de ficha
                             $total=0;
                              $cod_ficha=mysqli_query($con,"SELECT cantidad AS c, monto_asiento AS mo FROM temp_as");
@@ -549,9 +591,10 @@ error_reporting(E_ALL ^ E_NOTICE);
                             $sq_delete= "DELETE FROM temp_as";
                              mysqli_query($con,$sq_delete)  ;
 
-                      //   $msg = 'Agregado correctamente ' ;
-                     //       print "<script>alert('$msg'); window.location='lista_ficha.php';</script>";
-                          
+                                $msg = 'Agregado correctamente ' ;
+                                   print "<script>alert('$msg'); window.location='lista_ficha.php';</script>";
+                      }
+
                             if(isset($_POST['borrar_ficha']))
                         {
                           //obtener id de la ultima ficha
@@ -572,14 +615,13 @@ error_reporting(E_ALL ^ E_NOTICE);
                         }
                          ?>
                    </form>
-                        
+
 </section>
 
                       </section><!--    -->
 <?php
   function item_elim($f) {
     $s='es ';
-   $con = mysqli_connect('localhost', 'root', '', 'contabilidad'); 
         //borrar tabla temporal
         $sq_delete= "DELETE FROM temp_as WHERE  id_as=$f ";
         mysqli_query($con,$sq_delete)  ;
@@ -588,13 +630,13 @@ error_reporting(E_ALL ^ E_NOTICE);
 
   function ver_doc_t($f) {
     $iden='es ';
-   $con = mysqli_connect('localhost', 'root', '', 'contabilidad'); 
+   $con = mysqli_connect('localhost', 'root', '', 'contabilidad');
      $cod_1=mysqli_query($con,"SELECT  Tipo FROM documento_extra WHERE  id_ficha='$f' LIMIT 1 ");
-   
-    if ($row = mysqli_fetch_row($cod_1)) 
+
+    if ($row = mysqli_fetch_row($cod_1))
     {
         $iden = trim($row[0]);
-    }   
+    }
     return $iden;
 }
  ?>
@@ -611,15 +653,15 @@ error_reporting(E_ALL ^ E_NOTICE);
 
     <!--common script for all pages-->
     <script src="assets/js/common-scripts.js"></script>
-    
+
     <script type="text/javascript" src="assets/js/gritter/js/jquery.gritter.js"></script>
     <script type="text/javascript" src="assets/js/gritter-conf.js"></script>
 
     <!--script for this page-->
-    <script src="assets/js/sparkline-chart.js"></script>    
-  <script src="assets/js/zabuto_calendar.js"></script>  
-  
-  
+    <script src="assets/js/sparkline-chart.js"></script>
+  <script src="assets/js/zabuto_calendar.js"></script>
+
+
   <script type="application/javascript">
         $(document).ready(function () {
             $("#date-popover").popover({html: true, trigger: "manual"});
@@ -627,7 +669,7 @@ error_reporting(E_ALL ^ E_NOTICE);
             $("#date-popover").click(function (e) {
                 $(this).hide();
             });
-        
+
             $("#my-calendar").zabuto_calendar({
                 action: function () {
                     return myDateFunction(this.id, false);
@@ -645,8 +687,8 @@ error_reporting(E_ALL ^ E_NOTICE);
                 ]
             });
         });
-        
-        
+
+
         function myNavFunction(id) {
             $("#date-popover").hide();
             var nav = $("#" + id).data("navigation");
@@ -654,7 +696,7 @@ error_reporting(E_ALL ^ E_NOTICE);
             console.log('nav ' + nav + ' to: ' + to.month + '/' + to.year);
         }
     </script>
-  
+
 
   </body>
 </html>
