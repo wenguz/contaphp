@@ -99,7 +99,7 @@ require('conexion.php');
               <ul class="sub">
                   <li ><a  href="guardar_sumas_saldos.php"><i class="fa fa-list-alt"></i>Reporte Sumas y resultados</a></li>
                   <li ><a  href="guardar_balance_general.php"><i class="fa fa-list-alt"></i>Balance General</a></li>
-                  <li ><a  href=""><i class="fa fa-list-alt"></i>Estado de resultados</a></li>
+                  <li ><a  href="guardar_estado_resultados.php"><i class="fa fa-list-alt"></i>Estado de resultados</a></li>
               </ul>
           </li>
 
@@ -118,13 +118,13 @@ require('conexion.php');
                         <form action="eecuenta.php" method="post">
                           <table class="table table-bordered table-striped table-condensed">
                             <h4><i class="fa fa-angle-right"></i> Lista de Cuentas</h4>
-                            &emsp;<label>Buscar Usuario por nombre:  </label> &emsp;
 
-                            &emsp;<label>Buscar cuentas por nombre:  </label> &emsp;
+
+                            &emsp;<label>Buscar cuentas por codigo:  </label> &emsp;
 
                             <form action="" method="post">
-                              <input style="padding: 5px" type="text" value="Buscar..." onfocus="if (this.value == 'Buscar...') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Buscar...';}" />
-                              <input class="btn btn-primary" type="button" value="Buscar" />
+                              <input style="padding: 5px" type="text" name="buscar_id" value="Buscar..."  />
+                              <input type="submit" class="btn btn-primary" type="button" value="Buscar" />
                             </form>
                             <hr>
                               <thead >

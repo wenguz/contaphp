@@ -108,7 +108,7 @@ $_SESSION["usuario"];
               <ul class="sub">
                   <li ><a  href="guardar_sumas_saldos.php"><i class="fa fa-list-alt"></i>Reporte Sumas y resultados</a></li>
                   <li ><a  href="guardar_balance_general.php"><i class="fa fa-list-alt"></i>Balance General</a></li>
-                  <li ><a  href=""><i class="fa fa-list-alt"></i>Estado de resultados</a></li>
+                  <li ><a  href="guardar_estado_resultados.php"><i class="fa fa-list-alt"></i>Estado de resultados</a></li>
               </ul>
           </li>
 
